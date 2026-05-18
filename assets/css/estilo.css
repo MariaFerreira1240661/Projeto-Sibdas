@@ -56,13 +56,24 @@ section {
     margin-bottom: 25px;
 }
 
-#inicio a {
+.inicio-conteudo {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.botao-principal {
+    display: inline-block;
     background-color: #f28c8c;
     color: #ffffff;
-    padding: 12px 25px;
+    padding: 14px 28px;
     text-decoration: none;
-    border-radius: 8px;
+    border-radius: 30px;
     font-weight: bold;
+    margin-top: 10px;
+}
+
+.botao-principal:hover {
+    background-color: #e67878;
 }
 
 h2 {
