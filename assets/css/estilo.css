@@ -131,3 +131,17 @@ footer {
 .cartao-servico p {
     color: #333333;
 }
+
+#sobre-nos {
+    background-color: #fff7f5;
+}
+
+.sobre-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.sobre-texto p {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
