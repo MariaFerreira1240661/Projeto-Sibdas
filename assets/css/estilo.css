@@ -5,35 +5,54 @@
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
     background-color: #ffffff;
     color: #333333;
     line-height: 1.6;
 }
 
+button,
+input,
+textarea {
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+}
 header {
     background-color: #ffffff;
-    border-bottom: 2px solid #f28c8c;
+    border-bottom: 3px solid #10233f;
     padding: 20px 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.logo h1 {
-    color: #f28c8c;
-    font-size: 28px;
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
+.logo img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.logo h1 {
+    color: #f28c8c;
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0;
+}
 nav a {
-    color: #333333;
+    color: #f28c8c;
     text-decoration: none;
-    margin-left: 25px;
-    font-weight: bold;
+    margin-left: 50px;
+    font-size: 18px;
+    font-weight: 800;
 }
 
 nav a:hover {
-    color: #f28c8c;
+    color: #10233f;
 }
 
 section {
@@ -41,39 +60,59 @@ section {
 }
 
 #inicio {
-    background-color: #ffe6e2;
+    min-height: 650px;
+    background-image: url("../img/hero-medcontrol.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     text-align: center;
+    display: flex;
+    align-items: center;
+    
+}
+
+.inicio-conteudo {
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.78);
+    padding: 30px 40px;
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(16, 35, 63, 0.25);
 }
 
 #inicio h2 {
-    color: #f28c8c;
-    font-size: 48px;
+    color: #10233f;
+    font-size: 52px;
+    font-weight: 800;
     margin-bottom: 15px;
 }
 
 #inicio p {
+    color: #10233f;
     font-size: 20px;
+    font-weight: 700;
+    line-height: 1.5;
     margin-bottom: 25px;
-}
-
-.inicio-conteudo {
-    max-width: 800px;
-    margin: 0 auto;
 }
 
 .botao-principal {
     display: inline-block;
     background-color: #f28c8c;
     color: #ffffff;
-    padding: 14px 28px;
+    padding: 12px 26px;
     text-decoration: none;
-    border-radius: 30px;
+    border-radius: 28px;
     font-weight: bold;
-    margin-top: 10px;
+    font-size: 17px;
+    margin-top: 8px;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(16, 35, 63, 0.20);
 }
 
 .botao-principal:hover {
-    background-color: #e67878;
+    background-color: #10233f;
+    color: #ffffff;
 }
 
 h2 {
