@@ -71,12 +71,6 @@ h2 {
     margin-bottom: 20px;
 }
 
-#servicos div {
-    background-color: #ffe6e2;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-}
 
 #servicos h3 {
     color: #f28c8c;
@@ -88,4 +82,41 @@ footer {
     color: #ffffff;
     text-align: center;
     padding: 25px;
+}
+
+#servicos {
+    background-color: #ffffff;
+}
+
+.servicos-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.cartao-servico {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid #f5b5b5;
+    box-shadow: 0 4px 12px rgba(242, 140, 140, 0.15);
+}
+
+.cartao-servico h3 {
+    color: #f28c8c;
+    margin-bottom: 12px;
+}
+
+.cartao-servico p {
+    color: #333333;
+}
+
+.cartao-servico h3 {
+    color: #f28c8c;
+    margin-bottom: 10px;
+}
+
+.cartao-servico p {
+    color: #333333;
 }
