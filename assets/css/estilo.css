@@ -209,3 +209,47 @@ footer {
 .contactos-formulario button:hover {
     background-color: #e67878;
 }
+
+@media (max-width: 900px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    nav a {
+        display: inline-block;
+        margin: 8px;
+    }
+
+    section {
+        padding: 60px 25px;
+    }
+
+    #inicio h2 {
+        font-size: 38px;
+    }
+
+    .servicos-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .contactos-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .servicos-container {
+        grid-template-columns: 1fr;
+    }
+
+    #inicio h2 {
+        font-size: 32px;
+    }
+
+    #inicio p {
+        font-size: 18px;
+    }
+}
