@@ -253,3 +253,38 @@ footer {
         font-size: 18px;
     }
 }
+
+.backend-main {
+    background-color: #fff7f5;
+    min-height: 70vh;
+}
+
+.backend-intro {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.backend-intro p {
+    font-size: 18px;
+    margin-bottom: 35px;
+}
+
+.backend-opcoes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.backend-cartao {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid #f5b5b5;
+    box-shadow: 0 4px 12px rgba(242, 140, 140, 0.15);
+}
+
+.backend-cartao h3 {
+    color: #f28c8c;
+    margin-bottom: 12px;
+}
