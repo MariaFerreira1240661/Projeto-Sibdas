@@ -288,3 +288,8 @@ footer {
     color: #f28c8c;
     margin-bottom: 12px;
 }
+
+.logo i {
+    color: #f28c8c;
+    margin-right: 8px;
+}
