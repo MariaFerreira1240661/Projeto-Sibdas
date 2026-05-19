@@ -176,13 +176,80 @@ footer {
 }
 
 .sobre-container {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
-.sobre-texto p {
-    margin-bottom: 15px;
+.sobre-intro {
+    text-align: center;
+    max-width: 850px;
+    margin: 0 auto 45px auto;
+}
+
+.sobre-intro h2 {
+    color: #10233f;
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+.sobre-intro p {
+    color: #333333;
     font-size: 18px;
+}
+
+.sobre-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.sobre-card {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    border-bottom: 5px solid #f28c8c;
+    box-shadow: 0 6px 18px rgba(16, 35, 63, 0.12);
+}
+
+.sobre-card i {
+    color: #f28c8c;
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.sobre-card h3 {
+    color: #10233f;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.sobre-card p {
+    color: #333333;
+    font-size: 16px;
+}
+
+.destaque-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+}
+
+.destaque-item span {
+    background-color: #f28c8c;
+    color: #ffffff;
+    font-weight: 800;
+    padding: 8px 12px;
+    border-radius: 10px;
+}
+
+.destaque-item p {
+    color: #10233f;
+    font-weight: 600;
+    margin: 0;
 }
 
 #contactos {
