@@ -608,3 +608,8 @@ footer {
 .voltar-site:hover {
     color: #f28c8c;
 }
+
+.mensagem-login {
+    margin-top: 15px;
+    font-weight: 700;
+}

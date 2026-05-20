@@ -31,26 +31,33 @@
 
             <h2>Área Reservada</h2>
             <p>Introduza os seus dados para aceder ao sistema.</p>
+       
+        <form id="form-login">
+            <div class="mb-3">
+                <label for="utilizador" class="form-label">Utilizador</label>
+                <input type="text" class="form-control" id="utilizador" placeholder="Nome de utilizador">
+            </div>
 
-            <form>
-                <div class="mb-3">
-                    <label for="utilizador" class="form-label">Utilizador</label>
-                    <input type="text" class="form-control" id="utilizador" placeholder="Nome de utilizador">
-                </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Palavra-passe</label>
+                <input type="password" class="form-control" id="password" placeholder="Palavra-passe">
+            </div>
 
-                <div class="mb-3">
-                    <label for="password" class="form-label">Palavra-passe</label>
-                    <input type="password" class="form-control" id="password" placeholder="Palavra-passe">
-                </div>
+            <button type="submit" class="btn-login">Entrar</button>
+            <p id="mensagem-login" class="mensagem-login"></p>
+        </form>
 
-                <a href="../backend/index.html" class="btn-login">Entrar</a>
-            </form>
-
-            <a href="../frontend/index.html" class="voltar-site">Voltar ao site público</a>
+                 <a href="../frontend/index.html" class="voltar-site">Voltar ao site público</a>
+            
         </div>
+           
     </main>
 
+     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+     <!-- JavaScript do projeto -->
+    <script src="../assets/js/script.js"></script>
+
 
 </body>
 </html>
