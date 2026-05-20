@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - MedControl</title>
+    <title>Equipamentos - MedControl</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="../assets/img/medcontrol_logo.png" type="image/png">
@@ -33,12 +33,12 @@
             </div>
 
             <nav class="sidebar-menu">
-                <a href="index.html" class="ativo">
+                <a href="index.html">
                     <i class="bi bi-speedometer2"></i>
                     <span>Dashboard</span>
                 </a>
 
-                <a href="equipamentos.html">
+                <a href="equipamentos.html" class="ativo">
                     <i class="bi bi-hospital"></i>
                     <span>Equipamentos</span>
                 </a>
@@ -72,8 +72,8 @@
 
             <div class="backend-topbar">
                 <div>
-                    <h1>Dashboard</h1>
-                    <p>Resumo geral da gestão do inventário hospitalar.</p>
+                    <h1>Equipamentos</h1>
+                    <p>Gestão dos equipamentos médicos registados no inventário hospitalar.</p>
                 </div>
 
                 <div class="backend-user">
@@ -82,40 +82,58 @@
                 </div>
             </div>
 
-            <section class="dashboard-cards">
-
-                <div class="dashboard-card">
-                    <i class="bi bi-hospital"></i>
-                    <h3>Equipamentos</h3>
-                    <p>3 registados</p>
-                </div>
-
-                <div class="dashboard-card">
-                    <i class="bi bi-check-circle"></i>
-                    <h3>Ativos</h3>
-                    <p>2 equipamentos</p>
-                </div>
-
-                <div class="dashboard-card">
-                    <i class="bi bi-tools"></i>
-                    <h3>Manutenção</h3>
-                    <p>1 equipamento</p>
-                </div>
-
-                <div class="dashboard-card">
-                    <i class="bi bi-truck"></i>
-                    <h3>Fornecedores</h3>
-                    <p>Em desenvolvimento</p>
-                </div>
-
-            </section>
-
             <section class="backend-box">
-                <h2>Bem-vindo à área de gestão</h2>
-                <p>
-                    Esta área será utilizada para gerir equipamentos médicos, fornecedores,
-                    documentação técnica, garantias e contratos associados ao inventário hospitalar.
-                </p>
+                <div class="backend-section-header">
+                    <div>
+                        <h2>Lista de Equipamentos</h2>
+                        <p>Consulta inicial dos equipamentos médicos registados.</p>
+                    </div>
+
+                    <button class="btn-backend">
+                        <i class="bi bi-plus-circle"></i>
+                        Novo equipamento
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="tabela-backend">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Equipamento</th>
+                                <th>Categoria</th>
+                                <th>Localização</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>EQ001</td>
+                                <td>Monitor Multiparamétrico</td>
+                                <td>Monitorização</td>
+                                <td>UCI</td>
+                                <td><span class="estado ativo">Ativo</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>EQ002</td>
+                                <td>Ventilador Pulmonar</td>
+                                <td>Suporte de Vida</td>
+                                <td>Bloco Operatório</td>
+                                <td><span class="estado manutencao">Em manutenção</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>EQ003</td>
+                                <td>Bomba de Infusão</td>
+                                <td>Terapêutica</td>
+                                <td>Medicina Interna</td>
+                                <td><span class="estado ativo">Ativo</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
         </main>
