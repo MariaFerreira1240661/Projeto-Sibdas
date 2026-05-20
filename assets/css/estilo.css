@@ -851,3 +851,13 @@ footer {
 .tabela-backend tr:hover {
     background-color: #fff7f5;
 }
+
+.estado.pendente {
+    background-color: #fff1d6;
+    color: #9a6500;
+}
+
+.estado.expirado {
+    background-color: #ffe0e0;
+    color: #9b1c1c;
+}
