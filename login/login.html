@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MedControl</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="../assets/img/medcontrol_logo.png" type="image/png">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS do projeto -->
+    <link rel="stylesheet" href="../assets/css/estilo.css">
+</head>
+<body class="login-body">
+
+    <main class="login-wrapper">
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="../assets/img/medcontrol_logo.png" alt="Logótipo da MedControl">
+                <h1>MedControl</h1>
+            </div>
+
+            <h2>Área Reservada</h2>
+            <p>Introduza os seus dados para aceder ao sistema.</p>
+
+            <form>
+                <div class="mb-3">
+                    <label for="utilizador" class="form-label">Utilizador</label>
+                    <input type="text" class="form-control" id="utilizador" placeholder="Nome de utilizador">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Palavra-passe</label>
+                    <input type="password" class="form-control" id="password" placeholder="Palavra-passe">
+                </div>
+
+                <a href="../backend/index.html" class="btn-login">Entrar</a>
+            </form>
+
+            <a href="../frontend/index.html" class="voltar-site">Voltar ao site público</a>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -507,3 +507,104 @@ footer {
     color: #f28c8c;
     margin-right: 8px;
 }
+
+.login-body {
+    background-color: #fff7f5;
+}
+
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 430px;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 8px 25px rgba(16, 35, 63, 0.18);
+    text-align: center;
+}
+
+.login-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.login-logo img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.login-logo h1 {
+    color: #10233f;
+    font-size: 30px;
+    font-weight: 800;
+    margin: 0;
+}
+
+.login-card h2 {
+    color: #10233f;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.login-card p {
+    color: #333333;
+    margin-bottom: 25px;
+}
+
+.login-card label {
+    color: #10233f;
+    font-weight: 700;
+    text-align: left;
+    display: block;
+}
+
+.login-card .form-control {
+    border: 1px solid #f5b5b5;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.login-card .form-control:focus {
+    border-color: #10233f;
+    box-shadow: none;
+}
+
+.btn-login {
+    display: block;
+    width: 100%;
+    background-color: #f28c8c;
+    color: #10233f;
+    padding: 13px;
+    border-radius: 30px;
+    font-weight: 800;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.btn-login:hover {
+    background-color: #10233f;
+    color: #ffffff;
+}
+
+.voltar-site {
+    display: inline-block;
+    margin-top: 20px;
+    color: #10233f;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.voltar-site:hover {
+    color: #f28c8c;
+}
