@@ -387,43 +387,84 @@ footer {
     header {
         flex-direction: column;
         gap: 15px;
-        padding: 20px;
+        padding: 15px 25px;
         text-align: center;
+    }
+
+    .logo {
+        justify-content: center;
     }
 
     nav a {
         display: inline-block;
-        margin: 8px;
+        margin: 8px 14px;
+        font-size: 16px;
     }
 
-    section {
-        padding: 60px 25px;
+    #inicio {
+        min-height: 600px;
+        padding: 80px 25px;
+    }
+
+    .inicio-conteudo {
+        max-width: 90%;
+        padding: 28px;
     }
 
     #inicio h2 {
-        font-size: 38px;
+        font-size: 44px;
+    }
+
+    #inicio p {
+        font-size: 18px;
+    }
+
+    .sobre-layout,
+    .contactos-container {
+        grid-template-columns: 1fr;
     }
 
     .servicos-container {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .contactos-container {
-        grid-template-columns: 1fr;
+    section {
+        padding: 60px 25px;
+        scroll-margin-top: 160px;
     }
 }
 
 @media (max-width: 600px) {
+    .logo h1 {
+        font-size: 26px;
+    }
+
+    nav a {
+        margin: 6px 10px;
+        font-size: 15px;
+    }
+
+    #inicio h2 {
+        font-size: 36px;
+    }
+
+    #inicio p {
+        font-size: 16px;
+    }
+
+    .botao-principal {
+        font-size: 15px;
+        padding: 10px 22px;
+    }
+
     .servicos-container {
         grid-template-columns: 1fr;
     }
 
-    #inicio h2 {
+    .sobre-texto h2,
+    #servicos h2,
+    #contactos h2 {
         font-size: 32px;
-    }
-
-    #inicio p {
-        font-size: 18px;
     }
 }
 
