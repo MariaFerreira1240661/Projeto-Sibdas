@@ -3,21 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipamentos - MedControl</title>
+    <title>Localizações - MedControl</title>
 
-    <!-- favicon -->
     <link rel="shortcut icon" href="../assets/img/medcontrol-logo2.png" type="image/png">
-
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- CSS do projeto -->
     <link rel="stylesheet" href="../assets/css/estilo.css">
 </head>
 
@@ -25,7 +16,6 @@
 
     <div class="backend-layout">
 
-        <!-- Sidebar -->
         <aside class="backend-sidebar">
             <div class="sidebar-logo">
                 <img src="../assets/img/medcontrol-logo2.png" alt="Logótipo da MedControl">
@@ -38,12 +28,12 @@
                     <span>Dashboard</span>
                 </a>
 
-                <a href="equipamentos.html" class="ativo">
+                <a href="equipamentos.html">
                     <i class="bi bi-hospital"></i>
                     <span>Equipamentos</span>
                 </a>
 
-                <a href="localizacoes.html">
+                <a href="localizacoes.html" class="ativo">
                     <i class="bi bi-geo-alt"></i>
                     <span>Localizações</span>
                 </a>
@@ -72,13 +62,12 @@
             </div>
         </aside>
 
-        <!-- Conteúdo principal -->
         <main class="backend-content">
 
             <div class="backend-topbar">
                 <div>
-                    <h1>Equipamentos</h1>
-                    <p>Gestão dos equipamentos médicos registados no inventário hospitalar.</p>
+                    <h1>Localizações</h1>
+                    <p>Gestão dos serviços, pisos e salas onde se encontram os equipamentos médicos.</p>
                 </div>
 
                 <div class="backend-user">
@@ -90,13 +79,13 @@
             <section class="backend-box">
                 <div class="backend-section-header">
                     <div>
-                        <h2>Lista de Equipamentos</h2>
-                        <p>Consulta inicial dos equipamentos médicos registados.</p>
+                        <h2>Lista de Localizações</h2>
+                        <p>Consulta das áreas hospitalares associadas ao inventário.</p>
                     </div>
 
                     <button class="btn-backend">
                         <i class="bi bi-plus-circle"></i>
-                        Novo equipamento
+                        Nova localização
                     </button>
                 </div>
 
@@ -105,36 +94,44 @@
                         <thead>
                             <tr>
                                 <th>Código</th>
-                                <th>Equipamento</th>
-                                <th>Categoria</th>
-                                <th>Localização</th>
-                                <th>Estado</th>
+                                <th>Serviço</th>
+                                <th>Piso</th>
+                                <th>Sala / Unidade</th>
+                                <th>Equipamentos</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <tr>
-                                <td>EQ001</td>
-                                <td>Monitor Multiparamétrico</td>
-                                <td>Monitorização</td>
-                                <td>UCI</td>
-                                <td><span class="estado ativo">Ativo</span></td>
+                                <td>L001</td>
+                                <td>Unidade de Cuidados Intensivos</td>
+                                <td>2</td>
+                                <td>UCI Geral</td>
+                                <td>12</td>
                             </tr>
 
                             <tr>
-                                <td>EQ002</td>
-                                <td>Ventilador Pulmonar</td>
-                                <td>Suporte de Vida</td>
+                                <td>L002</td>
                                 <td>Bloco Operatório</td>
-                                <td><span class="estado manutencao">Em manutenção</span></td>
+                                <td>1</td>
+                                <td>Sala 3</td>
+                                <td>8</td>
                             </tr>
 
                             <tr>
-                                <td>EQ003</td>
-                                <td>Bomba de Infusão</td>
-                                <td>Terapêutica</td>
+                                <td>L003</td>
                                 <td>Medicina Interna</td>
-                                <td><span class="estado ativo">Ativo</span></td>
+                                <td>3</td>
+                                <td>Enfermaria A</td>
+                                <td>15</td>
+                            </tr>
+
+                            <tr>
+                                <td>L004</td>
+                                <td>Urgência</td>
+                                <td>0</td>
+                                <td>Sala de Observação</td>
+                                <td>10</td>
                             </tr>
                         </tbody>
                     </table>
