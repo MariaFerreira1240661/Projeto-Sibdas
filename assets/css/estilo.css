@@ -1056,3 +1056,93 @@ footer {
     background-color: #ffe0e0;
     color: #9b1c1c;
 }
+
+.filtros-equipamentos {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 18px;
+    margin: 25px 0 30px 0;
+}
+
+.filtros-equipamentos label {
+    display: block;
+    color: #10233f;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.filtros-equipamentos input,
+.filtros-equipamentos select {
+    width: 100%;
+    border: 1px solid #f5b5b5;
+    border-radius: 12px;
+    padding: 12px 14px;
+    color: #10233f;
+    font-weight: 600;
+    background-color: #ffffff;
+}
+
+.filtros-equipamentos input:focus,
+.filtros-equipamentos select:focus {
+    outline: none;
+    border-color: #10233f;
+}
+
+.acoes-tabela {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.acoes-tabela a {
+    color: #10233f;
+    background-color: #fff7f5;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: 0.3s;
+    margin-right: 8px;
+}
+
+.tabela-backend th,
+.tabela-backend td {
+    vertical-align: middle;
+}
+
+.acoes-tabela a:hover {
+    background-color: #10233f;
+    color: #ffffff;
+}
+
+.estado.media {
+    background-color: #fff1d6;
+    color: #9a6500;
+}
+
+.estado.calibracao {
+    background-color: #e2f0ff;
+    color: #155c9a;
+}
+
+.sem-resultados {
+    display: none;
+    color: #10233f;
+    font-weight: 800;
+    text-align: center;
+    margin-top: 20px;
+}
+
+@media (max-width: 1100px) {
+    .filtros-equipamentos {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .filtros-equipamentos {
+        grid-template-columns: 1fr;
+    }
+}

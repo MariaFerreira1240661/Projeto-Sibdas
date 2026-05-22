@@ -101,3 +101,54 @@ if (graficoLocalizacoes) {
         }
     });
 }
+
+const pesquisaEquipamento = document.getElementById("pesquisaEquipamento");
+const filtroEstado = document.getElementById("filtroEstado");
+const filtroCategoria = document.getElementById("filtroCategoria");
+const filtroCriticidade = document.getElementById("filtroCriticidade");
+const tabelaEquipamentos = document.getElementById("tabelaEquipamentos");
+const semResultados = document.getElementById("semResultados");
+
+function filtrarEquipamentos() {
+    if (!tabelaEquipamentos) {
+        return;
+    }
+
+    const textoPesquisa = pesquisaEquipamento.value.toLowerCase();
+    const estadoSelecionado = filtroEstado.value;
+    const categoriaSelecionada = filtroCategoria.value;
+    const criticidadeSelecionada = filtroCriticidade.value;
+
+    const linhas = tabelaEquipamentos.querySelectorAll("tbody tr");
+    let resultadosVisiveis = 0;
+
+    linhas.forEach(function (linha) {
+        const textoLinha = linha.textContent.toLowerCase();
+        const estadoLinha = linha.getAttribute("data-estado");
+        const categoriaLinha = linha.getAttribute("data-categoria");
+        const criticidadeLinha = linha.getAttribute("data-criticidade");
+
+        const correspondePesquisa = textoLinha.includes(textoPesquisa);
+        const correspondeEstado = estadoSelecionado === "" || estadoLinha === estadoSelecionado;
+        const correspondeCategoria = categoriaSelecionada === "" || categoriaLinha === categoriaSelecionada;
+        const correspondeCriticidade = criticidadeSelecionada === "" || criticidadeLinha === criticidadeSelecionada;
+
+        if (correspondePesquisa && correspondeEstado && correspondeCategoria && correspondeCriticidade) {
+            linha.style.display = "";
+            resultadosVisiveis++;
+        } else {
+            linha.style.display = "none";
+        }
+    });
+
+    if (semResultados) {
+        semResultados.style.display = resultadosVisiveis === 0 ? "block" : "none";
+    }
+}
+
+if (pesquisaEquipamento && filtroEstado && filtroCategoria && filtroCriticidade) {
+    pesquisaEquipamento.addEventListener("input", filtrarEquipamentos);
+    filtroEstado.addEventListener("change", filtrarEquipamentos);
+    filtroCategoria.addEventListener("change", filtrarEquipamentos);
+    filtroCriticidade.addEventListener("change", filtrarEquipamentos);
+}
