@@ -152,3 +152,40 @@ if (pesquisaEquipamento && filtroEstado && filtroCategoria && filtroCriticidade)
     filtroCategoria.addEventListener("change", filtrarEquipamentos);
     filtroCriticidade.addEventListener("change", filtrarEquipamentos);
 }
+
+const formEquipamento = document.getElementById("formEquipamento");
+
+if (formEquipamento) {
+    formEquipamento.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = document.getElementById("codigo").value.trim();
+        const designacao = document.getElementById("designacao").value.trim();
+        const categoria = document.getElementById("categoria").value;
+        const marca = document.getElementById("marca").value.trim();
+        const modelo = document.getElementById("modelo").value.trim();
+        const serie = document.getElementById("serie").value.trim();
+        const localizacao = document.getElementById("localizacao").value;
+        const estado = document.getElementById("estado").value;
+        const criticidade = document.getElementById("criticidade").value;
+        const mensagem = document.getElementById("mensagemEquipamento");
+
+        if (
+            codigo === "" ||
+            designacao === "" ||
+            categoria === "" ||
+            marca === "" ||
+            modelo === "" ||
+            serie === "" ||
+            localizacao === "" ||
+            estado === "" ||
+            criticidade === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
+            mensagem.style.color = "#10233f";
+        } else {
+            mensagem.textContent = "Equipamento registado com sucesso. ";
+            mensagem.style.color = "green";
+        }
+    });
+}
