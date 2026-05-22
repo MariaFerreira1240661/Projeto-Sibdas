@@ -189,3 +189,31 @@ if (formEquipamento) {
         }
     });
 }
+const formEditarEquipamento = document.getElementById("formEditarEquipamento");
+
+if (formEditarEquipamento) {
+    formEditarEquipamento.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = document.getElementById("editCodigo").value.trim();
+        const designacao = document.getElementById("editDesignacao").value.trim();
+        const marca = document.getElementById("editMarca").value.trim();
+        const modelo = document.getElementById("editModelo").value.trim();
+        const serie = document.getElementById("editSerie").value.trim();
+        const mensagem = document.getElementById("mensagemEditarEquipamento");
+
+        if (
+            codigo === "" ||
+            designacao === "" ||
+            marca === "" ||
+            modelo === "" ||
+            serie === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
+            mensagem.style.color = "#10233f";
+        } else {
+            mensagem.textContent = "Alterações guardadas com sucesso. ";
+            mensagem.style.color = "green";
+        }
+    });
+}
