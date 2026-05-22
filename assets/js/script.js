@@ -217,3 +217,17 @@ if (formEditarEquipamento) {
         }
     });
 }
+const confirmarRemocao = document.getElementById("confirmarRemocao");
+
+if (confirmarRemocao) {
+    confirmarRemocao.addEventListener("click", function () {
+        const mensagem = document.getElementById("mensagemRemocao");
+
+        mensagem.textContent = "Equipamento removido/arquivado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+        mensagem.style.color = "green";
+
+        setTimeout(function () {
+            window.location.href = "equipamentos.html";
+        }, 1200);
+    });
+}

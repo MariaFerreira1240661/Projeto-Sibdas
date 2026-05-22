@@ -13,9 +13,11 @@ body {
 
 button,
 input,
-textarea {
+textarea,
+select {
     font-family: "Poppins", Arial, Helvetica, sans-serif;
 }
+
 header {
     background-color: #f28c8c;
     border-bottom: 3px solid #10233f;
@@ -31,6 +33,7 @@ header {
 
 section {
     scroll-margin-top: 100px;
+    padding: 80px 60px;
 }
 
 .logo {
@@ -63,9 +66,6 @@ nav a:hover {
     color: #10233f;
 }
 
-section {
-    padding: 80px 60px;
-}
 
 #inicio {
     min-height: 1000px;
@@ -259,27 +259,6 @@ footer {
     margin-bottom: 14px;
     font-size: 16px;
     line-height: 1.5;
-}
-
-.destaque-item {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-    align-items: flex-start;
-}
-
-.destaque-item span {
-    background-color: #f28c8c;
-    color: #ffffff;
-    font-weight: 800;
-    padding: 8px 12px;
-    border-radius: 10px;
-}
-
-.destaque-item p {
-    color: #10233f;
-    font-weight: 600;
-    margin: 0;
 }
 
 #contactos {
@@ -660,7 +639,7 @@ footer {
     color: #9a6500;
 }
 
-/* Cards */
+
 
 /* Dashboard melhorado */
 
@@ -1057,22 +1036,22 @@ footer {
     color: #9b1c1c;
 }
 
-.filtros-equipamentos {
+.filtros-backend {
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 1fr;
     gap: 18px;
     margin: 25px 0 30px 0;
 }
 
-.filtros-equipamentos label {
+.filtros-backend label {
     display: block;
     color: #10233f;
     font-weight: 800;
     margin-bottom: 8px;
 }
 
-.filtros-equipamentos input,
-.filtros-equipamentos select {
+.filtros-backend input,
+.filtros-backend select {
     width: 100%;
     border: 1px solid #f5b5b5;
     border-radius: 12px;
@@ -1082,8 +1061,8 @@ footer {
     background-color: #ffffff;
 }
 
-.filtros-equipamentos input:focus,
-.filtros-equipamentos select:focus {
+.filtros-backend input:focus,
+.filtros-backend select:focus {
     outline: none;
     border-color: #10233f;
 }
@@ -1136,13 +1115,13 @@ footer {
 }
 
 @media (max-width: 1100px) {
-    .filtros-equipamentos {
+    .filtros-backend {
         grid-template-columns: 1fr 1fr;
     }
 }
 
 @media (max-width: 700px) {
-    .filtros-equipamentos {
+    .filtros-backend {
         grid-template-columns: 1fr;
     }
 }
@@ -1276,3 +1255,4 @@ footer {
         align-items: stretch;
     }
 }
+
