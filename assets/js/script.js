@@ -276,3 +276,35 @@ if (pesquisaFornecedor && filtroTipoFornecedor && filtroEstadoFornecedor) {
     filtroTipoFornecedor.addEventListener("change", filtrarFornecedores);
     filtroEstadoFornecedor.addEventListener("change", filtrarFornecedores);
 }
+const formFornecedor = document.getElementById("formFornecedor");
+
+if (formFornecedor) {
+    formFornecedor.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = document.getElementById("codigoFornecedor").value.trim();
+        const nome = document.getElementById("nomeFornecedor").value.trim();
+        const nif = document.getElementById("nifFornecedor").value.trim();
+        const tipo = document.getElementById("tipoFornecedor").value;
+        const telefone = document.getElementById("telefoneFornecedor").value.trim();
+        const email = document.getElementById("emailFornecedor").value.trim();
+        const estado = document.getElementById("estadoFornecedor").value;
+        const mensagem = document.getElementById("mensagemFornecedor");
+
+        if (
+            codigo === "" ||
+            nome === "" ||
+            nif === "" ||
+            tipo === "" ||
+            telefone === "" ||
+            email === "" ||
+            estado === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
+            mensagem.style.color = "#10233f";
+        } else {
+            mensagem.textContent = "Fornecedor registado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+            mensagem.style.color = "green";
+        }
+    });
+}
