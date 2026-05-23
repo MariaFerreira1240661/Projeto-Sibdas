@@ -231,3 +231,48 @@ if (confirmarRemocao) {
         }, 1200);
     });
 }
+const pesquisaFornecedor = document.getElementById("pesquisaFornecedor");
+const filtroTipoFornecedor = document.getElementById("filtroTipoFornecedor");
+const filtroEstadoFornecedor = document.getElementById("filtroEstadoFornecedor");
+const tabelaFornecedores = document.getElementById("tabelaFornecedores");
+const semResultadosFornecedores = document.getElementById("semResultadosFornecedores");
+
+function filtrarFornecedores() {
+    if (!tabelaFornecedores) {
+        return;
+    }
+
+    const textoPesquisa = pesquisaFornecedor.value.toLowerCase();
+    const tipoSelecionado = filtroTipoFornecedor.value;
+    const estadoSelecionado = filtroEstadoFornecedor.value;
+
+    const linhas = tabelaFornecedores.querySelectorAll("tbody tr");
+    let resultadosVisiveis = 0;
+
+    linhas.forEach(function (linha) {
+        const textoLinha = linha.textContent.toLowerCase();
+        const tipoLinha = linha.getAttribute("data-tipo");
+        const estadoLinha = linha.getAttribute("data-estado");
+
+        const correspondePesquisa = textoLinha.includes(textoPesquisa);
+        const correspondeTipo = tipoSelecionado === "" || tipoLinha === tipoSelecionado;
+        const correspondeEstado = estadoSelecionado === "" || estadoLinha === estadoSelecionado;
+
+        if (correspondePesquisa && correspondeTipo && correspondeEstado) {
+            linha.style.display = "";
+            resultadosVisiveis++;
+        } else {
+            linha.style.display = "none";
+        }
+    });
+
+    if (semResultadosFornecedores) {
+        semResultadosFornecedores.style.display = resultadosVisiveis === 0 ? "block" : "none";
+    }
+}
+
+if (pesquisaFornecedor && filtroTipoFornecedor && filtroEstadoFornecedor) {
+    pesquisaFornecedor.addEventListener("input", filtrarFornecedores);
+    filtroTipoFornecedor.addEventListener("change", filtrarFornecedores);
+    filtroEstadoFornecedor.addEventListener("change", filtrarFornecedores);
+}
