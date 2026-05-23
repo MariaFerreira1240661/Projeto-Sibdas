@@ -340,3 +340,17 @@ if (formEditarFornecedor) {
         }
     });
 }
+const confirmarRemocaoFornecedor = document.getElementById("confirmarRemocaoFornecedor");
+
+if (confirmarRemocaoFornecedor) {
+    confirmarRemocaoFornecedor.addEventListener("click", function () {
+        const mensagem = document.getElementById("mensagemRemocaoFornecedor");
+
+        mensagem.textContent = "Fornecedor removido/arquivado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+        mensagem.style.color = "green";
+
+        setTimeout(function () {
+            window.location.href = "fornecedores.html";
+        }, 1200);
+    });
+}
