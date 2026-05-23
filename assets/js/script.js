@@ -308,3 +308,35 @@ if (formFornecedor) {
         }
     });
 }
+const formEditarFornecedor = document.getElementById("formEditarFornecedor");
+
+if (formEditarFornecedor) {
+    formEditarFornecedor.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = document.getElementById("editCodigoFornecedor").value.trim();
+        const nome = document.getElementById("editNomeFornecedor").value.trim();
+        const nif = document.getElementById("editNifFornecedor").value.trim();
+        const tipo = document.getElementById("editTipoFornecedor").value;
+        const telefone = document.getElementById("editTelefoneFornecedor").value.trim();
+        const email = document.getElementById("editEmailFornecedor").value.trim();
+        const estado = document.getElementById("editEstadoFornecedor").value;
+        const mensagem = document.getElementById("mensagemEditarFornecedor");
+
+        if (
+            codigo === "" ||
+            nome === "" ||
+            nif === "" ||
+            tipo === "" ||
+            telefone === "" ||
+            email === "" ||
+            estado === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
+            mensagem.style.color = "#10233f";
+        } else {
+            mensagem.textContent = "Alterações guardadas com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+            mensagem.style.color = "green";
+        }
+    });
+}
