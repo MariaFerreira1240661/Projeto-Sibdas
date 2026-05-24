@@ -354,3 +354,49 @@ if (confirmarRemocaoFornecedor) {
         }, 1200);
     });
 }
+
+const pesquisaLocalizacao = document.getElementById("pesquisaLocalizacao");
+const filtroServicoLocalizacao = document.getElementById("filtroServicoLocalizacao");
+const filtroEstadoLocalizacao = document.getElementById("filtroEstadoLocalizacao");
+const tabelaLocalizacoes = document.getElementById("tabelaLocalizacoes");
+const semResultadosLocalizacoes = document.getElementById("semResultadosLocalizacoes");
+
+function filtrarLocalizacoes() {
+    if (!tabelaLocalizacoes) {
+        return;
+    }
+
+    const textoPesquisa = pesquisaLocalizacao.value.toLowerCase();
+    const servicoSelecionado = filtroServicoLocalizacao.value;
+    const estadoSelecionado = filtroEstadoLocalizacao.value;
+
+    const linhas = tabelaLocalizacoes.querySelectorAll("tbody tr");
+    let resultadosVisiveis = 0;
+
+    linhas.forEach(function (linha) {
+        const textoLinha = linha.textContent.toLowerCase();
+        const servicoLinha = linha.getAttribute("data-servico");
+        const estadoLinha = linha.getAttribute("data-estado");
+
+        const correspondePesquisa = textoLinha.includes(textoPesquisa);
+        const correspondeServico = servicoSelecionado === "" || servicoLinha === servicoSelecionado;
+        const correspondeEstado = estadoSelecionado === "" || estadoLinha === estadoSelecionado;
+
+        if (correspondePesquisa && correspondeServico && correspondeEstado) {
+            linha.style.display = "";
+            resultadosVisiveis++;
+        } else {
+            linha.style.display = "none";
+        }
+    });
+
+    if (semResultadosLocalizacoes) {
+        semResultadosLocalizacoes.style.display = resultadosVisiveis === 0 ? "block" : "none";
+    }
+}
+
+if (pesquisaLocalizacao && filtroServicoLocalizacao && filtroEstadoLocalizacao) {
+    pesquisaLocalizacao.addEventListener("input", filtrarLocalizacoes);
+    filtroServicoLocalizacao.addEventListener("change", filtrarLocalizacoes);
+    filtroEstadoLocalizacao.addEventListener("change", filtrarLocalizacoes);
+}
