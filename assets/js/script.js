@@ -450,3 +450,35 @@ if (pesquisaDocumento && filtroTipoDocumento && filtroEstadoDocumento && filtroE
     filtroEstadoDocumento.addEventListener("change", filtrarDocumentos);
     filtroEquipamentoDocumento.addEventListener("change", filtrarDocumentos);
 }
+const formDocumento = document.getElementById("formDocumento");
+
+if (formDocumento) {
+    formDocumento.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = document.getElementById("codigoDocumento").value.trim();
+        const nome = document.getElementById("nomeDocumento").value.trim();
+        const tipo = document.getElementById("tipoDocumento").value;
+        const equipamento = document.getElementById("equipamentoDocumento").value;
+        const data = document.getElementById("dataDocumento").value;
+        const estado = document.getElementById("estadoDocumento").value;
+        const ficheiro = document.getElementById("ficheiroDocumento").value.trim();
+        const mensagem = document.getElementById("mensagemDocumento");
+
+        if (
+            codigo === "" ||
+            nome === "" ||
+            tipo === "" ||
+            equipamento === "" ||
+            data === "" ||
+            estado === "" ||
+            ficheiro === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
+            mensagem.style.color = "#10233f";
+        } else {
+            mensagem.textContent = "Documento registado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+            mensagem.style.color = "green";
+        }
+    });
+}
