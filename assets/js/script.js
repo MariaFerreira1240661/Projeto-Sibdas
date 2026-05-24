@@ -400,3 +400,53 @@ if (pesquisaLocalizacao && filtroServicoLocalizacao && filtroEstadoLocalizacao) 
     filtroServicoLocalizacao.addEventListener("change", filtrarLocalizacoes);
     filtroEstadoLocalizacao.addEventListener("change", filtrarLocalizacoes);
 }
+const pesquisaDocumento = document.getElementById("pesquisaDocumento");
+const filtroTipoDocumento = document.getElementById("filtroTipoDocumento");
+const filtroEstadoDocumento = document.getElementById("filtroEstadoDocumento");
+const filtroEquipamentoDocumento = document.getElementById("filtroEquipamentoDocumento");
+const tabelaDocumentos = document.getElementById("tabelaDocumentos");
+const semResultadosDocumentos = document.getElementById("semResultadosDocumentos");
+
+function filtrarDocumentos() {
+    if (!tabelaDocumentos) {
+        return;
+    }
+
+    const textoPesquisa = pesquisaDocumento.value.toLowerCase();
+    const tipoSelecionado = filtroTipoDocumento.value;
+    const estadoSelecionado = filtroEstadoDocumento.value;
+    const equipamentoSelecionado = filtroEquipamentoDocumento.value;
+
+    const linhas = tabelaDocumentos.querySelectorAll("tbody tr");
+    let resultadosVisiveis = 0;
+
+    linhas.forEach(function (linha) {
+        const textoLinha = linha.textContent.toLowerCase();
+        const tipoLinha = linha.getAttribute("data-tipo");
+        const estadoLinha = linha.getAttribute("data-estado");
+        const equipamentoLinha = linha.getAttribute("data-equipamento");
+
+        const correspondePesquisa = textoLinha.includes(textoPesquisa);
+        const correspondeTipo = tipoSelecionado === "" || tipoLinha === tipoSelecionado;
+        const correspondeEstado = estadoSelecionado === "" || estadoLinha === estadoSelecionado;
+        const correspondeEquipamento = equipamentoSelecionado === "" || equipamentoLinha === equipamentoSelecionado;
+
+        if (correspondePesquisa && correspondeTipo && correspondeEstado && correspondeEquipamento) {
+            linha.style.display = "";
+            resultadosVisiveis++;
+        } else {
+            linha.style.display = "none";
+        }
+    });
+
+    if (semResultadosDocumentos) {
+        semResultadosDocumentos.style.display = resultadosVisiveis === 0 ? "block" : "none";
+    }
+}
+
+if (pesquisaDocumento && filtroTipoDocumento && filtroEstadoDocumento && filtroEquipamentoDocumento) {
+    pesquisaDocumento.addEventListener("input", filtrarDocumentos);
+    filtroTipoDocumento.addEventListener("change", filtrarDocumentos);
+    filtroEstadoDocumento.addEventListener("change", filtrarDocumentos);
+    filtroEquipamentoDocumento.addEventListener("change", filtrarDocumentos);
+}
