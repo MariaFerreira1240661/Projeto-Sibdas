@@ -482,3 +482,35 @@ if (formDocumento) {
         }
     });
 }
+const formEditarDocumento = document.getElementById("formEditarDocumento");
+
+if (formEditarDocumento) {
+    formEditarDocumento.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = document.getElementById("editCodigoDocumento").value.trim();
+        const nome = document.getElementById("editNomeDocumento").value.trim();
+        const tipo = document.getElementById("editTipoDocumento").value;
+        const equipamento = document.getElementById("editEquipamentoDocumento").value;
+        const data = document.getElementById("editDataDocumento").value;
+        const estado = document.getElementById("editEstadoDocumento").value;
+        const ficheiro = document.getElementById("editFicheiroDocumento").value.trim();
+        const mensagem = document.getElementById("mensagemEditarDocumento");
+
+        if (
+            codigo === "" ||
+            nome === "" ||
+            tipo === "" ||
+            equipamento === "" ||
+            data === "" ||
+            estado === "" ||
+            ficheiro === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
+            mensagem.style.color = "#10233f";
+        } else {
+            mensagem.textContent = "Alterações guardadas com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+            mensagem.style.color = "green";
+        }
+    });
+}
