@@ -514,3 +514,17 @@ if (formEditarDocumento) {
         }
     });
 }
+const confirmarRemocaoDocumento = document.getElementById("confirmarRemocaoDocumento");
+
+if (confirmarRemocaoDocumento) {
+    confirmarRemocaoDocumento.addEventListener("click", function () {
+        const mensagem = document.getElementById("mensagemRemocaoDocumento");
+
+        mensagem.textContent = "Documento removido/arquivado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+        mensagem.style.color = "green";
+
+        setTimeout(function () {
+            window.location.href = "documentacao.html";
+        }, 1200);
+    });
+}
