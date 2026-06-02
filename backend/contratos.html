@@ -79,59 +79,141 @@
             <section class="backend-box">
                 <div class="backend-section-header">
                     <div>
-                        <h2>Lista de Contratos</h2>
-                        <p>Consulta dos contratos de manutenção e garantias registados.</p>
+                        <h2>Listagem de Contratos e Garantias</h2>
+                        <p>Consulta e gestão de garantias e contratos associados aos equipamentos médicos.</p>
                     </div>
-
-                    <button class="btn-backend">
+            
+                    <a href="novo-contrato.html" class="btn-backend">
                         <i class="bi bi-plus-circle"></i>
                         Novo contrato
-                    </button>
+                    </a>
                 </div>
-
+            
+                <div class="filtros-backend">
+                    <div>
+                        <label for="pesquisaContrato">Pesquisar</label>
+                        <input type="text" id="pesquisaContrato" placeholder="Equipamento, fornecedor ou contrato">
+                    </div>
+            
+                    <div>
+                        <label for="filtroTipoContrato">Tipo</label>
+                        <select id="filtroTipoContrato">
+                            <option value="">Todos</option>
+                            <option value="garantia">Garantia</option>
+                            <option value="manutencao">Manutenção preventiva</option>
+                            <option value="assistencia">Assistência técnica</option>
+                        </select>
+                    </div>
+            
+                    <div>
+                        <label for="filtroEstadoContrato">Estado</label>
+                        <select id="filtroEstadoContrato">
+                            <option value="">Todos</option>
+                            <option value="ativo">Ativo</option>
+                            <option value="pendente">A terminar</option>
+                            <option value="expirado">Expirado</option>
+                        </select>
+                    </div>
+            
+                    <div>
+                        <label for="filtroEquipamentoContrato">Equipamento</label>
+                        <select id="filtroEquipamentoContrato">
+                            <option value="">Todos</option>
+                            <option value="monitor">Monitor Multiparamétrico</option>
+                            <option value="ventilador">Ventilador Pulmonar</option>
+                            <option value="bomba">Bomba de Infusão</option>
+                            <option value="desfibrilhador">Desfibrilhador</option>
+                        </select>
+                    </div>
+                </div>
+            
                 <div class="table-responsive">
-                    <table class="tabela-backend">
+                    <table class="tabela-backend" id="tabelaContratos">
                         <thead>
                             <tr>
                                 <th>Código</th>
+                                <th>Equipamento</th>
                                 <th>Fornecedor</th>
                                 <th>Tipo</th>
                                 <th>Data de Início</th>
                                 <th>Data de Fim</th>
+                                <th>Periodicidade</th>
                                 <th>Estado</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
-
+            
                         <tbody>
-                            <tr>
+                            <tr data-tipo="manutencao" data-estado="ativo" data-equipamento="monitor">
                                 <td>C001</td>
+                                <td>Monitor Multiparamétrico</td>
                                 <td>MedTech Portugal</td>
                                 <td>Manutenção preventiva</td>
                                 <td>01/01/2025</td>
                                 <td>31/12/2025</td>
+                                <td>Anual</td>
                                 <td><span class="estado ativo">Ativo</span></td>
+                                <td class="acoes-tabela">
+                                    <a href="detalhes-contrato.html" title="Consultar"><i class="bi bi-eye"></i></a>
+                                    <a href="editar-contrato.html" title="Editar"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="remover-contrato.html" title="Remover"><i class="bi bi-trash"></i></a>
+                                </td>
                             </tr>
-
-                            <tr>
+            
+                            <tr data-tipo="assistencia" data-estado="pendente" data-equipamento="ventilador">
                                 <td>C002</td>
+                                <td>Ventilador Pulmonar</td>
                                 <td>BioSupport Systems</td>
                                 <td>Assistência técnica</td>
                                 <td>15/03/2024</td>
                                 <td>15/03/2025</td>
+                                <td>Semestral</td>
                                 <td><span class="estado pendente">A terminar</span></td>
+                                <td class="acoes-tabela">
+                                    <a href="detalhes-contrato.html" title="Consultar"><i class="bi bi-eye"></i></a>
+                                    <a href="editar-contrato.html" title="Editar"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="remover-contrato.html" title="Remover"><i class="bi bi-trash"></i></a>
+                                </td>
                             </tr>
-
-                            <tr>
+            
+                            <tr data-tipo="garantia" data-estado="expirado" data-equipamento="bomba">
                                 <td>C003</td>
+                                <td>Bomba de Infusão</td>
                                 <td>InfuCare Medical</td>
                                 <td>Garantia</td>
                                 <td>10/02/2023</td>
                                 <td>10/02/2025</td>
+                                <td>Não aplicável</td>
                                 <td><span class="estado expirado">Expirado</span></td>
+                                <td class="acoes-tabela">
+                                    <a href="detalhes-contrato.html" title="Consultar"><i class="bi bi-eye"></i></a>
+                                    <a href="editar-contrato.html" title="Editar"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="remover-contrato.html" title="Remover"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+            
+                            <tr data-tipo="garantia" data-estado="ativo" data-equipamento="desfibrilhador">
+                                <td>C004</td>
+                                <td>Desfibrilhador</td>
+                                <td>MedTech Portugal</td>
+                                <td>Garantia</td>
+                                <td>20/03/2024</td>
+                                <td>20/03/2026</td>
+                                <td>Não aplicável</td>
+                                <td><span class="estado ativo">Ativo</span></td>
+                                <td class="acoes-tabela">
+                                    <a href="detalhes-contrato.html" title="Consultar"><i class="bi bi-eye"></i></a>
+                                    <a href="editar-contrato.html" title="Editar"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="remover-contrato.html" title="Remover"><i class="bi bi-trash"></i></a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+            
+                <p id="semResultadosContratos" class="sem-resultados">
+                    Não foram encontrados contratos com os filtros selecionados.
+                </p>
             </section>
 
         </main>

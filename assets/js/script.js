@@ -528,3 +528,131 @@ if (confirmarRemocaoDocumento) {
         }, 1200);
     });
 }
+const pesquisaContrato = document.getElementById("pesquisaContrato");
+const filtroTipoContrato = document.getElementById("filtroTipoContrato");
+const filtroEstadoContrato = document.getElementById("filtroEstadoContrato");
+const filtroEquipamentoContrato = document.getElementById("filtroEquipamentoContrato");
+const tabelaContratos = document.getElementById("tabelaContratos");
+const semResultadosContratos = document.getElementById("semResultadosContratos");
+
+function filtrarContratos() {
+    if (!tabelaContratos) {
+        return;
+    }
+
+    const textoPesquisa = pesquisaContrato.value.toLowerCase();
+    const tipoSelecionado = filtroTipoContrato.value;
+    const estadoSelecionado = filtroEstadoContrato.value;
+    const equipamentoSelecionado = filtroEquipamentoContrato.value;
+
+    const linhas = tabelaContratos.querySelectorAll("tbody tr");
+    let resultadosVisiveis = 0;
+
+    linhas.forEach(function (linha) {
+        const textoLinha = linha.textContent.toLowerCase();
+        const tipoLinha = linha.getAttribute("data-tipo");
+        const estadoLinha = linha.getAttribute("data-estado");
+        const equipamentoLinha = linha.getAttribute("data-equipamento");
+
+        const correspondePesquisa = textoLinha.includes(textoPesquisa);
+        const correspondeTipo = tipoSelecionado === "" || tipoLinha === tipoSelecionado;
+        const correspondeEstado = estadoSelecionado === "" || estadoLinha === estadoSelecionado;
+        const correspondeEquipamento = equipamentoSelecionado === "" || equipamentoLinha === equipamentoSelecionado;
+
+        if (correspondePesquisa && correspondeTipo && correspondeEstado && correspondeEquipamento) {
+            linha.style.display = "";
+            resultadosVisiveis++;
+        } else {
+            linha.style.display = "none";
+        }
+    });
+
+    if (semResultadosContratos) {
+        semResultadosContratos.style.display = resultadosVisiveis === 0 ? "block" : "none";
+    }
+}
+
+if (pesquisaContrato && filtroTipoContrato && filtroEstadoContrato && filtroEquipamentoContrato) {
+    pesquisaContrato.addEventListener("input", filtrarContratos);
+    filtroTipoContrato.addEventListener("change", filtrarContratos);
+    filtroEstadoContrato.addEventListener("change", filtrarContratos);
+    filtroEquipamentoContrato.addEventListener("change", filtrarContratos);
+}
+const formContrato = document.getElementById("formContrato");
+
+if (formContrato) {
+    formContrato.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = document.getElementById("codigoContrato").value.trim();
+        const equipamento = document.getElementById("equipamentoContrato").value;
+        const fornecedor = document.getElementById("fornecedorContrato").value;
+        const tipo = document.getElementById("tipoContrato").value;
+        const dataInicio = document.getElementById("dataInicioContrato").value;
+        const dataFim = document.getElementById("dataFimContrato").value;
+        const estado = document.getElementById("estadoContrato").value;
+        const mensagem = document.getElementById("mensagemContrato");
+
+        if (
+            codigo === "" ||
+            equipamento === "" ||
+            fornecedor === "" ||
+            tipo === "" ||
+            dataInicio === "" ||
+            dataFim === "" ||
+            estado === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
+            mensagem.style.color = "#10233f";
+        } else {
+            mensagem.textContent = "Contrato registado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+            mensagem.style.color = "green";
+        }
+    });
+}
+const formEditarContrato = document.getElementById("formEditarContrato");
+
+if (formEditarContrato) {
+    formEditarContrato.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = document.getElementById("editCodigoContrato").value.trim();
+        const equipamento = document.getElementById("editEquipamentoContrato").value;
+        const fornecedor = document.getElementById("editFornecedorContrato").value;
+        const tipo = document.getElementById("editTipoContrato").value;
+        const dataInicio = document.getElementById("editDataInicioContrato").value;
+        const dataFim = document.getElementById("editDataFimContrato").value;
+        const estado = document.getElementById("editEstadoContrato").value;
+        const mensagem = document.getElementById("mensagemEditarContrato");
+
+        if (
+            codigo === "" ||
+            equipamento === "" ||
+            fornecedor === "" ||
+            tipo === "" ||
+            dataInicio === "" ||
+            dataFim === "" ||
+            estado === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
+            mensagem.style.color = "#10233f";
+        } else {
+            mensagem.textContent = "Alterações guardadas com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+            mensagem.style.color = "green";
+        }
+    });
+}
+const confirmarRemocaoContrato = document.getElementById("confirmarRemocaoContrato");
+
+if (confirmarRemocaoContrato) {
+    confirmarRemocaoContrato.addEventListener("click", function () {
+        const mensagem = document.getElementById("mensagemRemocaoContrato");
+
+        mensagem.textContent = "Contrato removido/arquivado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+        mensagem.style.color = "green";
+
+        setTimeout(function () {
+            window.location.href = "contratos.html";
+        }, 1200);
+    });
+}
