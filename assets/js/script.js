@@ -656,3 +656,77 @@ if (confirmarRemocaoContrato) {
         }, 1200);
     });
 }
+const formLocalizacao = document.getElementById("formLocalizacao");
+
+if (formLocalizacao) {
+    formLocalizacao.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = document.getElementById("codigoLocalizacao").value.trim();
+        const edificio = document.getElementById("edificioLocalizacao").value.trim();
+        const piso = document.getElementById("pisoLocalizacao").value.trim();
+        const servico = document.getElementById("servicoLocalizacao").value;
+        const sala = document.getElementById("salaLocalizacao").value.trim();
+        const estado = document.getElementById("estadoLocalizacao").value;
+        const mensagem = document.getElementById("mensagemLocalizacao");
+
+        if (
+            codigo === "" ||
+            edificio === "" ||
+            piso === "" ||
+            servico === "" ||
+            sala === "" ||
+            estado === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
+            mensagem.style.color = "#10233f";
+        } else {
+            mensagem.textContent = "Localização registada com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+            mensagem.style.color = "green";
+        }
+    });
+}
+const formEditarLocalizacao = document.getElementById("formEditarLocalizacao");
+
+if (formEditarLocalizacao) {
+    formEditarLocalizacao.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = document.getElementById("editCodigoLocalizacao").value.trim();
+        const edificio = document.getElementById("editEdificioLocalizacao").value.trim();
+        const piso = document.getElementById("editPisoLocalizacao").value.trim();
+        const servico = document.getElementById("editServicoLocalizacao").value;
+        const sala = document.getElementById("editSalaLocalizacao").value.trim();
+        const estado = document.getElementById("editEstadoLocalizacao").value;
+        const mensagem = document.getElementById("mensagemEditarLocalizacao");
+
+        if (
+            codigo === "" ||
+            edificio === "" ||
+            piso === "" ||
+            servico === "" ||
+            sala === "" ||
+            estado === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
+            mensagem.style.color = "#10233f";
+        } else {
+            mensagem.textContent = "Alterações guardadas com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+            mensagem.style.color = "green";
+        }
+    });
+}
+const confirmarRemocaoLocalizacao = document.getElementById("confirmarRemocaoLocalizacao");
+
+if (confirmarRemocaoLocalizacao) {
+    confirmarRemocaoLocalizacao.addEventListener("click", function () {
+        const mensagem = document.getElementById("mensagemRemocaoLocalizacao");
+
+        mensagem.textContent = "Localização removida/arquivada com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+        mensagem.style.color = "green";
+
+        setTimeout(function () {
+            window.location.href = "localizacoes.html";
+        }, 1200);
+    });
+}
