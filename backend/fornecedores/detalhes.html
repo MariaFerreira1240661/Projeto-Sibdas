@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Contrato - MedControl</title>
+    <title>Detalhes do Fornecedor - MedControl</title>
 
-    <link rel="shortcut icon" href="../assets/img/medcontrol_logo.png" type="image/png">
+    <link rel="shortcut icon" href="../../assets/img/medcontrol_logo.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/estilo.css">
+    <link rel="stylesheet" href="../../assets/css/estilo.css">
 </head>
 
 <body class="backend-body">
@@ -18,44 +18,44 @@
 
         <aside class="backend-sidebar">
             <div class="sidebar-logo">
-                <img src="../assets/img/medcontrol_logo.png" alt="Logótipo da MedControl">
+                <img src="../../assets/img/medcontrol_logo.png" alt="Logótipo da MedControl">
                 <h2>MedControl</h2>
             </div>
 
             <nav class="sidebar-menu">
-                <a href="index.html">
+                <a href="../index.html">
                     <i class="bi bi-speedometer2"></i>
                     <span>Dashboard</span>
                 </a>
 
-                <a href="equipamentos.html">
+                <a href="../equipamentos/index.html">
                     <i class="bi bi-hospital"></i>
                     <span>Equipamentos</span>
                 </a>
 
-                <a href="localizacoes.html">
+                <a href="../localizacoes/index.html">
                     <i class="bi bi-geo-alt"></i>
                     <span>Localizações</span>
                 </a>
 
-                <a href="fornecedores.html">
+                <a href="index.html" class="ativo">
                     <i class="bi bi-truck"></i>
                     <span>Fornecedores</span>
                 </a>
 
-                <a href="documentacao.html">
+                <a href="../documentacao/index.html">
                     <i class="bi bi-file-earmark-text"></i>
                     <span>Documentação</span>
                 </a>
 
-                <a href="contratos.html" class="ativo">
+                <a href="../contratos/index.html">
                     <i class="bi bi-shield-check"></i>
                     <span>Contratos</span>
                 </a>
             </nav>
 
             <div class="sidebar-footer">
-                <a href="../frontend/index.html">
+                <a href="../../frontend/index.html">
                     <i class="bi bi-box-arrow-left"></i>
                     <span>Site Público</span>
                 </a>
@@ -66,8 +66,8 @@
 
             <div class="backend-topbar">
                 <div>
-                    <h1>Detalhes do Contrato</h1>
-                    <p>Ficha detalhada de garantia ou contrato associado ao inventário.</p>
+                    <h1>Detalhes do Fornecedor</h1>
+                    <p>Ficha detalhada da entidade associada aos equipamentos médicos.</p>
                 </div>
 
                 <div class="backend-user">
@@ -79,11 +79,11 @@
             <section class="backend-box">
                 <div class="backend-section-header">
                     <div>
-                        <h2>Manutenção preventiva</h2>
-                        <p>Código interno: C001</p>
+                        <h2>Philips Healthcare</h2>
+                        <p>Código interno: F001</p>
                     </div>
 
-                    <a href="contratos.html" class="btn-backend">
+                    <a href="index.html" class="btn-backend">
                         <i class="bi bi-arrow-left-circle"></i>
                         Voltar à listagem
                     </a>
@@ -96,100 +96,83 @@
 
                         <div class="detalhe-linha">
                             <span>Código</span>
-                            <strong>C001</strong>
+                            <strong>F001</strong>
                         </div>
 
                         <div class="detalhe-linha">
-                            <span>Tipo</span>
-                            <strong>Manutenção preventiva</strong>
+                            <span>Nome da empresa</span>
+                            <strong>Philips Healthcare</strong>
+                        </div>
+
+                        <div class="detalhe-linha">
+                            <span>NIF</span>
+                            <strong>501234567</strong>
                         </div>
 
                         <div class="detalhe-linha">
                             <span>Estado</span>
                             <strong><span class="estado ativo">Ativo</span></strong>
                         </div>
+                    </div>
+
+                    <div class="detalhe-card">
+                        <h3>Tipo e contactos</h3>
 
                         <div class="detalhe-linha">
-                            <span>Periodicidade</span>
-                            <strong>Anual</strong>
+                            <span>Tipo de fornecedor</span>
+                            <strong>Fabricante</strong>
+                        </div>
+
+                        <div class="detalhe-linha">
+                            <span>Email</span>
+                            <strong>geral@philips-health.pt</strong>
+                        </div>
+
+                        <div class="detalhe-linha">
+                            <span>Telefone</span>
+                            <strong>+351 222 100 100</strong>
+                        </div>
+
+                        <div class="detalhe-linha">
+                            <span>Website</span>
+                            <strong>www.philips.pt</strong>
                         </div>
                     </div>
 
                     <div class="detalhe-card">
-                        <h3>Equipamento e entidade</h3>
+                        <h3>Pessoa de contacto</h3>
 
                         <div class="detalhe-linha">
-                            <span>Equipamento associado</span>
-                            <strong>Monitor Multiparamétrico</strong>
+                            <span>Nome</span>
+                            <strong>Ana Silva</strong>
                         </div>
 
                         <div class="detalhe-linha">
-                            <span>Código do equipamento</span>
-                            <strong>EQ001</strong>
+                            <span>Telefone</span>
+                            <strong>+351 912 000 000</strong>
                         </div>
 
                         <div class="detalhe-linha">
-                            <span>Entidade responsável</span>
-                            <strong>MedTech Portugal</strong>
-                        </div>
-
-                        <div class="detalhe-linha">
-                            <span>Contacto</span>
-                            <strong>contacto@medtech.pt</strong>
+                            <span>Email</span>
+                            <strong>ana.silva@philips-health.pt</strong>
                         </div>
                     </div>
 
                     <div class="detalhe-card">
-                        <h3>Datas</h3>
+                        <h3>Morada</h3>
 
-                        <div class="detalhe-linha">
-                            <span>Data de início</span>
-                            <strong>01/01/2025</strong>
-                        </div>
-
-                        <div class="detalhe-linha">
-                            <span>Data de fim</span>
-                            <strong>31/12/2025</strong>
-                        </div>
-
-                        <div class="detalhe-linha">
-                            <span>Dias até terminar</span>
-                            <strong>Dentro do prazo</strong>
-                        </div>
-                    </div>
-
-                    <div class="detalhe-card">
-                        <h3>Informação administrativa</h3>
-
-                        <div class="detalhe-linha">
-                            <span>Valor associado</span>
-                            <strong>1 200 €</strong>
-                        </div>
-
-                        <div class="detalhe-linha">
-                            <span>Documento associado</span>
-                            <strong>contrato_monitor.pdf</strong>
-                        </div>
-
-                        <div class="detalhe-linha">
-                            <span>Responsável interno</span>
-                            <strong>Administrador</strong>
-                        </div>
+                        <p>
+                            Avenida da Saúde, nº 120<br>
+                            4100-000 Porto<br>
+                            Portugal
+                        </p>
                     </div>
 
                 </div>
             </section>
 
             <section class="backend-box">
-                <h2>Observações</h2>
-                <p>
-                    Contrato de manutenção preventiva associado ao monitor multiparamétrico.
-                    Deve ser revisto antes da data de fim para garantir continuidade do acompanhamento técnico.
-                </p>
-            </section>
-
-            <section class="backend-box">
-                <h2>Equipamento relacionado</h2>
+                <h2>Equipamentos associados</h2>
 
                 <div class="table-responsive">
                     <table class="tabela-backend">
@@ -200,7 +183,6 @@
                                 <th>Marca / Modelo</th>
                                 <th>Localização</th>
                                 <th>Estado</th>
-                                <th>Criticidade</th>
                             </tr>
                         </thead>
 
@@ -211,11 +193,18 @@
                                 <td>Philips IntelliVue MP5</td>
                                 <td>UCI</td>
                                 <td><span class="estado ativo">Ativo</span></td>
-                                <td><span class="estado suporte">Suporte de vida</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+            </section>
+
+            <section class="backend-box">
+                <h2>Observações</h2>
+                <p>
+                    Entidade registada como fabricante de equipamentos de monitorização.
+                    Poderá estar associada a fornecedores comerciais ou entidades de assistência técnica.
+                </p>
             </section>
 
         </main>
@@ -223,7 +212,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/script.js"></script>
+    <script src="../../assets/js/script.js"></script>
 
 </body>
 </html>

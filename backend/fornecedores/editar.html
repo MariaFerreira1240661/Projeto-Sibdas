@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novo Fornecedor - MedControl</title>
+    <title>Editar Fornecedor - MedControl</title>
 
-    <link rel="shortcut icon" href="../assets/img/medcontrol_logo.png" type="image/png">
+    <link rel="shortcut icon" href="../../assets/img/medcontrol_logo.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/estilo.css">
+    <link rel="stylesheet" href="../../assets/css/estilo.css">
 </head>
 
 <body class="backend-body">
@@ -18,44 +18,44 @@
 
         <aside class="backend-sidebar">
             <div class="sidebar-logo">
-                <img src="../assets/img/medcontrol_logo.png" alt="Logótipo da MedControl">
+                <img src="../../assets/img/medcontrol_logo.png" alt="Logótipo da MedControl">
                 <h2>MedControl</h2>
             </div>
 
             <nav class="sidebar-menu">
-                <a href="index.html">
+                <a href="../index.html">
                     <i class="bi bi-speedometer2"></i>
                     <span>Dashboard</span>
                 </a>
 
-                <a href="equipamentos.html">
+                <a href="../equipamentos/index.html">
                     <i class="bi bi-hospital"></i>
                     <span>Equipamentos</span>
                 </a>
 
-                <a href="localizacoes.html">
+                <a href="../localizacoes/index.html">
                     <i class="bi bi-geo-alt"></i>
                     <span>Localizações</span>
                 </a>
 
-                <a href="fornecedores.html" class="ativo">
+                <a href="index.html" class="ativo">
                     <i class="bi bi-truck"></i>
                     <span>Fornecedores</span>
                 </a>
 
-                <a href="documentacao.html">
+                <a href="../documentacao/index.html">
                     <i class="bi bi-file-earmark-text"></i>
                     <span>Documentação</span>
                 </a>
 
-                <a href="contratos.html">
+                <a href="../contratos/index.html">
                     <i class="bi bi-shield-check"></i>
                     <span>Contratos</span>
                 </a>
             </nav>
 
             <div class="sidebar-footer">
-                <a href="../frontend/index.html">
+                <a href="../../frontend/index.html">
                     <i class="bi bi-box-arrow-left"></i>
                     <span>Site Público</span>
                 </a>
@@ -66,8 +66,8 @@
 
             <div class="backend-topbar">
                 <div>
-                    <h1>Novo Fornecedor</h1>
-                    <p>Registo de uma entidade associada aos equipamentos médicos.</p>
+                    <h1>Editar Fornecedor</h1>
+                    <p>Atualização dos dados de uma entidade associada aos equipamentos médicos.</p>
                 </div>
 
                 <div class="backend-user">
@@ -80,38 +80,37 @@
                 <div class="backend-section-header">
                     <div>
                         <h2>Dados do Fornecedor</h2>
-                        <p>Preencha os campos principais para simular o registo do fornecedor.</p>
+                        <p>Altere os campos necessários e guarde as alterações.</p>
                     </div>
 
-                    <a href="fornecedores.html" class="btn-backend">
+                    <a href="index.html" class="btn-backend">
                         <i class="bi bi-arrow-left-circle"></i>
                         Voltar à listagem
                     </a>
                 </div>
 
-                <form class="form-backend" id="formFornecedor">
+                <form class="form-backend" id="formEditarFornecedor">
 
                     <div class="form-grid">
                         <div>
-                            <label for="codigoFornecedor">Código *</label>
-                            <input type="text" id="codigoFornecedor" placeholder="Ex: F005">
+                            <label for="editCodigoFornecedor">Código *</label>
+                            <input type="text" id="editCodigoFornecedor" value="F001">
                         </div>
 
                         <div>
-                            <label for="nomeFornecedor">Nome da empresa *</label>
-                            <input type="text" id="nomeFornecedor" placeholder="Ex: MedTech Portugal">
+                            <label for="editNomeFornecedor">Nome da empresa *</label>
+                            <input type="text" id="editNomeFornecedor" value="Philips Healthcare">
                         </div>
 
                         <div>
-                            <label for="nifFornecedor">NIF *</label>
-                            <input type="text" id="nifFornecedor" placeholder="Ex: 501234567">
+                            <label for="editNifFornecedor">NIF *</label>
+                            <input type="text" id="editNifFornecedor" value="501234567">
                         </div>
 
                         <div>
-                            <label for="tipoFornecedor">Tipo de fornecedor *</label>
-                            <select id="tipoFornecedor">
-                                <option value="">Selecione o tipo</option>
-                                <option>Fabricante</option>
+                            <label for="editTipoFornecedor">Tipo de fornecedor *</label>
+                            <select id="editTipoFornecedor">
+                                <option selected>Fabricante</option>
                                 <option>Distribuidor</option>
                                 <option>Assistência técnica</option>
                                 <option>Consumíveis</option>
@@ -119,59 +118,58 @@
                         </div>
 
                         <div>
-                            <label for="telefoneFornecedor">Telefone *</label>
-                            <input type="text" id="telefoneFornecedor" placeholder="Ex: +351 222 000 000">
+                            <label for="editTelefoneFornecedor">Telefone *</label>
+                            <input type="text" id="editTelefoneFornecedor" value="+351 222 100 100">
                         </div>
 
                         <div>
-                            <label for="emailFornecedor">Email *</label>
-                            <input type="email" id="emailFornecedor" placeholder="Ex: geral@empresa.pt">
+                            <label for="editEmailFornecedor">Email *</label>
+                            <input type="email" id="editEmailFornecedor" value="geral@philips-health.pt">
                         </div>
 
                         <div>
-                            <label for="websiteFornecedor">Website</label>
-                            <input type="text" id="websiteFornecedor" placeholder="Ex: www.empresa.pt">
+                            <label for="editWebsiteFornecedor">Website</label>
+                            <input type="text" id="editWebsiteFornecedor" value="www.philips.pt">
                         </div>
 
                         <div>
-                            <label for="estadoFornecedor">Estado *</label>
-                            <select id="estadoFornecedor">
-                                <option value="">Selecione o estado</option>
-                                <option>Ativo</option>
+                            <label for="editEstadoFornecedor">Estado *</label>
+                            <select id="editEstadoFornecedor">
+                                <option selected>Ativo</option>
                                 <option>Inativo</option>
                             </select>
                         </div>
 
                         <div>
-                            <label for="pessoaContacto">Pessoa de contacto</label>
-                            <input type="text" id="pessoaContacto" placeholder="Ex: Ana Silva">
+                            <label for="editPessoaContacto">Pessoa de contacto</label>
+                            <input type="text" id="editPessoaContacto" value="Ana Silva">
                         </div>
 
                         <div>
-                            <label for="telefoneContacto">Telefone da pessoa de contacto</label>
-                            <input type="text" id="telefoneContacto" placeholder="Ex: +351 912 000 000">
+                            <label for="editTelefoneContacto">Telefone da pessoa de contacto</label>
+                            <input type="text" id="editTelefoneContacto" value="+351 912 000 000">
                         </div>
                     </div>
 
                     <div class="form-full">
-                        <label for="moradaFornecedor">Morada</label>
-                        <textarea id="moradaFornecedor" rows="3" placeholder="Morada do fornecedor"></textarea>
+                        <label for="editMoradaFornecedor">Morada</label>
+                        <textarea id="editMoradaFornecedor" rows="3">Avenida da Saúde, nº 120, 4100-000 Porto, Portugal</textarea>
                     </div>
 
                     <div class="form-full">
-                        <label for="observacoesFornecedor">Observações</label>
-                        <textarea id="observacoesFornecedor" rows="4" placeholder="Observações adicionais"></textarea>
+                        <label for="editObservacoesFornecedor">Observações</label>
+                        <textarea id="editObservacoesFornecedor" rows="4">Entidade registada como fabricante de equipamentos de monitorização.</textarea>
                     </div>
 
-                    <p id="mensagemFornecedor" class="mensagem-login"></p>
+                    <p id="mensagemEditarFornecedor" class="mensagem-login"></p>
 
                     <div class="form-botoes">
                         <button type="submit" class="btn-backend">
                             <i class="bi bi-check-circle"></i>
-                            Guardar fornecedor
+                            Guardar alterações
                         </button>
 
-                        <a href="fornecedores.html" class="btn-secundario">
+                        <a href="index.html" class="btn-secundario">
                             Cancelar
                         </a>
                     </div>
@@ -184,7 +182,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/script.js"></script>
+    <script src="../../assets/js/script.js"></script>
 
 </body>
 </html>

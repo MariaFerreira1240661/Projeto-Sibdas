@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remover Contrato - MedControl</title>
+    <title>Remover Documento - MedControl</title>
 
-    <link rel="shortcut icon" href="../assets/img/medcontrol_logo.png" type="image/png">
+    <link rel="shortcut icon" href="../../assets/img/medcontrol_logo.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/estilo.css">
+    <link rel="stylesheet" href="../../assets/css/estilo.css">
 </head>
 
 <body class="backend-body">
@@ -18,44 +18,44 @@
 
         <aside class="backend-sidebar">
             <div class="sidebar-logo">
-                <img src="../assets/img/medcontrol_logo.png" alt="Logótipo da MedControl">
+                <img src="../../assets/img/medcontrol_logo.png" alt="Logótipo da MedControl">
                 <h2>MedControl</h2>
             </div>
 
             <nav class="sidebar-menu">
-                <a href="index.html">
+                <a href="../index.html">
                     <i class="bi bi-speedometer2"></i>
                     <span>Dashboard</span>
                 </a>
 
-                <a href="equipamentos.html">
+                <a href="../equipamentos/index.html">
                     <i class="bi bi-hospital"></i>
                     <span>Equipamentos</span>
                 </a>
 
-                <a href="localizacoes.html">
+                <a href="../localizacoes/index.html">
                     <i class="bi bi-geo-alt"></i>
                     <span>Localizações</span>
                 </a>
 
-                <a href="fornecedores.html">
+                <a href="../fornecedores/index.html">
                     <i class="bi bi-truck"></i>
                     <span>Fornecedores</span>
                 </a>
 
-                <a href="documentacao.html">
+                <a href="index.html" class="ativo">
                     <i class="bi bi-file-earmark-text"></i>
                     <span>Documentação</span>
                 </a>
 
-                <a href="contratos.html" class="ativo">
+                <a href="../contratos/index.html">
                     <i class="bi bi-shield-check"></i>
                     <span>Contratos</span>
                 </a>
             </nav>
 
             <div class="sidebar-footer">
-                <a href="../frontend/index.html">
+                <a href="../../frontend/index.html">
                     <i class="bi bi-box-arrow-left"></i>
                     <span>Site Público</span>
                 </a>
@@ -66,8 +66,8 @@
 
             <div class="backend-topbar">
                 <div>
-                    <h1>Remover Contrato</h1>
-                    <p>Confirmação da remoção ou arquivo de contrato associado ao inventário.</p>
+                    <h1>Remover Documento</h1>
+                    <p>Confirmação da remoção ou arquivo de documentação associada ao inventário.</p>
                 </div>
 
                 <div class="backend-user">
@@ -82,22 +82,27 @@
                     <i class="bi bi-exclamation-triangle text-warning" style="font-size: 60px;"></i>
                 </div>
 
-                <h2>Tem a certeza que pretende remover este contrato?</h2>
+                <h2>Tem a certeza que pretende remover este documento?</h2>
 
                 <p>
-                    Está prestes a remover o contrato <strong>Manutenção preventiva</strong>,
-                    com o código interno <strong>C001</strong>.
+                    Está prestes a remover o documento <strong>Manual de Utilizador</strong>,
+                    com o código interno <strong>D001</strong>.
                 </p>
 
                 <div class="detalhe-card mt-4 text-start">
                     <div class="detalhe-linha">
                         <span>Código</span>
-                        <strong>C001</strong>
+                        <strong>D001</strong>
+                    </div>
+
+                    <div class="detalhe-linha">
+                        <span>Documento</span>
+                        <strong>Manual de Utilizador</strong>
                     </div>
 
                     <div class="detalhe-linha">
                         <span>Tipo</span>
-                        <strong>Manutenção preventiva</strong>
+                        <strong>Manual</strong>
                     </div>
 
                     <div class="detalhe-linha">
@@ -106,18 +111,13 @@
                     </div>
 
                     <div class="detalhe-linha">
-                        <span>Entidade responsável</span>
-                        <strong>MedTech Portugal</strong>
-                    </div>
-
-                    <div class="detalhe-linha">
-                        <span>Data de fim</span>
-                        <strong>31/12/2025</strong>
+                        <span>Ficheiro</span>
+                        <strong>manual_monitor.pdf</strong>
                     </div>
 
                     <div class="detalhe-linha">
                         <span>Estado</span>
-                        <strong><span class="estado ativo">Ativo</span></strong>
+                        <strong><span class="estado ativo">Válido</span></strong>
                     </div>
                 </div>
 
@@ -126,17 +126,17 @@
                 </div>
 
                 <div class="form-botoes justify-content-center">
-                    <button type="button" class="btn btn-danger fw-bold px-4 py-2 rounded-4" id="confirmarRemocaoContrato">
+                    <button type="button" class="btn btn-danger fw-bold px-4 py-2 rounded-4" id="confirmarRemocaoDocumento">
                         <i class="bi bi-trash"></i>
                         Confirmar remoção
                     </button>
 
-                    <a href="contratos.html" class="btn-secundario">
+                    <a href="index.html" class="btn-secundario">
                         Cancelar
                     </a>
                 </div>
 
-                <p id="mensagemRemocaoContrato" class="mensagem-login"></p>
+                <p id="mensagemRemocaoDocumento" class="mensagem-login"></p>
 
             </section>
 
@@ -145,7 +145,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/script.js"></script>
+    <script src="../../assets/js/script.js"></script>
 
 </body>
 </html>

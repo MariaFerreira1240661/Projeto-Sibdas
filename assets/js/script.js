@@ -102,6 +102,7 @@ if (graficoLocalizacoes) {
     });
 }
 
+
 const pesquisaEquipamento = document.getElementById("pesquisaEquipamento");
 const filtroEstado = document.getElementById("filtroEstado");
 const filtroCategoria = document.getElementById("filtroCategoria");
@@ -153,6 +154,7 @@ if (pesquisaEquipamento && filtroEstado && filtroCategoria && filtroCriticidade)
     filtroCriticidade.addEventListener("change", filtrarEquipamentos);
 }
 
+
 const formEquipamento = document.getElementById("formEquipamento");
 
 if (formEquipamento) {
@@ -184,11 +186,12 @@ if (formEquipamento) {
             mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
             mensagem.style.color = "#10233f";
         } else {
-            mensagem.textContent = "Equipamento registado com sucesso. ";
+            mensagem.textContent = "Equipamento registado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
             mensagem.style.color = "green";
         }
     });
 }
+
 const formEditarEquipamento = document.getElementById("formEditarEquipamento");
 
 if (formEditarEquipamento) {
@@ -212,11 +215,12 @@ if (formEditarEquipamento) {
             mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
             mensagem.style.color = "#10233f";
         } else {
-            mensagem.textContent = "Alterações guardadas com sucesso. ";
+            mensagem.textContent = "Alterações guardadas com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
             mensagem.style.color = "green";
         }
     });
 }
+
 const confirmarRemocao = document.getElementById("confirmarRemocao");
 
 if (confirmarRemocao) {
@@ -227,10 +231,11 @@ if (confirmarRemocao) {
         mensagem.style.color = "green";
 
         setTimeout(function () {
-            window.location.href = "equipamentos.html";
+            window.location.href = "index.html";
         }, 1200);
     });
 }
+
 const pesquisaFornecedor = document.getElementById("pesquisaFornecedor");
 const filtroTipoFornecedor = document.getElementById("filtroTipoFornecedor");
 const filtroEstadoFornecedor = document.getElementById("filtroEstadoFornecedor");
@@ -276,6 +281,7 @@ if (pesquisaFornecedor && filtroTipoFornecedor && filtroEstadoFornecedor) {
     filtroTipoFornecedor.addEventListener("change", filtrarFornecedores);
     filtroEstadoFornecedor.addEventListener("change", filtrarFornecedores);
 }
+
 const formFornecedor = document.getElementById("formFornecedor");
 
 if (formFornecedor) {
@@ -308,6 +314,7 @@ if (formFornecedor) {
         }
     });
 }
+
 const formEditarFornecedor = document.getElementById("formEditarFornecedor");
 
 if (formEditarFornecedor) {
@@ -340,6 +347,7 @@ if (formEditarFornecedor) {
         }
     });
 }
+
 const confirmarRemocaoFornecedor = document.getElementById("confirmarRemocaoFornecedor");
 
 if (confirmarRemocaoFornecedor) {
@@ -350,10 +358,11 @@ if (confirmarRemocaoFornecedor) {
         mensagem.style.color = "green";
 
         setTimeout(function () {
-            window.location.href = "fornecedores.html";
+            window.location.href = "index.html";
         }, 1200);
     });
 }
+
 
 const pesquisaLocalizacao = document.getElementById("pesquisaLocalizacao");
 const filtroServicoLocalizacao = document.getElementById("filtroServicoLocalizacao");
@@ -400,6 +409,87 @@ if (pesquisaLocalizacao && filtroServicoLocalizacao && filtroEstadoLocalizacao) 
     filtroServicoLocalizacao.addEventListener("change", filtrarLocalizacoes);
     filtroEstadoLocalizacao.addEventListener("change", filtrarLocalizacoes);
 }
+
+
+const formLocalizacao = document.getElementById("formLocalizacao");
+
+if (formLocalizacao) {
+    formLocalizacao.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = document.getElementById("codigoLocalizacao").value.trim();
+        const edificio = document.getElementById("edificioLocalizacao").value.trim();
+        const piso = document.getElementById("pisoLocalizacao").value.trim();
+        const servico = document.getElementById("servicoLocalizacao").value;
+        const sala = document.getElementById("salaLocalizacao").value.trim();
+        const estado = document.getElementById("estadoLocalizacao").value;
+        const mensagem = document.getElementById("mensagemLocalizacao");
+
+        if (
+            codigo === "" ||
+            edificio === "" ||
+            piso === "" ||
+            servico === "" ||
+            sala === "" ||
+            estado === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
+            mensagem.style.color = "#10233f";
+        } else {
+            mensagem.textContent = "Localização registada com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+            mensagem.style.color = "green";
+        }
+    });
+}
+
+
+const formEditarLocalizacao = document.getElementById("formEditarLocalizacao");
+
+if (formEditarLocalizacao) {
+    formEditarLocalizacao.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const codigo = document.getElementById("editCodigoLocalizacao").value.trim();
+        const edificio = document.getElementById("editEdificioLocalizacao").value.trim();
+        const piso = document.getElementById("editPisoLocalizacao").value.trim();
+        const servico = document.getElementById("editServicoLocalizacao").value;
+        const sala = document.getElementById("editSalaLocalizacao").value.trim();
+        const estado = document.getElementById("editEstadoLocalizacao").value;
+        const mensagem = document.getElementById("mensagemEditarLocalizacao");
+
+        if (
+            codigo === "" ||
+            edificio === "" ||
+            piso === "" ||
+            servico === "" ||
+            sala === "" ||
+            estado === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
+            mensagem.style.color = "#10233f";
+        } else {
+            mensagem.textContent = "Alterações guardadas com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+            mensagem.style.color = "green";
+        }
+    });
+}
+
+
+const confirmarRemocaoLocalizacao = document.getElementById("confirmarRemocaoLocalizacao");
+
+if (confirmarRemocaoLocalizacao) {
+    confirmarRemocaoLocalizacao.addEventListener("click", function () {
+        const mensagem = document.getElementById("mensagemRemocaoLocalizacao");
+
+        mensagem.textContent = "Localização removida/arquivada com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
+        mensagem.style.color = "green";
+
+        setTimeout(function () {
+            window.location.href = "index.html";
+        }, 1200);
+    });
+}
+
 const pesquisaDocumento = document.getElementById("pesquisaDocumento");
 const filtroTipoDocumento = document.getElementById("filtroTipoDocumento");
 const filtroEstadoDocumento = document.getElementById("filtroEstadoDocumento");
@@ -450,6 +540,7 @@ if (pesquisaDocumento && filtroTipoDocumento && filtroEstadoDocumento && filtroE
     filtroEstadoDocumento.addEventListener("change", filtrarDocumentos);
     filtroEquipamentoDocumento.addEventListener("change", filtrarDocumentos);
 }
+
 const formDocumento = document.getElementById("formDocumento");
 
 if (formDocumento) {
@@ -482,6 +573,7 @@ if (formDocumento) {
         }
     });
 }
+
 const formEditarDocumento = document.getElementById("formEditarDocumento");
 
 if (formEditarDocumento) {
@@ -514,6 +606,7 @@ if (formEditarDocumento) {
         }
     });
 }
+
 const confirmarRemocaoDocumento = document.getElementById("confirmarRemocaoDocumento");
 
 if (confirmarRemocaoDocumento) {
@@ -524,10 +617,11 @@ if (confirmarRemocaoDocumento) {
         mensagem.style.color = "green";
 
         setTimeout(function () {
-            window.location.href = "documentacao.html";
+            window.location.href = "index.html";
         }, 1200);
     });
 }
+
 const pesquisaContrato = document.getElementById("pesquisaContrato");
 const filtroTipoContrato = document.getElementById("filtroTipoContrato");
 const filtroEstadoContrato = document.getElementById("filtroEstadoContrato");
@@ -578,6 +672,7 @@ if (pesquisaContrato && filtroTipoContrato && filtroEstadoContrato && filtroEqui
     filtroEstadoContrato.addEventListener("change", filtrarContratos);
     filtroEquipamentoContrato.addEventListener("change", filtrarContratos);
 }
+
 const formContrato = document.getElementById("formContrato");
 
 if (formContrato) {
@@ -610,6 +705,7 @@ if (formContrato) {
         }
     });
 }
+
 const formEditarContrato = document.getElementById("formEditarContrato");
 
 if (formEditarContrato) {
@@ -642,6 +738,7 @@ if (formEditarContrato) {
         }
     });
 }
+
 const confirmarRemocaoContrato = document.getElementById("confirmarRemocaoContrato");
 
 if (confirmarRemocaoContrato) {
@@ -652,81 +749,8 @@ if (confirmarRemocaoContrato) {
         mensagem.style.color = "green";
 
         setTimeout(function () {
-            window.location.href = "contratos.html";
+            window.location.href = "index.html";
         }, 1200);
     });
 }
-const formLocalizacao = document.getElementById("formLocalizacao");
 
-if (formLocalizacao) {
-    formLocalizacao.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const codigo = document.getElementById("codigoLocalizacao").value.trim();
-        const edificio = document.getElementById("edificioLocalizacao").value.trim();
-        const piso = document.getElementById("pisoLocalizacao").value.trim();
-        const servico = document.getElementById("servicoLocalizacao").value;
-        const sala = document.getElementById("salaLocalizacao").value.trim();
-        const estado = document.getElementById("estadoLocalizacao").value;
-        const mensagem = document.getElementById("mensagemLocalizacao");
-
-        if (
-            codigo === "" ||
-            edificio === "" ||
-            piso === "" ||
-            servico === "" ||
-            sala === "" ||
-            estado === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
-            mensagem.style.color = "#10233f";
-        } else {
-            mensagem.textContent = "Localização registada com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-            mensagem.style.color = "green";
-        }
-    });
-}
-const formEditarLocalizacao = document.getElementById("formEditarLocalizacao");
-
-if (formEditarLocalizacao) {
-    formEditarLocalizacao.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const codigo = document.getElementById("editCodigoLocalizacao").value.trim();
-        const edificio = document.getElementById("editEdificioLocalizacao").value.trim();
-        const piso = document.getElementById("editPisoLocalizacao").value.trim();
-        const servico = document.getElementById("editServicoLocalizacao").value;
-        const sala = document.getElementById("editSalaLocalizacao").value.trim();
-        const estado = document.getElementById("editEstadoLocalizacao").value;
-        const mensagem = document.getElementById("mensagemEditarLocalizacao");
-
-        if (
-            codigo === "" ||
-            edificio === "" ||
-            piso === "" ||
-            servico === "" ||
-            sala === "" ||
-            estado === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
-            mensagem.style.color = "#10233f";
-        } else {
-            mensagem.textContent = "Alterações guardadas com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-            mensagem.style.color = "green";
-        }
-    });
-}
-const confirmarRemocaoLocalizacao = document.getElementById("confirmarRemocaoLocalizacao");
-
-if (confirmarRemocaoLocalizacao) {
-    confirmarRemocaoLocalizacao.addEventListener("click", function () {
-        const mensagem = document.getElementById("mensagemRemocaoLocalizacao");
-
-        mensagem.textContent = "Localização removida/arquivada com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-        mensagem.style.color = "green";
-
-        setTimeout(function () {
-            window.location.href = "localizacoes.html";
-        }, 1200);
-    });
-}
