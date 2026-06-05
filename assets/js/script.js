@@ -754,3 +754,279 @@ if (confirmarRemocaoContrato) {
     });
 }
 
+
+const formConteudosPublicos = document.getElementById("formConteudosPublicos");
+const botaoReporConteudos = document.getElementById("reporConteudosPublicos");
+
+function carregarConteudosNoFormulario() {
+    const camposConteudo = [
+        "conteudoLogoTexto",
+        "conteudoNavInicio",
+        "conteudoNavSobre",
+        "conteudoNavServicos",
+        "conteudoNavContactos",
+        "conteudoNavAreaReservada",
+
+        "conteudoTituloInicio",
+        "conteudoTextoInicio",
+        "conteudoBotaoInicio",
+
+        "conteudoSobreSubtitulo",
+        "conteudoSobreTitulo",
+        "conteudoSobreNos",
+        "conteudoSobreTexto2",
+        "conteudoSobreListaTitulo",
+        "conteudoSobreListaItem1",
+        "conteudoSobreListaItem2",
+        "conteudoSobreListaItem3",
+        "conteudoSobreListaItem4",
+
+        "conteudoServicosTitulo",
+        "conteudoServicos",
+        "conteudoServicoEquipamentosTitulo",
+        "conteudoServicoEquipamentosTexto",
+        "conteudoServicoLocalizacaoTitulo",
+        "conteudoServicoLocalizacaoTexto",
+        "conteudoServicoFornecedoresTitulo",
+        "conteudoServicoFornecedoresTexto",
+        "conteudoServicoDocumentacaoTitulo",
+        "conteudoServicoDocumentacaoTexto",
+        "conteudoServicoContratosTitulo",
+        "conteudoServicoContratosTexto",
+        "conteudoServicoPesquisaTitulo",
+        "conteudoServicoPesquisaTexto",
+
+        "conteudoContactosTitulo",
+        "conteudoContactosIntro",
+        "conteudoContactosInfoTitulo",
+        "conteudoEmail",
+        "conteudoTelefone",
+        "conteudoLocalizacao",
+        "conteudoLabelNome",
+        "conteudoLabelEmail",
+        "conteudoLabelMensagem",
+        "conteudoBotaoContacto",
+
+        "conteudoFooterTexto1",
+        "conteudoFooterTexto2"
+    ];
+
+    camposConteudo.forEach(function (idCampo) {
+        const campo = document.getElementById(idCampo);
+        const valorGuardado = localStorage.getItem(idCampo);
+
+        if (campo && valorGuardado) {
+            campo.value = valorGuardado;
+        }
+    });
+}
+
+if (formConteudosPublicos) {
+    carregarConteudosNoFormulario();
+
+    formConteudosPublicos.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const camposConteudo = [
+            "conteudoLogoTexto",
+            "conteudoNavInicio",
+            "conteudoNavSobre",
+            "conteudoNavServicos",
+            "conteudoNavContactos",
+            "conteudoNavAreaReservada",
+
+            "conteudoTituloInicio",
+            "conteudoTextoInicio",
+            "conteudoBotaoInicio",
+
+            "conteudoSobreSubtitulo",
+            "conteudoSobreTitulo",
+            "conteudoSobreNos",
+            "conteudoSobreTexto2",
+            "conteudoSobreListaTitulo",
+            "conteudoSobreListaItem1",
+            "conteudoSobreListaItem2",
+            "conteudoSobreListaItem3",
+            "conteudoSobreListaItem4",
+
+            "conteudoServicosTitulo",
+            "conteudoServicos",
+            "conteudoServicoEquipamentosTitulo",
+            "conteudoServicoEquipamentosTexto",
+            "conteudoServicoLocalizacaoTitulo",
+            "conteudoServicoLocalizacaoTexto",
+            "conteudoServicoFornecedoresTitulo",
+            "conteudoServicoFornecedoresTexto",
+            "conteudoServicoDocumentacaoTitulo",
+            "conteudoServicoDocumentacaoTexto",
+            "conteudoServicoContratosTitulo",
+            "conteudoServicoContratosTexto",
+            "conteudoServicoPesquisaTitulo",
+            "conteudoServicoPesquisaTexto",
+
+            "conteudoContactosTitulo",
+            "conteudoContactosIntro",
+            "conteudoContactosInfoTitulo",
+            "conteudoEmail",
+            "conteudoTelefone",
+            "conteudoLocalizacao",
+            "conteudoLabelNome",
+            "conteudoLabelEmail",
+            "conteudoLabelMensagem",
+            "conteudoBotaoContacto",
+
+            "conteudoFooterTexto1",
+            "conteudoFooterTexto2"
+        ];
+
+        const mensagem = document.getElementById("mensagemConteudosPublicos");
+        let formularioValido = true;
+
+        camposConteudo.forEach(function (idCampo) {
+            const campo = document.getElementById(idCampo);
+
+            if (campo && campo.value.trim() === "") {
+                formularioValido = false;
+            }
+        });
+
+        if (!formularioValido) {
+            mensagem.textContent = "Preencha todos os campos antes de guardar.";
+            mensagem.style.color = "#10233f";
+        } else {
+            camposConteudo.forEach(function (idCampo) {
+                const campo = document.getElementById(idCampo);
+
+                if (campo) {
+                    localStorage.setItem(idCampo, campo.value.trim());
+                }
+            });
+
+            mensagem.textContent = "Conteúdos guardados com sucesso. Abra o site público para visualizar as alterações.";
+            mensagem.style.color = "green";
+        }
+    });
+}
+
+if (botaoReporConteudos) {
+    botaoReporConteudos.addEventListener("click", function () {
+        const camposConteudo = [
+            "conteudoLogoTexto",
+            "conteudoNavInicio",
+            "conteudoNavSobre",
+            "conteudoNavServicos",
+            "conteudoNavContactos",
+            "conteudoNavAreaReservada",
+
+            "conteudoTituloInicio",
+            "conteudoTextoInicio",
+            "conteudoBotaoInicio",
+
+            "conteudoSobreSubtitulo",
+            "conteudoSobreTitulo",
+            "conteudoSobreNos",
+            "conteudoSobreTexto2",
+            "conteudoSobreListaTitulo",
+            "conteudoSobreListaItem1",
+            "conteudoSobreListaItem2",
+            "conteudoSobreListaItem3",
+            "conteudoSobreListaItem4",
+
+            "conteudoServicosTitulo",
+            "conteudoServicos",
+            "conteudoServicoEquipamentosTitulo",
+            "conteudoServicoEquipamentosTexto",
+            "conteudoServicoLocalizacaoTitulo",
+            "conteudoServicoLocalizacaoTexto",
+            "conteudoServicoFornecedoresTitulo",
+            "conteudoServicoFornecedoresTexto",
+            "conteudoServicoDocumentacaoTitulo",
+            "conteudoServicoDocumentacaoTexto",
+            "conteudoServicoContratosTitulo",
+            "conteudoServicoContratosTexto",
+            "conteudoServicoPesquisaTitulo",
+            "conteudoServicoPesquisaTexto",
+
+            "conteudoContactosTitulo",
+            "conteudoContactosIntro",
+            "conteudoContactosInfoTitulo",
+            "conteudoEmail",
+            "conteudoTelefone",
+            "conteudoLocalizacao",
+            "conteudoLabelNome",
+            "conteudoLabelEmail",
+            "conteudoLabelMensagem",
+            "conteudoBotaoContacto",
+
+            "conteudoFooterTexto1",
+            "conteudoFooterTexto2"
+        ];
+
+        camposConteudo.forEach(function (idCampo) {
+            localStorage.removeItem(idCampo);
+        });
+
+        window.location.reload();
+    });
+}
+
+function aplicarTextoPublico(idElemento, idConteudo) {
+    const elemento = document.getElementById(idElemento);
+    const valorGuardado = localStorage.getItem(idConteudo);
+
+    if (elemento && valorGuardado) {
+        elemento.textContent = valorGuardado;
+    }
+}
+
+aplicarTextoPublico("logoTextoPublico", "conteudoLogoTexto");
+
+aplicarTextoPublico("navInicioPublico", "conteudoNavInicio");
+aplicarTextoPublico("navSobrePublico", "conteudoNavSobre");
+aplicarTextoPublico("navServicosPublico", "conteudoNavServicos");
+aplicarTextoPublico("navContactosPublico", "conteudoNavContactos");
+aplicarTextoPublico("navAreaReservadaPublico", "conteudoNavAreaReservada");
+
+aplicarTextoPublico("tituloInicioPublico", "conteudoTituloInicio");
+aplicarTextoPublico("textoInicioPublico", "conteudoTextoInicio");
+aplicarTextoPublico("botaoInicioPublico", "conteudoBotaoInicio");
+
+aplicarTextoPublico("sobreSubtituloPublico", "conteudoSobreSubtitulo");
+aplicarTextoPublico("sobreTituloPublico", "conteudoSobreTitulo");
+aplicarTextoPublico("sobreNosPublico", "conteudoSobreNos");
+aplicarTextoPublico("sobreTexto2Publico", "conteudoSobreTexto2");
+aplicarTextoPublico("sobreListaTituloPublico", "conteudoSobreListaTitulo");
+aplicarTextoPublico("sobreListaItem1Publico", "conteudoSobreListaItem1");
+aplicarTextoPublico("sobreListaItem2Publico", "conteudoSobreListaItem2");
+aplicarTextoPublico("sobreListaItem3Publico", "conteudoSobreListaItem3");
+aplicarTextoPublico("sobreListaItem4Publico", "conteudoSobreListaItem4");
+
+aplicarTextoPublico("servicosTituloPublico", "conteudoServicosTitulo");
+aplicarTextoPublico("servicosPublico", "conteudoServicos");
+aplicarTextoPublico("servicoEquipamentosTituloPublico", "conteudoServicoEquipamentosTitulo");
+aplicarTextoPublico("servicoEquipamentosTextoPublico", "conteudoServicoEquipamentosTexto");
+aplicarTextoPublico("servicoLocalizacaoTituloPublico", "conteudoServicoLocalizacaoTitulo");
+aplicarTextoPublico("servicoLocalizacaoTextoPublico", "conteudoServicoLocalizacaoTexto");
+aplicarTextoPublico("servicoFornecedoresTituloPublico", "conteudoServicoFornecedoresTitulo");
+aplicarTextoPublico("servicoFornecedoresTextoPublico", "conteudoServicoFornecedoresTexto");
+aplicarTextoPublico("servicoDocumentacaoTituloPublico", "conteudoServicoDocumentacaoTitulo");
+aplicarTextoPublico("servicoDocumentacaoTextoPublico", "conteudoServicoDocumentacaoTexto");
+aplicarTextoPublico("servicoContratosTituloPublico", "conteudoServicoContratosTitulo");
+aplicarTextoPublico("servicoContratosTextoPublico", "conteudoServicoContratosTexto");
+aplicarTextoPublico("servicoPesquisaTituloPublico", "conteudoServicoPesquisaTitulo");
+aplicarTextoPublico("servicoPesquisaTextoPublico", "conteudoServicoPesquisaTexto");
+
+aplicarTextoPublico("contactosTituloPublico", "conteudoContactosTitulo");
+aplicarTextoPublico("contactosIntroPublico", "conteudoContactosIntro");
+aplicarTextoPublico("contactosInfoTituloPublico", "conteudoContactosInfoTitulo");
+aplicarTextoPublico("emailPublico", "conteudoEmail");
+aplicarTextoPublico("telefonePublico", "conteudoTelefone");
+aplicarTextoPublico("localizacaoPublico", "conteudoLocalizacao");
+aplicarTextoPublico("labelNomePublico", "conteudoLabelNome");
+aplicarTextoPublico("labelEmailPublico", "conteudoLabelEmail");
+aplicarTextoPublico("labelMensagemPublico", "conteudoLabelMensagem");
+aplicarTextoPublico("botaoContactoPublico", "conteudoBotaoContacto");
+
+aplicarTextoPublico("footerTexto1Publico", "conteudoFooterTexto1");
+aplicarTextoPublico("footerTexto2Publico", "conteudoFooterTexto2");
+
