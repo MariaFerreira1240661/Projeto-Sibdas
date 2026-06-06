@@ -154,23 +154,292 @@ if (pesquisaEquipamento && filtroEstado && filtroCategoria && filtroCriticidade)
     filtroCriticidade.addEventListener("change", filtrarEquipamentos);
 }
 
-
 const formEquipamento = document.getElementById("formEquipamento");
 
+function abrirTabEquipamento(idBotaoTab) {
+    const botaoTab = document.getElementById(idBotaoTab);
+
+    if (botaoTab) {
+        botaoTab.classList.remove("disabled");
+
+        const tab = new bootstrap.Tab(botaoTab);
+        tab.show();
+    }
+}
+
+function validarInformacaoGeralEquipamento() {
+    const codigo = document.getElementById("codigo").value.trim();
+    const designacao = document.getElementById("designacao").value.trim();
+    const categoria = document.getElementById("categoria").value;
+    const marca = document.getElementById("marca").value.trim();
+    const modelo = document.getElementById("modelo").value.trim();
+    const serie = document.getElementById("serie").value.trim();
+    const fabricante = document.getElementById("fabricante").value.trim();
+    const anoFabrico = document.getElementById("anoFabrico").value.trim();
+    const estado = document.getElementById("estado").value;
+    const criticidade = document.getElementById("criticidade").value;
+    const dataAquisicao = document.getElementById("dataAquisicao").value;
+    const custo = document.getElementById("custo").value.trim();
+
+    return (
+        codigo !== "" &&
+        designacao !== "" &&
+        categoria !== "" &&
+        marca !== "" &&
+        modelo !== "" &&
+        serie !== "" &&
+        fabricante !== "" &&
+        anoFabrico !== "" &&
+        estado !== "" &&
+        criticidade !== "" &&
+        dataAquisicao !== "" &&
+        custo !== ""
+    );
+}
+
+function validarLocalizacaoEquipamento() {
+    const localizacao = document.getElementById("localizacao").value;
+    const edificio = document.getElementById("edificioEquipamento").value.trim();
+    const piso = document.getElementById("pisoEquipamento").value.trim();
+    const sala = document.getElementById("salaEquipamento").value.trim();
+    const responsavel = document.getElementById("responsavelLocalizacaoEquipamento").value.trim();
+    const contacto = document.getElementById("contactoLocalizacaoEquipamento").value.trim();
+
+    return (
+        localizacao !== "" &&
+        edificio !== "" &&
+        piso !== "" &&
+        sala !== "" &&
+        responsavel !== "" &&
+        contacto !== ""
+    );
+}
+
+function validarFornecedorEquipamento() {
+    const fornecedor = document.getElementById("fornecedorEquipamento").value;
+    const tipoFornecedor = document.getElementById("tipoFornecedorEquipamento").value;
+    const contacto = document.getElementById("contactoFornecedorEquipamento").value.trim();
+    const telefone = document.getElementById("telefoneFornecedorEquipamento").value.trim();
+    const email = document.getElementById("emailFornecedorEquipamento").value.trim();
+    const nif = document.getElementById("nifFornecedorEquipamento").value.trim();
+
+    return (
+        fornecedor !== "" &&
+        tipoFornecedor !== "" &&
+        contacto !== "" &&
+        telefone !== "" &&
+        email !== "" &&
+        nif !== ""
+    );
+}
+
+function validarDocumentacaoEquipamento() {
+    const manual = document.getElementById("manualEquipamento").value.trim();
+    const certificado = document.getElementById("certificadoEquipamento").value.trim();
+    const contrato = document.getElementById("contratoDocumentoEquipamento").value.trim();
+    const relatorio = document.getElementById("relatorioTecnicoEquipamento").value.trim();
+
+    return (
+        manual !== "" &&
+        certificado !== "" &&
+        contrato !== "" &&
+        relatorio !== ""
+    );
+}
+
+function validarContratosEquipamento() {
+    const estadoGarantia = document.getElementById("estadoGarantiaEquipamento").value;
+    const dataInicio = document.getElementById("dataInicioGarantiaEquipamento").value;
+    const dataFim = document.getElementById("dataFimGarantiaEquipamento").value;
+    const tipoContrato = document.getElementById("tipoContratoEquipamento").value;
+    const periodicidade = document.getElementById("periodicidadeManutencaoEquipamento").value;
+    const valor = document.getElementById("valorContratoEquipamento").value.trim();
+
+    return (
+        estadoGarantia !== "" &&
+        dataInicio !== "" &&
+        dataFim !== "" &&
+        tipoContrato !== "" &&
+        periodicidade !== "" &&
+        valor !== ""
+    );
+}
+
 if (formEquipamento) {
-    formEquipamento.addEventListener("submit", function (event) {
+    const mensagem = document.getElementById("mensagemEquipamento");
+
+    const avancarLocalizacao = document.getElementById("avancarLocalizacao");
+    const avancarFornecedor = document.getElementById("avancarFornecedor");
+    const avancarDocumentacao = document.getElementById("avancarDocumentacao");
+    const avancarContratos = document.getElementById("avancarContratos");
+
+    const voltarInfo = document.getElementById("voltarInfo");
+    const voltarLocalizacao = document.getElementById("voltarLocalizacao");
+    const voltarFornecedor = document.getElementById("voltarFornecedor");
+
+    const guardarEquipamento = document.getElementById("guardarEquipamento");
+
+    function mostrarMensagemEquipamento(texto, cor) {
+        mensagem.textContent = texto;
+        mensagem.style.color = cor;
+        mensagem.style.fontWeight = "700";
+        mensagem.style.display = "block";
+        mensagem.style.marginTop = "20px";
+
+        mensagem.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+
+    function guardarNovoEquipamento() {
+        if (!validarInformacaoGeralEquipamento()) {
+            mostrarMensagemEquipamento("Preencha todos os campos obrigatórios da Informação geral.", "#10233f");
+            abrirTabEquipamento("info-tab");
+        } else if (!validarLocalizacaoEquipamento()) {
+            mostrarMensagemEquipamento("Preencha todos os campos obrigatórios da Localização.", "#10233f");
+            abrirTabEquipamento("localizacao-tab");
+        } else if (!validarFornecedorEquipamento()) {
+            mostrarMensagemEquipamento("Preencha todos os campos obrigatórios do Fornecedor.", "#10233f");
+            abrirTabEquipamento("fornecedor-tab");
+        } else if (!validarDocumentacaoEquipamento()) {
+            mostrarMensagemEquipamento("Preencha todos os campos obrigatórios da Documentação.", "#10233f");
+            abrirTabEquipamento("documentacao-tab");
+        } else if (!validarContratosEquipamento()) {
+            mostrarMensagemEquipamento("Preencha todos os campos obrigatórios dos Contratos.", "#10233f");
+            abrirTabEquipamento("garantia-tab");
+        } else {
+            abrirTabEquipamento("garantia-tab");
+            mostrarMensagemEquipamento("Equipamento registado com sucesso. Esta ação será ligada à base de dados numa fase posterior.", "green");
+        }
+    }
+
+    if (avancarLocalizacao) {
+        avancarLocalizacao.addEventListener("click", function () {
+            if (validarInformacaoGeralEquipamento()) {
+                mensagem.textContent = "";
+                abrirTabEquipamento("localizacao-tab");
+            } else {
+                mostrarMensagemEquipamento("Preencha todos os campos obrigatórios da Informação geral antes de avançar.", "#10233f");
+                abrirTabEquipamento("info-tab");
+            }
+        });
+    }
+
+    if (avancarFornecedor) {
+        avancarFornecedor.addEventListener("click", function () {
+            if (validarLocalizacaoEquipamento()) {
+                mensagem.textContent = "";
+                abrirTabEquipamento("fornecedor-tab");
+            } else {
+                mostrarMensagemEquipamento("Preencha todos os campos obrigatórios da Localização antes de avançar.", "#10233f");
+                abrirTabEquipamento("localizacao-tab");
+            }
+        });
+    }
+
+    if (avancarDocumentacao) {
+        avancarDocumentacao.addEventListener("click", function () {
+            if (validarFornecedorEquipamento()) {
+                mensagem.textContent = "";
+                abrirTabEquipamento("documentacao-tab");
+            } else {
+                mostrarMensagemEquipamento("Preencha todos os campos obrigatórios do Fornecedor antes de avançar.", "#10233f");
+                abrirTabEquipamento("fornecedor-tab");
+            }
+        });
+    }
+
+    if (avancarContratos) {
+        avancarContratos.addEventListener("click", function () {
+            if (validarDocumentacaoEquipamento()) {
+                mensagem.textContent = "";
+                abrirTabEquipamento("garantia-tab");
+            } else {
+                mostrarMensagemEquipamento("Preencha todos os campos obrigatórios da Documentação antes de avançar.", "#10233f");
+                abrirTabEquipamento("documentacao-tab");
+            }
+        });
+    }
+
+    if (voltarInfo) {
+        voltarInfo.addEventListener("click", function () {
+            abrirTabEquipamento("info-tab");
+        });
+    }
+
+    if (voltarLocalizacao) {
+        voltarLocalizacao.addEventListener("click", function () {
+            abrirTabEquipamento("localizacao-tab");
+        });
+    }
+
+    if (voltarFornecedor) {
+        voltarFornecedor.addEventListener("click", function () {
+            abrirTabEquipamento("fornecedor-tab");
+        });
+    }
+
+    if (guardarEquipamento) {
+        guardarEquipamento.addEventListener("click", guardarNovoEquipamento);
+    }
+}
+
+const formEditarEquipamento = document.getElementById("formEditarEquipamento");
+
+function abrirTabEditarEquipamento(idBotaoTab) {
+    const botaoTab = document.getElementById(idBotaoTab);
+
+    if (botaoTab) {
+        const tab = new bootstrap.Tab(botaoTab);
+        tab.show();
+    }
+}
+
+if (formEditarEquipamento) {
+    formEditarEquipamento.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        const codigo = document.getElementById("codigo").value.trim();
-        const designacao = document.getElementById("designacao").value.trim();
-        const categoria = document.getElementById("categoria").value;
-        const marca = document.getElementById("marca").value.trim();
-        const modelo = document.getElementById("modelo").value.trim();
-        const serie = document.getElementById("serie").value.trim();
-        const localizacao = document.getElementById("localizacao").value;
-        const estado = document.getElementById("estado").value;
-        const criticidade = document.getElementById("criticidade").value;
-        const mensagem = document.getElementById("mensagemEquipamento");
+        const codigo = document.getElementById("editCodigo").value.trim();
+        const designacao = document.getElementById("editDesignacao").value.trim();
+        const categoria = document.getElementById("editCategoria").value;
+        const marca = document.getElementById("editMarca").value.trim();
+        const modelo = document.getElementById("editModelo").value.trim();
+        const serie = document.getElementById("editSerie").value.trim();
+        const fabricante = document.getElementById("editFabricante").value.trim();
+        const anoFabrico = document.getElementById("editAnoFabrico").value.trim();
+        const estado = document.getElementById("editEstado").value;
+        const criticidade = document.getElementById("editCriticidade").value;
+        const dataAquisicao = document.getElementById("editDataAquisicao").value;
+        const custo = document.getElementById("editCusto").value.trim();
+
+        const localizacao = document.getElementById("editLocalizacao").value;
+        const edificio = document.getElementById("editEdificioEquipamento").value.trim();
+        const piso = document.getElementById("editPisoEquipamento").value.trim();
+        const sala = document.getElementById("editSalaEquipamento").value.trim();
+        const responsavelLocalizacao = document.getElementById("editResponsavelLocalizacaoEquipamento").value.trim();
+        const contactoLocalizacao = document.getElementById("editContactoLocalizacaoEquipamento").value.trim();
+
+        const fornecedor = document.getElementById("editFornecedorEquipamento").value;
+        const tipoFornecedor = document.getElementById("editTipoFornecedorEquipamento").value;
+        const contactoFornecedor = document.getElementById("editContactoFornecedorEquipamento").value.trim();
+        const telefoneFornecedor = document.getElementById("editTelefoneFornecedorEquipamento").value.trim();
+        const emailFornecedor = document.getElementById("editEmailFornecedorEquipamento").value.trim();
+        const nifFornecedor = document.getElementById("editNifFornecedorEquipamento").value.trim();
+
+        const manual = document.getElementById("editManualEquipamento").value.trim();
+        const certificado = document.getElementById("editCertificadoEquipamento").value.trim();
+        const documentoContrato = document.getElementById("editContratoDocumentoEquipamento").value.trim();
+        const relatorio = document.getElementById("editRelatorioTecnicoEquipamento").value.trim();
+
+        const estadoGarantia = document.getElementById("editEstadoGarantiaEquipamento").value;
+        const dataInicioGarantia = document.getElementById("editDataInicioGarantiaEquipamento").value;
+        const dataFimGarantia = document.getElementById("editDataFimGarantiaEquipamento").value;
+        const tipoContrato = document.getElementById("editTipoContratoEquipamento").value;
+        const periodicidade = document.getElementById("editPeriodicidadeManutencaoEquipamento").value;
+        const valorContrato = document.getElementById("editValorContratoEquipamento").value.trim();
+
+        const mensagem = document.getElementById("mensagemEditarEquipamento");
 
         if (
             codigo === "" ||
@@ -179,44 +448,68 @@ if (formEquipamento) {
             marca === "" ||
             modelo === "" ||
             serie === "" ||
-            localizacao === "" ||
+            fabricante === "" ||
+            anoFabrico === "" ||
             estado === "" ||
-            criticidade === ""
+            criticidade === "" ||
+            dataAquisicao === "" ||
+            custo === ""
         ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
+            mensagem.textContent = "Preencha todos os campos obrigatórios da Informação geral.";
             mensagem.style.color = "#10233f";
+            abrirTabEditarEquipamento("edit-info-tab");
+        } else if (
+            localizacao === "" ||
+            edificio === "" ||
+            piso === "" ||
+            sala === "" ||
+            responsavelLocalizacao === "" ||
+            contactoLocalizacao === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios da Localização.";
+            mensagem.style.color = "#10233f";
+            abrirTabEditarEquipamento("edit-localizacao-tab");
+        } else if (
+            fornecedor === "" ||
+            tipoFornecedor === "" ||
+            contactoFornecedor === "" ||
+            telefoneFornecedor === "" ||
+            emailFornecedor === "" ||
+            nifFornecedor === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios do Fornecedor.";
+            mensagem.style.color = "#10233f";
+            abrirTabEditarEquipamento("edit-fornecedor-tab");
+        } else if (
+            manual === "" ||
+            certificado === "" ||
+            documentoContrato === "" ||
+            relatorio === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios da Documentação.";
+            mensagem.style.color = "#10233f";
+            abrirTabEditarEquipamento("edit-documentacao-tab");
+        } else if (
+            estadoGarantia === "" ||
+            dataInicioGarantia === "" ||
+            dataFimGarantia === "" ||
+            tipoContrato === "" ||
+            periodicidade === "" ||
+            valorContrato === ""
+        ) {
+            mensagem.textContent = "Preencha todos os campos obrigatórios dos Contratos.";
+            mensagem.style.color = "#10233f";
+            abrirTabEditarEquipamento("edit-contratos-tab");
         } else {
             mensagem.textContent = "Equipamento registado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
             mensagem.style.color = "green";
-        }
-    });
-}
+            mensagem.style.fontWeight = "700";
+            mensagem.style.display = "block";
 
-const formEditarEquipamento = document.getElementById("formEditarEquipamento");
-
-if (formEditarEquipamento) {
-    formEditarEquipamento.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const codigo = document.getElementById("editCodigo").value.trim();
-        const designacao = document.getElementById("editDesignacao").value.trim();
-        const marca = document.getElementById("editMarca").value.trim();
-        const modelo = document.getElementById("editModelo").value.trim();
-        const serie = document.getElementById("editSerie").value.trim();
-        const mensagem = document.getElementById("mensagemEditarEquipamento");
-
-        if (
-            codigo === "" ||
-            designacao === "" ||
-            marca === "" ||
-            modelo === "" ||
-            serie === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
-            mensagem.style.color = "#10233f";
-        } else {
-            mensagem.textContent = "Alterações guardadas com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-            mensagem.style.color = "green";
+            mensagem.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
         }
     });
 }

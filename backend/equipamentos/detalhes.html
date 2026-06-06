@@ -67,7 +67,7 @@
             <div class="backend-topbar">
                 <div>
                     <h1>Detalhes do Equipamento</h1>
-                    <p>Ficha detalhada do equipamento médico selecionado.</p>
+                    <p>Consulta completa da ficha técnica e administrativa do equipamento médico.</p>
                 </div>
 
                 <div class="backend-user">
@@ -83,152 +83,338 @@
                         <p>Código interno: EQ001</p>
                     </div>
 
-                    <a href="index.html" class="btn-backend">
-                        <i class="bi bi-arrow-left-circle"></i>
-                        Voltar à listagem
-                    </a>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="editar.html" class="btn-backend">
+                            <i class="bi bi-pencil-square"></i>
+                            Editar equipamento
+                        </a>
+
+                        <a href="index.html" class="btn-secundario">
+                            <i class="bi bi-arrow-left-circle"></i>
+                            Voltar à listagem
+                        </a>
+                    </div>
                 </div>
 
-                <div class="detalhes-grid">
+                <ul class="nav nav-tabs mb-4 tabs-equipamento" id="tabsDetalhesEquipamento" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="detalhes-info-tab" data-bs-toggle="tab" data-bs-target="#detalhes-info" type="button" role="tab">
+                            <i class="bi bi-info-circle"></i>
+                            Informação geral
+                        </button>
+                    </li>
 
-                    <div class="detalhe-card">
-                        <h3>Identificação</h3>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="detalhes-localizacao-tab" data-bs-toggle="tab" data-bs-target="#detalhes-localizacao" type="button" role="tab">
+                            <i class="bi bi-geo-alt"></i>
+                            Localização
+                        </button>
+                    </li>
 
-                        <div class="detalhe-linha">
-                            <span>Código interno</span>
-                            <strong>EQ001</strong>
-                        </div>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="detalhes-fornecedor-tab" data-bs-toggle="tab" data-bs-target="#detalhes-fornecedor" type="button" role="tab">
+                            <i class="bi bi-truck"></i>
+                            Fornecedor
+                        </button>
+                    </li>
 
-                        <div class="detalhe-linha">
-                            <span>Designação</span>
-                            <strong>Monitor Multiparamétrico</strong>
-                        </div>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="detalhes-documentacao-tab" data-bs-toggle="tab" data-bs-target="#detalhes-documentacao" type="button" role="tab">
+                            <i class="bi bi-folder"></i>
+                            Documentação
+                        </button>
+                    </li>
 
-                        <div class="detalhe-linha">
-                            <span>Categoria</span>
-                            <strong>Monitorização</strong>
-                        </div>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="detalhes-contratos-tab" data-bs-toggle="tab" data-bs-target="#detalhes-contratos" type="button" role="tab">
+                            <i class="bi bi-shield-check"></i>
+                            Contratos
+                        </button>
+                    </li>
+                </ul>
 
-                        <div class="detalhe-linha">
-                            <span>Criticidade</span>
-                            <strong><span class="estado suporte">Suporte de vida</span></strong>
+                <div class="tab-content" id="tabsDetalhesEquipamentoConteudo">
+
+                    <div class="tab-pane fade show active" id="detalhes-info" role="tabpanel" tabindex="0">
+                        <h3>Informação geral</h3>
+
+                        <div class="detalhes-grid">
+                            <div class="detalhe-card">
+                                <h3>Identificação</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Código interno</span>
+                                    <strong>EQ001</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Designação</span>
+                                    <strong>Monitor Multiparamétrico</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Categoria</span>
+                                    <strong>Monitorização</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Estado atual</span>
+                                    <strong><span class="estado ativo">Ativo</span></strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Dados técnicos</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Marca</span>
+                                    <strong>Philips</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Modelo</span>
+                                    <strong>IntelliVue MP5</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Número de série</span>
+                                    <strong>MP5-2022-45873</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Fabricante</span>
+                                    <strong>Philips Healthcare</strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Aquisição</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Data de aquisição</span>
+                                    <strong>12/02/2022</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Ano de fabrico</span>
+                                    <strong>2022</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Custo de aquisição</span>
+                                    <strong>4 850 €</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Tipo de entrada</span>
+                                    <strong>Compra</strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Criticidade</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Nível de criticidade</span>
+                                    <strong><span class="estado suporte">Suporte de vida</span></strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Prioridade de manutenção</span>
+                                    <strong>Elevada</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Utilização clínica</span>
+                                    <strong>Monitorização contínua</strong>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="detalhe-card">
-                        <h3>Dados Técnicos</h3>
+                    <div class="tab-pane fade" id="detalhes-localizacao" role="tabpanel" tabindex="0">
+                        <h3>Localização</h3>
 
-                        <div class="detalhe-linha">
-                            <span>Marca</span>
-                            <strong>Philips</strong>
-                        </div>
+                        <div class="detalhes-grid">
+                            <div class="detalhe-card">
+                                <h3>Local atual</h3>
 
-                        <div class="detalhe-linha">
-                            <span>Modelo</span>
-                            <strong>IntelliVue MP5</strong>
-                        </div>
+                                <div class="detalhe-linha">
+                                    <span>Serviço / Localização</span>
+                                    <strong>UCI</strong>
+                                </div>
 
-                        <div class="detalhe-linha">
-                            <span>N.º de série</span>
-                            <strong>MP5-2022-45873</strong>
-                        </div>
+                                <div class="detalhe-linha">
+                                    <span>Edifício</span>
+                                    <strong>Edifício Principal</strong>
+                                </div>
 
-                        <div class="detalhe-linha">
-                            <span>Fabricante</span>
-                            <strong>Philips Healthcare</strong>
+                                <div class="detalhe-linha">
+                                    <span>Piso</span>
+                                    <strong>2</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Sala / Unidade</span>
+                                    <strong>UCI Geral</strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Responsável</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Responsável da localização</span>
+                                    <strong>Enfermeiro responsável</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Contacto interno</span>
+                                    <strong>2201</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Estado da localização</span>
+                                    <strong><span class="estado ativo">Ativa</span></strong>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="detalhe-card">
-                        <h3>Aquisição e Estado</h3>
+                    <div class="tab-pane fade" id="detalhes-fornecedor" role="tabpanel" tabindex="0">
+                        <h3>Fornecedor</h3>
 
-                        <div class="detalhe-linha">
-                            <span>Data de aquisição</span>
-                            <strong>12/02/2022</strong>
-                        </div>
+                        <div class="detalhes-grid">
+                            <div class="detalhe-card">
+                                <h3>Entidade associada</h3>
 
-                        <div class="detalhe-linha">
-                            <span>Ano de fabrico</span>
-                            <strong>2022</strong>
-                        </div>
+                                <div class="detalhe-linha">
+                                    <span>Fornecedor</span>
+                                    <strong>Philips Healthcare</strong>
+                                </div>
 
-                        <div class="detalhe-linha">
-                            <span>Custo de aquisição</span>
-                            <strong>4 850 €</strong>
-                        </div>
+                                <div class="detalhe-linha">
+                                    <span>Tipo de fornecedor</span>
+                                    <strong>Fabricante</strong>
+                                </div>
 
-                        <div class="detalhe-linha">
-                            <span>Estado atual</span>
-                            <strong><span class="estado ativo">Ativo</span></strong>
+                                <div class="detalhe-linha">
+                                    <span>NIF</span>
+                                    <strong>501234567</strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Contacto</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Pessoa de contacto</span>
+                                    <strong>Ana Silva</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Telefone</span>
+                                    <strong>+351 222 100 100</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Email</span>
+                                    <strong>geral@philips-health.pt</strong>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="detalhe-card">
-                        <h3>Localização e Fornecedor</h3>
+                    <div class="tab-pane fade" id="detalhes-documentacao" role="tabpanel" tabindex="0">
+                        <h3>Documentação</h3>
 
-                        <div class="detalhe-linha">
-                            <span>Localização</span>
-                            <strong>Unidade de Cuidados Intensivos</strong>
+                        <div class="detalhes-grid">
+                            <div class="detalhe-card">
+                                <h3>Ficheiros associados</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Manual de utilizador</span>
+                                    <strong>manual_monitor.pdf</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Certificado de calibração</span>
+                                    <strong>certificado_monitor.pdf</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Documento do contrato</span>
+                                    <strong>contrato_monitor.pdf</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Relatório técnico</span>
+                                    <strong>relatorio_monitor.pdf</strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Observações</h3>
+
+                                <p>
+                                    Equipamento utilizado para monitorização contínua de sinais vitais em ambiente hospitalar.
+                                    A documentação associada deve ser mantida atualizada para facilitar auditorias,
+                                    manutenções e consultas técnicas.
+                                </p>
+                            </div>
                         </div>
+                    </div>
 
-                        <div class="detalhe-linha">
-                            <span>Piso</span>
-                            <strong>2</strong>
-                        </div>
+                    <div class="tab-pane fade" id="detalhes-contratos" role="tabpanel" tabindex="0">
+                        <h3>Contratos</h3>
 
-                        <div class="detalhe-linha">
-                            <span>Sala / Unidade</span>
-                            <strong>UCI Geral</strong>
-                        </div>
+                        <div class="detalhes-grid">
+                            <div class="detalhe-card">
+                                <h3>Garantia</h3>
 
-                        <div class="detalhe-linha">
-                            <span>Fornecedor</span>
-                            <strong>MedTech Portugal</strong>
+                                <div class="detalhe-linha">
+                                    <span>Estado da garantia</span>
+                                    <strong><span class="estado ativo">Válida</span></strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Data de início</span>
+                                    <strong>12/02/2022</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Data de fim</span>
+                                    <strong>12/02/2027</strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Contrato associado</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Tipo de contrato</span>
+                                    <strong>Garantia</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Periodicidade de manutenção</span>
+                                    <strong>Anual</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Valor associado</span>
+                                    <strong>1 200 €</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Situação</span>
+                                    <strong>Dentro do prazo</strong>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
-            </section>
-
-            <section class="backend-box">
-                <h2>Documentação associada</h2>
-
-                <div class="table-responsive">
-                    <table class="tabela-backend">
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Tipo de documento</th>
-                                <th>Data</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr>
-                                <td>D001</td>
-                                <td>Manual de Utilizador</td>
-                                <td>12/02/2025</td>
-                                <td><span class="estado ativo">Válido</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>D004</td>
-                                <td>Relatório Técnico</td>
-                                <td>20/03/2025</td>
-                                <td><span class="estado ativo">Válido</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <section class="backend-box">
-                <h2>Observações</h2>
-                <p>
-                    Equipamento utilizado para monitorização contínua de sinais vitais em ambiente hospitalar.
-                    Deve manter documentação técnica atualizada e ser acompanhado no plano de manutenção preventiva.
-                </p>
             </section>
 
         </main>
