@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remover Contrato - MedControl</title>
+
+    <link rel="shortcut icon" href="../../assets/img/medcontrol-logo2.png" type="image/png">
+    <link href="../../assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../../assets/css/1240661.css">
+</head>
+
+<body class="backend-body">
+
+    <div class="backend-layout">
+
+        <aside class="backend-sidebar">
+            <div class="sidebar-logo">
+                <img src="../../assets/img/medcontrol-logo2.png" alt="Logótipo da MedControl">
+                <h2>MedControl</h2>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="../index.html">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="../equipamentos/index.html">
+                    <i class="bi bi-hospital"></i>
+                    <span>Equipamentos</span>
+                </a>
+
+                <a href="../localizacoes/index.html">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>Localizações</span>
+                </a>
+
+                <a href="../fornecedores/index.html">
+                    <i class="bi bi-truck"></i>
+                    <span>Fornecedores</span>
+                </a>
+
+                <a href="../documentacao/index.html">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>Documentação</span>
+                </a>
+
+                <a href="index.html" class="ativo">
+                    <i class="bi bi-shield-check"></i>
+                    <span>Contratos</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../public/index.html">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Site Público</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="backend-content">
+
+            <div class="backend-topbar">
+                <div>
+                    <h1>Remover Contrato</h1>
+                    <p>Confirmação da remoção ou arquivo de contrato associado ao inventário.</p>
+                </div>
+
+                <div class="backend-user">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Administrador</span>
+                </div>
+            </div>
+
+            <section class="backend-box text-center">
+
+                <div class="mb-4">
+                    <i class="bi bi-exclamation-triangle text-warning" style="font-size: 60px;"></i>
+                </div>
+
+                <h2>Tem a certeza que pretende remover este contrato?</h2>
+
+                <p>
+                    Está prestes a remover o contrato <strong>Manutenção preventiva</strong>,
+                    com o código interno <strong>C001</strong>.
+                </p>
+
+                <div class="detalhe-card mt-4 text-start">
+                    <div class="detalhe-linha">
+                        <span>Código</span>
+                        <strong>C001</strong>
+                    </div>
+
+                    <div class="detalhe-linha">
+                        <span>Tipo</span>
+                        <strong>Manutenção preventiva</strong>
+                    </div>
+
+                    <div class="detalhe-linha">
+                        <span>Equipamento associado</span>
+                        <strong>Monitor Multiparamétrico</strong>
+                    </div>
+
+                    <div class="detalhe-linha">
+                        <span>Entidade responsável</span>
+                        <strong>MedTech Portugal</strong>
+                    </div>
+
+                    <div class="detalhe-linha">
+                        <span>Data de fim</span>
+                        <strong>31/12/2025</strong>
+                    </div>
+
+                    <div class="detalhe-linha">
+                        <span>Estado</span>
+                        <strong><span class="estado ativo">Ativo</span></strong>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning mt-4" role="alert">
+                    Esta ação é apenas uma simulação visual. A remoção definitiva será implementada posteriormente com PHP e base de dados.
+                </div>
+
+                <div class="form-botoes justify-content-center">
+                    <button type="button" class="btn btn-danger fw-bold px-4 py-2 rounded-4" id="confirmarRemocaoContrato">
+                        <i class="bi bi-trash"></i>
+                        Confirmar remoção
+                    </button>
+
+                    <a href="index.html" class="btn-secundario">
+                        Cancelar
+                    </a>
+                </div>
+
+                <p id="mensagemRemocaoContrato" class="mensagem-login"></p>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="../../assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/1240661.js"></script>
+
+</body>
+</html>

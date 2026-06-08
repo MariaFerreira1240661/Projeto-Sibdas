@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Documento - MedControl</title>
+
+    <link rel="shortcut icon" href="../../assets/img/medcontrol-logo2.png" type="image/png">
+    <link href="../../assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../../assets/css/1240661.css">
+</head>
+
+<body class="backend-body">
+
+    <div class="backend-layout">
+
+        <aside class="backend-sidebar">
+            <div class="sidebar-logo">
+                <img src="../../assets/img/medcontrol-logo2.png" alt="Logótipo da MedControl">
+                <h2>MedControl</h2>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="../index.html">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="../equipamentos/index.html">
+                    <i class="bi bi-hospital"></i>
+                    <span>Equipamentos</span>
+                </a>
+
+                <a href="../localizacoes/index.html">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>Localizações</span>
+                </a>
+
+                <a href="../fornecedores/index.html">
+                    <i class="bi bi-truck"></i>
+                    <span>Fornecedores</span>
+                </a>
+
+                <a href="index.html" class="ativo">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>Documentação</span>
+                </a>
+
+                <a href="../contratos/index.html">
+                    <i class="bi bi-shield-check"></i>
+                    <span>Contratos</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../public/index.html">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Site Público</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="backend-content">
+
+            <div class="backend-topbar">
+                <div>
+                    <h1>Novo Documento</h1>
+                    <p>Associação de documentação técnica ou administrativa a equipamentos médicos.</p>
+                </div>
+
+                <div class="backend-user">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Administrador</span>
+                </div>
+            </div>
+
+            <section class="backend-box">
+                <div class="backend-section-header">
+                    <div>
+                        <h2>Dados do Documento</h2>
+                        <p>Preencha os campos principais para simular o registo de um documento.</p>
+                    </div>
+
+                    <a href="index.html" class="btn-backend">
+                        <i class="bi bi-arrow-left-circle"></i>
+                        Voltar à listagem
+                    </a>
+                </div>
+
+                <form class="form-backend" id="formDocumento">
+
+                    <div class="form-grid">
+                        <div>
+                            <label for="codigoDocumento">Código *</label>
+                            <input type="text" id="codigoDocumento" placeholder="Ex: D006">
+                        </div>
+
+                        <div>
+                            <label for="nomeDocumento">Nome do documento *</label>
+                            <input type="text" id="nomeDocumento" placeholder="Ex: Manual de Serviço">
+                        </div>
+
+                        <div>
+                            <label for="tipoDocumento">Tipo de documento *</label>
+                            <select id="tipoDocumento">
+                                <option value="">Selecione o tipo</option>
+                                <option>Manual de Utilizador</option>
+                                <option>Manual de Serviço</option>
+                                <option>Certificado de Calibração</option>
+                                <option>Contrato de Manutenção</option>
+                                <option>Fatura</option>
+                                <option>Declaração de Conformidade</option>
+                                <option>Relatório Técnico</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="equipamentoDocumento">Equipamento associado *</label>
+                            <select id="equipamentoDocumento">
+                                <option value="">Selecione o equipamento</option>
+                                <option>Monitor Multiparamétrico</option>
+                                <option>Ventilador Pulmonar</option>
+                                <option>Bomba de Infusão</option>
+                                <option>Desfibrilhador</option>
+                                <option>Ecógrafo Portátil</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="fornecedorDocumento">Fornecedor associado</label>
+                            <select id="fornecedorDocumento">
+                                <option value="">Sem fornecedor associado</option>
+                                <option>Philips Healthcare</option>
+                                <option>MedTech Portugal</option>
+                                <option>BioSupport Systems</option>
+                                <option>InfuCare Medical</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="dataDocumento">Data do documento *</label>
+                            <input type="date" id="dataDocumento">
+                        </div>
+
+                        <div>
+                            <label for="validadeDocumento">Data de validade</label>
+                            <input type="date" id="validadeDocumento">
+                        </div>
+
+                        <div>
+                            <label for="estadoDocumento">Estado *</label>
+                            <select id="estadoDocumento">
+                                <option value="">Selecione o estado</option>
+                                <option>Válido</option>
+                                <option>Pendente</option>
+                                <option>Expirado</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="ficheiroDocumento">Nome/localização do ficheiro *</label>
+                            <input type="text" id="ficheiroDocumento" placeholder="Ex: manual_monitor.pdf">
+                        </div>
+
+                        <div>
+                            <label for="responsavelDocumento">Responsável pelo registo</label>
+                            <input type="text" id="responsavelDocumento" placeholder="Ex: Administrador">
+                        </div>
+                    </div>
+
+                    <div class="form-full">
+                        <label for="observacoesDocumento">Observações</label>
+                        <textarea id="observacoesDocumento" rows="4" placeholder="Observações adicionais sobre o documento"></textarea>
+                    </div>
+
+                    <div class="alert alert-info mt-4" role="alert">
+                        Nesta fase, o ficheiro é registado apenas pelo nome ou caminho. O upload real poderá ser implementado mais tarde com PHP.
+                    </div>
+
+                    <p id="mensagemDocumento" class="mensagem-login"></p>
+
+                    <div class="form-botoes">
+                        <button type="submit" class="btn-backend">
+                            <i class="bi bi-check-circle"></i>
+                            Guardar documento
+                        </button>
+
+                        <a href="index.html" class="btn-secundario">
+                            Cancelar
+                        </a>
+                    </div>
+
+                </form>
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="../../assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/1240661.js"></script>
+
+</body>
+</html>

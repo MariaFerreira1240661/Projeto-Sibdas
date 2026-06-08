@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Fornecedor - MedControl</title>
+
+    <link rel="shortcut icon" href="../../assets/img/medcontrol-logo2.png" type="image/png">
+    <link href="../../assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../../assets/css/1240661.css">
+</head>
+
+<body class="backend-body">
+
+    <div class="backend-layout">
+
+        <aside class="backend-sidebar">
+            <div class="sidebar-logo">
+                <img src="../../assets/img/medcontrol-logo2.png" alt="Logótipo da MedControl">
+                <h2>MedControl</h2>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="../index.html">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="../equipamentos/index.html">
+                    <i class="bi bi-hospital"></i>
+                    <span>Equipamentos</span>
+                </a>
+
+                <a href="../localizacoes/index.html">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>Localizações</span>
+                </a>
+
+                <a href="index.html" class="ativo">
+                    <i class="bi bi-truck"></i>
+                    <span>Fornecedores</span>
+                </a>
+
+                <a href="../documentacao/index.html">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>Documentação</span>
+                </a>
+
+                <a href="../contratos/index.html">
+                    <i class="bi bi-shield-check"></i>
+                    <span>Contratos</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../public/index.html">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Site Público</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="backend-content">
+
+            <div class="backend-topbar">
+                <div>
+                    <h1>Novo Fornecedor</h1>
+                    <p>Registo de uma entidade associada aos equipamentos médicos.</p>
+                </div>
+
+                <div class="backend-user">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Administrador</span>
+                </div>
+            </div>
+
+            <section class="backend-box">
+                <div class="backend-section-header">
+                    <div>
+                        <h2>Dados do Fornecedor</h2>
+                        <p>Preencha os campos principais para simular o registo do fornecedor.</p>
+                    </div>
+
+                    <a href="index.html" class="btn-backend">
+                        <i class="bi bi-arrow-left-circle"></i>
+                        Voltar à listagem
+                    </a>
+                </div>
+
+                <form class="form-backend" id="formFornecedor">
+
+                    <div class="form-grid">
+                        <div>
+                            <label for="codigoFornecedor">Código *</label>
+                            <input type="text" id="codigoFornecedor" placeholder="Ex: F005">
+                        </div>
+
+                        <div>
+                            <label for="nomeFornecedor">Nome da empresa *</label>
+                            <input type="text" id="nomeFornecedor" placeholder="Ex: MedTech Portugal">
+                        </div>
+
+                        <div>
+                            <label for="nifFornecedor">NIF *</label>
+                            <input type="text" id="nifFornecedor" placeholder="Ex: 501234567">
+                        </div>
+
+                        <div>
+                            <label for="tipoFornecedor">Tipo de fornecedor *</label>
+                            <select id="tipoFornecedor">
+                                <option value="">Selecione o tipo</option>
+                                <option>Fabricante</option>
+                                <option>Distribuidor</option>
+                                <option>Assistência técnica</option>
+                                <option>Consumíveis</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="telefoneFornecedor">Telefone *</label>
+                            <input type="text" id="telefoneFornecedor" placeholder="Ex: +351 222 000 000">
+                        </div>
+
+                        <div>
+                            <label for="emailFornecedor">Email *</label>
+                            <input type="email" id="emailFornecedor" placeholder="Ex: geral@empresa.pt">
+                        </div>
+
+                        <div>
+                            <label for="websiteFornecedor">Website</label>
+                            <input type="text" id="websiteFornecedor" placeholder="Ex: www.empresa.pt">
+                        </div>
+
+                        <div>
+                            <label for="estadoFornecedor">Estado *</label>
+                            <select id="estadoFornecedor">
+                                <option value="">Selecione o estado</option>
+                                <option>Ativo</option>
+                                <option>Inativo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="pessoaContacto">Pessoa de contacto</label>
+                            <input type="text" id="pessoaContacto" placeholder="Ex: Ana Silva">
+                        </div>
+
+                        <div>
+                            <label for="telefoneContacto">Telefone da pessoa de contacto</label>
+                            <input type="text" id="telefoneContacto" placeholder="Ex: +351 912 000 000">
+                        </div>
+                    </div>
+
+                    <div class="form-full">
+                        <label for="moradaFornecedor">Morada</label>
+                        <textarea id="moradaFornecedor" rows="3" placeholder="Morada do fornecedor"></textarea>
+                    </div>
+
+                    <div class="form-full">
+                        <label for="observacoesFornecedor">Observações</label>
+                        <textarea id="observacoesFornecedor" rows="4" placeholder="Observações adicionais"></textarea>
+                    </div>
+
+                    <p id="mensagemFornecedor" class="mensagem-login"></p>
+
+                    <div class="form-botoes">
+                        <button type="submit" class="btn-backend">
+                            <i class="bi bi-check-circle"></i>
+                            Guardar fornecedor
+                        </button>
+
+                        <a href="index.html" class="btn-secundario">
+                            Cancelar
+                        </a>
+                    </div>
+
+                </form>
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="../../assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/1240661.js"></script>
+
+</body>
+</html>

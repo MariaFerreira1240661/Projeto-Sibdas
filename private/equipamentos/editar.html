@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Equipamento - MedControl</title>
+
+    <link rel="shortcut icon" href="../../assets/img/medcontrol-logo2.png" type="image/png">
+    <link href="../../assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../../assets/css/1240661.css">
+</head>
+
+<body class="backend-body">
+
+    <div class="backend-layout">
+
+        <aside class="backend-sidebar">
+            <div class="sidebar-logo">
+                <img src="../../assets/img/medcontrol-logo2.png" alt="Logótipo da MedControl">
+                <h2>MedControl</h2>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="../index.html">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="index.html" class="ativo">
+                    <i class="bi bi-hospital"></i>
+                    <span>Equipamentos</span>
+                </a>
+
+                <a href="../localizacoes/index.html">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>Localizações</span>
+                </a>
+
+                <a href="../fornecedores/index.html">
+                    <i class="bi bi-truck"></i>
+                    <span>Fornecedores</span>
+                </a>
+
+                <a href="../documentacao/index.html">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>Documentação</span>
+                </a>
+
+                <a href="../contratos/index.html">
+                    <i class="bi bi-shield-check"></i>
+                    <span>Contratos</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../public/index.html">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Site Público</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="backend-content">
+
+            <div class="backend-topbar">
+                <div>
+                    <h1>Editar Equipamento</h1>
+                    <p>Atualização completa dos dados de um equipamento médico existente.</p>
+                </div>
+
+                <div class="backend-user">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Administrador</span>
+                </div>
+            </div>
+
+            <section class="backend-box">
+                <div class="backend-section-header">
+                    <div>
+                        <h2>Ficha do Equipamento</h2>
+                        <p>Altere a informação por separadores e guarde as alterações.</p>
+                    </div>
+
+                    <a href="index.html" class="btn-backend">
+                        <i class="bi bi-arrow-left-circle"></i>
+                        Voltar à listagem
+                    </a>
+                </div>
+
+                <form class="form-backend" id="formEditarEquipamento">
+
+                    <ul class="nav nav-tabs mb-4 tabs-equipamento" id="tabsEditarEquipamento" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="edit-info-tab" data-bs-toggle="tab" data-bs-target="#edit-info" type="button" role="tab">
+                                <i class="bi bi-info-circle"></i>
+                                Informação geral
+                            </button>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="edit-localizacao-tab" data-bs-toggle="tab" data-bs-target="#edit-localizacao-tab-pane" type="button" role="tab">
+                                <i class="bi bi-geo-alt"></i>
+                                Localização
+                            </button>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="edit-fornecedor-tab" data-bs-toggle="tab" data-bs-target="#edit-fornecedor-tab-pane" type="button" role="tab">
+                                <i class="bi bi-truck"></i>
+                                Fornecedor
+                            </button>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="edit-documentacao-tab" data-bs-toggle="tab" data-bs-target="#edit-documentacao-tab-pane" type="button" role="tab">
+                                <i class="bi bi-folder"></i>
+                                Documentação
+                            </button>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="edit-contratos-tab" data-bs-toggle="tab" data-bs-target="#edit-contratos-tab-pane" type="button" role="tab">
+                                <i class="bi bi-shield-check"></i>
+                                Contratos
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="tabsEditarEquipamentoConteudo">
+
+                        <div class="tab-pane fade show active" id="edit-info" role="tabpanel" tabindex="0">
+                            <h3>Informação geral</h3>
+
+                            <div class="form-grid">
+                                <div>
+                                    <label for="editCodigo">Código interno *</label>
+                                    <input type="text" id="editCodigo" value="EQ001">
+                                </div>
+
+                                <div>
+                                    <label for="editDesignacao">Designação *</label>
+                                    <input type="text" id="editDesignacao" value="Monitor Multiparamétrico">
+                                </div>
+
+                                <div>
+                                    <label for="editCategoria">Categoria *</label>
+                                    <select id="editCategoria">
+                                        <option selected>Monitorização</option>
+                                        <option>Suporte de vida</option>
+                                        <option>Terapia</option>
+                                        <option>Diagnóstico</option>
+                                        <option>Laboratório</option>
+                                        <option>Esterilização</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="editMarca">Marca *</label>
+                                    <input type="text" id="editMarca" value="Philips">
+                                </div>
+
+                                <div>
+                                    <label for="editModelo">Modelo *</label>
+                                    <input type="text" id="editModelo" value="IntelliVue MP5">
+                                </div>
+
+                                <div>
+                                    <label for="editSerie">Número de série *</label>
+                                    <input type="text" id="editSerie" value="MP5-2022-45873">
+                                </div>
+
+                                <div>
+                                    <label for="editFabricante">Fabricante *</label>
+                                    <input type="text" id="editFabricante" value="Philips Healthcare">
+                                </div>
+
+                                <div>
+                                    <label for="editAnoFabrico">Ano de fabrico *</label>
+                                    <input type="number" id="editAnoFabrico" value="2022">
+                                </div>
+
+                                <div>
+                                    <label for="editEstado">Estado atual *</label>
+                                    <select id="editEstado">
+                                        <option selected>Ativo</option>
+                                        <option>Em manutenção</option>
+                                        <option>Inativo</option>
+                                        <option>Em calibração</option>
+                                        <option>Em quarentena</option>
+                                        <option>Abatido</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="editCriticidade">Criticidade *</label>
+                                    <select id="editCriticidade">
+                                        <option selected>Suporte de vida</option>
+                                        <option>Alta</option>
+                                        <option>Média</option>
+                                        <option>Baixa</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="editDataAquisicao">Data de aquisição *</label>
+                                    <input type="date" id="editDataAquisicao" value="2022-02-12">
+                                </div>
+
+                                <div>
+                                    <label for="editCusto">Custo de aquisição *</label>
+                                    <input type="number" id="editCusto" value="4850">
+                                </div>
+
+                                <div>
+                                    <label for="editTipoEntrada">Tipo de entrada *</label>
+                                    <select id="editTipoEntrada">
+                                        <option selected>Compra</option>
+                                        <option>Doação</option>
+                                        <option>Aluguer</option>
+                                        <option>Empréstimo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="edit-localizacao-tab-pane" role="tabpanel" tabindex="0">
+                            <h3>Localização</h3>
+
+                            <div class="form-grid">
+                                <div>
+                                    <label for="editLocalizacao">Serviço / Localização *</label>
+                                    <select id="editLocalizacao">
+                                        <option selected>UCI</option>
+                                        <option>Bloco Operatório</option>
+                                        <option>Medicina Interna</option>
+                                        <option>Urgência</option>
+                                        <option>Imagiologia</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="editEdificioEquipamento">Edifício *</label>
+                                    <input type="text" id="editEdificioEquipamento" value="Edifício Principal">
+                                </div>
+
+                                <div>
+                                    <label for="editPisoEquipamento">Piso *</label>
+                                    <input type="text" id="editPisoEquipamento" value="2">
+                                </div>
+
+                                <div>
+                                    <label for="editSalaEquipamento">Sala / Unidade *</label>
+                                    <input type="text" id="editSalaEquipamento" value="UCI Geral">
+                                </div>
+
+                                <div>
+                                    <label for="editResponsavelLocalizacaoEquipamento">Responsável da localização *</label>
+                                    <input type="text" id="editResponsavelLocalizacaoEquipamento" value="Enfermeiro responsável">
+                                </div>
+
+                                <div>
+                                    <label for="editContactoLocalizacaoEquipamento">Contacto interno *</label>
+                                    <input type="text" id="editContactoLocalizacaoEquipamento" value="2201">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="edit-fornecedor-tab-pane" role="tabpanel" tabindex="0">
+                            <h3>Fornecedor</h3>
+
+                            <div class="form-grid">
+                                <div>
+                                    <label for="editFornecedorEquipamento">Fornecedor *</label>
+                                    <select id="editFornecedorEquipamento">
+                                        <option selected>Philips Healthcare</option>
+                                        <option>MedTech Portugal</option>
+                                        <option>BioSupport Systems</option>
+                                        <option>InfuCare Medical</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="editTipoFornecedorEquipamento">Tipo de fornecedor *</label>
+                                    <select id="editTipoFornecedorEquipamento">
+                                        <option selected>Fabricante</option>
+                                        <option>Distribuidor</option>
+                                        <option>Assistência técnica</option>
+                                        <option>Consumíveis</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="editContactoFornecedorEquipamento">Pessoa de contacto *</label>
+                                    <input type="text" id="editContactoFornecedorEquipamento" value="Ana Silva">
+                                </div>
+
+                                <div>
+                                    <label for="editTelefoneFornecedorEquipamento">Telefone *</label>
+                                    <input type="text" id="editTelefoneFornecedorEquipamento" value="+351 222 100 100">
+                                </div>
+
+                                <div>
+                                    <label for="editEmailFornecedorEquipamento">Email *</label>
+                                    <input type="email" id="editEmailFornecedorEquipamento" value="geral@philips-health.pt">
+                                </div>
+
+                                <div>
+                                    <label for="editNifFornecedorEquipamento">NIF *</label>
+                                    <input type="text" id="editNifFornecedorEquipamento" value="501234567">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="edit-documentacao-tab-pane" role="tabpanel" tabindex="0">
+                            <h3>Documentação</h3>
+
+                            <div class="form-grid">
+                                <div>
+                                    <label for="editManualEquipamento">Manual de utilizador *</label>
+                                    <input type="text" id="editManualEquipamento" value="manual_monitor.pdf">
+                                </div>
+
+                                <div>
+                                    <label for="editCertificadoEquipamento">Certificado de calibração *</label>
+                                    <input type="text" id="editCertificadoEquipamento" value="certificado_monitor.pdf">
+                                </div>
+
+                                <div>
+                                    <label for="editContratoDocumentoEquipamento">Documento do contrato *</label>
+                                    <input type="text" id="editContratoDocumentoEquipamento" value="contrato_monitor.pdf">
+                                </div>
+
+                                <div>
+                                    <label for="editRelatorioTecnicoEquipamento">Relatório técnico *</label>
+                                    <input type="text" id="editRelatorioTecnicoEquipamento" value="relatorio_monitor.pdf">
+                                </div>
+                            </div>
+
+                            <div class="form-full">
+                                <label for="editObservacoes">Observações</label>
+                                <textarea id="editObservacoes" rows="4">Equipamento utilizado para monitorização contínua de sinais vitais em ambiente hospitalar.</textarea>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="edit-contratos-tab-pane" role="tabpanel" tabindex="0">
+                            <h3>Contratos</h3>
+
+                            <div class="form-grid">
+                                <div>
+                                    <label for="editEstadoGarantiaEquipamento">Estado da garantia *</label>
+                                    <select id="editEstadoGarantiaEquipamento">
+                                        <option selected>Válida</option>
+                                        <option>A expirar</option>
+                                        <option>Expirada</option>
+                                        <option>Sem garantia registada</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="editDataInicioGarantiaEquipamento">Data de início da garantia *</label>
+                                    <input type="date" id="editDataInicioGarantiaEquipamento" value="2022-02-12">
+                                </div>
+
+                                <div>
+                                    <label for="editDataFimGarantiaEquipamento">Data de fim da garantia *</label>
+                                    <input type="date" id="editDataFimGarantiaEquipamento" value="2027-02-12">
+                                </div>
+
+                                <div>
+                                    <label for="editTipoContratoEquipamento">Tipo de contrato *</label>
+                                    <select id="editTipoContratoEquipamento">
+                                        <option selected>Garantia</option>
+                                        <option>Manutenção preventiva</option>
+                                        <option>Assistência técnica</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="editPeriodicidadeManutencaoEquipamento">Periodicidade de manutenção *</label>
+                                    <select id="editPeriodicidadeManutencaoEquipamento">
+                                        <option selected>Anual</option>
+                                        <option>Mensal</option>
+                                        <option>Trimestral</option>
+                                        <option>Semestral</option>
+                                        <option>Não aplicável</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="editValorContratoEquipamento">Valor associado *</label>
+                                    <input type="number" id="editValorContratoEquipamento" value="1200">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <p id="mensagemEditarEquipamento" class="mensagem-login mt-4"></p>
+
+                    <div class="form-botoes">
+                        <button type="submit" class="btn-backend">
+                            <i class="bi bi-check-circle"></i>
+                            Guardar alterações
+                        </button>
+
+                        <a href="index.html" class="btn-secundario">
+                            Cancelar
+                        </a>
+                    </div>
+
+                </form>
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="../../assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/1240661.js"></script>
+
+</body>
+</html>

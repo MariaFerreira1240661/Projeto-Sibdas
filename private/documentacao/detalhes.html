@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Documento - MedControl</title>
+
+    <link rel="shortcut icon" href="../../assets/img/medcontrol-logo2.png" type="image/png">
+    <link href="../../assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../../assets/css/1240661.css">
+</head>
+
+<body class="backend-body">
+
+    <div class="backend-layout">
+
+        <aside class="backend-sidebar">
+            <div class="sidebar-logo">
+                <img src="../../assets/img/medcontrol-logo2.png" alt="Logótipo da MedControl">
+                <h2>MedControl</h2>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="../index.html">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="../equipamentos/index.html">
+                    <i class="bi bi-hospital"></i>
+                    <span>Equipamentos</span>
+                </a>
+
+                <a href="../localizacoes/index.html">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>Localizações</span>
+                </a>
+
+                <a href="../fornecedores/index.html">
+                    <i class="bi bi-truck"></i>
+                    <span>Fornecedores</span>
+                </a>
+
+                <a href="index.html" class="ativo">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>Documentação</span>
+                </a>
+
+                <a href="../contratos/index.html">
+                    <i class="bi bi-shield-check"></i>
+                    <span>Contratos</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../public/index.html">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Site Público</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="backend-content">
+
+            <div class="backend-topbar">
+                <div>
+                    <h1>Detalhes do Documento</h1>
+                    <p>Ficha detalhada da documentação associada ao inventário hospitalar.</p>
+                </div>
+
+                <div class="backend-user">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Administrador</span>
+                </div>
+            </div>
+
+            <section class="backend-box">
+                <div class="backend-section-header">
+                    <div>
+                        <h2>Manual de Utilizador</h2>
+                        <p>Código interno: D001</p>
+                    </div>
+
+                    <a href="index.html" class="btn-backend">
+                        <i class="bi bi-arrow-left-circle"></i>
+                        Voltar à listagem
+                    </a>
+                </div>
+
+                <div class="detalhes-grid">
+
+                    <div class="detalhe-card">
+                        <h3>Identificação</h3>
+
+                        <div class="detalhe-linha">
+                            <span>Código</span>
+                            <strong>D001</strong>
+                        </div>
+
+                        <div class="detalhe-linha">
+                            <span>Nome do documento</span>
+                            <strong>Manual de Utilizador</strong>
+                        </div>
+
+                        <div class="detalhe-linha">
+                            <span>Tipo</span>
+                            <strong>Manual</strong>
+                        </div>
+
+                        <div class="detalhe-linha">
+                            <span>Estado</span>
+                            <strong><span class="estado ativo">Válido</span></strong>
+                        </div>
+                    </div>
+
+                    <div class="detalhe-card">
+                        <h3>Associação</h3>
+
+                        <div class="detalhe-linha">
+                            <span>Equipamento associado</span>
+                            <strong>Monitor Multiparamétrico</strong>
+                        </div>
+
+                        <div class="detalhe-linha">
+                            <span>Código do equipamento</span>
+                            <strong>EQ001</strong>
+                        </div>
+
+                        <div class="detalhe-linha">
+                            <span>Fornecedor associado</span>
+                            <strong>Philips Healthcare</strong>
+                        </div>
+                    </div>
+
+                    <div class="detalhe-card">
+                        <h3>Datas</h3>
+
+                        <div class="detalhe-linha">
+                            <span>Data do documento</span>
+                            <strong>12/02/2025</strong>
+                        </div>
+
+                        <div class="detalhe-linha">
+                            <span>Data de validade</span>
+                            <strong>Sem validade</strong>
+                        </div>
+
+                        <div class="detalhe-linha">
+                            <span>Data de registo</span>
+                            <strong>15/02/2025</strong>
+                        </div>
+                    </div>
+
+                    <div class="detalhe-card">
+                        <h3>Ficheiro</h3>
+
+                        <div class="detalhe-linha">
+                            <span>Nome do ficheiro</span>
+                            <strong>manual_monitor.pdf</strong>
+                        </div>
+
+                        <div class="detalhe-linha">
+                            <span>Localização</span>
+                            <strong>docs/equipamentos/</strong>
+                        </div>
+
+                        <div class="detalhe-linha">
+                            <span>Responsável</span>
+                            <strong>Administrador</strong>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="backend-box">
+                <h2>Observações</h2>
+                <p>
+                    Documento associado ao monitor multiparamétrico utilizado na Unidade de Cuidados Intensivos.
+                    Nesta fase do projeto, o ficheiro é apenas identificado pelo nome/localização.
+                    O upload real poderá ser implementado posteriormente com PHP.
+                </p>
+            </section>
+
+            <section class="backend-box">
+                <h2>Equipamento relacionado</h2>
+
+                <div class="table-responsive">
+                    <table class="tabela-backend">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Equipamento</th>
+                                <th>Marca / Modelo</th>
+                                <th>Localização</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>EQ001</td>
+                                <td>Monitor Multiparamétrico</td>
+                                <td>Philips IntelliVue MP5</td>
+                                <td>UCI</td>
+                                <td><span class="estado ativo">Ativo</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="../../assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/1240661.js"></script>
+
+</body>
+</html>

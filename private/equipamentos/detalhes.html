@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Equipamento - MedControl</title>
+
+    <link rel="shortcut icon" href="../../assets/img/medcontrol-logo2.png" type="image/png">
+    <link href="../../assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../../assets/css/1240661.css">
+</head>
+
+<body class="backend-body">
+
+    <div class="backend-layout">
+
+        <aside class="backend-sidebar">
+            <div class="sidebar-logo">
+                <img src="../../assets/img/medcontrol-logo2.png" alt="Logótipo da MedControl">
+                <h2>MedControl</h2>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="../index.html">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="index.html" class="ativo">
+                    <i class="bi bi-hospital"></i>
+                    <span>Equipamentos</span>
+                </a>
+
+                <a href="../localizacoes/index.html">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>Localizações</span>
+                </a>
+
+                <a href="../fornecedores/index.html">
+                    <i class="bi bi-truck"></i>
+                    <span>Fornecedores</span>
+                </a>
+
+                <a href="../documentacao/index.html">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>Documentação</span>
+                </a>
+
+                <a href="../contratos/index.html">
+                    <i class="bi bi-shield-check"></i>
+                    <span>Contratos</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../public/index.html">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Site Público</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="backend-content">
+
+            <div class="backend-topbar">
+                <div>
+                    <h1>Detalhes do Equipamento</h1>
+                    <p>Consulta completa da ficha técnica e administrativa do equipamento médico.</p>
+                </div>
+
+                <div class="backend-user">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Administrador</span>
+                </div>
+            </div>
+
+            <section class="backend-box">
+                <div class="backend-section-header">
+                    <div>
+                        <h2>Monitor Multiparamétrico</h2>
+                        <p>Código interno: EQ001</p>
+                    </div>
+
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="editar.html" class="btn-backend">
+                            <i class="bi bi-pencil-square"></i>
+                            Editar equipamento
+                        </a>
+
+                        <a href="index.html" class="btn-secundario">
+                            <i class="bi bi-arrow-left-circle"></i>
+                            Voltar à listagem
+                        </a>
+                    </div>
+                </div>
+
+                <ul class="nav nav-tabs mb-4 tabs-equipamento" id="tabsDetalhesEquipamento" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="detalhes-info-tab" data-bs-toggle="tab" data-bs-target="#detalhes-info" type="button" role="tab">
+                            <i class="bi bi-info-circle"></i>
+                            Informação geral
+                        </button>
+                    </li>
+
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="detalhes-localizacao-tab" data-bs-toggle="tab" data-bs-target="#detalhes-localizacao" type="button" role="tab">
+                            <i class="bi bi-geo-alt"></i>
+                            Localização
+                        </button>
+                    </li>
+
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="detalhes-fornecedor-tab" data-bs-toggle="tab" data-bs-target="#detalhes-fornecedor" type="button" role="tab">
+                            <i class="bi bi-truck"></i>
+                            Fornecedor
+                        </button>
+                    </li>
+
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="detalhes-documentacao-tab" data-bs-toggle="tab" data-bs-target="#detalhes-documentacao" type="button" role="tab">
+                            <i class="bi bi-folder"></i>
+                            Documentação
+                        </button>
+                    </li>
+
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="detalhes-contratos-tab" data-bs-toggle="tab" data-bs-target="#detalhes-contratos" type="button" role="tab">
+                            <i class="bi bi-shield-check"></i>
+                            Contratos
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="tabsDetalhesEquipamentoConteudo">
+
+                    <div class="tab-pane fade show active" id="detalhes-info" role="tabpanel" tabindex="0">
+                        <h3>Informação geral</h3>
+
+                        <div class="detalhes-grid">
+                            <div class="detalhe-card">
+                                <h3>Identificação</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Código interno</span>
+                                    <strong>EQ001</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Designação</span>
+                                    <strong>Monitor Multiparamétrico</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Categoria</span>
+                                    <strong>Monitorização</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Estado atual</span>
+                                    <strong><span class="estado ativo">Ativo</span></strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Dados técnicos</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Marca</span>
+                                    <strong>Philips</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Modelo</span>
+                                    <strong>IntelliVue MP5</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Número de série</span>
+                                    <strong>MP5-2022-45873</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Fabricante</span>
+                                    <strong>Philips Healthcare</strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Aquisição</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Data de aquisição</span>
+                                    <strong>12/02/2022</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Ano de fabrico</span>
+                                    <strong>2022</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Custo de aquisição</span>
+                                    <strong>4 850 €</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Tipo de entrada</span>
+                                    <strong>Compra</strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Criticidade</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Nível de criticidade</span>
+                                    <strong><span class="estado suporte">Suporte de vida</span></strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Prioridade de manutenção</span>
+                                    <strong>Elevada</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Utilização clínica</span>
+                                    <strong>Monitorização contínua</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="detalhes-localizacao" role="tabpanel" tabindex="0">
+                        <h3>Localização</h3>
+
+                        <div class="detalhes-grid">
+                            <div class="detalhe-card">
+                                <h3>Local atual</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Serviço / Localização</span>
+                                    <strong>UCI</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Edifício</span>
+                                    <strong>Edifício Principal</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Piso</span>
+                                    <strong>2</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Sala / Unidade</span>
+                                    <strong>UCI Geral</strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Responsável</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Responsável da localização</span>
+                                    <strong>Enfermeiro responsável</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Contacto interno</span>
+                                    <strong>2201</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Estado da localização</span>
+                                    <strong><span class="estado ativo">Ativa</span></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="detalhes-fornecedor" role="tabpanel" tabindex="0">
+                        <h3>Fornecedor</h3>
+
+                        <div class="detalhes-grid">
+                            <div class="detalhe-card">
+                                <h3>Entidade associada</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Fornecedor</span>
+                                    <strong>Philips Healthcare</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Tipo de fornecedor</span>
+                                    <strong>Fabricante</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>NIF</span>
+                                    <strong>501234567</strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Contacto</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Pessoa de contacto</span>
+                                    <strong>Ana Silva</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Telefone</span>
+                                    <strong>+351 222 100 100</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Email</span>
+                                    <strong>geral@philips-health.pt</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="detalhes-documentacao" role="tabpanel" tabindex="0">
+                        <h3>Documentação</h3>
+
+                        <div class="detalhes-grid">
+                            <div class="detalhe-card">
+                                <h3>Ficheiros associados</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Manual de utilizador</span>
+                                    <strong>manual_monitor.pdf</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Certificado de calibração</span>
+                                    <strong>certificado_monitor.pdf</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Documento do contrato</span>
+                                    <strong>contrato_monitor.pdf</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Relatório técnico</span>
+                                    <strong>relatorio_monitor.pdf</strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Observações</h3>
+
+                                <p>
+                                    Equipamento utilizado para monitorização contínua de sinais vitais em ambiente hospitalar.
+                                    A documentação associada deve ser mantida atualizada para facilitar auditorias,
+                                    manutenções e consultas técnicas.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="detalhes-contratos" role="tabpanel" tabindex="0">
+                        <h3>Contratos</h3>
+
+                        <div class="detalhes-grid">
+                            <div class="detalhe-card">
+                                <h3>Garantia</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Estado da garantia</span>
+                                    <strong><span class="estado ativo">Válida</span></strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Data de início</span>
+                                    <strong>12/02/2022</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Data de fim</span>
+                                    <strong>12/02/2027</strong>
+                                </div>
+                            </div>
+
+                            <div class="detalhe-card">
+                                <h3>Contrato associado</h3>
+
+                                <div class="detalhe-linha">
+                                    <span>Tipo de contrato</span>
+                                    <strong>Garantia</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Periodicidade de manutenção</span>
+                                    <strong>Anual</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Valor associado</span>
+                                    <strong>1 200 €</strong>
+                                </div>
+
+                                <div class="detalhe-linha">
+                                    <span>Situação</span>
+                                    <strong>Dentro do prazo</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="../../assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/1240661.js"></script>
+
+</body>
+</html>

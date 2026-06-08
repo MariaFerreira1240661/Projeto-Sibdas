@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Localização - MedControl</title>
+
+    <link rel="shortcut icon" href="../../assets/img/medcontrol-logo2.png" type="image/png">
+    <link href="../../assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../../assets/css/1240661.css">
+</head>
+
+<body class="backend-body">
+
+    <div class="backend-layout">
+
+        <aside class="backend-sidebar">
+            <div class="sidebar-logo">
+                <img src="../../assets/img/medcontrol-logo2.png" alt="Logótipo da MedControl">
+                <h2>MedControl</h2>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="../index.html">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="../equipamentos/index.html">
+                    <i class="bi bi-hospital"></i>
+                    <span>Equipamentos</span>
+                </a>
+
+                <a href="index.html" class="ativo">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>Localizações</span>
+                </a>
+
+                <a href="../fornecedores/index.html">
+                    <i class="bi bi-truck"></i>
+                    <span>Fornecedores</span>
+                </a>
+
+                <a href="../documentacao/index.html">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>Documentação</span>
+                </a>
+
+                <a href="../contratos/index.html">
+                    <i class="bi bi-shield-check"></i>
+                    <span>Contratos</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../public/index.html">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Site Público</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="backend-content">
+
+            <div class="backend-topbar">
+                <div>
+                    <h1>Nova Localização</h1>
+                    <p>Registo de uma área hospitalar associada aos equipamentos médicos.</p>
+                </div>
+
+                <div class="backend-user">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Administrador</span>
+                </div>
+            </div>
+
+            <section class="backend-box">
+                <div class="backend-section-header">
+                    <div>
+                        <h2>Dados da Localização</h2>
+                        <p>Preencha os campos principais para simular o registo de uma localização.</p>
+                    </div>
+
+                    <a href="index.html" class="btn-backend">
+                        <i class="bi bi-arrow-left-circle"></i>
+                        Voltar à listagem
+                    </a>
+                </div>
+
+                <form class="form-backend" id="formLocalizacao">
+
+                    <div class="form-grid">
+                        <div>
+                            <label for="codigoLocalizacao">Código *</label>
+                            <input type="text" id="codigoLocalizacao" placeholder="Ex: L006">
+                        </div>
+
+                        <div>
+                            <label for="edificioLocalizacao">Edifício *</label>
+                            <input type="text" id="edificioLocalizacao" placeholder="Ex: Edifício Principal">
+                        </div>
+
+                        <div>
+                            <label for="pisoLocalizacao">Piso *</label>
+                            <input type="text" id="pisoLocalizacao" placeholder="Ex: 2">
+                        </div>
+
+                        <div>
+                            <label for="servicoLocalizacao">Serviço / Departamento *</label>
+                            <select id="servicoLocalizacao">
+                                <option value="">Selecione o serviço</option>
+                                <option>UCI</option>
+                                <option>Bloco Operatório</option>
+                                <option>Medicina Interna</option>
+                                <option>Urgência</option>
+                                <option>Imagiologia</option>
+                                <option>Laboratório</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="salaLocalizacao">Sala / Unidade *</label>
+                            <input type="text" id="salaLocalizacao" placeholder="Ex: Sala 3">
+                        </div>
+
+                        <div>
+                            <label for="estadoLocalizacao">Estado *</label>
+                            <select id="estadoLocalizacao">
+                                <option value="">Selecione o estado</option>
+                                <option>Ativo</option>
+                                <option>Inativo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="responsavelLocalizacao">Responsável</label>
+                            <input type="text" id="responsavelLocalizacao" placeholder="Ex: Enfermeiro responsável">
+                        </div>
+
+                        <div>
+                            <label for="telefoneLocalizacao">Contacto interno</label>
+                            <input type="text" id="telefoneLocalizacao" placeholder="Ex: 2201">
+                        </div>
+                    </div>
+
+                    <div class="form-full">
+                        <label for="observacoesLocalizacao">Observações</label>
+                        <textarea id="observacoesLocalizacao" rows="4" placeholder="Observações adicionais sobre a localização"></textarea>
+                    </div>
+
+                    <p id="mensagemLocalizacao" class="mensagem-login"></p>
+
+                    <div class="form-botoes">
+                        <button type="submit" class="btn-backend">
+                            <i class="bi bi-check-circle"></i>
+                            Guardar localização
+                        </button>
+
+                        <a href="index.html" class="btn-secundario">
+                            Cancelar
+                        </a>
+                    </div>
+
+                </form>
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="../../assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/1240661.js"></script>
+
+</body>
+</html>
