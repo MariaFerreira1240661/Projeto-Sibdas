@@ -156,6 +156,19 @@ if (pesquisaEquipamento && filtroEstado && filtroCategoria && filtroCriticidade)
 
 const formEquipamento = document.getElementById("formEquipamento");
 
+function atualizarProgressoEquipamento(percentagem, texto) {
+    const barra = document.getElementById("barraProgressoEquipamento");
+    const textoProgresso = document.getElementById("textoProgressoEquipamento");
+    const percentagemTexto = document.getElementById("percentagemProgressoEquipamento");
+
+    if (barra && textoProgresso && percentagemTexto) {
+        barra.style.width = percentagem + "%";
+        barra.setAttribute("aria-valuenow", percentagem);
+        textoProgresso.textContent = texto;
+        percentagemTexto.textContent = percentagem + "%";
+    }
+}
+
 function abrirTabEquipamento(idBotaoTab) {
     const botaoTab = document.getElementById(idBotaoTab);
 
@@ -164,6 +177,26 @@ function abrirTabEquipamento(idBotaoTab) {
 
         const tab = new bootstrap.Tab(botaoTab);
         tab.show();
+
+        if (idBotaoTab === "info-tab") {
+            atualizarProgressoEquipamento(20, "Etapa 1 de 5: Informação geral");
+        }
+
+        if (idBotaoTab === "localizacao-tab") {
+            atualizarProgressoEquipamento(40, "Etapa 2 de 5: Localização");
+        }
+
+        if (idBotaoTab === "fornecedor-tab") {
+            atualizarProgressoEquipamento(60, "Etapa 3 de 5: Fornecedor");
+        }
+
+        if (idBotaoTab === "documentacao-tab") {
+            atualizarProgressoEquipamento(80, "Etapa 4 de 5: Documentação");
+        }
+
+        if (idBotaoTab === "garantia-tab") {
+            atualizarProgressoEquipamento(100, "Etapa 5 de 5: Contratos");
+        }
     }
 }
 
@@ -1322,4 +1355,12 @@ aplicarTextoPublico("botaoContactoPublico", "conteudoBotaoContacto");
 
 aplicarTextoPublico("footerTexto1Publico", "conteudoFooterTexto1");
 aplicarTextoPublico("footerTexto2Publico", "conteudoFooterTexto2");
+
+/* Tooltips Bootstrap */
+
+const elementosTooltip = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+
+elementosTooltip.forEach(function (elemento) {
+    new bootstrap.Tooltip(elemento);
+});
 
