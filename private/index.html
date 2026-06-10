@@ -61,12 +61,6 @@
                 </a>
             </nav>
 
-            <div class="sidebar-footer">
-                <a href="../public/index.html">
-                    <i class="bi bi-box-arrow-left"></i>
-                    <span>Site Público</span>
-                </a>
-            </div>
         </aside>
 
         <!-- Conteúdo principal -->
@@ -78,9 +72,27 @@
                     <p>Visão geral do inventário hospitalar de equipamentos médicos.</p>
                 </div>
         
-                <div class="backend-user">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Administrador</span>
+                <div class="dropdown">
+                    <button class="backend-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Administrador</span>
+                    </button>
+                
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="../public/index.html">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                                Sair para o site público
+                            </a>
+                        </li>
+                
+                        <li>
+                            <a class="dropdown-item" href="../login/login.html">
+                                <i class="bi bi-box-arrow-right"></i>
+                                Terminar sessão
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         

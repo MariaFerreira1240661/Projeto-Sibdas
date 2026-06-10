@@ -1,544 +1,562 @@
+
+function obterElemento(id) {
+    return document.getElementById(id);
+}
+
+function obterValor(id) {
+    const elemento = obterElemento(id);
+    return elemento ? elemento.value.trim() : "";
+}
+
+function mostrarMensagem(idMensagem, texto, cor) {
+    const mensagem = obterElemento(idMensagem);
+
+    if (mensagem) {
+        mensagem.textContent = texto;
+        mensagem.style.color = cor;
+        mensagem.style.fontWeight = "700";
+        mensagem.style.display = "block";
+    }
+}
+
+function camposPreenchidos(idsCampos) {
+    return idsCampos.every(function (idCampo) {
+        return obterValor(idCampo) !== "";
+    });
+}
+
+function irParaIndexDepoisDeMensagem(idMensagem, texto) {
+    mostrarMensagem(idMensagem, texto, "green");
+
+    setTimeout(function () {
+        window.location.href = "index.html";
+    }, 1200);
+}
+
+/* Login */
+
 const formLogin = document.getElementById("form-login");
 
 if (formLogin) {
     formLogin.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        const utilizador = document.getElementById("utilizador").value;
-        const password = document.getElementById("password").value;
+        const email = document.getElementById("emailLogin").value.trim();
+        const password = document.getElementById("password").value.trim();
         const mensagem = document.getElementById("mensagem-login");
 
-        if (utilizador === "admin" && password === "medcontrol123") {
+        if (email === "" || password === "") {
+            mensagem.textContent = "Preencha o email e a palavra-passe.";
+            mensagem.style.color = "#10233f";
+        } else if (!email.includes("@") || !email.includes(".")) {
+            mensagem.textContent = "Insira um email válido.";
+            mensagem.style.color = "#10233f";
+        } else {
             mensagem.textContent = "Login efetuado com sucesso.";
             mensagem.style.color = "green";
 
             setTimeout(function () {
-                window.location.href = "../backend/index.html";
+                window.location.href = "../private/index.html";
             }, 800);
-        } else {
-            mensagem.textContent = "Utilizador ou palavra-passe incorretos.";
-            mensagem.style.color = "#10233f";
         }
     });
 }
 
-const graficoEstados = document.getElementById("graficoEstados");
-const graficoCategorias = document.getElementById("graficoCategorias");
-const graficoLocalizacoes = document.getElementById("graficoLocalizacoes");
+/* Gráficos da dashboard */
 
-if (graficoEstados) {
-    new Chart(graficoEstados, {
-        type: "doughnut",
-        data: {
-            labels: ["Ativo", "Em manutenção", "Inativo", "Em calibração"],
-            datasets: [{
-                data: [4, 2, 1, 1],
-                backgroundColor: ["#7bbf8b", "#f5b55b", "#d65b5b", "#f28c8c"]
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: "bottom"
-                }
+function criarGrafico(idCanvas, configuracao) {
+    const canvas = obterElemento(idCanvas);
+
+    if (canvas && typeof Chart !== "undefined") {
+        new Chart(canvas, configuracao);
+    }
+}
+
+criarGrafico("graficoEstados", {
+    type: "doughnut",
+    data: {
+        labels: ["Ativo", "Em manutenção", "Inativo", "Em calibração"],
+        datasets: [{
+            data: [4, 2, 1, 1],
+            backgroundColor: ["#7bbf8b", "#f5b55b", "#d65b5b", "#f28c8c"]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: "bottom"
             }
         }
-    });
-}
+    }
+});
 
-if (graficoCategorias) {
-    new Chart(graficoCategorias, {
-        type: "bar",
-        data: {
-            labels: ["Monitorização", "Suporte de vida", "Terapia", "Diagnóstico"],
-            datasets: [{
-                label: "N.º de equipamentos",
-                data: [2, 3, 2, 1],
-                backgroundColor: "#f28c8c"
-            }]
+criarGrafico("graficoCategorias", {
+    type: "bar",
+    data: {
+        labels: ["Monitorização", "Suporte de vida", "Terapia", "Diagnóstico"],
+        datasets: [{
+            label: "N.º de equipamentos",
+            data: [2, 3, 2, 1],
+            backgroundColor: "#f28c8c"
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
         },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+        scales: {
+            y: {
+                beginAtZero: true
             }
         }
-    });
-}
+    }
+});
 
-if (graficoLocalizacoes) {
-    new Chart(graficoLocalizacoes, {
-        type: "bar",
-        data: {
-            labels: ["UCI", "Bloco Operatório", "Medicina Interna", "Urgência"],
-            datasets: [{
-                label: "N.º de equipamentos",
-                data: [3, 2, 2, 1],
-                backgroundColor: "#10233f"
-            }]
+criarGrafico("graficoLocalizacoes", {
+    type: "bar",
+    data: {
+        labels: ["UCI", "Bloco Operatório", "Medicina Interna", "Urgência"],
+        datasets: [{
+            label: "N.º de equipamentos",
+            data: [3, 2, 2, 1],
+            backgroundColor: "#10233f"
+        }]
+    },
+    options: {
+        indexAxis: "y",
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
         },
-        options: {
-            indexAxis: "y",
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true
-                }
+        scales: {
+            x: {
+                beginAtZero: true
             }
         }
-    });
-}
+    }
+});
 
+/* Filtros das tabelas */
 
-const pesquisaEquipamento = document.getElementById("pesquisaEquipamento");
-const filtroEstado = document.getElementById("filtroEstado");
-const filtroCategoria = document.getElementById("filtroCategoria");
-const filtroCriticidade = document.getElementById("filtroCriticidade");
-const tabelaEquipamentos = document.getElementById("tabelaEquipamentos");
-const semResultados = document.getElementById("semResultados");
+function iniciarFiltroTabela(configuracao) {
+    const tabela = obterElemento(configuracao.tabelaId);
+    const campoPesquisa = obterElemento(configuracao.pesquisaId);
+    const semResultados = obterElemento(configuracao.semResultadosId);
 
-function filtrarEquipamentos() {
-    if (!tabelaEquipamentos) {
+    if (!tabela || !campoPesquisa) {
         return;
     }
 
-    const textoPesquisa = pesquisaEquipamento.value.toLowerCase();
-    const estadoSelecionado = filtroEstado.value;
-    const categoriaSelecionada = filtroCategoria.value;
-    const criticidadeSelecionada = filtroCriticidade.value;
-
-    const linhas = tabelaEquipamentos.querySelectorAll("tbody tr");
-    let resultadosVisiveis = 0;
-
-    linhas.forEach(function (linha) {
-        const textoLinha = linha.textContent.toLowerCase();
-        const estadoLinha = linha.getAttribute("data-estado");
-        const categoriaLinha = linha.getAttribute("data-categoria");
-        const criticidadeLinha = linha.getAttribute("data-criticidade");
-
-        const correspondePesquisa = textoLinha.includes(textoPesquisa);
-        const correspondeEstado = estadoSelecionado === "" || estadoLinha === estadoSelecionado;
-        const correspondeCategoria = categoriaSelecionada === "" || categoriaLinha === categoriaSelecionada;
-        const correspondeCriticidade = criticidadeSelecionada === "" || criticidadeLinha === criticidadeSelecionada;
-
-        if (correspondePesquisa && correspondeEstado && correspondeCategoria && correspondeCriticidade) {
-            linha.style.display = "";
-            resultadosVisiveis++;
-        } else {
-            linha.style.display = "none";
-        }
+    const filtros = configuracao.filtros.map(function (filtro) {
+        return {
+            elemento: obterElemento(filtro.id),
+            atributo: filtro.atributo
+        };
     });
 
-    if (semResultados) {
-        semResultados.style.display = resultadosVisiveis === 0 ? "block" : "none";
+    function filtrar() {
+        const textoPesquisa = campoPesquisa.value.toLowerCase();
+        const linhas = tabela.querySelectorAll("tbody tr");
+        let resultadosVisiveis = 0;
+
+        linhas.forEach(function (linha) {
+            const textoLinha = linha.textContent.toLowerCase();
+            const correspondePesquisa = textoLinha.includes(textoPesquisa);
+
+            const correspondeFiltros = filtros.every(function (filtro) {
+                if (!filtro.elemento || filtro.elemento.value === "") {
+                    return true;
+                }
+
+                return linha.getAttribute("data-" + filtro.atributo) === filtro.elemento.value;
+            });
+
+            if (correspondePesquisa && correspondeFiltros) {
+                linha.style.display = "";
+                resultadosVisiveis++;
+            } else {
+                linha.style.display = "none";
+            }
+        });
+
+        if (semResultados) {
+            semResultados.style.display = resultadosVisiveis === 0 ? "block" : "none";
+        }
+    }
+
+    campoPesquisa.addEventListener("input", filtrar);
+
+    filtros.forEach(function (filtro) {
+        if (filtro.elemento) {
+            filtro.elemento.addEventListener("change", filtrar);
+        }
+    });
+}
+
+iniciarFiltroTabela({
+    tabelaId: "tabelaEquipamentos",
+    pesquisaId: "pesquisaEquipamento",
+    semResultadosId: "semResultados",
+    filtros: [
+        { id: "filtroEstado", atributo: "estado" },
+        { id: "filtroCategoria", atributo: "categoria" },
+        { id: "filtroCriticidade", atributo: "criticidade" }
+    ]
+});
+
+iniciarFiltroTabela({
+    tabelaId: "tabelaFornecedores",
+    pesquisaId: "pesquisaFornecedor",
+    semResultadosId: "semResultadosFornecedores",
+    filtros: [
+        { id: "filtroTipoFornecedor", atributo: "tipo" },
+        { id: "filtroEstadoFornecedor", atributo: "estado" }
+    ]
+});
+
+iniciarFiltroTabela({
+    tabelaId: "tabelaLocalizacoes",
+    pesquisaId: "pesquisaLocalizacao",
+    semResultadosId: "semResultadosLocalizacoes",
+    filtros: [
+        { id: "filtroServicoLocalizacao", atributo: "servico" },
+        { id: "filtroEstadoLocalizacao", atributo: "estado" }
+    ]
+});
+
+iniciarFiltroTabela({
+    tabelaId: "tabelaDocumentos",
+    pesquisaId: "pesquisaDocumento",
+    semResultadosId: "semResultadosDocumentos",
+    filtros: [
+        { id: "filtroTipoDocumento", atributo: "tipo" },
+        { id: "filtroEstadoDocumento", atributo: "estado" },
+        { id: "filtroEquipamentoDocumento", atributo: "equipamento" }
+    ]
+});
+
+iniciarFiltroTabela({
+    tabelaId: "tabelaContratos",
+    pesquisaId: "pesquisaContrato",
+    semResultadosId: "semResultadosContratos",
+    filtros: [
+        { id: "filtroTipoContrato", atributo: "tipo" },
+        { id: "filtroEstadoContrato", atributo: "estado" },
+        { id: "filtroEquipamentoContrato", atributo: "equipamento" }
+    ]
+});
+
+/* Formulários simples */
+
+function iniciarFormularioSimples(configuracao) {
+    const formulario = obterElemento(configuracao.formId);
+
+    if (!formulario) {
+        return;
+    }
+
+    formulario.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (camposPreenchidos(configuracao.camposObrigatorios)) {
+            mostrarMensagem(configuracao.mensagemId, configuracao.mensagemSucesso, "green");
+        } else {
+            mostrarMensagem(configuracao.mensagemId, "Preencha todos os campos obrigatórios assinalados com *.", "#10233f");
+        }
+    });
+}
+
+const formulariosSimples = [
+    {
+        formId: "formFornecedor",
+        mensagemId: "mensagemFornecedor",
+        camposObrigatorios: ["codigoFornecedor", "nomeFornecedor", "nifFornecedor", "tipoFornecedor", "telefoneFornecedor", "emailFornecedor", "estadoFornecedor"],
+        mensagemSucesso: "Fornecedor registado com sucesso. "
+    },
+    {
+        formId: "formEditarFornecedor",
+        mensagemId: "mensagemEditarFornecedor",
+        camposObrigatorios: ["editCodigoFornecedor", "editNomeFornecedor", "editNifFornecedor", "editTipoFornecedor", "editTelefoneFornecedor", "editEmailFornecedor", "editEstadoFornecedor"],
+        mensagemSucesso: "Alterações guardadas com sucesso. "
+    },
+    {
+        formId: "formLocalizacao",
+        mensagemId: "mensagemLocalizacao",
+        camposObrigatorios: ["codigoLocalizacao", "edificioLocalizacao", "pisoLocalizacao", "servicoLocalizacao", "salaLocalizacao", "estadoLocalizacao"],
+        mensagemSucesso: "Localização registada com sucesso. "
+    },
+    {
+        formId: "formEditarLocalizacao",
+        mensagemId: "mensagemEditarLocalizacao",
+        camposObrigatorios: ["editCodigoLocalizacao", "editEdificioLocalizacao", "editPisoLocalizacao", "editServicoLocalizacao", "editSalaLocalizacao", "editEstadoLocalizacao"],
+        mensagemSucesso: "Alterações guardadas com sucesso. "
+    },
+    {
+        formId: "formDocumento",
+        mensagemId: "mensagemDocumento",
+        camposObrigatorios: ["codigoDocumento", "nomeDocumento", "tipoDocumento", "equipamentoDocumento", "dataDocumento", "estadoDocumento", "ficheiroDocumento"],
+        mensagemSucesso: "Documento registado com sucesso. "
+    },
+    {
+        formId: "formEditarDocumento",
+        mensagemId: "mensagemEditarDocumento",
+        camposObrigatorios: ["editCodigoDocumento", "editNomeDocumento", "editTipoDocumento", "editEquipamentoDocumento", "editDataDocumento", "editEstadoDocumento", "editFicheiroDocumento"],
+        mensagemSucesso: "Alterações guardadas com sucesso. "
+    },
+    {
+        formId: "formContrato",
+        mensagemId: "mensagemContrato",
+        camposObrigatorios: ["codigoContrato", "equipamentoContrato", "fornecedorContrato", "tipoContrato", "dataInicioContrato", "dataFimContrato", "estadoContrato"],
+        mensagemSucesso: "Contrato registado com sucesso. "
+    },
+    {
+        formId: "formEditarContrato",
+        mensagemId: "mensagemEditarContrato",
+        camposObrigatorios: ["editCodigoContrato", "editEquipamentoContrato", "editFornecedorContrato", "editTipoContrato", "editDataInicioContrato", "editDataFimContrato", "editEstadoContrato"],
+        mensagemSucesso: "Alterações guardadas com sucesso. "
+    }
+];
+
+formulariosSimples.forEach(iniciarFormularioSimples);
+
+/* Remoções */
+
+function iniciarRemocao(botaoId, mensagemId, textoSucesso) {
+    const botao = obterElemento(botaoId);
+
+    if (botao) {
+        botao.addEventListener("click", function () {
+            irParaIndexDepoisDeMensagem(mensagemId, textoSucesso);
+        });
     }
 }
 
-if (pesquisaEquipamento && filtroEstado && filtroCategoria && filtroCriticidade) {
-    pesquisaEquipamento.addEventListener("input", filtrarEquipamentos);
-    filtroEstado.addEventListener("change", filtrarEquipamentos);
-    filtroCategoria.addEventListener("change", filtrarEquipamentos);
-    filtroCriticidade.addEventListener("change", filtrarEquipamentos);
-}
+iniciarRemocao("confirmarRemocao", "mensagemRemocao", "Equipamento removido/arquivado com sucesso. ");
+iniciarRemocao("confirmarRemocaoFornecedor", "mensagemRemocaoFornecedor", "Fornecedor removido/arquivado com sucesso. ");
+iniciarRemocao("confirmarRemocaoLocalizacao", "mensagemRemocaoLocalizacao", "Localização removida/arquivada com sucesso. ");
+iniciarRemocao("confirmarRemocaoDocumento", "mensagemRemocaoDocumento", "Documento removido/arquivado com sucesso. ");
+iniciarRemocao("confirmarRemocaoContrato", "mensagemRemocaoContrato", "Contrato removido/arquivado com sucesso. ");
 
-const formEquipamento = document.getElementById("formEquipamento");
+/* Novo equipamento por etapas */
 
-function atualizarProgressoEquipamento(percentagem, texto) {
-    const barra = document.getElementById("barraProgressoEquipamento");
-    const textoProgresso = document.getElementById("textoProgressoEquipamento");
-    const percentagemTexto = document.getElementById("percentagemProgressoEquipamento");
+const etapasNovoEquipamento = [
+    {
+        tabId: "info-tab",
+        percentagem: 20,
+        textoProgresso: "Etapa 1 de 5: Informação geral",
+        mensagemErro: "Preencha todos os campos obrigatórios da Informação geral.",
+        campos: ["codigo", "designacao", "categoria", "marca", "modelo", "serie", "fabricante", "anoFabrico", "estado", "criticidade", "dataAquisicao", "custo"]
+    },
+    {
+        tabId: "localizacao-tab",
+        percentagem: 40,
+        textoProgresso: "Etapa 2 de 5: Localização",
+        mensagemErro: "Preencha todos os campos obrigatórios da Localização.",
+        campos: ["localizacao", "edificioEquipamento", "pisoEquipamento", "salaEquipamento", "responsavelLocalizacaoEquipamento", "contactoLocalizacaoEquipamento"]
+    },
+    {
+        tabId: "fornecedor-tab",
+        percentagem: 60,
+        textoProgresso: "Etapa 3 de 5: Fornecedor",
+        mensagemErro: "Preencha todos os campos obrigatórios do Fornecedor.",
+        campos: ["fornecedorEquipamento", "tipoFornecedorEquipamento", "contactoFornecedorEquipamento", "telefoneFornecedorEquipamento", "emailFornecedorEquipamento", "nifFornecedorEquipamento"]
+    },
+    {
+        tabId: "documentacao-tab",
+        percentagem: 80,
+        textoProgresso: "Etapa 4 de 5: Documentação",
+        mensagemErro: "Preencha todos os campos obrigatórios da Documentação.",
+        campos: ["manualEquipamento", "certificadoEquipamento", "contratoDocumentoEquipamento", "relatorioTecnicoEquipamento"]
+    },
+    {
+        tabId: "garantia-tab",
+        percentagem: 100,
+        textoProgresso: "Etapa 5 de 5: Contratos",
+        mensagemErro: "Preencha todos os campos obrigatórios dos Contratos.",
+        campos: ["estadoGarantiaEquipamento", "dataInicioGarantiaEquipamento", "dataFimGarantiaEquipamento", "tipoContratoEquipamento", "periodicidadeManutencaoEquipamento", "valorContratoEquipamento"]
+    }
+];
 
-    if (barra && textoProgresso && percentagemTexto) {
-        barra.style.width = percentagem + "%";
-        barra.setAttribute("aria-valuenow", percentagem);
-        textoProgresso.textContent = texto;
-        percentagemTexto.textContent = percentagem + "%";
+function atualizarProgressoEquipamento(etapa) {
+    const barra = obterElemento("barraProgressoEquipamento");
+    const texto = obterElemento("textoProgressoEquipamento");
+    const percentagem = obterElemento("percentagemProgressoEquipamento");
+
+    if (barra && texto && percentagem) {
+        barra.style.width = etapa.percentagem + "%";
+        barra.setAttribute("aria-valuenow", etapa.percentagem);
+        texto.textContent = etapa.textoProgresso;
+        percentagem.textContent = etapa.percentagem + "%";
     }
 }
 
-function abrirTabEquipamento(idBotaoTab) {
-    const botaoTab = document.getElementById(idBotaoTab);
+function abrirTabEquipamento(tabId) {
+    const botaoTab = obterElemento(tabId);
+    const etapa = etapasNovoEquipamento.find(function (item) {
+        return item.tabId === tabId;
+    });
 
-    if (botaoTab) {
+    if (botaoTab && typeof bootstrap !== "undefined") {
         botaoTab.classList.remove("disabled");
+        new bootstrap.Tab(botaoTab).show();
+    }
 
-        const tab = new bootstrap.Tab(botaoTab);
-        tab.show();
-
-        if (idBotaoTab === "info-tab") {
-            atualizarProgressoEquipamento(20, "Etapa 1 de 5: Informação geral");
-        }
-
-        if (idBotaoTab === "localizacao-tab") {
-            atualizarProgressoEquipamento(40, "Etapa 2 de 5: Localização");
-        }
-
-        if (idBotaoTab === "fornecedor-tab") {
-            atualizarProgressoEquipamento(60, "Etapa 3 de 5: Fornecedor");
-        }
-
-        if (idBotaoTab === "documentacao-tab") {
-            atualizarProgressoEquipamento(80, "Etapa 4 de 5: Documentação");
-        }
-
-        if (idBotaoTab === "garantia-tab") {
-            atualizarProgressoEquipamento(100, "Etapa 5 de 5: Contratos");
-        }
+    if (etapa) {
+        atualizarProgressoEquipamento(etapa);
     }
 }
 
-function validarInformacaoGeralEquipamento() {
-    const codigo = document.getElementById("codigo").value.trim();
-    const designacao = document.getElementById("designacao").value.trim();
-    const categoria = document.getElementById("categoria").value;
-    const marca = document.getElementById("marca").value.trim();
-    const modelo = document.getElementById("modelo").value.trim();
-    const serie = document.getElementById("serie").value.trim();
-    const fabricante = document.getElementById("fabricante").value.trim();
-    const anoFabrico = document.getElementById("anoFabrico").value.trim();
-    const estado = document.getElementById("estado").value;
-    const criticidade = document.getElementById("criticidade").value;
-    const dataAquisicao = document.getElementById("dataAquisicao").value;
-    const custo = document.getElementById("custo").value.trim();
+function mostrarMensagemEquipamento(texto, cor) {
+    mostrarMensagem("mensagemEquipamento", texto, cor);
 
-    return (
-        codigo !== "" &&
-        designacao !== "" &&
-        categoria !== "" &&
-        marca !== "" &&
-        modelo !== "" &&
-        serie !== "" &&
-        fabricante !== "" &&
-        anoFabrico !== "" &&
-        estado !== "" &&
-        criticidade !== "" &&
-        dataAquisicao !== "" &&
-        custo !== ""
-    );
-}
+    const mensagem = obterElemento("mensagemEquipamento");
 
-function validarLocalizacaoEquipamento() {
-    const localizacao = document.getElementById("localizacao").value;
-    const edificio = document.getElementById("edificioEquipamento").value.trim();
-    const piso = document.getElementById("pisoEquipamento").value.trim();
-    const sala = document.getElementById("salaEquipamento").value.trim();
-    const responsavel = document.getElementById("responsavelLocalizacaoEquipamento").value.trim();
-    const contacto = document.getElementById("contactoLocalizacaoEquipamento").value.trim();
-
-    return (
-        localizacao !== "" &&
-        edificio !== "" &&
-        piso !== "" &&
-        sala !== "" &&
-        responsavel !== "" &&
-        contacto !== ""
-    );
-}
-
-function validarFornecedorEquipamento() {
-    const fornecedor = document.getElementById("fornecedorEquipamento").value;
-    const tipoFornecedor = document.getElementById("tipoFornecedorEquipamento").value;
-    const contacto = document.getElementById("contactoFornecedorEquipamento").value.trim();
-    const telefone = document.getElementById("telefoneFornecedorEquipamento").value.trim();
-    const email = document.getElementById("emailFornecedorEquipamento").value.trim();
-    const nif = document.getElementById("nifFornecedorEquipamento").value.trim();
-
-    return (
-        fornecedor !== "" &&
-        tipoFornecedor !== "" &&
-        contacto !== "" &&
-        telefone !== "" &&
-        email !== "" &&
-        nif !== ""
-    );
-}
-
-function validarDocumentacaoEquipamento() {
-    const manual = document.getElementById("manualEquipamento").value.trim();
-    const certificado = document.getElementById("certificadoEquipamento").value.trim();
-    const contrato = document.getElementById("contratoDocumentoEquipamento").value.trim();
-    const relatorio = document.getElementById("relatorioTecnicoEquipamento").value.trim();
-
-    return (
-        manual !== "" &&
-        certificado !== "" &&
-        contrato !== "" &&
-        relatorio !== ""
-    );
-}
-
-function validarContratosEquipamento() {
-    const estadoGarantia = document.getElementById("estadoGarantiaEquipamento").value;
-    const dataInicio = document.getElementById("dataInicioGarantiaEquipamento").value;
-    const dataFim = document.getElementById("dataFimGarantiaEquipamento").value;
-    const tipoContrato = document.getElementById("tipoContratoEquipamento").value;
-    const periodicidade = document.getElementById("periodicidadeManutencaoEquipamento").value;
-    const valor = document.getElementById("valorContratoEquipamento").value.trim();
-
-    return (
-        estadoGarantia !== "" &&
-        dataInicio !== "" &&
-        dataFim !== "" &&
-        tipoContrato !== "" &&
-        periodicidade !== "" &&
-        valor !== ""
-    );
-}
-
-if (formEquipamento) {
-    const mensagem = document.getElementById("mensagemEquipamento");
-
-    const avancarLocalizacao = document.getElementById("avancarLocalizacao");
-    const avancarFornecedor = document.getElementById("avancarFornecedor");
-    const avancarDocumentacao = document.getElementById("avancarDocumentacao");
-    const avancarContratos = document.getElementById("avancarContratos");
-
-    const voltarInfo = document.getElementById("voltarInfo");
-    const voltarLocalizacao = document.getElementById("voltarLocalizacao");
-    const voltarFornecedor = document.getElementById("voltarFornecedor");
-
-    const guardarEquipamento = document.getElementById("guardarEquipamento");
-
-    function mostrarMensagemEquipamento(texto, cor) {
-        mensagem.textContent = texto;
-        mensagem.style.color = cor;
-        mensagem.style.fontWeight = "700";
-        mensagem.style.display = "block";
+    if (mensagem) {
         mensagem.style.marginTop = "20px";
-
         mensagem.scrollIntoView({
             behavior: "smooth",
             block: "center"
         });
     }
+}
 
-    function guardarNovoEquipamento() {
-        if (!validarInformacaoGeralEquipamento()) {
-            mostrarMensagemEquipamento("Preencha todos os campos obrigatórios da Informação geral.", "#10233f");
-            abrirTabEquipamento("info-tab");
-        } else if (!validarLocalizacaoEquipamento()) {
-            mostrarMensagemEquipamento("Preencha todos os campos obrigatórios da Localização.", "#10233f");
-            abrirTabEquipamento("localizacao-tab");
-        } else if (!validarFornecedorEquipamento()) {
-            mostrarMensagemEquipamento("Preencha todos os campos obrigatórios do Fornecedor.", "#10233f");
-            abrirTabEquipamento("fornecedor-tab");
-        } else if (!validarDocumentacaoEquipamento()) {
-            mostrarMensagemEquipamento("Preencha todos os campos obrigatórios da Documentação.", "#10233f");
-            abrirTabEquipamento("documentacao-tab");
-        } else if (!validarContratosEquipamento()) {
-            mostrarMensagemEquipamento("Preencha todos os campos obrigatórios dos Contratos.", "#10233f");
-            abrirTabEquipamento("garantia-tab");
-        } else {
-            abrirTabEquipamento("garantia-tab");
-            mostrarMensagemEquipamento("Equipamento registado com sucesso. Esta ação será ligada à base de dados numa fase posterior.", "green");
+function etapaValida(etapa) {
+    return camposPreenchidos(etapa.campos);
+}
+
+function validarEtapasNovoEquipamento() {
+    for (let i = 0; i < etapasNovoEquipamento.length; i++) {
+        if (!etapaValida(etapasNovoEquipamento[i])) {
+            mostrarMensagemEquipamento(etapasNovoEquipamento[i].mensagemErro, "#10233f");
+            abrirTabEquipamento(etapasNovoEquipamento[i].tabId);
+            return false;
         }
     }
 
-    if (avancarLocalizacao) {
-        avancarLocalizacao.addEventListener("click", function () {
-            if (validarInformacaoGeralEquipamento()) {
-                mensagem.textContent = "";
-                abrirTabEquipamento("localizacao-tab");
-            } else {
-                mostrarMensagemEquipamento("Preencha todos os campos obrigatórios da Informação geral antes de avançar.", "#10233f");
-                abrirTabEquipamento("info-tab");
-            }
-        });
-    }
+    return true;
+}
 
-    if (avancarFornecedor) {
-        avancarFornecedor.addEventListener("click", function () {
-            if (validarLocalizacaoEquipamento()) {
-                mensagem.textContent = "";
-                abrirTabEquipamento("fornecedor-tab");
-            } else {
-                mostrarMensagemEquipamento("Preencha todos os campos obrigatórios da Localização antes de avançar.", "#10233f");
-                abrirTabEquipamento("localizacao-tab");
-            }
-        });
-    }
+const formEquipamento = obterElemento("formEquipamento");
 
-    if (avancarDocumentacao) {
-        avancarDocumentacao.addEventListener("click", function () {
-            if (validarFornecedorEquipamento()) {
-                mensagem.textContent = "";
-                abrirTabEquipamento("documentacao-tab");
-            } else {
-                mostrarMensagemEquipamento("Preencha todos os campos obrigatórios do Fornecedor antes de avançar.", "#10233f");
-                abrirTabEquipamento("fornecedor-tab");
-            }
-        });
-    }
+if (formEquipamento) {
+    const botoesAvancar = [
+        { botaoId: "avancarLocalizacao", etapaAtual: 0, proximaEtapa: 1 },
+        { botaoId: "avancarFornecedor", etapaAtual: 1, proximaEtapa: 2 },
+        { botaoId: "avancarDocumentacao", etapaAtual: 2, proximaEtapa: 3 },
+        { botaoId: "avancarContratos", etapaAtual: 3, proximaEtapa: 4 }
+    ];
 
-    if (avancarContratos) {
-        avancarContratos.addEventListener("click", function () {
-            if (validarDocumentacaoEquipamento()) {
-                mensagem.textContent = "";
-                abrirTabEquipamento("garantia-tab");
-            } else {
-                mostrarMensagemEquipamento("Preencha todos os campos obrigatórios da Documentação antes de avançar.", "#10233f");
-                abrirTabEquipamento("documentacao-tab");
-            }
-        });
-    }
+    botoesAvancar.forEach(function (item) {
+        const botao = obterElemento(item.botaoId);
 
-    if (voltarInfo) {
-        voltarInfo.addEventListener("click", function () {
-            abrirTabEquipamento("info-tab");
-        });
-    }
+        if (botao) {
+            botao.addEventListener("click", function () {
+                const etapaAtual = etapasNovoEquipamento[item.etapaAtual];
 
-    if (voltarLocalizacao) {
-        voltarLocalizacao.addEventListener("click", function () {
-            abrirTabEquipamento("localizacao-tab");
-        });
-    }
+                if (etapaValida(etapaAtual)) {
+                    mostrarMensagem("mensagemEquipamento", "", "#10233f");
+                    abrirTabEquipamento(etapasNovoEquipamento[item.proximaEtapa].tabId);
+                } else {
+                    mostrarMensagemEquipamento(etapaAtual.mensagemErro.replace(".", " antes de avançar."), "#10233f");
+                    abrirTabEquipamento(etapaAtual.tabId);
+                }
+            });
+        }
+    });
 
-    if (voltarFornecedor) {
-        voltarFornecedor.addEventListener("click", function () {
-            abrirTabEquipamento("fornecedor-tab");
-        });
-    }
+    const botoesVoltar = [
+        { botaoId: "voltarInfo", tabId: "info-tab" },
+        { botaoId: "voltarLocalizacao", tabId: "localizacao-tab" },
+        { botaoId: "voltarFornecedor", tabId: "fornecedor-tab" }
+    ];
+
+    botoesVoltar.forEach(function (item) {
+        const botao = obterElemento(item.botaoId);
+
+        if (botao) {
+            botao.addEventListener("click", function () {
+                abrirTabEquipamento(item.tabId);
+            });
+        }
+    });
+
+    const guardarEquipamento = obterElemento("guardarEquipamento");
 
     if (guardarEquipamento) {
-        guardarEquipamento.addEventListener("click", guardarNovoEquipamento);
+        guardarEquipamento.addEventListener("click", function () {
+            if (validarEtapasNovoEquipamento()) {
+                abrirTabEquipamento("garantia-tab");
+                mostrarMensagemEquipamento("Equipamento registado com sucesso. ", "green");
+            }
+        });
     }
 }
 
-const formEditarEquipamento = document.getElementById("formEditarEquipamento");
+/* Editar equipamento */
 
-function abrirTabEditarEquipamento(idBotaoTab) {
-    const botaoTab = document.getElementById(idBotaoTab);
+const etapasEditarEquipamento = [
+    {
+        tabId: "edit-info-tab",
+        mensagemErro: "Preencha todos os campos obrigatórios da Informação geral.",
+        campos: ["editCodigo", "editDesignacao", "editCategoria", "editMarca", "editModelo", "editSerie", "editFabricante", "editAnoFabrico", "editEstado", "editCriticidade", "editDataAquisicao", "editCusto"]
+    },
+    {
+        tabId: "edit-localizacao-tab",
+        mensagemErro: "Preencha todos os campos obrigatórios da Localização.",
+        campos: ["editLocalizacao", "editEdificioEquipamento", "editPisoEquipamento", "editSalaEquipamento", "editResponsavelLocalizacaoEquipamento", "editContactoLocalizacaoEquipamento"]
+    },
+    {
+        tabId: "edit-fornecedor-tab",
+        mensagemErro: "Preencha todos os campos obrigatórios do Fornecedor.",
+        campos: ["editFornecedorEquipamento", "editTipoFornecedorEquipamento", "editContactoFornecedorEquipamento", "editTelefoneFornecedorEquipamento", "editEmailFornecedorEquipamento", "editNifFornecedorEquipamento"]
+    },
+    {
+        tabId: "edit-documentacao-tab",
+        mensagemErro: "Preencha todos os campos obrigatórios da Documentação.",
+        campos: ["editManualEquipamento", "editCertificadoEquipamento", "editContratoDocumentoEquipamento", "editRelatorioTecnicoEquipamento"]
+    },
+    {
+        tabId: "edit-contratos-tab",
+        mensagemErro: "Preencha todos os campos obrigatórios dos Contratos.",
+        campos: ["editEstadoGarantiaEquipamento", "editDataInicioGarantiaEquipamento", "editDataFimGarantiaEquipamento", "editTipoContratoEquipamento", "editPeriodicidadeManutencaoEquipamento", "editValorContratoEquipamento"]
+    }
+];
 
-    if (botaoTab) {
-        const tab = new bootstrap.Tab(botaoTab);
-        tab.show();
+function abrirTabEditarEquipamento(tabId) {
+    const botaoTab = obterElemento(tabId);
+
+    if (botaoTab && typeof bootstrap !== "undefined") {
+        new bootstrap.Tab(botaoTab).show();
     }
 }
+
+const formEditarEquipamento = obterElemento("formEditarEquipamento");
 
 if (formEditarEquipamento) {
     formEditarEquipamento.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        const codigo = document.getElementById("editCodigo").value.trim();
-        const designacao = document.getElementById("editDesignacao").value.trim();
-        const categoria = document.getElementById("editCategoria").value;
-        const marca = document.getElementById("editMarca").value.trim();
-        const modelo = document.getElementById("editModelo").value.trim();
-        const serie = document.getElementById("editSerie").value.trim();
-        const fabricante = document.getElementById("editFabricante").value.trim();
-        const anoFabrico = document.getElementById("editAnoFabrico").value.trim();
-        const estado = document.getElementById("editEstado").value;
-        const criticidade = document.getElementById("editCriticidade").value;
-        const dataAquisicao = document.getElementById("editDataAquisicao").value;
-        const custo = document.getElementById("editCusto").value.trim();
+        for (let i = 0; i < etapasEditarEquipamento.length; i++) {
+            const etapa = etapasEditarEquipamento[i];
 
-        const localizacao = document.getElementById("editLocalizacao").value;
-        const edificio = document.getElementById("editEdificioEquipamento").value.trim();
-        const piso = document.getElementById("editPisoEquipamento").value.trim();
-        const sala = document.getElementById("editSalaEquipamento").value.trim();
-        const responsavelLocalizacao = document.getElementById("editResponsavelLocalizacaoEquipamento").value.trim();
-        const contactoLocalizacao = document.getElementById("editContactoLocalizacaoEquipamento").value.trim();
+            if (!camposPreenchidos(etapa.campos)) {
+                mostrarMensagem("mensagemEditarEquipamento", etapa.mensagemErro, "#10233f");
+                abrirTabEditarEquipamento(etapa.tabId);
+                return;
+            }
+        }
 
-        const fornecedor = document.getElementById("editFornecedorEquipamento").value;
-        const tipoFornecedor = document.getElementById("editTipoFornecedorEquipamento").value;
-        const contactoFornecedor = document.getElementById("editContactoFornecedorEquipamento").value.trim();
-        const telefoneFornecedor = document.getElementById("editTelefoneFornecedorEquipamento").value.trim();
-        const emailFornecedor = document.getElementById("editEmailFornecedorEquipamento").value.trim();
-        const nifFornecedor = document.getElementById("editNifFornecedorEquipamento").value.trim();
+        mostrarMensagem("mensagemEditarEquipamento", "Alterações guardadas com sucesso. ", "green");
 
-        const manual = document.getElementById("editManualEquipamento").value.trim();
-        const certificado = document.getElementById("editCertificadoEquipamento").value.trim();
-        const documentoContrato = document.getElementById("editContratoDocumentoEquipamento").value.trim();
-        const relatorio = document.getElementById("editRelatorioTecnicoEquipamento").value.trim();
+        const mensagem = obterElemento("mensagemEditarEquipamento");
 
-        const estadoGarantia = document.getElementById("editEstadoGarantiaEquipamento").value;
-        const dataInicioGarantia = document.getElementById("editDataInicioGarantiaEquipamento").value;
-        const dataFimGarantia = document.getElementById("editDataFimGarantiaEquipamento").value;
-        const tipoContrato = document.getElementById("editTipoContratoEquipamento").value;
-        const periodicidade = document.getElementById("editPeriodicidadeManutencaoEquipamento").value;
-        const valorContrato = document.getElementById("editValorContratoEquipamento").value.trim();
-
-        const mensagem = document.getElementById("mensagemEditarEquipamento");
-
-        if (
-            codigo === "" ||
-            designacao === "" ||
-            categoria === "" ||
-            marca === "" ||
-            modelo === "" ||
-            serie === "" ||
-            fabricante === "" ||
-            anoFabrico === "" ||
-            estado === "" ||
-            criticidade === "" ||
-            dataAquisicao === "" ||
-            custo === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios da Informação geral.";
-            mensagem.style.color = "#10233f";
-            abrirTabEditarEquipamento("edit-info-tab");
-        } else if (
-            localizacao === "" ||
-            edificio === "" ||
-            piso === "" ||
-            sala === "" ||
-            responsavelLocalizacao === "" ||
-            contactoLocalizacao === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios da Localização.";
-            mensagem.style.color = "#10233f";
-            abrirTabEditarEquipamento("edit-localizacao-tab");
-        } else if (
-            fornecedor === "" ||
-            tipoFornecedor === "" ||
-            contactoFornecedor === "" ||
-            telefoneFornecedor === "" ||
-            emailFornecedor === "" ||
-            nifFornecedor === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios do Fornecedor.";
-            mensagem.style.color = "#10233f";
-            abrirTabEditarEquipamento("edit-fornecedor-tab");
-        } else if (
-            manual === "" ||
-            certificado === "" ||
-            documentoContrato === "" ||
-            relatorio === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios da Documentação.";
-            mensagem.style.color = "#10233f";
-            abrirTabEditarEquipamento("edit-documentacao-tab");
-        } else if (
-            estadoGarantia === "" ||
-            dataInicioGarantia === "" ||
-            dataFimGarantia === "" ||
-            tipoContrato === "" ||
-            periodicidade === "" ||
-            valorContrato === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios dos Contratos.";
-            mensagem.style.color = "#10233f";
-            abrirTabEditarEquipamento("edit-contratos-tab");
-        } else {
-            mensagem.textContent = "Equipamento registado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-            mensagem.style.color = "green";
-            mensagem.style.fontWeight = "700";
-            mensagem.style.display = "block";
-
+        if (mensagem) {
             mensagem.scrollIntoView({
                 behavior: "smooth",
                 block: "center"
@@ -547,598 +565,105 @@ if (formEditarEquipamento) {
     });
 }
 
-const confirmarRemocao = document.getElementById("confirmarRemocao");
-
-if (confirmarRemocao) {
-    confirmarRemocao.addEventListener("click", function () {
-        const mensagem = document.getElementById("mensagemRemocao");
-
-        mensagem.textContent = "Equipamento removido/arquivado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-        mensagem.style.color = "green";
-
-        setTimeout(function () {
-            window.location.href = "index.html";
-        }, 1200);
-    });
-}
-
-const pesquisaFornecedor = document.getElementById("pesquisaFornecedor");
-const filtroTipoFornecedor = document.getElementById("filtroTipoFornecedor");
-const filtroEstadoFornecedor = document.getElementById("filtroEstadoFornecedor");
-const tabelaFornecedores = document.getElementById("tabelaFornecedores");
-const semResultadosFornecedores = document.getElementById("semResultadosFornecedores");
-
-function filtrarFornecedores() {
-    if (!tabelaFornecedores) {
-        return;
-    }
-
-    const textoPesquisa = pesquisaFornecedor.value.toLowerCase();
-    const tipoSelecionado = filtroTipoFornecedor.value;
-    const estadoSelecionado = filtroEstadoFornecedor.value;
-
-    const linhas = tabelaFornecedores.querySelectorAll("tbody tr");
-    let resultadosVisiveis = 0;
-
-    linhas.forEach(function (linha) {
-        const textoLinha = linha.textContent.toLowerCase();
-        const tipoLinha = linha.getAttribute("data-tipo");
-        const estadoLinha = linha.getAttribute("data-estado");
-
-        const correspondePesquisa = textoLinha.includes(textoPesquisa);
-        const correspondeTipo = tipoSelecionado === "" || tipoLinha === tipoSelecionado;
-        const correspondeEstado = estadoSelecionado === "" || estadoLinha === estadoSelecionado;
-
-        if (correspondePesquisa && correspondeTipo && correspondeEstado) {
-            linha.style.display = "";
-            resultadosVisiveis++;
-        } else {
-            linha.style.display = "none";
-        }
-    });
-
-    if (semResultadosFornecedores) {
-        semResultadosFornecedores.style.display = resultadosVisiveis === 0 ? "block" : "none";
-    }
-}
-
-if (pesquisaFornecedor && filtroTipoFornecedor && filtroEstadoFornecedor) {
-    pesquisaFornecedor.addEventListener("input", filtrarFornecedores);
-    filtroTipoFornecedor.addEventListener("change", filtrarFornecedores);
-    filtroEstadoFornecedor.addEventListener("change", filtrarFornecedores);
-}
-
-const formFornecedor = document.getElementById("formFornecedor");
-
-if (formFornecedor) {
-    formFornecedor.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const codigo = document.getElementById("codigoFornecedor").value.trim();
-        const nome = document.getElementById("nomeFornecedor").value.trim();
-        const nif = document.getElementById("nifFornecedor").value.trim();
-        const tipo = document.getElementById("tipoFornecedor").value;
-        const telefone = document.getElementById("telefoneFornecedor").value.trim();
-        const email = document.getElementById("emailFornecedor").value.trim();
-        const estado = document.getElementById("estadoFornecedor").value;
-        const mensagem = document.getElementById("mensagemFornecedor");
-
-        if (
-            codigo === "" ||
-            nome === "" ||
-            nif === "" ||
-            tipo === "" ||
-            telefone === "" ||
-            email === "" ||
-            estado === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
-            mensagem.style.color = "#10233f";
-        } else {
-            mensagem.textContent = "Fornecedor registado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-            mensagem.style.color = "green";
-        }
-    });
-}
-
-const formEditarFornecedor = document.getElementById("formEditarFornecedor");
-
-if (formEditarFornecedor) {
-    formEditarFornecedor.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const codigo = document.getElementById("editCodigoFornecedor").value.trim();
-        const nome = document.getElementById("editNomeFornecedor").value.trim();
-        const nif = document.getElementById("editNifFornecedor").value.trim();
-        const tipo = document.getElementById("editTipoFornecedor").value;
-        const telefone = document.getElementById("editTelefoneFornecedor").value.trim();
-        const email = document.getElementById("editEmailFornecedor").value.trim();
-        const estado = document.getElementById("editEstadoFornecedor").value;
-        const mensagem = document.getElementById("mensagemEditarFornecedor");
-
-        if (
-            codigo === "" ||
-            nome === "" ||
-            nif === "" ||
-            tipo === "" ||
-            telefone === "" ||
-            email === "" ||
-            estado === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
-            mensagem.style.color = "#10233f";
-        } else {
-            mensagem.textContent = "Alterações guardadas com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-            mensagem.style.color = "green";
-        }
-    });
-}
-
-const confirmarRemocaoFornecedor = document.getElementById("confirmarRemocaoFornecedor");
-
-if (confirmarRemocaoFornecedor) {
-    confirmarRemocaoFornecedor.addEventListener("click", function () {
-        const mensagem = document.getElementById("mensagemRemocaoFornecedor");
-
-        mensagem.textContent = "Fornecedor removido/arquivado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-        mensagem.style.color = "green";
-
-        setTimeout(function () {
-            window.location.href = "index.html";
-        }, 1200);
-    });
-}
-
-
-const pesquisaLocalizacao = document.getElementById("pesquisaLocalizacao");
-const filtroServicoLocalizacao = document.getElementById("filtroServicoLocalizacao");
-const filtroEstadoLocalizacao = document.getElementById("filtroEstadoLocalizacao");
-const tabelaLocalizacoes = document.getElementById("tabelaLocalizacoes");
-const semResultadosLocalizacoes = document.getElementById("semResultadosLocalizacoes");
-
-function filtrarLocalizacoes() {
-    if (!tabelaLocalizacoes) {
-        return;
-    }
-
-    const textoPesquisa = pesquisaLocalizacao.value.toLowerCase();
-    const servicoSelecionado = filtroServicoLocalizacao.value;
-    const estadoSelecionado = filtroEstadoLocalizacao.value;
-
-    const linhas = tabelaLocalizacoes.querySelectorAll("tbody tr");
-    let resultadosVisiveis = 0;
-
-    linhas.forEach(function (linha) {
-        const textoLinha = linha.textContent.toLowerCase();
-        const servicoLinha = linha.getAttribute("data-servico");
-        const estadoLinha = linha.getAttribute("data-estado");
-
-        const correspondePesquisa = textoLinha.includes(textoPesquisa);
-        const correspondeServico = servicoSelecionado === "" || servicoLinha === servicoSelecionado;
-        const correspondeEstado = estadoSelecionado === "" || estadoLinha === estadoSelecionado;
-
-        if (correspondePesquisa && correspondeServico && correspondeEstado) {
-            linha.style.display = "";
-            resultadosVisiveis++;
-        } else {
-            linha.style.display = "none";
-        }
-    });
-
-    if (semResultadosLocalizacoes) {
-        semResultadosLocalizacoes.style.display = resultadosVisiveis === 0 ? "block" : "none";
-    }
-}
-
-if (pesquisaLocalizacao && filtroServicoLocalizacao && filtroEstadoLocalizacao) {
-    pesquisaLocalizacao.addEventListener("input", filtrarLocalizacoes);
-    filtroServicoLocalizacao.addEventListener("change", filtrarLocalizacoes);
-    filtroEstadoLocalizacao.addEventListener("change", filtrarLocalizacoes);
-}
-
-
-const formLocalizacao = document.getElementById("formLocalizacao");
-
-if (formLocalizacao) {
-    formLocalizacao.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const codigo = document.getElementById("codigoLocalizacao").value.trim();
-        const edificio = document.getElementById("edificioLocalizacao").value.trim();
-        const piso = document.getElementById("pisoLocalizacao").value.trim();
-        const servico = document.getElementById("servicoLocalizacao").value;
-        const sala = document.getElementById("salaLocalizacao").value.trim();
-        const estado = document.getElementById("estadoLocalizacao").value;
-        const mensagem = document.getElementById("mensagemLocalizacao");
-
-        if (
-            codigo === "" ||
-            edificio === "" ||
-            piso === "" ||
-            servico === "" ||
-            sala === "" ||
-            estado === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
-            mensagem.style.color = "#10233f";
-        } else {
-            mensagem.textContent = "Localização registada com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-            mensagem.style.color = "green";
-        }
-    });
-}
-
-
-const formEditarLocalizacao = document.getElementById("formEditarLocalizacao");
-
-if (formEditarLocalizacao) {
-    formEditarLocalizacao.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const codigo = document.getElementById("editCodigoLocalizacao").value.trim();
-        const edificio = document.getElementById("editEdificioLocalizacao").value.trim();
-        const piso = document.getElementById("editPisoLocalizacao").value.trim();
-        const servico = document.getElementById("editServicoLocalizacao").value;
-        const sala = document.getElementById("editSalaLocalizacao").value.trim();
-        const estado = document.getElementById("editEstadoLocalizacao").value;
-        const mensagem = document.getElementById("mensagemEditarLocalizacao");
-
-        if (
-            codigo === "" ||
-            edificio === "" ||
-            piso === "" ||
-            servico === "" ||
-            sala === "" ||
-            estado === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
-            mensagem.style.color = "#10233f";
-        } else {
-            mensagem.textContent = "Alterações guardadas com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-            mensagem.style.color = "green";
-        }
-    });
-}
-
-
-const confirmarRemocaoLocalizacao = document.getElementById("confirmarRemocaoLocalizacao");
-
-if (confirmarRemocaoLocalizacao) {
-    confirmarRemocaoLocalizacao.addEventListener("click", function () {
-        const mensagem = document.getElementById("mensagemRemocaoLocalizacao");
-
-        mensagem.textContent = "Localização removida/arquivada com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-        mensagem.style.color = "green";
-
-        setTimeout(function () {
-            window.location.href = "index.html";
-        }, 1200);
-    });
-}
-
-const pesquisaDocumento = document.getElementById("pesquisaDocumento");
-const filtroTipoDocumento = document.getElementById("filtroTipoDocumento");
-const filtroEstadoDocumento = document.getElementById("filtroEstadoDocumento");
-const filtroEquipamentoDocumento = document.getElementById("filtroEquipamentoDocumento");
-const tabelaDocumentos = document.getElementById("tabelaDocumentos");
-const semResultadosDocumentos = document.getElementById("semResultadosDocumentos");
-
-function filtrarDocumentos() {
-    if (!tabelaDocumentos) {
-        return;
-    }
-
-    const textoPesquisa = pesquisaDocumento.value.toLowerCase();
-    const tipoSelecionado = filtroTipoDocumento.value;
-    const estadoSelecionado = filtroEstadoDocumento.value;
-    const equipamentoSelecionado = filtroEquipamentoDocumento.value;
-
-    const linhas = tabelaDocumentos.querySelectorAll("tbody tr");
-    let resultadosVisiveis = 0;
-
-    linhas.forEach(function (linha) {
-        const textoLinha = linha.textContent.toLowerCase();
-        const tipoLinha = linha.getAttribute("data-tipo");
-        const estadoLinha = linha.getAttribute("data-estado");
-        const equipamentoLinha = linha.getAttribute("data-equipamento");
-
-        const correspondePesquisa = textoLinha.includes(textoPesquisa);
-        const correspondeTipo = tipoSelecionado === "" || tipoLinha === tipoSelecionado;
-        const correspondeEstado = estadoSelecionado === "" || estadoLinha === estadoSelecionado;
-        const correspondeEquipamento = equipamentoSelecionado === "" || equipamentoLinha === equipamentoSelecionado;
-
-        if (correspondePesquisa && correspondeTipo && correspondeEstado && correspondeEquipamento) {
-            linha.style.display = "";
-            resultadosVisiveis++;
-        } else {
-            linha.style.display = "none";
-        }
-    });
-
-    if (semResultadosDocumentos) {
-        semResultadosDocumentos.style.display = resultadosVisiveis === 0 ? "block" : "none";
-    }
-}
-
-if (pesquisaDocumento && filtroTipoDocumento && filtroEstadoDocumento && filtroEquipamentoDocumento) {
-    pesquisaDocumento.addEventListener("input", filtrarDocumentos);
-    filtroTipoDocumento.addEventListener("change", filtrarDocumentos);
-    filtroEstadoDocumento.addEventListener("change", filtrarDocumentos);
-    filtroEquipamentoDocumento.addEventListener("change", filtrarDocumentos);
-}
-
-const formDocumento = document.getElementById("formDocumento");
-
-if (formDocumento) {
-    formDocumento.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const codigo = document.getElementById("codigoDocumento").value.trim();
-        const nome = document.getElementById("nomeDocumento").value.trim();
-        const tipo = document.getElementById("tipoDocumento").value;
-        const equipamento = document.getElementById("equipamentoDocumento").value;
-        const data = document.getElementById("dataDocumento").value;
-        const estado = document.getElementById("estadoDocumento").value;
-        const ficheiro = document.getElementById("ficheiroDocumento").value.trim();
-        const mensagem = document.getElementById("mensagemDocumento");
-
-        if (
-            codigo === "" ||
-            nome === "" ||
-            tipo === "" ||
-            equipamento === "" ||
-            data === "" ||
-            estado === "" ||
-            ficheiro === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
-            mensagem.style.color = "#10233f";
-        } else {
-            mensagem.textContent = "Documento registado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-            mensagem.style.color = "green";
-        }
-    });
-}
-
-const formEditarDocumento = document.getElementById("formEditarDocumento");
-
-if (formEditarDocumento) {
-    formEditarDocumento.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const codigo = document.getElementById("editCodigoDocumento").value.trim();
-        const nome = document.getElementById("editNomeDocumento").value.trim();
-        const tipo = document.getElementById("editTipoDocumento").value;
-        const equipamento = document.getElementById("editEquipamentoDocumento").value;
-        const data = document.getElementById("editDataDocumento").value;
-        const estado = document.getElementById("editEstadoDocumento").value;
-        const ficheiro = document.getElementById("editFicheiroDocumento").value.trim();
-        const mensagem = document.getElementById("mensagemEditarDocumento");
-
-        if (
-            codigo === "" ||
-            nome === "" ||
-            tipo === "" ||
-            equipamento === "" ||
-            data === "" ||
-            estado === "" ||
-            ficheiro === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
-            mensagem.style.color = "#10233f";
-        } else {
-            mensagem.textContent = "Alterações guardadas com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-            mensagem.style.color = "green";
-        }
-    });
-}
-
-const confirmarRemocaoDocumento = document.getElementById("confirmarRemocaoDocumento");
-
-if (confirmarRemocaoDocumento) {
-    confirmarRemocaoDocumento.addEventListener("click", function () {
-        const mensagem = document.getElementById("mensagemRemocaoDocumento");
-
-        mensagem.textContent = "Documento removido/arquivado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-        mensagem.style.color = "green";
-
-        setTimeout(function () {
-            window.location.href = "index.html";
-        }, 1200);
-    });
-}
-
-const pesquisaContrato = document.getElementById("pesquisaContrato");
-const filtroTipoContrato = document.getElementById("filtroTipoContrato");
-const filtroEstadoContrato = document.getElementById("filtroEstadoContrato");
-const filtroEquipamentoContrato = document.getElementById("filtroEquipamentoContrato");
-const tabelaContratos = document.getElementById("tabelaContratos");
-const semResultadosContratos = document.getElementById("semResultadosContratos");
-
-function filtrarContratos() {
-    if (!tabelaContratos) {
-        return;
-    }
-
-    const textoPesquisa = pesquisaContrato.value.toLowerCase();
-    const tipoSelecionado = filtroTipoContrato.value;
-    const estadoSelecionado = filtroEstadoContrato.value;
-    const equipamentoSelecionado = filtroEquipamentoContrato.value;
-
-    const linhas = tabelaContratos.querySelectorAll("tbody tr");
-    let resultadosVisiveis = 0;
-
-    linhas.forEach(function (linha) {
-        const textoLinha = linha.textContent.toLowerCase();
-        const tipoLinha = linha.getAttribute("data-tipo");
-        const estadoLinha = linha.getAttribute("data-estado");
-        const equipamentoLinha = linha.getAttribute("data-equipamento");
-
-        const correspondePesquisa = textoLinha.includes(textoPesquisa);
-        const correspondeTipo = tipoSelecionado === "" || tipoLinha === tipoSelecionado;
-        const correspondeEstado = estadoSelecionado === "" || estadoLinha === estadoSelecionado;
-        const correspondeEquipamento = equipamentoSelecionado === "" || equipamentoLinha === equipamentoSelecionado;
-
-        if (correspondePesquisa && correspondeTipo && correspondeEstado && correspondeEquipamento) {
-            linha.style.display = "";
-            resultadosVisiveis++;
-        } else {
-            linha.style.display = "none";
-        }
-    });
-
-    if (semResultadosContratos) {
-        semResultadosContratos.style.display = resultadosVisiveis === 0 ? "block" : "none";
-    }
-}
-
-if (pesquisaContrato && filtroTipoContrato && filtroEstadoContrato && filtroEquipamentoContrato) {
-    pesquisaContrato.addEventListener("input", filtrarContratos);
-    filtroTipoContrato.addEventListener("change", filtrarContratos);
-    filtroEstadoContrato.addEventListener("change", filtrarContratos);
-    filtroEquipamentoContrato.addEventListener("change", filtrarContratos);
-}
-
-const formContrato = document.getElementById("formContrato");
-
-if (formContrato) {
-    formContrato.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const codigo = document.getElementById("codigoContrato").value.trim();
-        const equipamento = document.getElementById("equipamentoContrato").value;
-        const fornecedor = document.getElementById("fornecedorContrato").value;
-        const tipo = document.getElementById("tipoContrato").value;
-        const dataInicio = document.getElementById("dataInicioContrato").value;
-        const dataFim = document.getElementById("dataFimContrato").value;
-        const estado = document.getElementById("estadoContrato").value;
-        const mensagem = document.getElementById("mensagemContrato");
-
-        if (
-            codigo === "" ||
-            equipamento === "" ||
-            fornecedor === "" ||
-            tipo === "" ||
-            dataInicio === "" ||
-            dataFim === "" ||
-            estado === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
-            mensagem.style.color = "#10233f";
-        } else {
-            mensagem.textContent = "Contrato registado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-            mensagem.style.color = "green";
-        }
-    });
-}
-
-const formEditarContrato = document.getElementById("formEditarContrato");
-
-if (formEditarContrato) {
-    formEditarContrato.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const codigo = document.getElementById("editCodigoContrato").value.trim();
-        const equipamento = document.getElementById("editEquipamentoContrato").value;
-        const fornecedor = document.getElementById("editFornecedorContrato").value;
-        const tipo = document.getElementById("editTipoContrato").value;
-        const dataInicio = document.getElementById("editDataInicioContrato").value;
-        const dataFim = document.getElementById("editDataFimContrato").value;
-        const estado = document.getElementById("editEstadoContrato").value;
-        const mensagem = document.getElementById("mensagemEditarContrato");
-
-        if (
-            codigo === "" ||
-            equipamento === "" ||
-            fornecedor === "" ||
-            tipo === "" ||
-            dataInicio === "" ||
-            dataFim === "" ||
-            estado === ""
-        ) {
-            mensagem.textContent = "Preencha todos os campos obrigatórios assinalados com *.";
-            mensagem.style.color = "#10233f";
-        } else {
-            mensagem.textContent = "Alterações guardadas com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-            mensagem.style.color = "green";
-        }
-    });
-}
-
-const confirmarRemocaoContrato = document.getElementById("confirmarRemocaoContrato");
-
-if (confirmarRemocaoContrato) {
-    confirmarRemocaoContrato.addEventListener("click", function () {
-        const mensagem = document.getElementById("mensagemRemocaoContrato");
-
-        mensagem.textContent = "Contrato removido/arquivado com sucesso. Esta ação será ligada à base de dados numa fase posterior.";
-        mensagem.style.color = "green";
-
-        setTimeout(function () {
-            window.location.href = "index.html";
-        }, 1200);
-    });
-}
-
-
-const formConteudosPublicos = document.getElementById("formConteudosPublicos");
-const botaoReporConteudos = document.getElementById("reporConteudosPublicos");
+/* Gestão dos conteúdos públicos */
+
+const camposConteudoPublico = [
+    "conteudoLogoTexto",
+    "conteudoNavInicio",
+    "conteudoNavSobre",
+    "conteudoNavServicos",
+    "conteudoNavContactos",
+    "conteudoNavAreaReservada",
+    "conteudoTituloInicio",
+    "conteudoTextoInicio",
+    "conteudoBotaoInicio",
+    "conteudoSobreSubtitulo",
+    "conteudoSobreTitulo",
+    "conteudoSobreNos",
+    "conteudoSobreTexto2",
+    "conteudoSobreListaTitulo",
+    "conteudoSobreListaItem1",
+    "conteudoSobreListaItem2",
+    "conteudoSobreListaItem3",
+    "conteudoSobreListaItem4",
+    "conteudoServicosTitulo",
+    "conteudoServicos",
+    "conteudoServicoEquipamentosTitulo",
+    "conteudoServicoEquipamentosTexto",
+    "conteudoServicoLocalizacaoTitulo",
+    "conteudoServicoLocalizacaoTexto",
+    "conteudoServicoFornecedoresTitulo",
+    "conteudoServicoFornecedoresTexto",
+    "conteudoServicoDocumentacaoTitulo",
+    "conteudoServicoDocumentacaoTexto",
+    "conteudoServicoContratosTitulo",
+    "conteudoServicoContratosTexto",
+    "conteudoServicoPesquisaTitulo",
+    "conteudoServicoPesquisaTexto",
+    "conteudoContactosTitulo",
+    "conteudoContactosIntro",
+    "conteudoContactosInfoTitulo",
+    "conteudoEmail",
+    "conteudoTelefone",
+    "conteudoLocalizacao",
+    "conteudoLabelNome",
+    "conteudoLabelEmail",
+    "conteudoLabelMensagem",
+    "conteudoBotaoContacto",
+    "conteudoFooterTexto1",
+    "conteudoFooterTexto2"
+];
+
+const ligacoesConteudoPublico = [
+    ["logoTextoPublico", "conteudoLogoTexto"],
+    ["navInicioPublico", "conteudoNavInicio"],
+    ["navSobrePublico", "conteudoNavSobre"],
+    ["navServicosPublico", "conteudoNavServicos"],
+    ["navContactosPublico", "conteudoNavContactos"],
+    ["navAreaReservadaPublico", "conteudoNavAreaReservada"],
+    ["tituloInicioPublico", "conteudoTituloInicio"],
+    ["textoInicioPublico", "conteudoTextoInicio"],
+    ["botaoInicioPublico", "conteudoBotaoInicio"],
+    ["sobreSubtituloPublico", "conteudoSobreSubtitulo"],
+    ["sobreTituloPublico", "conteudoSobreTitulo"],
+    ["sobreNosPublico", "conteudoSobreNos"],
+    ["sobreTexto2Publico", "conteudoSobreTexto2"],
+    ["sobreListaTituloPublico", "conteudoSobreListaTitulo"],
+    ["sobreListaItem1Publico", "conteudoSobreListaItem1"],
+    ["sobreListaItem2Publico", "conteudoSobreListaItem2"],
+    ["sobreListaItem3Publico", "conteudoSobreListaItem3"],
+    ["sobreListaItem4Publico", "conteudoSobreListaItem4"],
+    ["servicosTituloPublico", "conteudoServicosTitulo"],
+    ["servicosPublico", "conteudoServicos"],
+    ["servicoEquipamentosTituloPublico", "conteudoServicoEquipamentosTitulo"],
+    ["servicoEquipamentosTextoPublico", "conteudoServicoEquipamentosTexto"],
+    ["servicoLocalizacaoTituloPublico", "conteudoServicoLocalizacaoTitulo"],
+    ["servicoLocalizacaoTextoPublico", "conteudoServicoLocalizacaoTexto"],
+    ["servicoFornecedoresTituloPublico", "conteudoServicoFornecedoresTitulo"],
+    ["servicoFornecedoresTextoPublico", "conteudoServicoFornecedoresTexto"],
+    ["servicoDocumentacaoTituloPublico", "conteudoServicoDocumentacaoTitulo"],
+    ["servicoDocumentacaoTextoPublico", "conteudoServicoDocumentacaoTexto"],
+    ["servicoContratosTituloPublico", "conteudoServicoContratosTitulo"],
+    ["servicoContratosTextoPublico", "conteudoServicoContratosTexto"],
+    ["servicoPesquisaTituloPublico", "conteudoServicoPesquisaTitulo"],
+    ["servicoPesquisaTextoPublico", "conteudoServicoPesquisaTexto"],
+    ["contactosTituloPublico", "conteudoContactosTitulo"],
+    ["contactosIntroPublico", "conteudoContactosIntro"],
+    ["contactosInfoTituloPublico", "conteudoContactosInfoTitulo"],
+    ["emailPublico", "conteudoEmail"],
+    ["telefonePublico", "conteudoTelefone"],
+    ["localizacaoPublico", "conteudoLocalizacao"],
+    ["labelNomePublico", "conteudoLabelNome"],
+    ["labelEmailPublico", "conteudoLabelEmail"],
+    ["labelMensagemPublico", "conteudoLabelMensagem"],
+    ["botaoContactoPublico", "conteudoBotaoContacto"],
+    ["footerTexto1Publico", "conteudoFooterTexto1"],
+    ["footerTexto2Publico", "conteudoFooterTexto2"]
+];
 
 function carregarConteudosNoFormulario() {
-    const camposConteudo = [
-        "conteudoLogoTexto",
-        "conteudoNavInicio",
-        "conteudoNavSobre",
-        "conteudoNavServicos",
-        "conteudoNavContactos",
-        "conteudoNavAreaReservada",
-
-        "conteudoTituloInicio",
-        "conteudoTextoInicio",
-        "conteudoBotaoInicio",
-
-        "conteudoSobreSubtitulo",
-        "conteudoSobreTitulo",
-        "conteudoSobreNos",
-        "conteudoSobreTexto2",
-        "conteudoSobreListaTitulo",
-        "conteudoSobreListaItem1",
-        "conteudoSobreListaItem2",
-        "conteudoSobreListaItem3",
-        "conteudoSobreListaItem4",
-
-        "conteudoServicosTitulo",
-        "conteudoServicos",
-        "conteudoServicoEquipamentosTitulo",
-        "conteudoServicoEquipamentosTexto",
-        "conteudoServicoLocalizacaoTitulo",
-        "conteudoServicoLocalizacaoTexto",
-        "conteudoServicoFornecedoresTitulo",
-        "conteudoServicoFornecedoresTexto",
-        "conteudoServicoDocumentacaoTitulo",
-        "conteudoServicoDocumentacaoTexto",
-        "conteudoServicoContratosTitulo",
-        "conteudoServicoContratosTexto",
-        "conteudoServicoPesquisaTitulo",
-        "conteudoServicoPesquisaTexto",
-
-        "conteudoContactosTitulo",
-        "conteudoContactosIntro",
-        "conteudoContactosInfoTitulo",
-        "conteudoEmail",
-        "conteudoTelefone",
-        "conteudoLocalizacao",
-        "conteudoLabelNome",
-        "conteudoLabelEmail",
-        "conteudoLabelMensagem",
-        "conteudoBotaoContacto",
-
-        "conteudoFooterTexto1",
-        "conteudoFooterTexto2"
-    ];
-
-    camposConteudo.forEach(function (idCampo) {
-        const campo = document.getElementById(idCampo);
+    camposConteudoPublico.forEach(function (idCampo) {
+        const campo = obterElemento(idCampo);
         const valorGuardado = localStorage.getItem(idCampo);
 
         if (campo && valorGuardado) {
@@ -1147,148 +672,42 @@ function carregarConteudosNoFormulario() {
     });
 }
 
+function aplicarConteudosNoSitePublico() {
+    ligacoesConteudoPublico.forEach(function (ligacao) {
+        const elemento = obterElemento(ligacao[0]);
+        const valorGuardado = localStorage.getItem(ligacao[1]);
+
+        if (elemento && valorGuardado) {
+            elemento.textContent = valorGuardado;
+        }
+    });
+}
+
+const formConteudosPublicos = obterElemento("formConteudosPublicos");
+const botaoReporConteudos = obterElemento("reporConteudosPublicos");
+
 if (formConteudosPublicos) {
     carregarConteudosNoFormulario();
 
     formConteudosPublicos.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        const camposConteudo = [
-            "conteudoLogoTexto",
-            "conteudoNavInicio",
-            "conteudoNavSobre",
-            "conteudoNavServicos",
-            "conteudoNavContactos",
-            "conteudoNavAreaReservada",
+        if (!camposPreenchidos(camposConteudoPublico)) {
+            mostrarMensagem("mensagemConteudosPublicos", "Preencha todos os campos antes de guardar.", "#10233f");
+            return;
+        }
 
-            "conteudoTituloInicio",
-            "conteudoTextoInicio",
-            "conteudoBotaoInicio",
-
-            "conteudoSobreSubtitulo",
-            "conteudoSobreTitulo",
-            "conteudoSobreNos",
-            "conteudoSobreTexto2",
-            "conteudoSobreListaTitulo",
-            "conteudoSobreListaItem1",
-            "conteudoSobreListaItem2",
-            "conteudoSobreListaItem3",
-            "conteudoSobreListaItem4",
-
-            "conteudoServicosTitulo",
-            "conteudoServicos",
-            "conteudoServicoEquipamentosTitulo",
-            "conteudoServicoEquipamentosTexto",
-            "conteudoServicoLocalizacaoTitulo",
-            "conteudoServicoLocalizacaoTexto",
-            "conteudoServicoFornecedoresTitulo",
-            "conteudoServicoFornecedoresTexto",
-            "conteudoServicoDocumentacaoTitulo",
-            "conteudoServicoDocumentacaoTexto",
-            "conteudoServicoContratosTitulo",
-            "conteudoServicoContratosTexto",
-            "conteudoServicoPesquisaTitulo",
-            "conteudoServicoPesquisaTexto",
-
-            "conteudoContactosTitulo",
-            "conteudoContactosIntro",
-            "conteudoContactosInfoTitulo",
-            "conteudoEmail",
-            "conteudoTelefone",
-            "conteudoLocalizacao",
-            "conteudoLabelNome",
-            "conteudoLabelEmail",
-            "conteudoLabelMensagem",
-            "conteudoBotaoContacto",
-
-            "conteudoFooterTexto1",
-            "conteudoFooterTexto2"
-        ];
-
-        const mensagem = document.getElementById("mensagemConteudosPublicos");
-        let formularioValido = true;
-
-        camposConteudo.forEach(function (idCampo) {
-            const campo = document.getElementById(idCampo);
-
-            if (campo && campo.value.trim() === "") {
-                formularioValido = false;
-            }
+        camposConteudoPublico.forEach(function (idCampo) {
+            localStorage.setItem(idCampo, obterValor(idCampo));
         });
 
-        if (!formularioValido) {
-            mensagem.textContent = "Preencha todos os campos antes de guardar.";
-            mensagem.style.color = "#10233f";
-        } else {
-            camposConteudo.forEach(function (idCampo) {
-                const campo = document.getElementById(idCampo);
-
-                if (campo) {
-                    localStorage.setItem(idCampo, campo.value.trim());
-                }
-            });
-
-            mensagem.textContent = "Conteúdos guardados com sucesso. Abra o site público para visualizar as alterações.";
-            mensagem.style.color = "green";
-        }
+        mostrarMensagem("mensagemConteudosPublicos", "Conteúdos guardados com sucesso. Abra o site público para visualizar as alterações.", "green");
     });
 }
 
 if (botaoReporConteudos) {
     botaoReporConteudos.addEventListener("click", function () {
-        const camposConteudo = [
-            "conteudoLogoTexto",
-            "conteudoNavInicio",
-            "conteudoNavSobre",
-            "conteudoNavServicos",
-            "conteudoNavContactos",
-            "conteudoNavAreaReservada",
-
-            "conteudoTituloInicio",
-            "conteudoTextoInicio",
-            "conteudoBotaoInicio",
-
-            "conteudoSobreSubtitulo",
-            "conteudoSobreTitulo",
-            "conteudoSobreNos",
-            "conteudoSobreTexto2",
-            "conteudoSobreListaTitulo",
-            "conteudoSobreListaItem1",
-            "conteudoSobreListaItem2",
-            "conteudoSobreListaItem3",
-            "conteudoSobreListaItem4",
-
-            "conteudoServicosTitulo",
-            "conteudoServicos",
-            "conteudoServicoEquipamentosTitulo",
-            "conteudoServicoEquipamentosTexto",
-            "conteudoServicoLocalizacaoTitulo",
-            "conteudoServicoLocalizacaoTexto",
-            "conteudoServicoFornecedoresTitulo",
-            "conteudoServicoFornecedoresTexto",
-            "conteudoServicoDocumentacaoTitulo",
-            "conteudoServicoDocumentacaoTexto",
-            "conteudoServicoContratosTitulo",
-            "conteudoServicoContratosTexto",
-            "conteudoServicoPesquisaTitulo",
-            "conteudoServicoPesquisaTexto",
-
-            "conteudoContactosTitulo",
-            "conteudoContactosIntro",
-            "conteudoContactosInfoTitulo",
-            "conteudoEmail",
-            "conteudoTelefone",
-            "conteudoLocalizacao",
-            "conteudoLabelNome",
-            "conteudoLabelEmail",
-            "conteudoLabelMensagem",
-            "conteudoBotaoContacto",
-
-            "conteudoFooterTexto1",
-            "conteudoFooterTexto2"
-        ];
-
-        camposConteudo.forEach(function (idCampo) {
+        camposConteudoPublico.forEach(function (idCampo) {
             localStorage.removeItem(idCampo);
         });
 
@@ -1296,71 +715,14 @@ if (botaoReporConteudos) {
     });
 }
 
-function aplicarTextoPublico(idElemento, idConteudo) {
-    const elemento = document.getElementById(idElemento);
-    const valorGuardado = localStorage.getItem(idConteudo);
-
-    if (elemento && valorGuardado) {
-        elemento.textContent = valorGuardado;
-    }
-}
-
-aplicarTextoPublico("logoTextoPublico", "conteudoLogoTexto");
-
-aplicarTextoPublico("navInicioPublico", "conteudoNavInicio");
-aplicarTextoPublico("navSobrePublico", "conteudoNavSobre");
-aplicarTextoPublico("navServicosPublico", "conteudoNavServicos");
-aplicarTextoPublico("navContactosPublico", "conteudoNavContactos");
-aplicarTextoPublico("navAreaReservadaPublico", "conteudoNavAreaReservada");
-
-aplicarTextoPublico("tituloInicioPublico", "conteudoTituloInicio");
-aplicarTextoPublico("textoInicioPublico", "conteudoTextoInicio");
-aplicarTextoPublico("botaoInicioPublico", "conteudoBotaoInicio");
-
-aplicarTextoPublico("sobreSubtituloPublico", "conteudoSobreSubtitulo");
-aplicarTextoPublico("sobreTituloPublico", "conteudoSobreTitulo");
-aplicarTextoPublico("sobreNosPublico", "conteudoSobreNos");
-aplicarTextoPublico("sobreTexto2Publico", "conteudoSobreTexto2");
-aplicarTextoPublico("sobreListaTituloPublico", "conteudoSobreListaTitulo");
-aplicarTextoPublico("sobreListaItem1Publico", "conteudoSobreListaItem1");
-aplicarTextoPublico("sobreListaItem2Publico", "conteudoSobreListaItem2");
-aplicarTextoPublico("sobreListaItem3Publico", "conteudoSobreListaItem3");
-aplicarTextoPublico("sobreListaItem4Publico", "conteudoSobreListaItem4");
-
-aplicarTextoPublico("servicosTituloPublico", "conteudoServicosTitulo");
-aplicarTextoPublico("servicosPublico", "conteudoServicos");
-aplicarTextoPublico("servicoEquipamentosTituloPublico", "conteudoServicoEquipamentosTitulo");
-aplicarTextoPublico("servicoEquipamentosTextoPublico", "conteudoServicoEquipamentosTexto");
-aplicarTextoPublico("servicoLocalizacaoTituloPublico", "conteudoServicoLocalizacaoTitulo");
-aplicarTextoPublico("servicoLocalizacaoTextoPublico", "conteudoServicoLocalizacaoTexto");
-aplicarTextoPublico("servicoFornecedoresTituloPublico", "conteudoServicoFornecedoresTitulo");
-aplicarTextoPublico("servicoFornecedoresTextoPublico", "conteudoServicoFornecedoresTexto");
-aplicarTextoPublico("servicoDocumentacaoTituloPublico", "conteudoServicoDocumentacaoTitulo");
-aplicarTextoPublico("servicoDocumentacaoTextoPublico", "conteudoServicoDocumentacaoTexto");
-aplicarTextoPublico("servicoContratosTituloPublico", "conteudoServicoContratosTitulo");
-aplicarTextoPublico("servicoContratosTextoPublico", "conteudoServicoContratosTexto");
-aplicarTextoPublico("servicoPesquisaTituloPublico", "conteudoServicoPesquisaTitulo");
-aplicarTextoPublico("servicoPesquisaTextoPublico", "conteudoServicoPesquisaTexto");
-
-aplicarTextoPublico("contactosTituloPublico", "conteudoContactosTitulo");
-aplicarTextoPublico("contactosIntroPublico", "conteudoContactosIntro");
-aplicarTextoPublico("contactosInfoTituloPublico", "conteudoContactosInfoTitulo");
-aplicarTextoPublico("emailPublico", "conteudoEmail");
-aplicarTextoPublico("telefonePublico", "conteudoTelefone");
-aplicarTextoPublico("localizacaoPublico", "conteudoLocalizacao");
-aplicarTextoPublico("labelNomePublico", "conteudoLabelNome");
-aplicarTextoPublico("labelEmailPublico", "conteudoLabelEmail");
-aplicarTextoPublico("labelMensagemPublico", "conteudoLabelMensagem");
-aplicarTextoPublico("botaoContactoPublico", "conteudoBotaoContacto");
-
-aplicarTextoPublico("footerTexto1Publico", "conteudoFooterTexto1");
-aplicarTextoPublico("footerTexto2Publico", "conteudoFooterTexto2");
+aplicarConteudosNoSitePublico();
 
 /* Tooltips Bootstrap */
 
 const elementosTooltip = document.querySelectorAll('[data-bs-toggle="tooltip"]');
 
 elementosTooltip.forEach(function (elemento) {
-    new bootstrap.Tooltip(elemento);
+    if (typeof bootstrap !== "undefined") {
+        new bootstrap.Tooltip(elemento);
+    }
 });
-
