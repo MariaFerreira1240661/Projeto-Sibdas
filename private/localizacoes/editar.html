@@ -87,23 +87,23 @@
 
                     <div class="form-grid">
                         <div>
-                            <label for="editCodigoLocalizacao">Código *</label>
-                            <input type="text" id="editCodigoLocalizacao" value="L001">
+                            <label for="editCodigoLocalizacao">Código interno *</label>
+                            <input type="text" id="editCodigoLocalizacao" value="L001" required>
                         </div>
 
                         <div>
                             <label for="editEdificioLocalizacao">Edifício *</label>
-                            <input type="text" id="editEdificioLocalizacao" value="Edifício Principal">
+                            <input type="text" id="editEdificioLocalizacao" value="Edifício Principal" required>
                         </div>
 
                         <div>
                             <label for="editPisoLocalizacao">Piso *</label>
-                            <input type="text" id="editPisoLocalizacao" value="2">
+                            <input type="text" id="editPisoLocalizacao" value="2" inputmode="numeric" pattern="[0-9]*" maxlength="3" required>
                         </div>
 
                         <div>
                             <label for="editServicoLocalizacao">Serviço / Departamento *</label>
-                            <select id="editServicoLocalizacao">
+                            <select id="editServicoLocalizacao" required>
                                 <option selected>UCI</option>
                                 <option>Bloco Operatório</option>
                                 <option>Medicina Interna</option>
@@ -115,25 +115,25 @@
 
                         <div>
                             <label for="editSalaLocalizacao">Sala / Unidade *</label>
-                            <input type="text" id="editSalaLocalizacao" value="UCI Geral">
+                            <input type="text" id="editSalaLocalizacao" value="UCI Geral" required>
                         </div>
 
                         <div>
                             <label for="editEstadoLocalizacao">Estado *</label>
-                            <select id="editEstadoLocalizacao">
+                            <select id="editEstadoLocalizacao" required>
                                 <option selected>Ativo</option>
                                 <option>Inativo</option>
                             </select>
                         </div>
 
                         <div>
-                            <label for="editResponsavelLocalizacao">Responsável</label>
-                            <input type="text" id="editResponsavelLocalizacao" value="Enfermeiro responsável">
+                            <label for="editResponsavelLocalizacao">Responsável da localização</label>
+                            <input type="text" id="editResponsavelLocalizacao" value="Enfermeiro responsável" required>
                         </div>
 
                         <div>
                             <label for="editTelefoneLocalizacao">Contacto interno</label>
-                            <input type="text" id="editTelefoneLocalizacao" value="2201">
+                            <input type="text" id="editContactoInternoLocalizacao" value="2201" inputmode="numeric" pattern="[0-9]*" maxlength="6" required>
                         </div>
                     </div>
 

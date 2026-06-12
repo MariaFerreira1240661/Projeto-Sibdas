@@ -87,7 +87,7 @@
 
                     <div class="form-grid">
                         <div>
-                            <label for="codigoFornecedor">Código *</label>
+                            <label for="codigoFornecedor">Código interno *</label>
                             <input type="text" id="codigoFornecedor" placeholder="Ex: F005">
                         </div>
 
@@ -98,7 +98,7 @@
 
                         <div>
                             <label for="nifFornecedor">NIF *</label>
-                            <input type="text" id="nifFornecedor" placeholder="Ex: 501234567">
+                            <input type="text" id="nifFornecedor" placeholder="Ex: 501234567" inputmode="numeric" pattern="[0-9]{9}" maxlength="9">
                         </div>
 
                         <div>
@@ -114,7 +114,7 @@
 
                         <div>
                             <label for="telefoneFornecedor">Telefone *</label>
-                            <input type="text" id="telefoneFornecedor" placeholder="Ex: +351 222 000 000">
+                            <input type="tel" id="telefoneFornecedor" placeholder="Ex: +351 222 000 000" inputmode="tel">
                         </div>
 
                         <div>
@@ -123,7 +123,7 @@
                         </div>
 
                         <div>
-                            <label for="websiteFornecedor">Website</label>
+                            <label for="websiteFornecedor">Website </label>
                             <input type="text" id="websiteFornecedor" placeholder="Ex: www.empresa.pt">
                         </div>
 
@@ -137,13 +137,13 @@
                         </div>
 
                         <div>
-                            <label for="pessoaContacto">Pessoa de contacto</label>
-                            <input type="text" id="pessoaContacto" placeholder="Ex: Ana Silva">
+                            <label for="pessoaContactoFornecedor">Pessoa de contacto *</label>
+                            <input type="text" id="pessoaContactoFornecedor" placeholder="Ex: Ana Silva" required>
                         </div>
 
                         <div>
                             <label for="telefoneContacto">Telefone da pessoa de contacto</label>
-                            <input type="text" id="telefoneContacto" placeholder="Ex: +351 912 000 000">
+                            <input type="tel" id="telefoneContactoFornecedor" placeholder="Ex: +351 912 000 000" inputmode="tel">
                         </div>
                     </div>
 

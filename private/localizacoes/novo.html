@@ -87,23 +87,23 @@
 
                     <div class="form-grid">
                         <div>
-                            <label for="codigoLocalizacao">Código *</label>
-                            <input type="text" id="codigoLocalizacao" placeholder="Ex: L006">
+                            <label for="codigoLocalizacao">Código interno *</label>
+                            <input type="text" id="codigoLocalizacao" placeholder="Ex: L006" required>
                         </div>
 
                         <div>
                             <label for="edificioLocalizacao">Edifício *</label>
-                            <input type="text" id="edificioLocalizacao" placeholder="Ex: Edifício Principal">
+                            <input type="text" id="edificioLocalizacao" placeholder="Ex: Edifício Principal" required>
                         </div>
 
                         <div>
                             <label for="pisoLocalizacao">Piso *</label>
-                            <input type="text" id="pisoLocalizacao" placeholder="Ex: 2">
+                            <input type="text" id="pisoLocalizacao" placeholder="Ex: 2" inputmode="numeric" pattern="[0-9]*" maxlength="3" required>
                         </div>
 
                         <div>
                             <label for="servicoLocalizacao">Serviço / Departamento *</label>
-                            <select id="servicoLocalizacao">
+                            <select id="servicoLocalizacao" required>
                                 <option value="">Selecione o serviço</option>
                                 <option>UCI</option>
                                 <option>Bloco Operatório</option>
@@ -116,12 +116,12 @@
 
                         <div>
                             <label for="salaLocalizacao">Sala / Unidade *</label>
-                            <input type="text" id="salaLocalizacao" placeholder="Ex: Sala 3">
+                            <input type="text" id="salaLocalizacao" placeholder="Ex: Sala 3" required>
                         </div>
 
                         <div>
                             <label for="estadoLocalizacao">Estado *</label>
-                            <select id="estadoLocalizacao">
+                            <select id="estadoLocalizacao" required>
                                 <option value="">Selecione o estado</option>
                                 <option>Ativo</option>
                                 <option>Inativo</option>
@@ -129,13 +129,13 @@
                         </div>
 
                         <div>
-                            <label for="responsavelLocalizacao">Responsável</label>
-                            <input type="text" id="responsavelLocalizacao" placeholder="Ex: Enfermeiro responsável">
+                            <label for="responsavelLocalizacao">Responsável da localização *</label>
+                            <input type="text" id="responsavelLocalizacao" placeholder="Ex: Enfermeiro responsável" required>
                         </div>
 
                         <div>
-                            <label for="telefoneLocalizacao">Contacto interno</label>
-                            <input type="text" id="telefoneLocalizacao" placeholder="Ex: 2201">
+                            <label for="telefoneLocalizacao">Contacto interno *</label>
+                            <input type="text" id="contactoInternoLocalizacao" placeholder="Ex: 2201" inputmode="numeric" pattern="[0-9]*" maxlength="6" required>
                         </div>
                     </div>
 

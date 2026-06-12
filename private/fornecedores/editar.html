@@ -87,23 +87,23 @@
 
                     <div class="form-grid">
                         <div>
-                            <label for="editCodigoFornecedor">Código *</label>
-                            <input type="text" id="editCodigoFornecedor" value="F001">
+                            <label for="editCodigoFornecedor">Código interno *</label>
+                            <input type="text" id="editCodigoFornecedor" value="F001" required>
                         </div>
 
                         <div>
                             <label for="editNomeFornecedor">Nome da empresa *</label>
-                            <input type="text" id="editNomeFornecedor" value="Philips Healthcare">
+                            <input type="text" id="editNomeFornecedor" value="Philips Healthcare" required>
                         </div>
 
                         <div>
                             <label for="editNifFornecedor">NIF *</label>
-                            <input type="text" id="editNifFornecedor" value="501234567">
+                            <input type="text" id="editNifFornecedor" value="501234567" inputmode="numeric" pattern="[0-9]{9}" maxlength="9" required>
                         </div>
 
                         <div>
                             <label for="editTipoFornecedor">Tipo de fornecedor *</label>
-                            <select id="editTipoFornecedor">
+                            <select id="editTipoFornecedor" required>
                                 <option selected>Fabricante</option>
                                 <option>Distribuidor</option>
                                 <option>Assistência técnica</option>
@@ -113,12 +113,12 @@
 
                         <div>
                             <label for="editTelefoneFornecedor">Telefone *</label>
-                            <input type="text" id="editTelefoneFornecedor" value="+351 222 100 100">
+                            <input type="tel" id="editTelefoneFornecedor" value="+351 222 000 000" inputmode="tel" required>
                         </div>
 
                         <div>
                             <label for="editEmailFornecedor">Email *</label>
-                            <input type="email" id="editEmailFornecedor" value="geral@philips-health.pt">
+                            <input type="email" id="editEmailFornecedor" value="geral@philips-health.pt" required>
                         </div>
 
                         <div>
@@ -128,20 +128,20 @@
 
                         <div>
                             <label for="editEstadoFornecedor">Estado *</label>
-                            <select id="editEstadoFornecedor">
+                            <select id="editEstadoFornecedor" required>
                                 <option selected>Ativo</option>
                                 <option>Inativo</option>
                             </select>
                         </div>
 
                         <div>
-                            <label for="editPessoaContacto">Pessoa de contacto</label>
-                            <input type="text" id="editPessoaContacto" value="Ana Silva">
+                            <label for="editPessoaContactoFornecedor">Pessoa de contacto *</label>
+                            <input type="text" id="editPessoaContactoFornecedor" value="Ana Silva" placeholder="Ex: Ana Silva" required>
                         </div>
 
                         <div>
                             <label for="editTelefoneContacto">Telefone da pessoa de contacto</label>
-                            <input type="text" id="editTelefoneContacto" value="+351 912 000 000">
+                            <input type="tel" id="editTelefoneContactoFornecedor" value="+351 912 000 000" inputmode="tel" required>
                         </div>
                     </div>
 

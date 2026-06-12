@@ -217,6 +217,48 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="form-full">
+                                <hr>
+                            
+                                <h3>Relações e consumíveis</h3>
+                                <p>Indique se este equipamento pertence a outro equipamento e se utiliza consumíveis.</p>
+                            </div>
+                            
+                            <div class="form-grid">
+                                <div>
+                                    <label for="editComponenteOutroEquipamento">É componente de outro equipamento? *</label>
+                                    <select id="editComponenteOutroEquipamento">
+                                        <option selected>Não</option>
+                                        <option>Sim</option>
+                                    </select>
+                                </div>
+                            
+                                <div>
+                                    <label for="editEquipamentoPrincipal">Equipamento principal</label>
+                                    <select id="editEquipamentoPrincipal" disabled>
+                                        <option value="">Selecione o equipamento principal</option>
+                                        <option>Monitor Multiparamétrico Philips IntelliVue MP5</option>
+                                        <option>Ventilador Pulmonar Dräger Evita V500</option>
+                                        <option>Bomba de Infusão B. Braun Infusomat Space</option>
+                                        <option>Desfibrilhador Zoll R Series</option>
+                                    </select>
+                                </div>
+                            
+                                <div>
+                                    <label for="editTemConsumiveis">Tem consumíveis? *</label>
+                                    <select id="editTemConsumiveis">
+                                        <option selected>Não</option>
+                                        <option>Sim</option>
+                                    </select>
+                                </div>
+                            
+                                <div>
+                                    <label for="editConsumiveisEquipamento">Consumíveis utilizados</label>
+                                    <input type="text" id="editConsumiveisEquipamento" placeholder="Ex: sensores, filtros, cabos, baterias"
+                                        disabled>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="tab-pane fade" id="edit-localizacao-tab-pane" role="tabpanel" tabindex="0">
@@ -241,7 +283,7 @@
 
                                 <div>
                                     <label for="editPisoEquipamento">Piso *</label>
-                                    <input type="text" id="editPisoEquipamento" value="2">
+                                    <input type="text" id="editPisoEquipamento" value="2" placeholder="Ex: 2" inputmode="numeric" pattern="[0-9]*" maxlength="3">
                                 </div>
 
                                 <div>
@@ -251,12 +293,12 @@
 
                                 <div>
                                     <label for="editResponsavelLocalizacaoEquipamento">Responsável da localização *</label>
-                                    <input type="text" id="editResponsavelLocalizacaoEquipamento" value="Enfermeiro responsável">
+                                    <input type="text" id="editResponsavelLocalizacaoEquipamento" value="Enfermeiro responsável" placeholder="Ex: Enfermeiro responsável">
                                 </div>
 
                                 <div>
                                     <label for="editContactoLocalizacaoEquipamento">Contacto interno *</label>
-                                    <input type="text" id="editContactoLocalizacaoEquipamento" value="2201">
+                                    <input type="text" id="editContactoLocalizacaoEquipamento" value="2201" placeholder="Ex: 2201" inputmode="numeric" pattern="[0-9]*" maxlength="6">
                                 </div>
                             </div>
                         </div>
@@ -287,60 +329,61 @@
 
                                 <div>
                                     <label for="editContactoFornecedorEquipamento">Pessoa de contacto *</label>
-                                    <input type="text" id="editContactoFornecedorEquipamento" value="Ana Silva">
+                                    <input type="text" id="editContactoFornecedorEquipamento" value="Ana Silva" placeholder="Ex: Ana Silva">
                                 </div>
 
                                 <div>
                                     <label for="editTelefoneFornecedorEquipamento">Telefone *</label>
-                                    <input type="text" id="editTelefoneFornecedorEquipamento" value="+351 222 100 100">
+                                    <input type="tel" id="editTelefoneFornecedorEquipamento" value="+351 222 000 000" placeholder="Ex: +351 222 000 000" inputmode="tel">
                                 </div>
 
                                 <div>
                                     <label for="editEmailFornecedorEquipamento">Email *</label>
-                                    <input type="email" id="editEmailFornecedorEquipamento" value="geral@philips-health.pt">
+                                    <input type="email" id="editEmailFornecedorEquipamento" value="geral@medtech.pt" placeholder="Ex: geral@empresa.pt">
                                 </div>
 
                                 <div>
                                     <label for="editNifFornecedorEquipamento">NIF *</label>
-                                    <input type="text" id="editNifFornecedorEquipamento" value="501234567">
+                                    <input type="text" id="editNifFornecedorEquipamento" value="501234567" placeholder="Ex: 501234567" inputmode="numeric" pattern="[0-9]{9}" maxlength="9">
                                 </div>
                             </div>
                         </div>
 
                         <div class="tab-pane fade" id="edit-documentacao-tab-pane" role="tabpanel" tabindex="0">
                             <h3>Documentação</h3>
-
+                            <p>Atualize os PDFs associados ao equipamento. Se não escolher novo ficheiro, mantém-se o ficheiro atual.</p>
+                        
                             <div class="form-grid">
                                 <div>
-                                    <label for="editManualEquipamento">Manual de utilizador *</label>
-                                    <input type="text" id="editManualEquipamento" value="manual_monitor.pdf">
+                                    <label for="editManualEquipamento">Manual de utilizador</label>
+                                    <input type="file" id="editManualEquipamento" accept=".pdf,application/pdf">
+                                    <small>Ficheiro atual: manual_monitor.pdf</small>
                                 </div>
-
+                        
                                 <div>
-                                    <label for="editCertificadoEquipamento">Certificado de calibração *</label>
-                                    <input type="text" id="editCertificadoEquipamento" value="certificado_monitor.pdf">
+                                    <label for="editCertificadoEquipamento">Certificado de calibração</label>
+                                    <input type="file" id="editCertificadoEquipamento" accept=".pdf,application/pdf">
+                                    <small>Ficheiro atual: certificado_monitor.pdf</small>
                                 </div>
-
+                        
                                 <div>
-                                    <label for="editContratoDocumentoEquipamento">Documento do contrato *</label>
-                                    <input type="text" id="editContratoDocumentoEquipamento" value="contrato_monitor.pdf">
-                                </div>
-
-                                <div>
-                                    <label for="editRelatorioTecnicoEquipamento">Relatório técnico *</label>
-                                    <input type="text" id="editRelatorioTecnicoEquipamento" value="relatorio_monitor.pdf">
+                                    <label for="editRelatorioTecnicoEquipamento">Relatório técnico</label>
+                                    <input type="file" id="editRelatorioTecnicoEquipamento" accept=".pdf,application/pdf">
+                                    <small>Ficheiro atual: relatorio_monitor.pdf</small>
                                 </div>
                             </div>
-
+                        
                             <div class="form-full">
                                 <label for="editObservacoes">Observações</label>
-                                <textarea id="editObservacoes" rows="4">Equipamento utilizado para monitorização contínua de sinais vitais em ambiente hospitalar.</textarea>
+                                <textarea id="editObservacoes"
+                                    rows="4">Equipamento utilizado para monitorização contínua de sinais vitais em ambiente hospitalar.</textarea>
                             </div>
                         </div>
-
+                        
                         <div class="tab-pane fade" id="edit-contratos-tab-pane" role="tabpanel" tabindex="0">
                             <h3>Contratos</h3>
-
+                            <p>Atualize os dados do contrato e, se necessário, substitua o PDF associado.</p>
+                        
                             <div class="form-grid">
                                 <div>
                                     <label for="editEstadoGarantiaEquipamento">Estado da garantia *</label>
@@ -351,17 +394,17 @@
                                         <option>Sem garantia registada</option>
                                     </select>
                                 </div>
-
+                        
                                 <div>
                                     <label for="editDataInicioGarantiaEquipamento">Data de início da garantia *</label>
                                     <input type="date" id="editDataInicioGarantiaEquipamento" value="2022-02-12">
                                 </div>
-
+                        
                                 <div>
                                     <label for="editDataFimGarantiaEquipamento">Data de fim da garantia *</label>
                                     <input type="date" id="editDataFimGarantiaEquipamento" value="2027-02-12">
                                 </div>
-
+                        
                                 <div>
                                     <label for="editTipoContratoEquipamento">Tipo de contrato *</label>
                                     <select id="editTipoContratoEquipamento">
@@ -370,7 +413,7 @@
                                         <option>Assistência técnica</option>
                                     </select>
                                 </div>
-
+                        
                                 <div>
                                     <label for="editPeriodicidadeManutencaoEquipamento">Periodicidade de manutenção *</label>
                                     <select id="editPeriodicidadeManutencaoEquipamento">
@@ -381,10 +424,16 @@
                                         <option>Não aplicável</option>
                                     </select>
                                 </div>
-
+                        
                                 <div>
                                     <label for="editValorContratoEquipamento">Valor associado *</label>
                                     <input type="number" id="editValorContratoEquipamento" value="1200">
+                                </div>
+                        
+                                <div>
+                                    <label for="editContratoDocumentoEquipamento">PDF do contrato / garantia</label>
+                                    <input type="file" id="editContratoDocumentoEquipamento" accept=".pdf,application/pdf">
+                                    <small>Ficheiro atual: contrato_monitor.pdf</small>
                                 </div>
                             </div>
                         </div>

@@ -1,74 +1,201 @@
+const $ = id => document.getElementById(id);
+const valor = id => ($(id)?.value || "").trim();
 
-function obterElemento(id) {
-    return document.getElementById(id);
-}
+function mensagem(id, texto, cor = "#10233f") {
+    const el = $(id);
 
-function obterValor(id) {
-    const elemento = obterElemento(id);
-    return elemento ? elemento.value.trim() : "";
-}
-
-function mostrarMensagem(idMensagem, texto, cor) {
-    const mensagem = obterElemento(idMensagem);
-
-    if (mensagem) {
-        mensagem.textContent = texto;
-        mensagem.style.color = cor;
-        mensagem.style.fontWeight = "700";
-        mensagem.style.display = "block";
+    if (!el) {
+        return;
     }
+
+    el.textContent = texto;
+    el.style.color = cor;
+    el.style.fontWeight = "700";
+    el.style.display = texto ? "block" : "none";
 }
 
-function camposPreenchidos(idsCampos) {
-    return idsCampos.every(function (idCampo) {
-        return obterValor(idCampo) !== "";
+function campoPreenchido(id) {
+    const el = $(id);
+
+    if (!el) {
+        return false;
+    }
+
+    if (el.type === "file") {
+        return el.files.length > 0;
+    }
+
+    return el.value.trim() !== "";
+}
+
+function camposPreenchidos(ids) {
+    return ids.every(campoPreenchido);
+}
+
+function nomeFicheiro(id) {
+    const el = $(id);
+
+    if (el?.type === "file" && el.files.length > 0) {
+        return el.files[0].name;
+    }
+
+    return "";
+}
+
+/* Filtros de escrita */
+
+const filtros = {
+    numeros: valor => valor.replace(/[^0-9]/g, ""),
+    letras: valor => valor.replace(/[^A-Za-zÀ-ÿ\s]/g, ""),
+    telefone: valor => valor.replace(/[^0-9+\s]/g, "")
+};
+
+function filtrarInput(id, tipo) {
+    const el = $(id);
+
+    if (!el || !filtros[tipo]) {
+        return;
+    }
+
+    el.addEventListener("input", function () {
+        el.value = filtros[tipo](el.value);
     });
 }
 
-function irParaIndexDepoisDeMensagem(idMensagem, texto) {
-    mostrarMensagem(idMensagem, texto, "green");
+function aplicarFiltros(configs) {
+    configs.forEach(function (config) {
+        filtrarInput(config.id, config.tipo);
+    });
+}
 
-    setTimeout(function () {
-        window.location.href = "index.html";
-    }, 1200);
+/* Regras de validação */
+
+const regras = {
+    numeros: valor => /^[0-9]+$/.test(valor.trim()),
+
+    letras: valor => /^[A-Za-zÀ-ÿ\s]+$/.test(valor.trim()),
+
+    email: valor => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor.trim()),
+
+    nif: valor => /^[0-9]{9}$/.test(valor.trim()),
+
+    telefone: valor => {
+        const telefone = valor.trim();
+        const formatoValido = /^[0-9+\s]+$/.test(telefone);
+        const quantidadeNumeros = telefone.replace(/[^0-9]/g, "").length;
+
+        return formatoValido && quantidadeNumeros >= 9 && quantidadeNumeros <= 15;
+    },
+
+    website: valor => {
+        if (valor.trim() === "") {
+            return true;
+        }
+
+        return /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/.*)?$/.test(valor.trim());
+    }
+};
+
+const mensagensValidacao = {
+    obrigatorio: "Preencha todos os campos obrigatórios assinalados com *.",
+    nif: "O NIF deve conter exatamente 9 números.",
+    telefone: "O telefone deve conter apenas números, espaços ou o sinal +, e ter entre 9 e 15 números.",
+    email: "Insira um email válido.",
+    website: "Insira um website válido, por exemplo www.empresa.pt.",
+    letras: "Este campo deve conter apenas letras.",
+    piso: "O piso deve conter apenas números.",
+    contacto: "O contacto interno deve conter apenas números."
+};
+
+function abrirTab(id) {
+    if (!id) {
+        return;
+    }
+
+    const tab = $(id);
+
+    if (tab && typeof bootstrap !== "undefined") {
+        tab.classList.remove("disabled");
+        new bootstrap.Tab(tab).show();
+    }
+}
+
+function mostrarErro(idMensagem, texto, tabId) {
+    mensagem(idMensagem, texto, "#9b1c1c");
+    abrirTab(tabId);
+
+    const el = $(idMensagem);
+
+    if (el) {
+        el.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+}
+
+function validarCampos(campos, idMensagem, tabId) {
+    for (const campo of campos) {
+        const el = $(campo.id);
+
+        if (!el) {
+            continue;
+        }
+
+        const valorCampo = el.value.trim();
+
+        if (campo.obrigatorio && valorCampo === "") {
+            mostrarErro(idMensagem, campo.msgObrigatorio || mensagensValidacao.obrigatorio, tabId);
+            el.focus();
+            return false;
+        }
+
+        if (valorCampo !== "" && campo.regra && !regras[campo.regra](valorCampo)) {
+            mostrarErro(idMensagem, campo.msg, tabId);
+            el.focus();
+            return false;
+        }
+    }
+
+    return true;
 }
 
 /* Login */
 
-const formLogin = document.getElementById("form-login");
+const formLogin = $("form-login");
 
 if (formLogin) {
     formLogin.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        const email = document.getElementById("emailLogin").value.trim();
-        const password = document.getElementById("password").value.trim();
-        const mensagem = document.getElementById("mensagem-login");
+        const email = valor("emailLogin");
+        const password = valor("password");
 
-        if (email === "" || password === "") {
-            mensagem.textContent = "Preencha o email e a palavra-passe.";
-            mensagem.style.color = "#10233f";
-        } else if (!email.includes("@") || !email.includes(".")) {
-            mensagem.textContent = "Insira um email válido.";
-            mensagem.style.color = "#10233f";
-        } else {
-            mensagem.textContent = "Login efetuado com sucesso.";
-            mensagem.style.color = "green";
-
-            setTimeout(function () {
-                window.location.href = "../private/index.html";
-            }, 800);
+        if (!email || !password) {
+            mensagem("mensagem-login", "Preencha o email e a palavra-passe.", "#10233f");
+            return;
         }
+
+        if (!regras.email(email)) {
+            mensagem("mensagem-login", "Insira um email válido.", "#10233f");
+            return;
+        }
+
+        mensagem("mensagem-login", "Login efetuado com sucesso.", "green");
+
+        setTimeout(function () {
+            window.location.href = "../private/index.html";
+        }, 800);
     });
 }
 
-/* Gráficos da dashboard */
+/* Gráficos */
 
-function criarGrafico(idCanvas, configuracao) {
-    const canvas = obterElemento(idCanvas);
+function criarGrafico(id, config) {
+    const canvas = $(id);
 
     if (canvas && typeof Chart !== "undefined") {
-        new Chart(canvas, configuracao);
+        new Chart(canvas, config);
     }
 }
 
@@ -141,429 +268,716 @@ criarGrafico("graficoLocalizacoes", {
         }
     }
 });
-
 /* Filtros das tabelas */
 
-function iniciarFiltroTabela(configuracao) {
-    const tabela = obterElemento(configuracao.tabelaId);
-    const campoPesquisa = obterElemento(configuracao.pesquisaId);
-    const semResultados = obterElemento(configuracao.semResultadosId);
+function iniciarFiltroTabela(config) {
+    const tabela = $(config.tabela);
+    const pesquisa = $(config.pesquisa);
+    const semResultados = $(config.semResultados);
 
-    if (!tabela || !campoPesquisa) {
+    if (!tabela || !pesquisa) {
         return;
     }
 
-    const filtros = configuracao.filtros.map(function (filtro) {
+    const filtrosTabela = config.filtros.map(function (filtro) {
         return {
-            elemento: obterElemento(filtro.id),
+            el: $(filtro.id),
             atributo: filtro.atributo
         };
     });
 
     function filtrar() {
-        const textoPesquisa = campoPesquisa.value.toLowerCase();
+        const texto = pesquisa.value.toLowerCase();
         const linhas = tabela.querySelectorAll("tbody tr");
-        let resultadosVisiveis = 0;
+        let visiveis = 0;
 
         linhas.forEach(function (linha) {
-            const textoLinha = linha.textContent.toLowerCase();
-            const correspondePesquisa = textoLinha.includes(textoPesquisa);
+            const correspondeTexto = linha.textContent.toLowerCase().includes(texto);
 
-            const correspondeFiltros = filtros.every(function (filtro) {
-                if (!filtro.elemento || filtro.elemento.value === "") {
+            const correspondeFiltros = filtrosTabela.every(function (filtro) {
+                if (!filtro.el || filtro.el.value === "") {
                     return true;
                 }
 
-                return linha.getAttribute("data-" + filtro.atributo) === filtro.elemento.value;
+                return linha.getAttribute("data-" + filtro.atributo) === filtro.el.value;
             });
 
-            if (correspondePesquisa && correspondeFiltros) {
+            if (correspondeTexto && correspondeFiltros) {
                 linha.style.display = "";
-                resultadosVisiveis++;
+                visiveis++;
             } else {
                 linha.style.display = "none";
             }
         });
 
         if (semResultados) {
-            semResultados.style.display = resultadosVisiveis === 0 ? "block" : "none";
+            semResultados.style.display = visiveis === 0 ? "block" : "none";
         }
     }
 
-    campoPesquisa.addEventListener("input", filtrar);
+    pesquisa.addEventListener("input", filtrar);
 
-    filtros.forEach(function (filtro) {
-        if (filtro.elemento) {
-            filtro.elemento.addEventListener("change", filtrar);
+    filtrosTabela.forEach(function (filtro) {
+        if (filtro.el) {
+            filtro.el.addEventListener("change", filtrar);
         }
     });
 }
 
-iniciarFiltroTabela({
-    tabelaId: "tabelaEquipamentos",
-    pesquisaId: "pesquisaEquipamento",
-    semResultadosId: "semResultados",
-    filtros: [
-        { id: "filtroEstado", atributo: "estado" },
-        { id: "filtroCategoria", atributo: "categoria" },
-        { id: "filtroCriticidade", atributo: "criticidade" }
-    ]
-});
-
-iniciarFiltroTabela({
-    tabelaId: "tabelaFornecedores",
-    pesquisaId: "pesquisaFornecedor",
-    semResultadosId: "semResultadosFornecedores",
-    filtros: [
-        { id: "filtroTipoFornecedor", atributo: "tipo" },
-        { id: "filtroEstadoFornecedor", atributo: "estado" }
-    ]
-});
-
-iniciarFiltroTabela({
-    tabelaId: "tabelaLocalizacoes",
-    pesquisaId: "pesquisaLocalizacao",
-    semResultadosId: "semResultadosLocalizacoes",
-    filtros: [
-        { id: "filtroServicoLocalizacao", atributo: "servico" },
-        { id: "filtroEstadoLocalizacao", atributo: "estado" }
-    ]
-});
-
-iniciarFiltroTabela({
-    tabelaId: "tabelaDocumentos",
-    pesquisaId: "pesquisaDocumento",
-    semResultadosId: "semResultadosDocumentos",
-    filtros: [
-        { id: "filtroTipoDocumento", atributo: "tipo" },
-        { id: "filtroEstadoDocumento", atributo: "estado" },
-        { id: "filtroEquipamentoDocumento", atributo: "equipamento" }
-    ]
-});
-
-iniciarFiltroTabela({
-    tabelaId: "tabelaContratos",
-    pesquisaId: "pesquisaContrato",
-    semResultadosId: "semResultadosContratos",
-    filtros: [
-        { id: "filtroTipoContrato", atributo: "tipo" },
-        { id: "filtroEstadoContrato", atributo: "estado" },
-        { id: "filtroEquipamentoContrato", atributo: "equipamento" }
-    ]
-});
+[
+    {
+        tabela: "tabelaEquipamentos",
+        pesquisa: "pesquisaEquipamento",
+        semResultados: "semResultados",
+        filtros: [
+            { id: "filtroEstado", atributo: "estado" },
+            { id: "filtroCategoria", atributo: "categoria" },
+            { id: "filtroCriticidade", atributo: "criticidade" }
+        ]
+    },
+    {
+        tabela: "tabelaFornecedores",
+        pesquisa: "pesquisaFornecedor",
+        semResultados: "semResultadosFornecedores",
+        filtros: [
+            { id: "filtroTipoFornecedor", atributo: "tipo" },
+            { id: "filtroEstadoFornecedor", atributo: "estado" }
+        ]
+    },
+    {
+        tabela: "tabelaLocalizacoes",
+        pesquisa: "pesquisaLocalizacao",
+        semResultados: "semResultadosLocalizacoes",
+        filtros: [
+            { id: "filtroServicoLocalizacao", atributo: "servico" },
+            { id: "filtroEstadoLocalizacao", atributo: "estado" }
+        ]
+    },
+    {
+        tabela: "tabelaDocumentos",
+        pesquisa: "pesquisaDocumento",
+        semResultados: "semResultadosDocumentos",
+        filtros: [
+            { id: "filtroTipoDocumento", atributo: "tipo" },
+            { id: "filtroEstadoDocumento", atributo: "estado" },
+            { id: "filtroEquipamentoDocumento", atributo: "equipamento" }
+        ]
+    },
+    {
+        tabela: "tabelaContratos",
+        pesquisa: "pesquisaContrato",
+        semResultados: "semResultadosContratos",
+        filtros: [
+            { id: "filtroTipoContrato", atributo: "tipo" },
+            { id: "filtroEstadoContrato", atributo: "estado" },
+            { id: "filtroEquipamentoContrato", atributo: "equipamento" }
+        ]
+    }
+].forEach(iniciarFiltroTabela);
 
 /* Formulários simples */
 
-function iniciarFormularioSimples(configuracao) {
-    const formulario = obterElemento(configuracao.formId);
+const validacoesFormulario = {
+    fornecedorNovo: {
+        filtros: [
+            { id: "nifFornecedor", tipo: "numeros" },
+            { id: "telefoneFornecedor", tipo: "telefone" },
+            { id: "pessoaContactoFornecedor", tipo: "letras" },
+            { id: "telefoneContactoFornecedor", tipo: "telefone" }
+        ],
+        campos: [
+            { id: "nifFornecedor", regra: "nif", obrigatorio: true, msg: mensagensValidacao.nif },
+            { id: "telefoneFornecedor", regra: "telefone", obrigatorio: true, msg: mensagensValidacao.telefone },
+            { id: "emailFornecedor", regra: "email", obrigatorio: true, msg: mensagensValidacao.email },
+            { id: "websiteFornecedor", regra: "website", obrigatorio: false, msg: mensagensValidacao.website },
+            { id: "pessoaContactoFornecedor", regra: "letras", obrigatorio: true, msg: "A pessoa de contacto deve conter apenas letras." },
+            { id: "telefoneContactoFornecedor", regra: "telefone", obrigatorio: false, msg: "O telefone da pessoa de contacto deve conter apenas números, espaços ou o sinal +, e ter entre 9 e 15 números." }
+        ]
+    },
 
-    if (!formulario) {
+    fornecedorEditar: {
+        filtros: [
+            { id: "editNifFornecedor", tipo: "numeros" },
+            { id: "editTelefoneFornecedor", tipo: "telefone" },
+            { id: "editPessoaContactoFornecedor", tipo: "letras" },
+            { id: "editTelefoneContactoFornecedor", tipo: "telefone" }
+        ],
+        campos: [
+            { id: "editNifFornecedor", regra: "nif", obrigatorio: true, msg: mensagensValidacao.nif },
+            { id: "editTelefoneFornecedor", regra: "telefone", obrigatorio: true, msg: mensagensValidacao.telefone },
+            { id: "editEmailFornecedor", regra: "email", obrigatorio: true, msg: mensagensValidacao.email },
+            { id: "editWebsiteFornecedor", regra: "website", obrigatorio: false, msg: mensagensValidacao.website },
+            { id: "editPessoaContactoFornecedor", regra: "letras", obrigatorio: true, msg: "A pessoa de contacto deve conter apenas letras." },
+            { id: "editTelefoneContactoFornecedor", regra: "telefone", obrigatorio: false, msg: "O telefone da pessoa de contacto deve conter apenas números, espaços ou o sinal +, e ter entre 9 e 15 números." }
+        ]
+    },
+
+    localizacaoNova: {
+    filtros: [
+        { id: "pisoLocalizacao", tipo: "numeros" },
+        { id: "responsavelLocalizacao", tipo: "letras" },
+        { id: "contactoInternoLocalizacao", tipo: "numeros" }
+    ],
+    campos: [
+        { id: "pisoLocalizacao", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.piso },
+        { id: "responsavelLocalizacao", regra: "letras", obrigatorio: true, msg: "O responsável da localização deve conter apenas letras." },
+        { id: "contactoInternoLocalizacao", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.contacto }
+    ]
+    },
+
+    localizacaoEditar: {
+    filtros: [
+        { id: "editPisoLocalizacao", tipo: "numeros" },
+        { id: "editResponsavelLocalizacao", tipo: "letras" },
+        { id: "editContactoInternoLocalizacao", tipo: "numeros" }
+    ],
+    campos: [
+        { id: "editPisoLocalizacao", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.piso },
+        { id: "editResponsavelLocalizacao", regra: "letras", obrigatorio: true, msg: "O responsável da localização deve conter apenas letras." },
+        { id: "editContactoInternoLocalizacao", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.contacto }
+    ]
+    }
+};
+
+function iniciarFormulario(config) {
+    const form = $(config.form);
+
+    if (!form) {
         return;
     }
 
-    formulario.addEventListener("submit", function (event) {
+    aplicarFiltros(config.validacao?.filtros || []);
+
+    form.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        if (camposPreenchidos(configuracao.camposObrigatorios)) {
-            mostrarMensagem(configuracao.mensagemId, configuracao.mensagemSucesso, "green");
-        } else {
-            mostrarMensagem(configuracao.mensagemId, "Preencha todos os campos obrigatórios assinalados com *.", "#10233f");
+        if (!camposPreenchidos(config.obrigatorios)) {
+            mensagem(config.mensagem, mensagensValidacao.obrigatorio, "#10233f");
+            return;
         }
+
+        if (config.validacao && !validarCampos(config.validacao.campos, config.mensagem)) {
+            return;
+        }
+
+        mensagem(config.mensagem, config.sucesso, "green");
     });
 }
 
-const formulariosSimples = [
+[
     {
-        formId: "formFornecedor",
-        mensagemId: "mensagemFornecedor",
-        camposObrigatorios: ["codigoFornecedor", "nomeFornecedor", "nifFornecedor", "tipoFornecedor", "telefoneFornecedor", "emailFornecedor", "estadoFornecedor"],
-        mensagemSucesso: "Fornecedor registado com sucesso. "
+        form: "formFornecedor",
+        mensagem: "mensagemFornecedor",
+        obrigatorios: ["codigoFornecedor", "nomeFornecedor", "nifFornecedor", "tipoFornecedor", "telefoneFornecedor", "emailFornecedor", "estadoFornecedor", "pessoaContactoFornecedor"],
+        sucesso: "Fornecedor registado com sucesso. ",
+        validacao: validacoesFormulario.fornecedorNovo
     },
     {
-        formId: "formEditarFornecedor",
-        mensagemId: "mensagemEditarFornecedor",
-        camposObrigatorios: ["editCodigoFornecedor", "editNomeFornecedor", "editNifFornecedor", "editTipoFornecedor", "editTelefoneFornecedor", "editEmailFornecedor", "editEstadoFornecedor"],
-        mensagemSucesso: "Alterações guardadas com sucesso. "
+        form: "formEditarFornecedor",
+        mensagem: "mensagemEditarFornecedor",
+        obrigatorios: ["editCodigoFornecedor", "editNomeFornecedor", "editNifFornecedor", "editTipoFornecedor", "editTelefoneFornecedor", "editEmailFornecedor", "editEstadoFornecedor", "editPessoaContactoFornecedor"],
+        sucesso: "Alterações guardadas com sucesso. ",
+        validacao: validacoesFormulario.fornecedorEditar
     },
     {
-        formId: "formLocalizacao",
-        mensagemId: "mensagemLocalizacao",
-        camposObrigatorios: ["codigoLocalizacao", "edificioLocalizacao", "pisoLocalizacao", "servicoLocalizacao", "salaLocalizacao", "estadoLocalizacao"],
-        mensagemSucesso: "Localização registada com sucesso. "
+        form: "formLocalizacao",
+        mensagem: "mensagemLocalizacao",
+        obrigatorios: ["codigoLocalizacao", "edificioLocalizacao", "pisoLocalizacao", "servicoLocalizacao", "salaLocalizacao", "estadoLocalizacao", "responsavelLocalizacao","contactoInternoLocalizacao"],
+        sucesso: "Localização registada com sucesso. ",
+        validacao: validacoesFormulario.localizacaoNova
     },
     {
-        formId: "formEditarLocalizacao",
-        mensagemId: "mensagemEditarLocalizacao",
-        camposObrigatorios: ["editCodigoLocalizacao", "editEdificioLocalizacao", "editPisoLocalizacao", "editServicoLocalizacao", "editSalaLocalizacao", "editEstadoLocalizacao"],
-        mensagemSucesso: "Alterações guardadas com sucesso. "
-    },
-    {
-        formId: "formDocumento",
-        mensagemId: "mensagemDocumento",
-        camposObrigatorios: ["codigoDocumento", "nomeDocumento", "tipoDocumento", "equipamentoDocumento", "dataDocumento", "estadoDocumento", "ficheiroDocumento"],
-        mensagemSucesso: "Documento registado com sucesso. "
-    },
-    {
-        formId: "formEditarDocumento",
-        mensagemId: "mensagemEditarDocumento",
-        camposObrigatorios: ["editCodigoDocumento", "editNomeDocumento", "editTipoDocumento", "editEquipamentoDocumento", "editDataDocumento", "editEstadoDocumento", "editFicheiroDocumento"],
-        mensagemSucesso: "Alterações guardadas com sucesso. "
-    },
-    {
-        formId: "formContrato",
-        mensagemId: "mensagemContrato",
-        camposObrigatorios: ["codigoContrato", "equipamentoContrato", "fornecedorContrato", "tipoContrato", "dataInicioContrato", "dataFimContrato", "estadoContrato"],
-        mensagemSucesso: "Contrato registado com sucesso. "
-    },
-    {
-        formId: "formEditarContrato",
-        mensagemId: "mensagemEditarContrato",
-        camposObrigatorios: ["editCodigoContrato", "editEquipamentoContrato", "editFornecedorContrato", "editTipoContrato", "editDataInicioContrato", "editDataFimContrato", "editEstadoContrato"],
-        mensagemSucesso: "Alterações guardadas com sucesso. "
+        form: "formEditarLocalizacao",
+        mensagem: "mensagemEditarLocalizacao",
+        obrigatorios: ["editCodigoLocalizacao", "editEdificioLocalizacao", "editPisoLocalizacao", "editServicoLocalizacao", "editSalaLocalizacao", "editEstadoLocalizacao", "editResponsavelLocalizacao", "editContactoInternoLocalizacao"],
+        sucesso: "Alterações guardadas com sucesso. ",
+        validacao: validacoesFormulario.localizacaoEditar
     }
-];
-
-formulariosSimples.forEach(iniciarFormularioSimples);
+].forEach(iniciarFormulario);
 
 /* Remoções */
 
-function iniciarRemocao(botaoId, mensagemId, textoSucesso) {
-    const botao = obterElemento(botaoId);
+function iniciarRemocao(config) {
+    const botao = $(config.botao);
 
-    if (botao) {
-        botao.addEventListener("click", function () {
-            irParaIndexDepoisDeMensagem(mensagemId, textoSucesso);
-        });
+    if (!botao) {
+        return;
     }
+
+    botao.addEventListener("click", function () {
+        mensagem(config.mensagem, config.texto, "green");
+
+        setTimeout(function () {
+            window.location.href = "index.html";
+        }, 1200);
+    });
 }
 
-iniciarRemocao("confirmarRemocao", "mensagemRemocao", "Equipamento removido/arquivado com sucesso. ");
-iniciarRemocao("confirmarRemocaoFornecedor", "mensagemRemocaoFornecedor", "Fornecedor removido/arquivado com sucesso. ");
-iniciarRemocao("confirmarRemocaoLocalizacao", "mensagemRemocaoLocalizacao", "Localização removida/arquivada com sucesso. ");
-iniciarRemocao("confirmarRemocaoDocumento", "mensagemRemocaoDocumento", "Documento removido/arquivado com sucesso. ");
-iniciarRemocao("confirmarRemocaoContrato", "mensagemRemocaoContrato", "Contrato removido/arquivado com sucesso. ");
+[
+    ["confirmarRemocao", "mensagemRemocao", "Equipamento removido/arquivado com sucesso. "],
+    ["confirmarRemocaoFornecedor", "mensagemRemocaoFornecedor", "Fornecedor removido/arquivado com sucesso. "],
+    ["confirmarRemocaoLocalizacao", "mensagemRemocaoLocalizacao", "Localização removida/arquivada com sucesso. "],
+    ["confirmarRemocaoDocumento", "mensagemRemocaoDocumento", "Documento removido/arquivado com sucesso. "],
+    ["confirmarRemocaoContrato", "mensagemRemocaoContrato", "Contrato removido/arquivado com sucesso. "]
+].forEach(function (item) {
+    iniciarRemocao({
+        botao: item[0],
+        mensagem: item[1],
+        texto: item[2]
+    });
+});
+/* Documentos e contratos associados aos equipamentos */
+
+function lerJSON(chave) {
+    return JSON.parse(localStorage.getItem(chave)) || [];
+}
+
+function guardarJSON(chave, dados) {
+    localStorage.setItem(chave, JSON.stringify(dados));
+}
+
+function obterDocumentosGuardados() {
+    return lerJSON("medcontrolDocumentosEquipamentos");
+}
+
+function obterContratosGuardados() {
+    return lerJSON("medcontrolContratosEquipamentos");
+}
+
+function guardarAssociacoesNovoEquipamento() {
+    const equipamento = valor("designacao");
+    const fornecedor = valor("fornecedorEquipamento");
+    const documentos = obterDocumentosGuardados();
+
+    const novosDocumentos = [
+        {
+            codigo: "D" + String(documentos.length + 1).padStart(3, "0"),
+            nome: "Manual de utilizador",
+            tipo: "Manual",
+            tipoFiltro: "manual",
+            equipamento,
+            fornecedor,
+            data: new Date().toLocaleDateString("pt-PT"),
+            validade: "Não aplicável",
+            estado: "Válido",
+            estadoFiltro: "valido",
+            ficheiro: nomeFicheiro("manualEquipamento")
+        },
+        {
+            codigo: "D" + String(documentos.length + 2).padStart(3, "0"),
+            nome: "Certificado de calibração",
+            tipo: "Certificado",
+            tipoFiltro: "certificado",
+            equipamento,
+            fornecedor,
+            data: new Date().toLocaleDateString("pt-PT"),
+            validade: valor("dataFimGarantiaEquipamento") || "Não aplicável",
+            estado: "Válido",
+            estadoFiltro: "valido",
+            ficheiro: nomeFicheiro("certificadoEquipamento")
+        },
+        {
+            codigo: "D" + String(documentos.length + 3).padStart(3, "0"),
+            nome: "Relatório técnico",
+            tipo: "Relatório técnico",
+            tipoFiltro: "relatorio",
+            equipamento,
+            fornecedor,
+            data: new Date().toLocaleDateString("pt-PT"),
+            validade: "Não aplicável",
+            estado: "Válido",
+            estadoFiltro: "valido",
+            ficheiro: nomeFicheiro("relatorioTecnicoEquipamento")
+        }
+    ];
+
+    guardarJSON("medcontrolDocumentosEquipamentos", documentos.concat(novosDocumentos));
+
+    const contratos = obterContratosGuardados();
+    const tipoContrato = valor("tipoContratoEquipamento");
+    const estadoContrato = valor("estadoGarantiaEquipamento");
+
+    const novoContrato = {
+        codigo: "C" + String(contratos.length + 1).padStart(3, "0"),
+        equipamento,
+        fornecedor,
+        tipo: tipoContrato,
+        tipoFiltro: tipoContrato.toLowerCase().includes("manutenção") ? "manutencao" : "garantia",
+        dataInicio: valor("dataInicioGarantiaEquipamento"),
+        dataFim: valor("dataFimGarantiaEquipamento"),
+        periodicidade: valor("periodicidadeManutencaoEquipamento"),
+        estado: estadoContrato,
+        estadoFiltro: estadoContrato.toLowerCase().includes("expirada") ? "expirado" : "ativo",
+        valor: valor("valorContratoEquipamento"),
+        ficheiro: nomeFicheiro("contratoDocumentoEquipamento")
+    };
+
+    guardarJSON("medcontrolContratosEquipamentos", contratos.concat(novoContrato));
+}
+
+function removerBotoesNovoEditarDocumentosContratos() {
+    const caminho = window.location.pathname;
+
+    if (!caminho.includes("/documentacao/") && !caminho.includes("/contratos/")) {
+        return;
+    }
+
+    document.querySelectorAll('a[href="novo.html"], a[href="editar.html"]').forEach(function (link) {
+        link.remove();
+    });
+}
+
+function inserirLinhasGuardadas(config) {
+    const tabela = $(config.tabela);
+
+    if (!tabela) {
+        return;
+    }
+
+    const tbody = tabela.querySelector("tbody");
+    const dados = config.dados();
+
+    dados.forEach(function (item) {
+        const linha = document.createElement("tr");
+
+        linha.setAttribute("data-tipo", item.tipoFiltro);
+        linha.setAttribute("data-estado", item.estadoFiltro);
+        linha.setAttribute("data-equipamento", item.equipamento.toLowerCase());
+
+        linha.innerHTML = config.html(item);
+        tbody.appendChild(linha);
+    });
+}
+
+function inserirDocumentosAssociadosNaListagem() {
+    inserirLinhasGuardadas({
+        tabela: "tabelaDocumentos",
+        dados: obterDocumentosGuardados,
+        html: function (documento) {
+            return `
+                <td>${documento.codigo}</td>
+                <td>${documento.nome}</td>
+                <td>${documento.tipo}</td>
+                <td>${documento.equipamento}</td>
+                <td>${documento.fornecedor}</td>
+                <td>${documento.data}</td>
+                <td>${documento.validade}</td>
+                <td><span class="estado ativo">${documento.estado}</span></td>
+                <td>${documento.ficheiro}</td>
+                <td class="acoes-tabela">
+                    <a href="detalhes.html" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <a href="remover.html" data-bs-toggle="tooltip" data-bs-title="Remover documento">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            `;
+        }
+    });
+}
+
+function inserirContratosAssociadosNaListagem() {
+    inserirLinhasGuardadas({
+        tabela: "tabelaContratos",
+        dados: obterContratosGuardados,
+        html: function (contrato) {
+            return `
+                <td>${contrato.codigo}</td>
+                <td>${contrato.equipamento}</td>
+                <td>${contrato.fornecedor}</td>
+                <td>${contrato.tipo}</td>
+                <td>${contrato.dataInicio}</td>
+                <td>${contrato.dataFim}</td>
+                <td>${contrato.periodicidade}</td>
+                <td><span class="estado ativo">${contrato.estado}</span></td>
+                <td class="acoes-tabela">
+                    <a href="detalhes.html" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <a href="remover.html" data-bs-toggle="tooltip" data-bs-title="Remover contrato">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            `;
+        }
+    });
+}
 
 /* Novo equipamento por etapas */
 
+const validacoesEquipamentoNovo = {
+    localizacao: [
+        { id: "pisoEquipamento", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.piso },
+        { id: "responsavelLocalizacaoEquipamento", regra: "letras", obrigatorio: true, msg: "O responsável da localização deve conter apenas letras." },
+        { id: "contactoLocalizacaoEquipamento", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.contacto }
+    ],
+    fornecedor: [
+        { id: "contactoFornecedorEquipamento", regra: "letras", obrigatorio: true, msg: "A pessoa de contacto deve conter apenas letras." },
+        { id: "telefoneFornecedorEquipamento", regra: "telefone", obrigatorio: true, msg: mensagensValidacao.telefone },
+        { id: "emailFornecedorEquipamento", regra: "email", obrigatorio: true, msg: mensagensValidacao.email },
+        { id: "nifFornecedorEquipamento", regra: "nif", obrigatorio: true, msg: mensagensValidacao.nif }
+    ]
+};
+
+aplicarFiltros([
+    { id: "pisoEquipamento", tipo: "numeros" },
+    { id: "responsavelLocalizacaoEquipamento", tipo: "letras" },
+    { id: "contactoLocalizacaoEquipamento", tipo: "numeros" },
+    { id: "contactoFornecedorEquipamento", tipo: "letras" },
+    { id: "telefoneFornecedorEquipamento", tipo: "telefone" },
+    { id: "nifFornecedorEquipamento", tipo: "numeros" }
+]);
+
 const etapasNovoEquipamento = [
     {
-        tabId: "info-tab",
+        tab: "info-tab",
         percentagem: 20,
-        textoProgresso: "Etapa 1 de 5: Informação geral",
-        mensagemErro: "Preencha todos os campos obrigatórios da Informação geral.",
+        texto: "Etapa 1 de 5: Informação geral",
+        erro: "Preencha todos os campos obrigatórios da Informação geral.",
         campos: ["codigo", "designacao", "categoria", "marca", "modelo", "serie", "fabricante", "anoFabrico", "estado", "criticidade", "dataAquisicao", "custo"]
     },
     {
-        tabId: "localizacao-tab",
+        tab: "localizacao-tab",
         percentagem: 40,
-        textoProgresso: "Etapa 2 de 5: Localização",
-        mensagemErro: "Preencha todos os campos obrigatórios da Localização.",
-        campos: ["localizacao", "edificioEquipamento", "pisoEquipamento", "salaEquipamento", "responsavelLocalizacaoEquipamento", "contactoLocalizacaoEquipamento"]
+        texto: "Etapa 2 de 5: Localização",
+        erro: "Preencha todos os campos obrigatórios da Localização.",
+        campos: ["localizacao", "edificioEquipamento", "pisoEquipamento", "salaEquipamento", "responsavelLocalizacaoEquipamento", "contactoLocalizacaoEquipamento"],
+        validacao: validacoesEquipamentoNovo.localizacao
     },
     {
-        tabId: "fornecedor-tab",
+        tab: "fornecedor-tab",
         percentagem: 60,
-        textoProgresso: "Etapa 3 de 5: Fornecedor",
-        mensagemErro: "Preencha todos os campos obrigatórios do Fornecedor.",
-        campos: ["fornecedorEquipamento", "tipoFornecedorEquipamento", "contactoFornecedorEquipamento", "telefoneFornecedorEquipamento", "emailFornecedorEquipamento", "nifFornecedorEquipamento"]
+        texto: "Etapa 3 de 5: Fornecedor",
+        erro: "Preencha todos os campos obrigatórios do Fornecedor.",
+        campos: ["fornecedorEquipamento", "tipoFornecedorEquipamento", "contactoFornecedorEquipamento", "telefoneFornecedorEquipamento", "emailFornecedorEquipamento", "nifFornecedorEquipamento"],
+        validacao: validacoesEquipamentoNovo.fornecedor
     },
     {
-        tabId: "documentacao-tab",
+        tab: "documentacao-tab",
         percentagem: 80,
-        textoProgresso: "Etapa 4 de 5: Documentação",
-        mensagemErro: "Preencha todos os campos obrigatórios da Documentação.",
-        campos: ["manualEquipamento", "certificadoEquipamento", "contratoDocumentoEquipamento", "relatorioTecnicoEquipamento"]
+        texto: "Etapa 4 de 5: Documentação",
+        erro: "Associe todos os documentos obrigatórios em PDF.",
+        campos: ["manualEquipamento", "certificadoEquipamento", "relatorioTecnicoEquipamento"]
     },
     {
-        tabId: "garantia-tab",
+        tab: "garantia-tab",
         percentagem: 100,
-        textoProgresso: "Etapa 5 de 5: Contratos",
-        mensagemErro: "Preencha todos os campos obrigatórios dos Contratos.",
-        campos: ["estadoGarantiaEquipamento", "dataInicioGarantiaEquipamento", "dataFimGarantiaEquipamento", "tipoContratoEquipamento", "periodicidadeManutencaoEquipamento", "valorContratoEquipamento"]
+        texto: "Etapa 5 de 5: Contratos",
+        erro: "Preencha todos os campos obrigatórios dos Contratos e associe o PDF.",
+        campos: ["estadoGarantiaEquipamento", "dataInicioGarantiaEquipamento", "dataFimGarantiaEquipamento", "tipoContratoEquipamento", "periodicidadeManutencaoEquipamento", "valorContratoEquipamento", "contratoDocumentoEquipamento"]
     }
 ];
 
-function atualizarProgressoEquipamento(etapa) {
-    const barra = obterElemento("barraProgressoEquipamento");
-    const texto = obterElemento("textoProgressoEquipamento");
-    const percentagem = obterElemento("percentagemProgressoEquipamento");
+function atualizarProgresso(etapa) {
+    const barra = $("barraProgressoEquipamento");
+    const texto = $("textoProgressoEquipamento");
+    const percentagem = $("percentagemProgressoEquipamento");
 
-    if (barra && texto && percentagem) {
-        barra.style.width = etapa.percentagem + "%";
-        barra.setAttribute("aria-valuenow", etapa.percentagem);
-        texto.textContent = etapa.textoProgresso;
-        percentagem.textContent = etapa.percentagem + "%";
+    if (!barra || !texto || !percentagem) {
+        return;
     }
+
+    barra.style.width = etapa.percentagem + "%";
+    barra.setAttribute("aria-valuenow", etapa.percentagem);
+    texto.textContent = etapa.texto;
+    percentagem.textContent = etapa.percentagem + "%";
 }
 
-function abrirTabEquipamento(tabId) {
-    const botaoTab = obterElemento(tabId);
-    const etapa = etapasNovoEquipamento.find(function (item) {
-        return item.tabId === tabId;
-    });
+function abrirEtapa(tabId) {
+    const etapa = etapasNovoEquipamento.find(item => item.tab === tabId);
 
-    if (botaoTab && typeof bootstrap !== "undefined") {
-        botaoTab.classList.remove("disabled");
-        new bootstrap.Tab(botaoTab).show();
-    }
+    abrirTab(tabId);
 
     if (etapa) {
-        atualizarProgressoEquipamento(etapa);
+        atualizarProgresso(etapa);
     }
 }
 
-function mostrarMensagemEquipamento(texto, cor) {
-    mostrarMensagem("mensagemEquipamento", texto, cor);
-
-    const mensagem = obterElemento("mensagemEquipamento");
-
-    if (mensagem) {
-        mensagem.style.marginTop = "20px";
-        mensagem.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
-    }
+function erroNovoEquipamento(texto) {
+    mostrarErro("mensagemEquipamento", texto);
 }
 
 function etapaValida(etapa) {
-    return camposPreenchidos(etapa.campos);
-}
+    if (!camposPreenchidos(etapa.campos)) {
+        erroNovoEquipamento(etapa.erro);
+        abrirEtapa(etapa.tab);
+        return false;
+    }
 
-function validarEtapasNovoEquipamento() {
-    for (let i = 0; i < etapasNovoEquipamento.length; i++) {
-        if (!etapaValida(etapasNovoEquipamento[i])) {
-            mostrarMensagemEquipamento(etapasNovoEquipamento[i].mensagemErro, "#10233f");
-            abrirTabEquipamento(etapasNovoEquipamento[i].tabId);
-            return false;
-        }
+    if (etapa.validacao && !validarCampos(etapa.validacao, "mensagemEquipamento", etapa.tab)) {
+        return false;
     }
 
     return true;
 }
 
-const formEquipamento = obterElemento("formEquipamento");
+function validarNovoEquipamentoCompleto() {
+    return etapasNovoEquipamento.every(etapaValida);
+}
+
+const formEquipamento = $("formEquipamento");
 
 if (formEquipamento) {
-    const botoesAvancar = [
-        { botaoId: "avancarLocalizacao", etapaAtual: 0, proximaEtapa: 1 },
-        { botaoId: "avancarFornecedor", etapaAtual: 1, proximaEtapa: 2 },
-        { botaoId: "avancarDocumentacao", etapaAtual: 2, proximaEtapa: 3 },
-        { botaoId: "avancarContratos", etapaAtual: 3, proximaEtapa: 4 }
-    ];
+    [
+        ["avancarLocalizacao", 0, 1],
+        ["avancarFornecedor", 1, 2],
+        ["avancarDocumentacao", 2, 3],
+        ["avancarContratos", 3, 4]
+    ].forEach(function (item) {
+        const botao = $(item[0]);
 
-    botoesAvancar.forEach(function (item) {
-        const botao = obterElemento(item.botaoId);
+        if (!botao) {
+            return;
+        }
+
+        botao.addEventListener("click", function () {
+            const etapaAtual = etapasNovoEquipamento[item[1]];
+
+            if (etapaValida(etapaAtual)) {
+                mensagem("mensagemEquipamento", "");
+                abrirEtapa(etapasNovoEquipamento[item[2]].tab);
+            }
+        });
+    });
+
+    [
+        ["voltarInfo", "info-tab"],
+        ["voltarLocalizacao", "localizacao-tab"],
+        ["voltarFornecedor", "fornecedor-tab"]
+    ].forEach(function (item) {
+        const botao = $(item[0]);
 
         if (botao) {
             botao.addEventListener("click", function () {
-                const etapaAtual = etapasNovoEquipamento[item.etapaAtual];
-
-                if (etapaValida(etapaAtual)) {
-                    mostrarMensagem("mensagemEquipamento", "", "#10233f");
-                    abrirTabEquipamento(etapasNovoEquipamento[item.proximaEtapa].tabId);
-                } else {
-                    mostrarMensagemEquipamento(etapaAtual.mensagemErro.replace(".", " antes de avançar."), "#10233f");
-                    abrirTabEquipamento(etapaAtual.tabId);
-                }
+                abrirEtapa(item[1]);
             });
         }
     });
 
-    const botoesVoltar = [
-        { botaoId: "voltarInfo", tabId: "info-tab" },
-        { botaoId: "voltarLocalizacao", tabId: "localizacao-tab" },
-        { botaoId: "voltarFornecedor", tabId: "fornecedor-tab" }
-    ];
+    const guardar = $("guardarEquipamento");
 
-    botoesVoltar.forEach(function (item) {
-        const botao = obterElemento(item.botaoId);
-
-        if (botao) {
-            botao.addEventListener("click", function () {
-                abrirTabEquipamento(item.tabId);
-            });
-        }
-    });
-
-    const guardarEquipamento = obterElemento("guardarEquipamento");
-
-    if (guardarEquipamento) {
-        guardarEquipamento.addEventListener("click", function () {
-            if (validarEtapasNovoEquipamento()) {
-                abrirTabEquipamento("garantia-tab");
-                mostrarMensagemEquipamento("Equipamento registado com sucesso. ", "green");
+    if (guardar) {
+        guardar.addEventListener("click", function () {
+            if (validarNovoEquipamentoCompleto()) {
+                guardarAssociacoesNovoEquipamento();
+                abrirEtapa("garantia-tab");
+                mensagem("mensagemEquipamento", "Equipamento registado com sucesso. Documentos e contrato associados ao equipamento.", "green");
             }
         });
     }
 }
-
 /* Editar equipamento */
+
+const validacoesEquipamentoEditar = {
+    localizacao: [
+        { id: "editPisoEquipamento", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.piso },
+        { id: "editResponsavelLocalizacaoEquipamento", regra: "letras", obrigatorio: true, msg: "O responsável da localização deve conter apenas letras." },
+        { id: "editContactoLocalizacaoEquipamento", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.contacto }
+    ],
+    fornecedor: [
+        { id: "editContactoFornecedorEquipamento", regra: "letras", obrigatorio: true, msg: "A pessoa de contacto deve conter apenas letras." },
+        { id: "editTelefoneFornecedorEquipamento", regra: "telefone", obrigatorio: true, msg: mensagensValidacao.telefone },
+        { id: "editEmailFornecedorEquipamento", regra: "email", obrigatorio: true, msg: mensagensValidacao.email },
+        { id: "editNifFornecedorEquipamento", regra: "nif", obrigatorio: true, msg: mensagensValidacao.nif }
+    ]
+};
+
+aplicarFiltros([
+    { id: "editPisoEquipamento", tipo: "numeros" },
+    { id: "editResponsavelLocalizacaoEquipamento", tipo: "letras" },
+    { id: "editContactoLocalizacaoEquipamento", tipo: "numeros" },
+    { id: "editContactoFornecedorEquipamento", tipo: "letras" },
+    { id: "editTelefoneFornecedorEquipamento", tipo: "telefone" },
+    { id: "editNifFornecedorEquipamento", tipo: "numeros" }
+]);
 
 const etapasEditarEquipamento = [
     {
-        tabId: "edit-info-tab",
-        mensagemErro: "Preencha todos os campos obrigatórios da Informação geral.",
+        tab: "edit-info-tab",
+        erro: "Preencha todos os campos obrigatórios da Informação geral.",
         campos: ["editCodigo", "editDesignacao", "editCategoria", "editMarca", "editModelo", "editSerie", "editFabricante", "editAnoFabrico", "editEstado", "editCriticidade", "editDataAquisicao", "editCusto"]
     },
     {
-        tabId: "edit-localizacao-tab",
-        mensagemErro: "Preencha todos os campos obrigatórios da Localização.",
-        campos: ["editLocalizacao", "editEdificioEquipamento", "editPisoEquipamento", "editSalaEquipamento", "editResponsavelLocalizacaoEquipamento", "editContactoLocalizacaoEquipamento"]
+        tab: "edit-localizacao-tab",
+        erro: "Preencha todos os campos obrigatórios da Localização.",
+        campos: ["editLocalizacao", "editEdificioEquipamento", "editPisoEquipamento", "editSalaEquipamento", "editResponsavelLocalizacaoEquipamento", "editContactoLocalizacaoEquipamento"],
+        validacao: validacoesEquipamentoEditar.localizacao
     },
     {
-        tabId: "edit-fornecedor-tab",
-        mensagemErro: "Preencha todos os campos obrigatórios do Fornecedor.",
-        campos: ["editFornecedorEquipamento", "editTipoFornecedorEquipamento", "editContactoFornecedorEquipamento", "editTelefoneFornecedorEquipamento", "editEmailFornecedorEquipamento", "editNifFornecedorEquipamento"]
+        tab: "edit-fornecedor-tab",
+        erro: "Preencha todos os campos obrigatórios do Fornecedor.",
+        campos: ["editFornecedorEquipamento", "editTipoFornecedorEquipamento", "editContactoFornecedorEquipamento", "editTelefoneFornecedorEquipamento", "editEmailFornecedorEquipamento", "editNifFornecedorEquipamento"],
+        validacao: validacoesEquipamentoEditar.fornecedor
     },
     {
-        tabId: "edit-documentacao-tab",
-        mensagemErro: "Preencha todos os campos obrigatórios da Documentação.",
-        campos: ["editManualEquipamento", "editCertificadoEquipamento", "editContratoDocumentoEquipamento", "editRelatorioTecnicoEquipamento"]
+        tab: "edit-documentacao-tab",
+        erro: "Verifique a documentação associada ao equipamento.",
+        campos: []
     },
     {
-        tabId: "edit-contratos-tab",
-        mensagemErro: "Preencha todos os campos obrigatórios dos Contratos.",
+        tab: "edit-contratos-tab",
+        erro: "Preencha todos os campos obrigatórios dos Contratos.",
         campos: ["editEstadoGarantiaEquipamento", "editDataInicioGarantiaEquipamento", "editDataFimGarantiaEquipamento", "editTipoContratoEquipamento", "editPeriodicidadeManutencaoEquipamento", "editValorContratoEquipamento"]
     }
 ];
 
-function abrirTabEditarEquipamento(tabId) {
-    const botaoTab = obterElemento(tabId);
-
-    if (botaoTab && typeof bootstrap !== "undefined") {
-        new bootstrap.Tab(botaoTab).show();
-    }
-}
-
-const formEditarEquipamento = obterElemento("formEditarEquipamento");
+const formEditarEquipamento = $("formEditarEquipamento");
 
 if (formEditarEquipamento) {
     formEditarEquipamento.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        for (let i = 0; i < etapasEditarEquipamento.length; i++) {
-            const etapa = etapasEditarEquipamento[i];
-
+        for (const etapa of etapasEditarEquipamento) {
             if (!camposPreenchidos(etapa.campos)) {
-                mostrarMensagem("mensagemEditarEquipamento", etapa.mensagemErro, "#10233f");
-                abrirTabEditarEquipamento(etapa.tabId);
+                mostrarErro("mensagemEditarEquipamento", etapa.erro, etapa.tab);
+                return;
+            }
+
+            if (etapa.validacao && !validarCampos(etapa.validacao, "mensagemEditarEquipamento", etapa.tab)) {
                 return;
             }
         }
 
-        mostrarMensagem("mensagemEditarEquipamento", "Alterações guardadas com sucesso. ", "green");
-
-        const mensagem = obterElemento("mensagemEditarEquipamento");
-
-        if (mensagem) {
-            mensagem.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
-        }
+        mensagem("mensagemEditarEquipamento", "Alterações guardadas com sucesso. ", "green");
     });
 }
+
+/* Relações e consumíveis */
+
+function ligarCampoCondicional(config) {
+    const seletor = $(config.seletor);
+    const campo = $(config.campo);
+
+    if (!seletor || !campo) {
+        return;
+    }
+
+    function atualizar() {
+        if (seletor.value === config.valorAtivo) {
+            campo.disabled = false;
+        } else {
+            campo.disabled = true;
+            campo.value = "";
+        }
+    }
+
+    seletor.addEventListener("change", atualizar);
+    atualizar();
+}
+
+[
+    ["componenteOutroEquipamento", "equipamentoPrincipal"],
+    ["temConsumiveis", "consumiveisEquipamento"],
+    ["editComponenteOutroEquipamento", "editEquipamentoPrincipal"],
+    ["editTemConsumiveis", "editConsumiveisEquipamento"]
+].forEach(function (item) {
+    ligarCampoCondicional({
+        seletor: item[0],
+        campo: item[1],
+        valorAtivo: "Sim"
+    });
+});
 
 /* Gestão dos conteúdos públicos */
 
@@ -662,29 +1076,29 @@ const ligacoesConteudoPublico = [
 ];
 
 function carregarConteudosNoFormulario() {
-    camposConteudoPublico.forEach(function (idCampo) {
-        const campo = obterElemento(idCampo);
-        const valorGuardado = localStorage.getItem(idCampo);
+    camposConteudoPublico.forEach(function (id) {
+        const campo = $(id);
+        const guardado = localStorage.getItem(id);
 
-        if (campo && valorGuardado) {
-            campo.value = valorGuardado;
+        if (campo && guardado) {
+            campo.value = guardado;
         }
     });
 }
 
 function aplicarConteudosNoSitePublico() {
     ligacoesConteudoPublico.forEach(function (ligacao) {
-        const elemento = obterElemento(ligacao[0]);
-        const valorGuardado = localStorage.getItem(ligacao[1]);
+        const elemento = $(ligacao[0]);
+        const guardado = localStorage.getItem(ligacao[1]);
 
-        if (elemento && valorGuardado) {
-            elemento.textContent = valorGuardado;
+        if (elemento && guardado) {
+            elemento.textContent = guardado;
         }
     });
 }
 
-const formConteudosPublicos = obterElemento("formConteudosPublicos");
-const botaoReporConteudos = obterElemento("reporConteudosPublicos");
+const formConteudosPublicos = $("formConteudosPublicos");
+const botaoReporConteudos = $("reporConteudosPublicos");
 
 if (formConteudosPublicos) {
     carregarConteudosNoFormulario();
@@ -693,22 +1107,22 @@ if (formConteudosPublicos) {
         event.preventDefault();
 
         if (!camposPreenchidos(camposConteudoPublico)) {
-            mostrarMensagem("mensagemConteudosPublicos", "Preencha todos os campos antes de guardar.", "#10233f");
+            mensagem("mensagemConteudosPublicos", "Preencha todos os campos antes de guardar.", "#10233f");
             return;
         }
 
-        camposConteudoPublico.forEach(function (idCampo) {
-            localStorage.setItem(idCampo, obterValor(idCampo));
+        camposConteudoPublico.forEach(function (id) {
+            localStorage.setItem(id, valor(id));
         });
 
-        mostrarMensagem("mensagemConteudosPublicos", "Conteúdos guardados com sucesso. Abra o site público para visualizar as alterações.", "green");
+        mensagem("mensagemConteudosPublicos", "Conteúdos guardados com sucesso. Abra o site público para visualizar as alterações.", "green");
     });
 }
 
 if (botaoReporConteudos) {
     botaoReporConteudos.addEventListener("click", function () {
-        camposConteudoPublico.forEach(function (idCampo) {
-            localStorage.removeItem(idCampo);
+        camposConteudoPublico.forEach(function (id) {
+            localStorage.removeItem(id);
         });
 
         window.location.reload();
@@ -716,13 +1130,14 @@ if (botaoReporConteudos) {
 }
 
 aplicarConteudosNoSitePublico();
+removerBotoesNovoEditarDocumentosContratos();
+inserirDocumentosAssociadosNaListagem();
+inserirContratosAssociadosNaListagem();
 
 /* Tooltips Bootstrap */
 
-const elementosTooltip = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-
-elementosTooltip.forEach(function (elemento) {
+document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {
     if (typeof bootstrap !== "undefined") {
-        new bootstrap.Tooltip(elemento);
+        new bootstrap.Tooltip(el);
     }
 });
