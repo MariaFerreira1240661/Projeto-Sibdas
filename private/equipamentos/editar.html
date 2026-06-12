@@ -198,6 +198,29 @@
                                 </div>
 
                                 <div>
+                                    <label for="editPrioridadeManutencao">Prioridade de manutenção *</label>
+                                    <select id="editPrioridadeManutencao">
+                                        <option>Baixa</option>
+                                        <option>Moderada</option>
+                                        <option selected>Elevada</option>
+                                        <option>Urgente</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="editUtilizacaoClinica">Utilização clínica *</label>
+                                    <select id="editUtilizacaoClinica">
+                                        <option selected>Monitorização contínua</option>
+                                        <option>Suporte ventilatório</option>
+                                        <option>Terapia de infusão</option>
+                                        <option>Diagnóstico</option>
+                                        <option>Reanimação</option>
+                                        <option>Esterilização</option>
+                                        <option>Outro</option>
+                                    </select>
+                                </div>
+
+                                <div>
                                     <label for="editDataAquisicao">Data de aquisição *</label>
                                     <input type="date" id="editDataAquisicao" value="2022-02-12">
                                 </div>
@@ -300,6 +323,16 @@
                                     <label for="editContactoLocalizacaoEquipamento">Contacto interno *</label>
                                     <input type="text" id="editContactoLocalizacaoEquipamento" value="2201" placeholder="Ex: 2201" inputmode="numeric" pattern="[0-9]*" maxlength="6">
                                 </div>
+
+                                <div>
+                                    <label for="editEstadoLocalizacaoEquipamento">Estado da localização *</label>
+                                    <select id="editEstadoLocalizacaoEquipamento">
+                                        <option selected>Ativa</option>
+                                        <option>Em manutenção</option>
+                                        <option>Inativa</option>
+                                        <option>Temporariamente indisponível</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
@@ -309,12 +342,7 @@
                             <div class="form-grid">
                                 <div>
                                     <label for="editFornecedorEquipamento">Fornecedor *</label>
-                                    <select id="editFornecedorEquipamento">
-                                        <option selected>Philips Healthcare</option>
-                                        <option>MedTech Portugal</option>
-                                        <option>BioSupport Systems</option>
-                                        <option>InfuCare Medical</option>
-                                    </select>
+                                    <input type="text" id="editFornecedorEquipamento" value="Philips Healthcare" placeholder="Ex: MedTech Portugal">
                                 </div>
 
                                 <div>
@@ -370,6 +398,11 @@
                                     <label for="editRelatorioTecnicoEquipamento">Relatório técnico</label>
                                     <input type="file" id="editRelatorioTecnicoEquipamento" accept=".pdf,application/pdf">
                                     <small>Ficheiro atual: relatorio_monitor.pdf</small>
+                                </div>
+                                <div>
+                                    <label for="editContratoDocumentoEquipamento">PDF do contrato / garantia</label>
+                                    <input type="file" id="editContratoDocumentoEquipamento" accept=".pdf,application/pdf">
+                                    <small>Ficheiro atual: contrato_monitor.pdf</small>
                                 </div>
                             </div>
                         
@@ -430,11 +463,7 @@
                                     <input type="number" id="editValorContratoEquipamento" value="1200">
                                 </div>
                         
-                                <div>
-                                    <label for="editContratoDocumentoEquipamento">PDF do contrato / garantia</label>
-                                    <input type="file" id="editContratoDocumentoEquipamento" accept=".pdf,application/pdf">
-                                    <small>Ficheiro atual: contrato_monitor.pdf</small>
-                                </div>
+                                
                             </div>
                         </div>
 

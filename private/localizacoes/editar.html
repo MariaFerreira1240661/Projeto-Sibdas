@@ -102,7 +102,7 @@
                         </div>
 
                         <div>
-                            <label for="editServicoLocalizacao">Serviço / Departamento *</label>
+                            <label for="editServicoLocalizacao">Serviço / Localização *</label>
                             <select id="editServicoLocalizacao" required>
                                 <option selected>UCI</option>
                                 <option>Bloco Operatório</option>
@@ -118,21 +118,24 @@
                             <input type="text" id="editSalaLocalizacao" value="UCI Geral" required>
                         </div>
 
-                        <div>
-                            <label for="editEstadoLocalizacao">Estado *</label>
-                            <select id="editEstadoLocalizacao" required>
-                                <option selected>Ativo</option>
-                                <option>Inativo</option>
+                        <div> 
+                            <label for="editEstadoLocalizacao">Estado da localização *</label>
+                            <select id="editEstadoLocalizacao">
+                                <option selected>Ativa</option>
+                                <option>Em manutenção</option>
+                                <option>Inativa</option>
+                                <option>Temporariamente indisponível</option>
                             </select>
                         </div>
+                        
 
                         <div>
-                            <label for="editResponsavelLocalizacao">Responsável da localização</label>
+                            <label for="editResponsavelLocalizacao">Responsável da localização *</label>
                             <input type="text" id="editResponsavelLocalizacao" value="Enfermeiro responsável" required>
                         </div>
 
                         <div>
-                            <label for="editTelefoneLocalizacao">Contacto interno</label>
+                            <label for="editTelefoneLocalizacao">Contacto interno *</label>
                             <input type="text" id="editContactoInternoLocalizacao" value="2201" inputmode="numeric" pattern="[0-9]*" maxlength="6" required>
                         </div>
                     </div>

@@ -216,6 +216,32 @@
                                 </div>
 
                                 <div>
+                                    <label for="prioridadeManutencao">Prioridade de manutenção *</label>
+                                    <select id="prioridadeManutencao">
+                                        <option value="">Selecione a prioridade</option>
+                                        <option>Baixa</option>
+                                        <option>Moderada</option>
+                                        <option>Elevada</option>
+                                        <option>Urgente</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="utilizacaoClinica">Utilização clínica *</label>
+                                    <select id="utilizacaoClinica">
+                                        <option value="">Selecione a utilização clínica</option>
+                                        <option>Monitorização contínua</option>
+                                        <option>Suporte ventilatório</option>
+                                        <option>Terapia de infusão</option>
+                                        <option>Diagnóstico</option>
+                                        <option>Reanimação</option>
+                                        <option>Esterilização</option>
+                                        <option>Outro</option>
+                                    </select>
+                                </div>
+                                
+
+                                <div>
                                     <label for="dataAquisicao">Data de aquisição *</label>
                                     <input type="date" id="dataAquisicao">
                                 </div>
@@ -325,6 +351,17 @@
                                     <label for="contactoLocalizacaoEquipamento">Contacto interno *</label>
                                     <input type="text" id="contactoLocalizacaoEquipamento" placeholder="Ex: 2201" inputmode="numeric" pattern="[0-9]*" maxlength="6">
                                 </div>
+
+                                <div>
+                                    <label for="estadoLocalizacaoEquipamento">Estado da localização *</label>
+                                    <select id="estadoLocalizacaoEquipamento">
+                                        <option value="">Selecione o estado</option>
+                                        <option>Ativa</option>
+                                        <option>Em manutenção</option>
+                                        <option>Inativa</option>
+                                        <option>Temporariamente indisponível</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="form-botoes mt-4">
@@ -346,13 +383,7 @@
                             <div class="form-grid">
                                 <div>
                                     <label for="fornecedorEquipamento">Fornecedor *</label>
-                                    <select id="fornecedorEquipamento">
-                                        <option value="">Selecione um fornecedor</option>
-                                        <option>Philips Healthcare</option>
-                                        <option>MedTech Portugal</option>
-                                        <option>BioSupport Systems</option>
-                                        <option>InfuCare Medical</option>
-                                    </select>
+                                    <input type="text" id="fornecedorEquipamento" placeholder="Ex: MedTech Portugal">
                                 </div>
 
                                 <div>
@@ -419,6 +450,11 @@
                                     <label for="relatorioTecnicoEquipamento">Relatório técnico *</label>
                                     <input type="file" id="relatorioTecnicoEquipamento" accept=".pdf,application/pdf">
                                 </div>
+
+                                <div>
+                                    <label for="contratoDocumentoEquipamento">PDF do contrato / garantia *</label>
+                                    <input type="file" id="contratoDocumentoEquipamento" accept=".pdf,application/pdf">
+                                </div>
                             </div>
                         
                             <div class="form-full">
@@ -441,7 +477,7 @@
                         
                         <div class="tab-pane fade" id="garantia-tab-pane" role="tabpanel" tabindex="0">
                             <h3>Contratos</h3>
-                            <p>Associe a garantia ou contrato ao equipamento e carregue o respetivo PDF.</p>
+                            <p>Associe a garantia ou contrato ao equipamento .</p>
                         
                             <div class="form-grid">
                                 <div>
@@ -492,10 +528,7 @@
                                     <input type="number" id="valorContratoEquipamento" placeholder="Ex: 1200">
                                 </div>
                         
-                                <div>
-                                    <label for="contratoDocumentoEquipamento">PDF do contrato / garantia *</label>
-                                    <input type="file" id="contratoDocumentoEquipamento" accept=".pdf,application/pdf">
-                                </div>
+                                
                             </div>
                         </div>
 

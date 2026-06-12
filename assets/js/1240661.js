@@ -468,14 +468,14 @@ function iniciarFormulario(config) {
     {
         form: "formFornecedor",
         mensagem: "mensagemFornecedor",
-        obrigatorios: ["codigoFornecedor", "nomeFornecedor", "nifFornecedor", "tipoFornecedor", "telefoneFornecedor", "emailFornecedor", "estadoFornecedor", "pessoaContactoFornecedor"],
+        obrigatorios: ["codigoFornecedor", "nomeFornecedor", "nifFornecedor", "tipoFornecedor", "telefoneFornecedor", "emailFornecedor",  "pessoaContactoFornecedor"],
         sucesso: "Fornecedor registado com sucesso. ",
         validacao: validacoesFormulario.fornecedorNovo
     },
     {
         form: "formEditarFornecedor",
         mensagem: "mensagemEditarFornecedor",
-        obrigatorios: ["editCodigoFornecedor", "editNomeFornecedor", "editNifFornecedor", "editTipoFornecedor", "editTelefoneFornecedor", "editEmailFornecedor", "editEstadoFornecedor", "editPessoaContactoFornecedor"],
+        obrigatorios: ["editCodigoFornecedor", "editNomeFornecedor", "editNifFornecedor", "editTipoFornecedor", "editTelefoneFornecedor", "editEmailFornecedor",  "editPessoaContactoFornecedor"],
         sucesso: "Alterações guardadas com sucesso. ",
         validacao: validacoesFormulario.fornecedorEditar
     },
@@ -735,14 +735,14 @@ const etapasNovoEquipamento = [
         percentagem: 20,
         texto: "Etapa 1 de 5: Informação geral",
         erro: "Preencha todos os campos obrigatórios da Informação geral.",
-        campos: ["codigo", "designacao", "categoria", "marca", "modelo", "serie", "fabricante", "anoFabrico", "estado", "criticidade", "dataAquisicao", "custo"]
+        campos: ["codigo", "designacao", "categoria", "marca", "modelo", "serie", "fabricante", "anoFabrico", "estado", "criticidade", "prioridadeManutencao","utilizacaoClinica", "dataAquisicao", "custo", "tipoEntrada"]
     },
     {
         tab: "localizacao-tab",
         percentagem: 40,
         texto: "Etapa 2 de 5: Localização",
         erro: "Preencha todos os campos obrigatórios da Localização.",
-        campos: ["localizacao", "edificioEquipamento", "pisoEquipamento", "salaEquipamento", "responsavelLocalizacaoEquipamento", "contactoLocalizacaoEquipamento"],
+        campos: ["localizacao", "edificioEquipamento", "pisoEquipamento", "salaEquipamento", "responsavelLocalizacaoEquipamento", "contactoLocalizacaoEquipamento","estadoLocalizacaoEquipamento"],
         validacao: validacoesEquipamentoNovo.localizacao
     },
     {
@@ -758,14 +758,14 @@ const etapasNovoEquipamento = [
         percentagem: 80,
         texto: "Etapa 4 de 5: Documentação",
         erro: "Associe todos os documentos obrigatórios em PDF.",
-        campos: ["manualEquipamento", "certificadoEquipamento", "relatorioTecnicoEquipamento"]
+        campos: ["manualEquipamento", "certificadoEquipamento", "relatorioTecnicoEquipamento", "contratoDocumentoEquipamento"]
     },
     {
         tab: "garantia-tab",
         percentagem: 100,
         texto: "Etapa 5 de 5: Contratos",
         erro: "Preencha todos os campos obrigatórios dos Contratos e associe o PDF.",
-        campos: ["estadoGarantiaEquipamento", "dataInicioGarantiaEquipamento", "dataFimGarantiaEquipamento", "tipoContratoEquipamento", "periodicidadeManutencaoEquipamento", "valorContratoEquipamento", "contratoDocumentoEquipamento"]
+        campos: ["estadoGarantiaEquipamento", "dataInicioGarantiaEquipamento", "dataFimGarantiaEquipamento", "tipoContratoEquipamento", "periodicidadeManutencaoEquipamento", "valorContratoEquipamento", ]
     }
 ];
 
@@ -896,12 +896,12 @@ const etapasEditarEquipamento = [
     {
         tab: "edit-info-tab",
         erro: "Preencha todos os campos obrigatórios da Informação geral.",
-        campos: ["editCodigo", "editDesignacao", "editCategoria", "editMarca", "editModelo", "editSerie", "editFabricante", "editAnoFabrico", "editEstado", "editCriticidade", "editDataAquisicao", "editCusto"]
+        campos: ["editCodigo", "editDesignacao", "editCategoria", "editMarca", "editModelo", "editSerie", "editFabricante", "editAnoFabrico", "editEstado", "editCriticidade","editPrioridadeManutencao","editUtilizacaoClinica", "editDataAquisicao", "editCusto","editTipoEntrada"]
     },
-    {
+    { 
         tab: "edit-localizacao-tab",
         erro: "Preencha todos os campos obrigatórios da Localização.",
-        campos: ["editLocalizacao", "editEdificioEquipamento", "editPisoEquipamento", "editSalaEquipamento", "editResponsavelLocalizacaoEquipamento", "editContactoLocalizacaoEquipamento"],
+        campos: ["editLocalizacao", "editEdificioEquipamento", "editPisoEquipamento", "editSalaEquipamento", "editResponsavelLocalizacaoEquipamento", "editContactoLocalizacaoEquipamento", "editEstadoLocalizacaoEquipamento"],
         validacao: validacoesEquipamentoEditar.localizacao
     },
     {
