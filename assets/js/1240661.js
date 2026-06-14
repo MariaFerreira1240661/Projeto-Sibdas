@@ -94,6 +94,11 @@ const regras = {
 
         return /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/.*)?$/.test(valor.trim());
     }
+    ,
+
+    pdf: valor => /\.pdf$/i.test(valor.trim()),
+
+    positivo: valor => Number(valor) > 0
 };
 
 const mensagensValidacao = {
@@ -105,6 +110,9 @@ const mensagensValidacao = {
     letras: "Este campo deve conter apenas letras.",
     piso: "O piso deve conter apenas números.",
     contacto: "O contacto interno deve conter apenas números."
+    ,
+    pdf: "O ficheiro/documento associado deve terminar em .pdf.",
+    positivo: "O valor associado deve ser superior a 0."
 };
 
 function abrirTab(id) {
@@ -437,7 +445,81 @@ const validacoesFormulario = {
         { id: "editContactoInternoLocalizacao", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.contacto }
     ]
     }
+    ,
+
+    documentoNovo: {
+        filtros: [
+            { id: "responsavelDocumento", tipo: "letras" }
+        ],
+        campos: [
+            { id: "codigoDocumento", obrigatorio: true },
+            { id: "nomeDocumento", obrigatorio: true },
+            { id: "tipoDocumento", obrigatorio: true },
+            { id: "equipamentoDocumento", obrigatorio: true },
+            { id: "dataDocumento", obrigatorio: true },
+            { id: "estadoDocumento", obrigatorio: true },
+            { id: "ficheiroDocumento", regra: "pdf", obrigatorio: true, msg: mensagensValidacao.pdf },
+            { id: "responsavelDocumento", regra: "letras", obrigatorio: false, msg: "O responsável pelo registo deve conter apenas letras." }
+        ]
+    },
+
+    documentoEditar: {
+        filtros: [
+            { id: "editResponsavelDocumento", tipo: "letras" }
+        ],
+        campos: [
+            { id: "editCodigoDocumento", obrigatorio: true },
+            { id: "editNomeDocumento", obrigatorio: true },
+            { id: "editTipoDocumento", obrigatorio: true },
+            { id: "editEquipamentoDocumento", obrigatorio: true },
+            { id: "editDataDocumento", obrigatorio: true },
+            { id: "editEstadoDocumento", obrigatorio: true },
+            { id: "editFicheiroDocumento", regra: "pdf", obrigatorio: true, msg: mensagensValidacao.pdf },
+            { id: "editResponsavelDocumento", regra: "letras", obrigatorio: false, msg: "O responsável pelo registo deve conter apenas letras." }
+        ]
+    },
+
+    contratoNovo: {
+        campos: [
+            { id: "codigoContrato", obrigatorio: true },
+            { id: "equipamentoContrato", obrigatorio: true },
+            { id: "fornecedorContrato", obrigatorio: true },
+            { id: "tipoContrato", obrigatorio: true },
+            { id: "dataInicioContrato", obrigatorio: true },
+            { id: "dataFimContrato", obrigatorio: true },
+            { id: "estadoContrato", obrigatorio: true },
+            { id: "valorContrato", regra: "positivo", obrigatorio: false, msg: mensagensValidacao.positivo },
+            { id: "documentoContrato", regra: "pdf", obrigatorio: false, msg: mensagensValidacao.pdf }
+        ]
+    },
+
+    contratoEditar: {
+        campos: [
+            { id: "editCodigoContrato", obrigatorio: true },
+            { id: "editEquipamentoContrato", obrigatorio: true },
+            { id: "editFornecedorContrato", obrigatorio: true },
+            { id: "editTipoContrato", obrigatorio: true },
+            { id: "editDataInicioContrato", obrigatorio: true },
+            { id: "editDataFimContrato", obrigatorio: true },
+            { id: "editEstadoContrato", obrigatorio: true },
+            { id: "editValorContrato", regra: "positivo", obrigatorio: false, msg: mensagensValidacao.positivo },
+            { id: "editDocumentoContrato", regra: "pdf", obrigatorio: false, msg: mensagensValidacao.pdf }
+        ]
+    }
 };
+
+function validarIntervaloDatas(inicioId, fimId, idMensagem) {
+    const inicio = valor(inicioId);
+    const fim = valor(fimId);
+
+    if (inicio && fim && new Date(fim) < new Date(inicio)) {
+        mostrarErro(idMensagem, "A data de fim não pode ser anterior à data de início.");
+        $(fimId)?.focus();
+        return false;
+    }
+
+    return true;
+}
 
 function iniciarFormulario(config) {
     const form = $(config.form);
@@ -457,6 +539,9 @@ function iniciarFormulario(config) {
         }
 
         if (config.validacao && !validarCampos(config.validacao.campos, config.mensagem)) {
+            return;
+        }
+        if (config.datas && !validarIntervaloDatas(config.datas.inicio, config.datas.fim, config.mensagem)) {
             return;
         }
 
@@ -492,6 +577,37 @@ function iniciarFormulario(config) {
         obrigatorios: ["editCodigoLocalizacao", "editEdificioLocalizacao", "editPisoLocalizacao", "editServicoLocalizacao", "editSalaLocalizacao", "editEstadoLocalizacao", "editResponsavelLocalizacao", "editContactoInternoLocalizacao"],
         sucesso: "Alterações guardadas com sucesso. ",
         validacao: validacoesFormulario.localizacaoEditar
+    }
+    ,
+    {
+        form: "formDocumento",
+        mensagem: "mensagemDocumento",
+        obrigatorios: ["codigoDocumento", "nomeDocumento", "tipoDocumento", "equipamentoDocumento", "dataDocumento", "estadoDocumento", "ficheiroDocumento"],
+        sucesso: "Documento registado com sucesso.",
+        validacao: validacoesFormulario.documentoNovo
+    },
+    {
+        form: "formEditarDocumento",
+        mensagem: "mensagemEditarDocumento",
+        obrigatorios: ["editCodigoDocumento", "editNomeDocumento", "editTipoDocumento", "editEquipamentoDocumento", "editDataDocumento", "editEstadoDocumento", "editFicheiroDocumento"],
+        sucesso: "Alterações guardadas com sucesso.",
+        validacao: validacoesFormulario.documentoEditar
+    },
+    {
+        form: "formContrato",
+        mensagem: "mensagemContrato",
+        obrigatorios: ["codigoContrato", "equipamentoContrato", "fornecedorContrato", "tipoContrato", "dataInicioContrato", "dataFimContrato", "estadoContrato"],
+        sucesso: "Contrato registado com sucesso.",
+        validacao: validacoesFormulario.contratoNovo,
+        datas: { inicio: "dataInicioContrato", fim: "dataFimContrato" }
+    },
+    {
+        form: "formEditarContrato",
+        mensagem: "mensagemEditarContrato",
+        obrigatorios: ["editCodigoContrato", "editEquipamentoContrato", "editFornecedorContrato", "editTipoContrato", "editDataInicioContrato", "editDataFimContrato", "editEstadoContrato"],
+        sucesso: "Alterações guardadas com sucesso.",
+        validacao: validacoesFormulario.contratoEditar,
+        datas: { inicio: "editDataInicioContrato", fim: "editDataFimContrato" }
     }
 ].forEach(iniciarFormulario);
 
