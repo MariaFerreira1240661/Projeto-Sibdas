@@ -1,9 +1,13 @@
+<?php
+require_once __DIR__ . '/../config/config.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - MedControl</title>
+    <title>Dashboard - <?php echo APP_NAME; ?></title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="../assets/img/medcontrol-logo2.png" type="image/png">
@@ -26,7 +30,7 @@
         <aside class="backend-sidebar">
             <div class="sidebar-logo">
                 <img src="../assets/img/medcontrol-logo2.png" alt="Logótipo da MedControl">
-                <h2>MedControl</h2>
+                <h2><?php echo APP_NAME; ?></h2>
             </div>
 
             <nav class="sidebar-menu">
