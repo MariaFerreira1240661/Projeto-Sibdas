@@ -1,62 +1,13 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Localizações - MedControl</title>
+<?php
+$pagina_atual = 'localizacoes';
+include '../includes/header.php';
+?>
 
-    <link rel="shortcut icon" href="../../assets/img/medcontrol-logo2.png" type="image/png">
-    <link href="../../assets/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../../assets/css/1240661.css">
-</head>
+<div class="backend-layout">
 
-<body class="backend-body">
+    <?php include '../includes/sidebar.php'; ?>
 
-    <div class="backend-layout">
-
-        <aside class="backend-sidebar">
-            <div class="sidebar-logo">
-                <img src="../../assets/img/medcontrol-logo2.png" alt="Logótipo da MedControl">
-                <h2>MedControl</h2>
-            </div>
-
-            <nav class="sidebar-menu">
-                <a href="../index.html">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Dashboard</span>
-                </a>
-
-                <a href="../equipamentos/index.html">
-                    <i class="bi bi-hospital"></i>
-                    <span>Equipamentos</span>
-                </a>
-
-                <a href="index.html" class="ativo">
-                    <i class="bi bi-geo-alt"></i>
-                    <span>Localizações</span>
-                </a>
-
-                <a href="../fornecedores/index.html">
-                    <i class="bi bi-truck"></i>
-                    <span>Fornecedores</span>
-                </a>
-
-                <a href="../documentacao/index.html">
-                    <i class="bi bi-file-earmark-text"></i>
-                    <span>Documentação</span>
-                </a>
-
-                <a href="../contratos/index.html">
-                    <i class="bi bi-shield-check"></i>
-                    <span>Contratos</span>
-                </a>
-            </nav>
-
-          
-        </aside>
-
-        <main class="backend-content">
+<main class="backend-content">
 
             <div class="backend-topbar">
                 <div>
@@ -72,14 +23,14 @@
                 
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <a class="dropdown-item" href="../../public/index.html">
+                            <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/index.php">
                                 <i class="bi bi-box-arrow-up-right"></i>
                                 Sair para o site público
                             </a>
                         </li>
                 
                         <li>
-                            <a class="dropdown-item" href="../../login/login.html">
+                            <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/login.php">
                                 <i class="bi bi-box-arrow-right"></i>
                                 Terminar sessão
                             </a>
@@ -95,7 +46,7 @@
                         <p>Consulta e gestão das áreas hospitalares associadas aos equipamentos.</p>
                     </div>
 
-                    <a href="novo.html" class="btn-backend">
+                    <a href=".php" class="btn-backend">
                         <i class="bi bi-plus-circle"></i>
                         Nova localização
                     </a>
@@ -153,15 +104,15 @@
                                 <td>12</td>
                                 <td><span class="estado ativo">Ativo</span></td>
                                 <td class="acoes-tabela">
-                                    <a href="detalhes.html" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="editar.html" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="remover.html" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -176,15 +127,15 @@
                                 <td>8</td>
                                 <td><span class="estado ativo">Ativo</span></td>
                                 <td class="acoes-tabela">
-                                    <a href="detalhes.html" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="editar.html" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="remover.html" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -199,15 +150,15 @@
                                 <td>15</td>
                                 <td><span class="estado ativo">Ativo</span></td>
                                 <td class="acoes-tabela">
-                                    <a href="detalhes.html" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="editar.html" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="remover.html" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -222,15 +173,15 @@
                                 <td>10</td>
                                 <td><span class="estado ativo">Ativo</span></td>
                                 <td class="acoes-tabela">
-                                    <a href="detalhes.html" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="editar.html" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="remover.html" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -245,15 +196,15 @@
                                 <td>0</td>
                                 <td><span class="estado inativo">Inativo</span></td>
                                 <td class="acoes-tabela">
-                                    <a href="detalhes.html" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="editar.html" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="remover.html" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -269,10 +220,6 @@
 
         </main>
 
-    </div>
+</div>
 
-    <script src="../../assets/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="../../assets/js/1240661.js"></script>
-
-</body>
-</html>
+<?php include '../includes/footer.php'; ?>

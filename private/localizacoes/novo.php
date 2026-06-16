@@ -1,62 +1,13 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nova Localização - MedControl</title>
+<?php
+$pagina_atual = 'localizacoes';
+include '../includes/header.php';
+?>
 
-    <link rel="shortcut icon" href="../../assets/img/medcontrol-logo2.png" type="image/png">
-    <link href="../../assets/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../../assets/css/1240661.css">
-</head>
+<div class="backend-layout">
 
-<body class="backend-body">
+    <?php include '../includes/sidebar.php'; ?>
 
-    <div class="backend-layout">
-
-        <aside class="backend-sidebar">
-            <div class="sidebar-logo">
-                <img src="../../assets/img/medcontrol-logo2.png" alt="Logótipo da MedControl">
-                <h2>MedControl</h2>
-            </div>
-
-            <nav class="sidebar-menu">
-                <a href="../index.html">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Dashboard</span>
-                </a>
-
-                <a href="../equipamentos/index.html">
-                    <i class="bi bi-hospital"></i>
-                    <span>Equipamentos</span>
-                </a>
-
-                <a href="index.html" class="ativo">
-                    <i class="bi bi-geo-alt"></i>
-                    <span>Localizações</span>
-                </a>
-
-                <a href="../fornecedores/index.html">
-                    <i class="bi bi-truck"></i>
-                    <span>Fornecedores</span>
-                </a>
-
-                <a href="../documentacao/index.html">
-                    <i class="bi bi-file-earmark-text"></i>
-                    <span>Documentação</span>
-                </a>
-
-                <a href="../contratos/index.html">
-                    <i class="bi bi-shield-check"></i>
-                    <span>Contratos</span>
-                </a>
-            </nav>
-
-            
-        </aside>
-
-        <main class="backend-content">
+<main class="backend-content">
 
             <div class="backend-topbar">
                 <div>
@@ -77,7 +28,7 @@
                         <p>Preencha os campos principais para simular o registo de uma localização.</p>
                     </div>
 
-                    <a href="index.html" class="btn-backend">
+                    <a href=".php" class="btn-backend">
                         <i class="bi bi-arrow-left-circle"></i>
                         Voltar à listagem
                     </a>
@@ -154,7 +105,7 @@
                             Guardar localização
                         </button>
 
-                        <a href="index.html" class="btn-secundario">
+                        <a href=".php" class="btn-secundario">
                             Cancelar
                         </a>
                     </div>
@@ -164,10 +115,6 @@
 
         </main>
 
-    </div>
+</div>
 
-    <script src="../../assets/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="../../assets/js/1240661.js"></script>
-
-</body>
-</html>
+<?php include '../includes/footer.php'; ?>
