@@ -16,22 +16,22 @@
             <span>Equipamentos</span>
         </a>
 
-        <a href="<?php echo BASE_URL; ?>/private/localizacoes/index.html" class="<?php echo ($pagina_atual == 'localizacoes') ? 'ativo' : ''; ?>">
+        <a href="<?php echo BASE_URL; ?>/private/localizacoes/index.php" class="<?php echo ($pagina_atual == 'localizacoes') ? 'ativo' : ''; ?>">
             <i class="bi bi-geo-alt"></i>
             <span>Localizações</span>
         </a>
 
-        <a href="<?php echo BASE_URL; ?>/private/fornecedores/index.html" class="<?php echo ($pagina_atual == 'fornecedores') ? 'ativo' : ''; ?>">
+        <a href="<?php echo BASE_URL; ?>/private/fornecedores/index.php" class="<?php echo ($pagina_atual == 'fornecedores') ? 'ativo' : ''; ?>">
             <i class="bi bi-truck"></i>
             <span>Fornecedores</span>
         </a>
 
-        <a href="<?php echo BASE_URL; ?>/private/documentacao/index.html" class="<?php echo ($pagina_atual == 'documentacao') ? 'ativo' : ''; ?>">
+        <a href="<?php echo BASE_URL; ?>/private/documentacao/index.php" class="<?php echo ($pagina_atual == 'documentacao') ? 'ativo' : ''; ?>">
             <i class="bi bi-file-earmark-text"></i>
             <span>Documentação</span>
         </a>
 
-        <a href="<?php echo BASE_URL; ?>/private/contratos/index.html" class="<?php echo ($pagina_atual == 'contratos') ? 'ativo' : ''; ?>">
+        <a href="<?php echo BASE_URL; ?>/private/contratos/index.php" class="<?php echo ($pagina_atual == 'contratos') ? 'ativo' : ''; ?>">
             <i class="bi bi-shield-check"></i>
             <span>Contratos</span>
         </a>
