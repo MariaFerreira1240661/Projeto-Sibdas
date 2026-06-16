@@ -30,7 +30,7 @@ include '../includes/header.php';
                         </li>
                 
                         <li>
-                            <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/login.php">
+                            <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/logout.php">
                                 <i class="bi bi-box-arrow-right"></i>
                                 Terminar sessão
                             </a>
@@ -46,10 +46,6 @@ include '../includes/header.php';
                         <p>Consulta e gestão da documentação técnica e administrativa associada aos equipamentos.</p>
                     </div>
 
-                    <a href="novo.php" class="btn-backend">
-                        <i class="bi bi-plus-circle"></i>
-                        Novo documento
-                    </a>
                 </div>
 
                 <div class="filtros-backend">
@@ -125,9 +121,6 @@ include '../includes/header.php';
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
                                 
                                     <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
@@ -150,9 +143,7 @@ include '../includes/header.php';
                                             <i class="bi bi-eye"></i>
                                         </a>
                                     
-                                        <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
+                                       
                                     
                                         <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                             <i class="bi bi-trash"></i>
@@ -175,9 +166,7 @@ include '../includes/header.php';
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
+                                
                                 
                                     <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
@@ -200,9 +189,7 @@ include '../includes/header.php';
                                         <i class="bi bi-eye"></i>
                                     </a>
                             
-                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
+                                    
                             
                                     <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
@@ -225,9 +212,7 @@ include '../includes/header.php';
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
+                                    
                                 
                                     <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>

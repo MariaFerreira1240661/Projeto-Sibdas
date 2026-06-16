@@ -1,8 +1,28 @@
 <?php
+session_start();
+
 require_once __DIR__ . '/../config/config.php';
+
+// --------------------------------------------------------------------
+// MENSAGENS TEMPORÁRIAS DA SESSÃO
+// --------------------------------------------------------------------
+
+$validation_errors = [];
+$server_error = '';
+
+if (!empty($_SESSION['validation_errors'])) {
+    $validation_errors = $_SESSION['validation_errors'];
+    unset($_SESSION['validation_errors']);
+}
+
+if (!empty($_SESSION['server_error'])) {
+    $server_error = $_SESSION['server_error'];
+    unset($_SESSION['server_error']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,29 +57,41 @@ require_once __DIR__ . '/../config/config.php';
             <form action="../private/index.php" method="post">
                 <div class="mb-3">
                     <label for="text_username" class="form-label">Email</label>
-                    <input 
-                        type="email" 
-                        class="form-control" 
-                        name="text_username" 
-                        id="text_username" 
+                    <input
+                        type="email"
+                        class="form-control"
+                        name="text_username"
+                        id="text_username"
                         placeholder="Insira o seu email"
-                        required
-                    >
+                        required>
                 </div>
 
                 <div class="mb-3">
                     <label for="text_password" class="form-label">Palavra-passe</label>
-                    <input 
-                        type="password" 
-                        class="form-control" 
-                        name="text_password" 
-                        id="text_password" 
+                    <input
+                        type="password"
+                        class="form-control"
+                        name="text_password"
+                        id="text_password"
                         placeholder="Palavra-passe"
-                        required
-                    >
+                        required>
                 </div>
 
                 <button type="submit" class="btn-login">Entrar</button>
+
+                <?php if (!empty($validation_errors)) : ?>
+                    <div class="mensagem-login">
+                        <?php foreach ($validation_errors as $erro) : ?>
+                            <p><?php echo $erro; ?></p>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (!empty($server_error)) : ?>
+                    <div class="mensagem-login">
+                        <p><?php echo $server_error; ?></p>
+                    </div>
+                <?php endif; ?>
 
                 <p id="mensagem-login" class="mensagem-login"></p>
             </form>
@@ -73,4 +105,5 @@ require_once __DIR__ . '/../config/config.php';
     <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>

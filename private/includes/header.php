@@ -1,23 +1,37 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
+
+// --------------------------------------------------------------------
+// PROTEÇÃO DA ÁREA PRIVADA
+// --------------------------------------------------------------------
+// Este ficheiro é incluído no início das páginas privadas.
+// Tal como na ficha, verificamos se existe $_SESSION['utilizador'].
+// Se não existir, o utilizador volta para o login.
+// --------------------------------------------------------------------
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['utilizador'])) {
+    header('Location: ' . BASE_URL . '/public/login.php');
+    exit;
+}
+
+// Utilizador autenticado
+$nome = $_SESSION['utilizador'];
 ?>
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - <?php echo APP_NAME; ?></title>
 
-    <!-- favicon -->
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/assets/img/medcontrol-logo2.png" type="image/png">
-
-    <!-- Bootstrap -->
     <link href="<?php echo BASE_URL; ?>/assets/bootstrap/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/bootstrap/bootstrap-icons.min.css">
-
-    <!-- CSS do projeto -->
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/1240661.css">
 </head>
 

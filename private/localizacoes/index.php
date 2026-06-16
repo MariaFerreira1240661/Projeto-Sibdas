@@ -30,7 +30,7 @@ include '../includes/header.php';
                         </li>
                 
                         <li>
-                            <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/login.php">
+                            <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/logout.php">
                                 <i class="bi bi-box-arrow-right"></i>
                                 Terminar sessão
                             </a>

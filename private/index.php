@@ -1,5 +1,66 @@
 <?php
+session_start();
+
 $pagina_atual = 'dashboard';
+
+// --------------------------------------------------------------------
+// ACESSO AO DASHBOARD COM SESSÃO OU LOGIN POR POST
+// --------------------------------------------------------------------
+
+// Se o utilizador já tem sessão iniciada, pode aceder ao dashboard.
+if (isset($_SESSION['utilizador'])) {
+    $username = $_SESSION['utilizador'];
+} else {
+
+    // Se não há sessão e o acesso não veio por POST, volta ao login.
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header('Location: ../public/login.php');
+        return;
+    }
+
+    // ----------------------------------------------------------------
+    // RECOLHA DOS DADOS ENVIADOS PELO FORMULÁRIO
+    // ----------------------------------------------------------------
+
+    $username = isset($_POST['text_username']) ? $_POST['text_username'] : '';
+    $password = isset($_POST['text_password']) ? $_POST['text_password'] : '';
+
+    // ----------------------------------------------------------------
+    // VALIDAÇÃO SIMPLES DO FORMULÁRIO
+    // ----------------------------------------------------------------
+
+    $validation_errors = [];
+
+    if ($username == '') {
+        $validation_errors[] = 'O email é obrigatório.';
+    }
+
+    if ($password == '') {
+        $validation_errors[] = 'A palavra-passe é obrigatória.';
+    }
+
+    if (!empty($validation_errors)) {
+        $_SESSION['validation_errors'] = $validation_errors;
+        header('Location: ../public/login.php');
+        return;
+    }
+
+    // ----------------------------------------------------------------
+    // VALIDAÇÃO TEMPORÁRIA DO LOGIN
+    // ----------------------------------------------------------------
+    // Ainda não existe base de dados.
+    // Estes dados servem apenas para testar o funcionamento das sessões.
+
+    if ($username != 'admin@medcontrol.pt' || $password != '123456') {
+        $_SESSION['server_error'] = 'Login inválido.';
+        header('Location: ../public/login.php');
+        return;
+    }
+
+    // Login válido: guarda o utilizador na sessão.
+    $_SESSION['utilizador'] = $username;
+}
+
 include 'includes/header.php';
 ?>
 
@@ -31,7 +92,7 @@ include 'includes/header.php';
                     </li>
 
                     <li>
-                        <a class="dropdown-item" href="../public/login.php">
+                        <a class="dropdown-item" href="../public/logout.php">
                             <i class="bi bi-box-arrow-right"></i>
                             Terminar sessão
                         </a>
@@ -39,6 +100,7 @@ include 'includes/header.php';
                 </ul>
             </div>
         </div>
+
 
         <section class="dashboard-kpis">
 
