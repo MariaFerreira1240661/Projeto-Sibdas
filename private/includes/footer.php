@@ -1,7 +1,7 @@
     <!-- Scripts comuns da área privada -->
-    <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/chart.js"></script>
-    <script src="../assets/js/1240661.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets/js/chart.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets/js/1240661.js"></script>
 
 </body>
 </html>

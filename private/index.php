@@ -1,4 +1,7 @@
-<?php include 'includes/header.php'; ?>
+<?php
+$pagina_atual = 'dashboard';
+include 'includes/header.php';
+?>
 
 <div class="backend-layout">
 
