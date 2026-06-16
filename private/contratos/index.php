@@ -46,7 +46,7 @@ include '../includes/header.php';
                         <p>Consulta e gestão de garantias e contratos associados aos equipamentos médicos.</p>
                     </div>
 
-                    <a href=".php" class="btn-backend">
+                    <a href="novo.php" class="btn-backend">
                         <i class="bi bi-plus-circle"></i>
                         Novo contrato
                     </a>
@@ -117,15 +117,15 @@ include '../includes/header.php';
                                 <td>Anual</td>
                                 <td><span class="estado ativo">Ativo</span></td>
                                 <td class="acoes-tabela">
-                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -141,15 +141,15 @@ include '../includes/header.php';
                                 <td>Semestral</td>
                                 <td><span class="estado pendente">A terminar</span></td>
                             <td class="acoes-tabela">
-                                <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                     <i class="bi bi-eye"></i>
                                 </a>
                             
-                                <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                             
-                                <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>
@@ -165,15 +165,15 @@ include '../includes/header.php';
                                 <td>Não aplicável</td>
                                 <td><span class="estado expirado">Expirado</span></td>
                             <td class="acoes-tabela">
-                                <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                     <i class="bi bi-eye"></i>
                                 </a>
                             
-                                <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                             
-                                <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>
@@ -189,15 +189,15 @@ include '../includes/header.php';
                                 <td>Não aplicável</td>
                                 <td><span class="estado ativo">Ativo</span></td>
                             <td class="acoes-tabela">
-                                <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                     <i class="bi bi-eye"></i>
                                 </a>
                             
-                                <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                             
-                                <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>

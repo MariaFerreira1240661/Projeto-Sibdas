@@ -46,7 +46,7 @@ include '../includes/header.php';
                         <p>Consulta e gestão das áreas hospitalares associadas aos equipamentos.</p>
                     </div>
 
-                    <a href=".php" class="btn-backend">
+                    <a href="novo.php" class="btn-backend">
                         <i class="bi bi-plus-circle"></i>
                         Nova localização
                     </a>
@@ -104,15 +104,15 @@ include '../includes/header.php';
                                 <td>12</td>
                                 <td><span class="estado ativo">Ativo</span></td>
                                 <td class="acoes-tabela">
-                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -127,15 +127,15 @@ include '../includes/header.php';
                                 <td>8</td>
                                 <td><span class="estado ativo">Ativo</span></td>
                                 <td class="acoes-tabela">
-                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -150,15 +150,15 @@ include '../includes/header.php';
                                 <td>15</td>
                                 <td><span class="estado ativo">Ativo</span></td>
                                 <td class="acoes-tabela">
-                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -173,15 +173,15 @@ include '../includes/header.php';
                                 <td>10</td>
                                 <td><span class="estado ativo">Ativo</span></td>
                                 <td class="acoes-tabela">
-                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -196,15 +196,15 @@ include '../includes/header.php';
                                 <td>0</td>
                                 <td><span class="estado inativo">Inativo</span></td>
                                 <td class="acoes-tabela">
-                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>

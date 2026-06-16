@@ -32,7 +32,7 @@
             <a href="#sobre-nos" id="navSobrePublico">Sobre Nós</a>
             <a href="#servicos" id="navServicosPublico">Serviços</a>
             <a href="#contactos" id="navContactosPublico">Contactos</a>
-            <a href="../login/login.html" id="navAreaReservadaPublico">Área Reservada</a>
+            <a href="login.php" id="navAreaReservadaPublico">Área Reservada</a>
         </nav>
     </header>
 

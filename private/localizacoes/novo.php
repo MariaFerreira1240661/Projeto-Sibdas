@@ -28,7 +28,7 @@ include '../includes/header.php';
                         <p>Preencha os campos principais para simular o registo de uma localização.</p>
                     </div>
 
-                    <a href=".php" class="btn-backend">
+                    <a href="index.php" class="btn-backend">
                         <i class="bi bi-arrow-left-circle"></i>
                         Voltar à listagem
                     </a>
@@ -105,7 +105,7 @@ include '../includes/header.php';
                             Guardar localização
                         </button>
 
-                        <a href=".php" class="btn-secundario">
+                        <a href="index.php" class="btn-secundario">
                             Cancelar
                         </a>
                     </div>

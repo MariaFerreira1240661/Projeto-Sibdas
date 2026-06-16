@@ -131,7 +131,7 @@ include 'includes/header.php';
                     <p>Atualize os conteúdos da área pública de forma rápida e eficaz</p>
                 </div>
 
-                <a href="conteudos/index.html" class="btn-backend">
+                <a href="conteudos/index.php" class="btn-backend">
                     <i class="bi bi-pencil-square"></i>
                     Gerir conteúdos
                 </a>
@@ -274,27 +274,27 @@ include 'includes/header.php';
                 <h2>Ações rápidas</h2>
 
                 <div class="acoes-rapidas">
-                    <a href="equipamentos/novo.html">
+                    <a href="equipamentos/novo.php">
                         <i class="bi bi-plus-circle"></i>
                         Registar equipamento
                     </a>
 
-                    <a href="localizacoes/index.html">
+                    <a href="localizacoes/index.php">
                         <i class="bi bi-geo-alt"></i>
                         Gerir localizações
                     </a>
 
-                    <a href="fornecedores/index.html">
+                    <a href="fornecedores/index.php">
                         <i class="bi bi-truck"></i>
                         Gerir fornecedores
                     </a>
 
-                    <a href="documentacao/index.html">
+                    <a href="documentacao/index.php">
                         <i class="bi bi-file-earmark-text"></i>
                         Associar documentação
                     </a>
 
-                    <a href="contratos/index.html">
+                    <a href="contratos/index.php">
                         <i class="bi bi-shield-check"></i>
                         Ver garantias e contratos
                     </a>

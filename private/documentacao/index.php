@@ -46,7 +46,7 @@ include '../includes/header.php';
                         <p>Consulta e gestão da documentação técnica e administrativa associada aos equipamentos.</p>
                     </div>
 
-                    <a href=".php" class="btn-backend">
+                    <a href="novo.php" class="btn-backend">
                         <i class="bi bi-plus-circle"></i>
                         Novo documento
                     </a>
@@ -121,15 +121,15 @@ include '../includes/header.php';
                                 <td><span class="estado ativo">Válido</span></td>
                                 <td>manual_monitor.pdf</td>
                                 <td class="acoes-tabela">
-                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -146,15 +146,15 @@ include '../includes/header.php';
                                 <td><span class="estado pendente">Pendente</span></td>
                                 <td>contrato_ventilador.pdf</td>
                                 <td class="acoes-tabela">
-                                        <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                        <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                             <i class="bi bi-eye"></i>
                                         </a>
                                     
-                                        <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                        <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                     
-                                        <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                        <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                             <i class="bi bi-trash"></i>
                                         </a>
                                 </td>   
@@ -171,15 +171,15 @@ include '../includes/header.php';
                                 <td><span class="estado expirado">Expirado</span></td>
                                 <td>calibracao_bomba.pdf</td>
                                 <td class="acoes-tabela">
-                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -196,15 +196,15 @@ include '../includes/header.php';
                                 <td><span class="estado ativo">Válido</span></td>
                                 <td>relatorio_desfibrilhador.pdf</td>
                                 <td class="acoes-tabela">
-                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                             
-                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                             
-                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                  </td>
@@ -221,15 +221,15 @@ include '../includes/header.php';
                                 <td><span class="estado ativo">Válido</span></td>
                                 <td>fatura_monitor.pdf</td>
                                 <td class="acoes-tabela">
-                                    <a href="det.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                    <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 
-                                    <a href="e.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                    <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 
-                                    <a href="re.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                    <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>

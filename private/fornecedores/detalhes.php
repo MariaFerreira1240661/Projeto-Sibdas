@@ -28,7 +28,7 @@ include '../includes/header.php';
                         <p>Código interno: F001</p>
                     </div>
 
-                    <a href=".php" class="btn-backend">
+                    <a href="editar.php" class="btn-backend">
                         <i class="bi bi-arrow-left-circle"></i>
                         Voltar à listagem
                     </a>

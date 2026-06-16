@@ -67,7 +67,7 @@ include '../includes/header.php';
                         Confirmar remoção
                     </button>
 
-                    <a href=".php" class="btn-secundario">
+                    <a href="index.php" class="btn-secundario">
                         Cancelar
                     </a>
                 </div>
@@ -81,4 +81,3 @@ include '../includes/header.php';
 </div>
 
 <?php include '../includes/footer.php'; ?>
-

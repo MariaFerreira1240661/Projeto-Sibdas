@@ -28,7 +28,7 @@ include '../includes/header.php';
                         <p>Altere os campos necessários e guarde as alterações.</p>
                     </div>
 
-                    <a href=".php" class="btn-backend">
+                    <a href="index.php" class="btn-backend">
                         <i class="bi bi-arrow-left-circle"></i>
                         Voltar à listagem
                     </a>
@@ -108,7 +108,7 @@ include '../includes/header.php';
                             Guardar alterações
                         </button>
 
-                        <a href=".php" class="btn-secundario">
+                        <a href="detalhes.php" class="btn-secundario">
                             Cancelar
                         </a>
                     </div>
@@ -120,4 +120,4 @@ include '../includes/header.php';
 
 </div>
 
-<?php include '../includes/footer.php'; ?>
+<?php include '../includes/footer.php'; 
