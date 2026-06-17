@@ -290,6 +290,7 @@ include '../includes/header.php';
                                     <option>Medicina Interna</option>
                                     <option>Urgência</option>
                                     <option>Imagiologia</option>
+                                    <option>Laboratório</option>
                                 </select>
                             </div>
 
@@ -344,17 +345,22 @@ include '../includes/header.php';
                     </div>
 
                     <div class="tab-pane fade" id="fornecedor-tab-pane" role="tabpanel" tabindex="0">
-                        <h3>Fornecedor</h3>
+                        <h3>Fornecedores associados</h3>
+                        <p>Associe um ou mais fornecedores ao equipamento. O primeiro fornecedor é obrigatório.</p>
+
+                        <div class="form-full">
+                            <h3>Fornecedor associado 1 *</h3>
+                        </div>
 
                         <div class="form-grid">
                             <div>
                                 <label for="fornecedorEquipamento">Fornecedor *</label>
-                                <input type="text" id="fornecedorEquipamento" placeholder="Ex: MedTech Portugal">
+                                <input type="text" id="fornecedorEquipamento" placeholder="Ex: MedTech Portugal" required>
                             </div>
 
                             <div>
-                                <label for="tipoFornecedorEquipamento">Tipo de fornecedor *</label>
-                                <select id="tipoFornecedorEquipamento">
+                                <label for="tipoFornecedorEquipamento">Tipo de relação *</label>
+                                <select id="tipoFornecedorEquipamento" required>
                                     <option value="">Selecione o tipo</option>
                                     <option>Fabricante</option>
                                     <option>Distribuidor</option>
@@ -365,22 +371,175 @@ include '../includes/header.php';
 
                             <div>
                                 <label for="contactoFornecedorEquipamento">Pessoa de contacto *</label>
-                                <input type="text" id="contactoFornecedorEquipamento" placeholder="Ex: Ana Silva">
+                                <input type="text" id="contactoFornecedorEquipamento" placeholder="Ex: Ana Silva" required>
                             </div>
 
                             <div>
                                 <label for="telefoneFornecedorEquipamento">Telefone *</label>
-                                <input type="tel" id="telefoneFornecedorEquipamento" placeholder="Ex: +351 222 000 000" inputmode="tel">
+                                <input type="tel" id="telefoneFornecedorEquipamento" placeholder="Ex: +351 222 000 000" inputmode="tel" required>
+                            </div>
+
+                            <div>
+                                <label for="telefoneContactoFornecedorEquipamento">Telefone da pessoa de contacto *</label>
+                                <input type="tel" id="telefoneContactoFornecedorEquipamento" placeholder="Ex: +351 912 000 000" inputmode="tel" required>
                             </div>
 
                             <div>
                                 <label for="emailFornecedorEquipamento">Email *</label>
-                                <input type="email" id="emailFornecedorEquipamento" placeholder="Ex: geral@empresa.pt">
+                                <input type="email" id="emailFornecedorEquipamento" placeholder="Ex: geral@empresa.pt" required>
                             </div>
 
                             <div>
                                 <label for="nifFornecedorEquipamento">NIF *</label>
-                                <input type="text" id="nifFornecedorEquipamento" placeholder="Ex: 501234567" inputmode="numeric" pattern="[0-9]{9}" maxlength="9">
+                                <input type="text" id="nifFornecedorEquipamento" placeholder="Ex: 501234567" inputmode="numeric" pattern="[0-9]{9}" maxlength="9" required>
+                            </div>
+
+                            <div>
+                                <label for="websiteFornecedorEquipamento">Website *</label>
+                                <input type="text" id="websiteFornecedorEquipamento" placeholder="Ex: www.empresa.pt" required>
+                            </div>
+                        </div>
+
+                        <div class="form-full">
+                            <label for="moradaFornecedorEquipamento">Morada *</label>
+                            <textarea id="moradaFornecedorEquipamento" rows="3" placeholder="Morada do fornecedor" required></textarea>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-full">
+                            <h3>Fornecedor associado 2</h3>
+                            <p>Opcional. Preencha apenas se existir outro fornecedor associado ao equipamento.</p>
+                        </div>
+
+                        <div class="form-grid">
+                            <div>
+                                <label for="fornecedorEquipamento2">Fornecedor</label>
+                                <input type="text" id="fornecedorEquipamento2" placeholder="Ex: BioSupport Systems">
+                            </div>
+
+                            <div>
+                                <label for="tipoFornecedorEquipamento2">Tipo de relação</label>
+                                <select id="tipoFornecedorEquipamento2">
+                                    <option value="">Selecione o tipo</option>
+                                    <option>Fabricante</option>
+                                    <option>Distribuidor</option>
+                                    <option>Assistência técnica</option>
+                                    <option>Consumíveis</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="contactoFornecedorEquipamento2">Pessoa de contacto</label>
+                                <input type="text" id="contactoFornecedorEquipamento2" placeholder="Ex: João Martins">
+                            </div>
+
+                            <div>
+                                <label for="telefoneFornecedorEquipamento2">Telefone</label>
+                                <input type="tel" id="telefoneFornecedorEquipamento2" placeholder="Ex: +351 222 111 111" inputmode="tel">
+                            </div>
+
+                            <div>
+                                <label for="telefoneContactoFornecedorEquipamento2">Telefone da pessoa de contacto</label>
+                                <input type="tel" id="telefoneContactoFornecedorEquipamento2" placeholder="Ex: +351 913 000 000" inputmode="tel">
+                            </div>
+
+                            <div>
+                                <label for="emailFornecedorEquipamento2">Email</label>
+                                <input type="email" id="emailFornecedorEquipamento2" placeholder="Ex: apoio@empresa.pt">
+                            </div>
+
+                            <div>
+                                <label for="nifFornecedorEquipamento2">NIF</label>
+                                <input type="text" id="nifFornecedorEquipamento2" placeholder="Ex: 509876543" inputmode="numeric" pattern="[0-9]{9}" maxlength="9">
+                            </div>
+
+                            <div>
+                                <label for="websiteFornecedorEquipamento2">Website</label>
+                                <input type="text" id="websiteFornecedorEquipamento2" placeholder="Ex: www.empresa.pt">
+                            </div>
+                        </div>
+
+                        <div class="form-full">
+                            <label for="moradaFornecedorEquipamento2">Morada</label>
+                            <textarea id="moradaFornecedorEquipamento2" rows="3" placeholder="Morada do fornecedor"></textarea>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-full">
+                            <h3>Fornecedor associado 3</h3>
+                            <p>Opcional. Preencha apenas se existir outro fornecedor associado ao equipamento.</p>
+                        </div>
+
+                        <div class="form-grid">
+                            <div>
+                                <label for="fornecedorEquipamento3">Fornecedor</label>
+                                <input type="text" id="fornecedorEquipamento3" placeholder="Ex: MedTech Portugal">
+                            </div>
+
+                            <div>
+                                <label for="tipoFornecedorEquipamento3">Tipo de relação</label>
+                                <select id="tipoFornecedorEquipamento3">
+                                    <option value="">Selecione o tipo</option>
+                                    <option>Fabricante</option>
+                                    <option>Distribuidor</option>
+                                    <option>Assistência técnica</option>
+                                    <option>Consumíveis</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="contactoFornecedorEquipamento3">Pessoa de contacto</label>
+                                <input type="text" id="contactoFornecedorEquipamento3" placeholder="Ex: Carla Pereira">
+                            </div>
+
+                            <div>
+                                <label for="telefoneFornecedorEquipamento3">Telefone</label>
+                                <input type="tel" id="telefoneFornecedorEquipamento3" placeholder="Ex: +351 222 222 222" inputmode="tel">
+                            </div>
+
+                            <div>
+                                <label for="telefoneContactoFornecedorEquipamento3">Telefone da pessoa de contacto</label>
+                                <input type="tel" id="telefoneContactoFornecedorEquipamento3" placeholder="Ex: +351 914 000 000" inputmode="tel">
+                            </div>
+
+                            <div>
+                                <label for="emailFornecedorEquipamento3">Email</label>
+                                <input type="email" id="emailFornecedorEquipamento3" placeholder="Ex: geral@fornecedor.pt">
+                            </div>
+
+                            <div>
+                                <label for="nifFornecedorEquipamento3">NIF</label>
+                                <input type="text" id="nifFornecedorEquipamento3" placeholder="Ex: 506789123" inputmode="numeric" pattern="[0-9]{9}" maxlength="9">
+                            </div>
+
+                            <div>
+                                <label for="websiteFornecedorEquipamento3">Website</label>
+                                <input type="text" id="websiteFornecedorEquipamento3" placeholder="Ex: www.fornecedor.pt">
+                            </div>
+                        </div>
+
+
+                        <div class="form-full">
+                            <label for="moradaFornecedorEquipamento3">Morada</label>
+                            <textarea id="moradaFornecedorEquipamento3" rows="3" placeholder="Morada do fornecedor"></textarea>
+                        </div>
+
+                        <div class="detalhe-card mt-4">
+                            <h3>Fornecedores adicionais</h3>
+
+                            <p class="mb-3">
+                                Use este campo apenas se o equipamento tiver mais de três fornecedores associados.
+                                Indique o nome do fornecedor, tipo de relação, contacto, telefone, email e NIF, se aplicável.
+                            </p>
+
+                            <div class="form-full">
+                                <label for="fornecedoresAdicionaisEquipamento">Outros fornecedores associados</label>
+                                <textarea
+                                    id="fornecedoresAdicionaisEquipamento"
+                                    rows="5"
+                                    placeholder="Ex: Fornecedor 4 - Nome: ..., Tipo de relação: ..., Contacto: ..., Telefone: ..., Email: ..., NIF: ..."></textarea>
                             </div>
                         </div>
 
@@ -399,27 +558,264 @@ include '../includes/header.php';
 
                     <div class="tab-pane fade" id="documentacao-tab-pane" role="tabpanel" tabindex="0">
                         <h3>Documentação</h3>
-                        <p>Associe os documentos PDF diretamente à ficha do equipamento.</p>
+                        <p>Associe os documentos PDF ao equipamento. Para cada documento, indique o tipo, nome, data, validade quando aplicável, fornecedor associado e ficheiro.</p>
 
-                        <div class="form-grid">
-                            <div>
-                                <label for="manualEquipamento">Manual de utilizador *</label>
-                                <input type="file" id="manualEquipamento" accept=".pdf,application/pdf">
+                        <div class="detalhe-card mb-4">
+                            <h3>Manual de utilizador</h3>
+
+                            <div class="form-grid">
+                                <div>
+                                    <label for="nomeManualUtilizadorEquipamento">Nome do documento *</label>
+                                    <input type="text" id="nomeManualUtilizadorEquipamento" placeholder="Ex: Manual de utilizador Philips IntelliVue MP5" required>
+                                </div>
+
+                                <div>
+                                    <label for="dataManualUtilizadorEquipamento">Data do documento *</label>
+                                    <input type="date" id="dataManualUtilizadorEquipamento" required>
+                                </div>
+
+                                <div>
+                                    <label for="validadeManualUtilizadorEquipamento">Data de validade</label>
+                                    <input type="date" id="validadeManualUtilizadorEquipamento">
+                                </div>
+
+                                <div>
+                                    <label for="fornecedorManualUtilizadorEquipamento">Fornecedor associado *</label>
+                                    <select id="fornecedorManualUtilizadorEquipamento" required>
+                                        <option value="">Selecione o fornecedor associado</option>
+                                        <option value="Fornecedor associado 1">Fornecedor associado 1</option>
+                                        <option value="Fornecedor associado 2">Fornecedor associado 2</option>
+                                        <option value="Fornecedor associado 3">Fornecedor associado 3</option>
+                                        <option value="Não aplicável">Não aplicável</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="manualEquipamento">PDF do manual de utilizador *</label>
+                                    <input type="file" id="manualEquipamento" accept=".pdf,application/pdf" required>
+                                </div>
                             </div>
+                        </div>
 
-                            <div>
-                                <label for="certificadoEquipamento">Certificado de calibração *</label>
-                                <input type="file" id="certificadoEquipamento" accept=".pdf,application/pdf">
+                        <div class="detalhe-card mb-4">
+                            <h3>Manual de serviço</h3>
+
+                            <div class="form-grid">
+                                <div>
+                                    <label for="nomeManualServicoEquipamento">Nome do documento *</label>
+                                    <input type="text" id="nomeManualServicoEquipamento" placeholder="Ex: Manual de serviço Philips IntelliVue MP5" required>
+                                </div>
+
+                                <div>
+                                    <label for="dataManualServicoEquipamento">Data do documento *</label>
+                                    <input type="date" id="dataManualServicoEquipamento" required>
+                                </div>
+
+                                <div>
+                                    <label for="validadeManualServicoEquipamento">Data de validade</label>
+                                    <input type="date" id="validadeManualServicoEquipamento">
+                                </div>
+
+                                <div>
+                                    <label for="fornecedorManualServicoEquipamento">Fornecedor associado *</label>
+                                    <select id="fornecedorManualServicoEquipamento" required>
+                                        <option value="">Selecione o fornecedor associado</option>
+                                        <option value="Fornecedor associado 1">Fornecedor associado 1</option>
+                                        <option value="Fornecedor associado 2">Fornecedor associado 2</option>
+                                        <option value="Fornecedor associado 3">Fornecedor associado 3</option>
+                                        <option value="Não aplicável">Não aplicável</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="manualServicoEquipamento">PDF do manual de serviço *</label>
+                                    <input type="file" id="manualServicoEquipamento" accept=".pdf,application/pdf" required>
+                                </div>
                             </div>
+                        </div>
 
-                            <div>
-                                <label for="relatorioTecnicoEquipamento">Relatório técnico *</label>
-                                <input type="file" id="relatorioTecnicoEquipamento" accept=".pdf,application/pdf">
+                        <div class="detalhe-card mb-4">
+                            <h3>Certificado de calibração</h3>
+
+                            <div class="form-grid">
+                                <div>
+                                    <label for="nomeCertificadoEquipamento">Nome do documento *</label>
+                                    <input type="text" id="nomeCertificadoEquipamento" placeholder="Ex: Certificado de calibração 2026" required>
+                                </div>
+
+                                <div>
+                                    <label for="dataCertificadoEquipamento">Data do documento *</label>
+                                    <input type="date" id="dataCertificadoEquipamento" required>
+                                </div>
+
+                                <div>
+                                    <label for="validadeCertificadoEquipamento">Data de validade</label>
+                                    <input type="date" id="validadeCertificadoEquipamento">
+                                </div>
+
+                                <div>
+                                    <label for="fornecedorCertificadoEquipamento">Fornecedor associado *</label>
+                                    <select id="fornecedorCertificadoEquipamento" required>
+                                        <option value="">Selecione o fornecedor associado</option>
+                                        <option value="Fornecedor associado 1">Fornecedor associado 1</option>
+                                        <option value="Fornecedor associado 2">Fornecedor associado 2</option>
+                                        <option value="Fornecedor associado 3">Fornecedor associado 3</option>
+                                        <option value="Não aplicável">Não aplicável</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="certificadoEquipamento">PDF do certificado de calibração *</label>
+                                    <input type="file" id="certificadoEquipamento" accept=".pdf,application/pdf" required>
+                                </div>
                             </div>
+                        </div>
 
-                            <div>
-                                <label for="contratoDocumentoEquipamento">PDF do contrato / garantia *</label>
-                                <input type="file" id="contratoDocumentoEquipamento" accept=".pdf,application/pdf">
+                        <div class="detalhe-card mb-4">
+                            <h3>Declaração de conformidade</h3>
+
+                            <div class="form-grid">
+                                <div>
+                                    <label for="nomeDeclaracaoConformidadeEquipamento">Nome do documento *</label>
+                                    <input type="text" id="nomeDeclaracaoConformidadeEquipamento" placeholder="Ex: Declaração de conformidade CE" required>
+                                </div>
+
+                                <div>
+                                    <label for="dataDeclaracaoConformidadeEquipamento">Data do documento *</label>
+                                    <input type="date" id="dataDeclaracaoConformidadeEquipamento" required>
+                                </div>
+
+                                <div>
+                                    <label for="validadeDeclaracaoConformidadeEquipamento">Data de validade</label>
+                                    <input type="date" id="validadeDeclaracaoConformidadeEquipamento">
+                                </div>
+
+                                <div>
+                                    <label for="fornecedorDeclaracaoConformidadeEquipamento">Fornecedor associado *</label>
+                                    <select id="fornecedorDeclaracaoConformidadeEquipamento" required>
+                                        <option value="">Selecione o fornecedor associado</option>
+                                        <option value="Fornecedor associado 1">Fornecedor associado 1</option>
+                                        <option value="Fornecedor associado 2">Fornecedor associado 2</option>
+                                        <option value="Fornecedor associado 3">Fornecedor associado 3</option>
+                                        <option value="Não aplicável">Não aplicável</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="declaracaoConformidadeEquipamento">PDF da declaração de conformidade *</label>
+                                    <input type="file" id="declaracaoConformidadeEquipamento" accept=".pdf,application/pdf" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detalhe-card mb-4">
+                            <h3>Relatório técnico</h3>
+
+                            <div class="form-grid">
+                                <div>
+                                    <label for="nomeRelatorioTecnicoEquipamento">Nome do documento *</label>
+                                    <input type="text" id="nomeRelatorioTecnicoEquipamento" placeholder="Ex: Relatório técnico de instalação" required>
+                                </div>
+
+                                <div>
+                                    <label for="dataRelatorioTecnicoEquipamento">Data do documento *</label>
+                                    <input type="date" id="dataRelatorioTecnicoEquipamento" required>
+                                </div>
+
+                                <div>
+                                    <label for="validadeRelatorioTecnicoEquipamento">Data de validade</label>
+                                    <input type="date" id="validadeRelatorioTecnicoEquipamento">
+                                </div>
+
+                                <div>
+                                    <label for="fornecedorRelatorioTecnicoEquipamento">Fornecedor associado *</label>
+                                    <select id="fornecedorRelatorioTecnicoEquipamento" required>
+                                        <option value="">Selecione o fornecedor associado</option>
+                                        <option value="Fornecedor associado 1">Fornecedor associado 1</option>
+                                        <option value="Fornecedor associado 2">Fornecedor associado 2</option>
+                                        <option value="Fornecedor associado 3">Fornecedor associado 3</option>
+                                        <option value="Não aplicável">Não aplicável</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="relatorioTecnicoEquipamento">PDF do relatório técnico *</label>
+                                    <input type="file" id="relatorioTecnicoEquipamento" accept=".pdf,application/pdf" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detalhe-card mb-4">
+                            <h3>Fatura ou guia de aquisição</h3>
+
+                            <div class="form-grid">
+                                <div>
+                                    <label for="nomeFaturaAquisicaoEquipamento">Nome do documento *</label>
+                                    <input type="text" id="nomeFaturaAquisicaoEquipamento" placeholder="Ex: Fatura de aquisição do equipamento" required>
+                                </div>
+
+                                <div>
+                                    <label for="dataFaturaAquisicaoEquipamento">Data do documento *</label>
+                                    <input type="date" id="dataFaturaAquisicaoEquipamento" required>
+                                </div>
+
+                                <div>
+                                    <label for="validadeFaturaAquisicaoEquipamento">Data de validade</label>
+                                    <input type="date" id="validadeFaturaAquisicaoEquipamento">
+                                </div>
+
+                                <div>
+                                    <label for="fornecedorFaturaAquisicaoEquipamento">Fornecedor associado *</label>
+                                    <select id="fornecedorFaturaAquisicaoEquipamento" required>
+                                        <option value="">Selecione o fornecedor associado</option>
+                                        <option value="Fornecedor associado 1">Fornecedor associado 1</option>
+                                        <option value="Fornecedor associado 2">Fornecedor associado 2</option>
+                                        <option value="Fornecedor associado 3">Fornecedor associado 3</option>
+                                        <option value="Não aplicável">Não aplicável</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="faturaAquisicaoEquipamento">PDF da fatura ou guia de aquisição *</label>
+                                    <input type="file" id="faturaAquisicaoEquipamento" accept=".pdf,application/pdf" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detalhe-card mb-4">
+                            <h3>Contrato / garantia</h3>
+
+                            <div class="form-grid">
+                                <div>
+                                    <label for="nomeContratoDocumentoEquipamento">Nome do documento *</label>
+                                    <input type="text" id="nomeContratoDocumentoEquipamento" placeholder="Ex: Contrato de garantia e manutenção" required>
+                                </div>
+
+                                <div>
+                                    <label for="dataContratoDocumentoEquipamento">Data do documento *</label>
+                                    <input type="date" id="dataContratoDocumentoEquipamento" required>
+                                </div>
+
+                                <div>
+                                    <label for="validadeContratoDocumentoEquipamento">Data de validade</label>
+                                    <input type="date" id="validadeContratoDocumentoEquipamento">
+                                </div>
+
+                                <div>
+                                    <label for="fornecedorContratoDocumentoEquipamento">Fornecedor associado *</label>
+                                    <select id="fornecedorContratoDocumentoEquipamento" required>
+                                        <option value="">Selecione o fornecedor associado</option>
+                                        <option value="Fornecedor associado 1">Fornecedor associado 1</option>
+                                        <option value="Fornecedor associado 2">Fornecedor associado 2</option>
+                                        <option value="Fornecedor associado 3">Fornecedor associado 3</option>
+                                        <option value="Não aplicável">Não aplicável</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="contratoDocumentoEquipamento">PDF do contrato / garantia *</label>
+                                    <input type="file" id="contratoDocumentoEquipamento" accept=".pdf,application/pdf" required>
+                                </div>
                             </div>
                         </div>
 
@@ -447,12 +843,12 @@ include '../includes/header.php';
 
                         <div class="form-grid">
                             <div>
-                                <label for="estadoGarantiaEquipamento">Estado da garantia *</label>
-                                <select id="estadoGarantiaEquipamento">
+                                <label for="estadoGarantiaEquipamento">Estado do contrato / garantia *</label>
+                                <select id="estadoGarantiaEquipamento" required>
                                     <option value="">Selecione o estado</option>
-                                    <option>Válida</option>
-                                    <option>A expirar</option>
-                                    <option>Expirada</option>
+                                    <option>Ativo</option>
+                                    <option>A terminar</option>
+                                    <option>Expirado</option>
                                     <option>Sem garantia registada</option>
                                 </select>
                             </div>
@@ -493,6 +889,17 @@ include '../includes/header.php';
                                 <label for="valorContratoEquipamento">Valor associado *</label>
                                 <input type="number" id="valorContratoEquipamento" placeholder="Ex: 1200">
                             </div>
+                        </div>
+
+                        <div class="form-botoes mt-4">
+                            <button type="button" class="btn-backend" id="guardarEquipamento">
+                                <i class="bi bi-check-circle"></i>
+                                Guardar equipamento
+                            </button>
+
+                            <a href="index.php" class="btn-secundario">
+                                Cancelar
+                            </a>
                         </div>
                     </div>
 

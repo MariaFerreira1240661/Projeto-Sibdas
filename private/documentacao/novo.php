@@ -72,8 +72,8 @@ include '../includes/header.php';
                             <option>Manual de Utilizador</option>
                             <option>Manual de Serviço</option>
                             <option>Certificado de Calibração</option>
-                            <option>Contrato de Manutenção</option>
-                            <option>Fatura</option>
+                            <option>Contrato / Garantia</option>
+                            <option>Fatura ou Guia de Aquisição</option>
                             <option>Declaração de Conformidade</option>
                             <option>Relatório Técnico</option>
                         </select>

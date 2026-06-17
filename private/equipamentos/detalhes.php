@@ -271,11 +271,12 @@ include '../includes/header.php';
                 </div>
 
                 <div class="tab-pane fade" id="detalhes-fornecedor" role="tabpanel" tabindex="0">
-                    <h3>Fornecedor</h3>
+                    <h3>Fornecedores associados</h3>
+                    <p>Fornecedores relacionados com este equipamento, de acordo com o tipo de relação.</p>
 
                     <div class="detalhes-grid">
                         <div class="detalhe-card">
-                            <h3>Entidade associada</h3>
+                            <h3>Fornecedor associado 1</h3>
 
                             <div class="detalhe-linha">
                                 <span>Fornecedor</span>
@@ -283,18 +284,9 @@ include '../includes/header.php';
                             </div>
 
                             <div class="detalhe-linha">
-                                <span>Tipo de fornecedor</span>
+                                <span>Tipo de relação</span>
                                 <strong>Fabricante</strong>
                             </div>
-
-                            <div class="detalhe-linha">
-                                <span>NIF</span>
-                                <strong>501234567</strong>
-                            </div>
-                        </div>
-
-                        <div class="detalhe-card">
-                            <h3>Contacto</h3>
 
                             <div class="detalhe-linha">
                                 <span>Pessoa de contacto</span>
@@ -307,8 +299,90 @@ include '../includes/header.php';
                             </div>
 
                             <div class="detalhe-linha">
+                                <span>Telefone da pessoa de contacto</span>
+                                <strong>+351 912 000 000</strong>
+                            </div>
+
+                            <div class="detalhe-linha">
                                 <span>Email</span>
                                 <strong>geral@philips-health.pt</strong>
+                            </div>
+
+                            <div class="detalhe-linha">
+                                <span>NIF</span>
+                                <strong>501234567</strong>
+                            </div>
+
+                            <div class="detalhe-linha">
+                                <span>Website</span>
+                                <strong>www.philips-health.pt</strong>
+                            </div>
+
+                            <div class="detalhe-linha">
+                                <span>Morada</span>
+                                <strong>Rua Dr. António Bernardino de Almeida, 431, 4200-072 Porto</strong>
+                            </div>
+                        </div>
+
+                        <div class="detalhe-card">
+                            <h3>Fornecedor associado 2</h3>
+
+                            <div class="detalhe-linha">
+                                <span>Fornecedor</span>
+                                <strong>MedTech Portugal</strong>
+                            </div>
+
+                            <div class="detalhe-linha">
+                                <span>Tipo de relação</span>
+                                <strong>Distribuidor</strong>
+                            </div>
+
+                            <div class="detalhe-linha">
+                                <span>Pessoa de contacto</span>
+                                <strong>João Martins</strong>
+                            </div>
+
+                            <div class="detalhe-linha">
+                                <span>Telefone</span>
+                                <strong>+351 222 111 111</strong>
+                            </div>
+
+                            <div class="detalhe-linha">
+                                <span>Telefone da pessoa de contacto</span>
+                                <strong>+351 913 000 000</strong>
+                            </div>
+
+                            <div class="detalhe-linha">
+                                <span>Email</span>
+                                <strong>apoio@medtech.pt</strong>
+                            </div>
+
+                            <div class="detalhe-linha">
+                                <span>NIF</span>
+                                <strong>509876543</strong>
+                            </div>
+
+                            <div class="detalhe-linha">
+                                <span>Website</span>
+                                <strong>www.medtech.pt</strong>
+                            </div>
+
+                            <div class="detalhe-linha">
+                                <span>Morada</span>
+                                <strong>Avenida da Boavista, 1200, 4100-130 Porto</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="detalhe-card h-100">
+                            <h3>Fornecedores adicionais</h3>
+
+                            <div class="detalhe-linha">
+                                <span>Outros fornecedores associados</span>
+                                <strong>
+                                    Fornecedor 3 - Assistência Técnica Norte, manutenção corretiva, contacto: Carla Rocha, telefone: +351 914 000 000, email: assistencia@tecnica-norte.pt.
+                                    Fornecedor 4 - BioMed Supplies, fornecimento de acessórios e peças, contacto: Rui Almeida, telefone: +351 915 000 000, email: geral@biomedsupplies.pt.
+                                </strong>
                             </div>
                         </div>
                     </div>
@@ -316,41 +390,104 @@ include '../includes/header.php';
 
                 <div class="tab-pane fade" id="detalhes-documentacao" role="tabpanel" tabindex="0">
                     <h3>Documentação</h3>
+                    <p>Documentos registados para este equipamento, com indicação de tipo, nome, datas, validade, fornecedor associado e ficheiro.</p>
 
-                    <div class="detalhes-grid">
-                        <div class="detalhe-card">
-                            <h3>Ficheiros associados</h3>
+                    <div class="table-responsive">
+                        <table class="tabela-backend">
+                            <thead>
+                                <tr>
+                                    <th>Tipo de documento</th>
+                                    <th>Nome do documento</th>
+                                    <th>Data do documento</th>
+                                    <th>Validade</th>
+                                    <th>Fornecedor associado</th>
+                                    <th>Ficheiro</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
 
-                            <div class="detalhe-linha">
-                                <span>Manual de utilizador</span>
-                                <strong>manual_monitor.pdf</strong>
-                            </div>
+                            <tbody>
+                                <tr>
+                                    <td>Manual de utilizador</td>
+                                    <td>Manual de utilizador Philips IntelliVue MP5</td>
+                                    <td>12/02/2022</td>
+                                    <td>Não aplicável</td>
+                                    <td>Philips Healthcare</td>
+                                    <td>manual_monitor.pdf</td>
+                                    <td><span class="estado ativo">Válido</span></td>
+                                </tr>
 
-                            <div class="detalhe-linha">
-                                <span>Certificado de calibração</span>
-                                <strong>certificado_monitor.pdf</strong>
-                            </div>
+                                <tr>
+                                    <td>Manual de serviço</td>
+                                    <td>Manual de serviço Philips IntelliVue MP5</td>
+                                    <td>12/02/2022</td>
+                                    <td>Não aplicável</td>
+                                    <td>Philips Healthcare</td>
+                                    <td>manual_servico_monitor.pdf</td>
+                                    <td><span class="estado ativo">Válido</span></td>
+                                </tr>
 
-                            <div class="detalhe-linha">
-                                <span>Documento do contrato</span>
-                                <strong>contrato_monitor.pdf</strong>
-                            </div>
+                                <tr>
+                                    <td>Certificado de calibração</td>
+                                    <td>Certificado de calibração 2026</td>
+                                    <td>15/01/2026</td>
+                                    <td>15/01/2027</td>
+                                    <td>MedTech Portugal</td>
+                                    <td>certificado_monitor.pdf</td>
+                                    <td><span class="estado ativo">Válido</span></td>
+                                </tr>
 
-                            <div class="detalhe-linha">
-                                <span>Relatório técnico</span>
-                                <strong>relatorio_monitor.pdf</strong>
-                            </div>
-                        </div>
+                                <tr>
+                                    <td>Declaração de conformidade</td>
+                                    <td>Declaração de conformidade CE</td>
+                                    <td>12/02/2022</td>
+                                    <td>Não aplicável</td>
+                                    <td>Philips Healthcare</td>
+                                    <td>declaracao_conformidade_monitor.pdf</td>
+                                    <td><span class="estado ativo">Válido</span></td>
+                                </tr>
 
-                        <div class="detalhe-card">
-                            <h3>Observações</h3>
+                                <tr>
+                                    <td>Relatório técnico</td>
+                                    <td>Relatório técnico de instalação</td>
+                                    <td>14/02/2022</td>
+                                    <td>Não aplicável</td>
+                                    <td>MedTech Portugal</td>
+                                    <td>relatorio_monitor.pdf</td>
+                                    <td><span class="estado ativo">Válido</span></td>
+                                </tr>
 
-                            <p>
-                                Equipamento utilizado para monitorização contínua de sinais vitais em ambiente hospitalar.
-                                A documentação associada deve ser mantida atualizada para facilitar auditorias,
-                                manutenções e consultas técnicas.
-                            </p>
-                        </div>
+                                <tr>
+                                    <td>Fatura ou guia de aquisição</td>
+                                    <td>Fatura de aquisição do equipamento</td>
+                                    <td>12/02/2022</td>
+                                    <td>Não aplicável</td>
+                                    <td>MedTech Portugal</td>
+                                    <td>fatura_aquisicao_monitor.pdf</td>
+                                    <td><span class="estado ativo">Válido</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Contrato / garantia</td>
+                                    <td>Contrato de garantia e manutenção</td>
+                                    <td>12/02/2022</td>
+                                    <td>12/02/2027</td>
+                                    <td>Philips Healthcare</td>
+                                    <td>contrato_monitor.pdf</td>
+                                    <td><span class="estado ativo">Válido</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="detalhe-card mt-4">
+                        <h3>Observações</h3>
+
+                        <p>
+                            Equipamento utilizado para monitorização contínua de sinais vitais em ambiente hospitalar.
+                            A documentação associada deve ser mantida atualizada para facilitar auditorias,
+                            manutenções e consultas técnicas.
+                        </p>
                     </div>
                 </div>
 
@@ -362,8 +499,8 @@ include '../includes/header.php';
                             <h3>Garantia</h3>
 
                             <div class="detalhe-linha">
-                                <span>Estado da garantia</span>
-                                <strong><span class="estado ativo">Válida</span></strong>
+                                <span>Estado do contrato / garantia</span>
+                                <strong><span class="estado ativo">Ativo</span></strong>
                             </div>
 
                             <div class="detalhe-linha">

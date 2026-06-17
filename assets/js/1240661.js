@@ -192,7 +192,7 @@ if (formLogin) {
         mensagem("mensagem-login", "Login efetuado com sucesso.", "green");
 
         setTimeout(function () {
-            window.location.href = "../private/index.html";
+            window.location.href = "../private/index.php";
         }, 800);
     });
 }
@@ -624,7 +624,7 @@ function iniciarRemocao(config) {
         mensagem(config.mensagem, config.texto, "green");
 
         setTimeout(function () {
-            window.location.href = "index.html";
+            window.location.href = "index.php";
         }, 1200);
     });
 }
@@ -668,42 +668,94 @@ function guardarAssociacoesNovoEquipamento() {
     const novosDocumentos = [
         {
             codigo: "D" + String(documentos.length + 1).padStart(3, "0"),
-            nome: "Manual de utilizador",
-            tipo: "Manual",
+            nome: valor("nomeManualUtilizadorEquipamento") || "Manual de utilizador",
+            tipo: "Manual de utilizador",
             tipoFiltro: "manual",
             equipamento,
-            fornecedor,
-            data: new Date().toLocaleDateString("pt-PT"),
-            validade: "Não aplicável",
+            fornecedor: valor("fornecedorManualUtilizadorEquipamento") || fornecedor,
+            data: valor("dataManualUtilizadorEquipamento") || new Date().toLocaleDateString("pt-PT"),
+            validade: valor("validadeManualUtilizadorEquipamento") || "Não aplicável",
             estado: "Válido",
             estadoFiltro: "valido",
             ficheiro: nomeFicheiro("manualEquipamento")
         },
         {
             codigo: "D" + String(documentos.length + 2).padStart(3, "0"),
-            nome: "Certificado de calibração",
-            tipo: "Certificado",
+            nome: valor("nomeManualServicoEquipamento") || "Manual de serviço",
+            tipo: "Manual de serviço",
+            tipoFiltro: "manual",
+            equipamento,
+            fornecedor: valor("fornecedorManualServicoEquipamento") || fornecedor,
+            data: valor("dataManualServicoEquipamento") || new Date().toLocaleDateString("pt-PT"),
+            validade: valor("validadeManualServicoEquipamento") || "Não aplicável",
+            estado: "Válido",
+            estadoFiltro: "valido",
+            ficheiro: nomeFicheiro("manualServicoEquipamento")
+        },
+        {
+            codigo: "D" + String(documentos.length + 3).padStart(3, "0"),
+            nome: valor("nomeCertificadoEquipamento") || "Certificado de calibração",
+            tipo: "Certificado de calibração",
             tipoFiltro: "certificado",
             equipamento,
-            fornecedor,
-            data: new Date().toLocaleDateString("pt-PT"),
-            validade: valor("dataFimGarantiaEquipamento") || "Não aplicável",
+            fornecedor: valor("fornecedorCertificadoEquipamento") || fornecedor,
+            data: valor("dataCertificadoEquipamento") || new Date().toLocaleDateString("pt-PT"),
+            validade: valor("validadeCertificadoEquipamento") || valor("dataFimGarantiaEquipamento") || "Não aplicável",
             estado: "Válido",
             estadoFiltro: "valido",
             ficheiro: nomeFicheiro("certificadoEquipamento")
         },
         {
-            codigo: "D" + String(documentos.length + 3).padStart(3, "0"),
-            nome: "Relatório técnico",
+            codigo: "D" + String(documentos.length + 4).padStart(3, "0"),
+            nome: valor("nomeDeclaracaoConformidadeEquipamento") || "Declaração de conformidade",
+            tipo: "Declaração de conformidade",
+            tipoFiltro: "certificado",
+            equipamento,
+            fornecedor: valor("fornecedorDeclaracaoConformidadeEquipamento") || fornecedor,
+            data: valor("dataDeclaracaoConformidadeEquipamento") || new Date().toLocaleDateString("pt-PT"),
+            validade: valor("validadeDeclaracaoConformidadeEquipamento") || "Não aplicável",
+            estado: "Válido",
+            estadoFiltro: "valido",
+            ficheiro: nomeFicheiro("declaracaoConformidadeEquipamento")
+        },
+        {
+            codigo: "D" + String(documentos.length + 5).padStart(3, "0"),
+            nome: valor("nomeRelatorioTecnicoEquipamento") || "Relatório técnico",
             tipo: "Relatório técnico",
             tipoFiltro: "relatorio",
             equipamento,
-            fornecedor,
-            data: new Date().toLocaleDateString("pt-PT"),
-            validade: "Não aplicável",
+            fornecedor: valor("fornecedorRelatorioTecnicoEquipamento") || fornecedor,
+            data: valor("dataRelatorioTecnicoEquipamento") || new Date().toLocaleDateString("pt-PT"),
+            validade: valor("validadeRelatorioTecnicoEquipamento") || "Não aplicável",
             estado: "Válido",
             estadoFiltro: "valido",
             ficheiro: nomeFicheiro("relatorioTecnicoEquipamento")
+        },
+        {
+            codigo: "D" + String(documentos.length + 6).padStart(3, "0"),
+            nome: valor("nomeFaturaAquisicaoEquipamento") || "Fatura ou guia de aquisição",
+            tipo: "Fatura ou guia de aquisição",
+            tipoFiltro: "relatorio",
+            equipamento,
+            fornecedor: valor("fornecedorFaturaAquisicaoEquipamento") || fornecedor,
+            data: valor("dataFaturaAquisicaoEquipamento") || new Date().toLocaleDateString("pt-PT"),
+            validade: valor("validadeFaturaAquisicaoEquipamento") || "Não aplicável",
+            estado: "Válido",
+            estadoFiltro: "valido",
+            ficheiro: nomeFicheiro("faturaAquisicaoEquipamento")
+        },
+        {
+            codigo: "D" + String(documentos.length + 7).padStart(3, "0"),
+            nome: valor("nomeContratoDocumentoEquipamento") || "Contrato / garantia",
+            tipo: "Contrato / garantia",
+            tipoFiltro: "contrato",
+            equipamento,
+            fornecedor: valor("fornecedorContratoDocumentoEquipamento") || fornecedor,
+            data: valor("dataContratoDocumentoEquipamento") || new Date().toLocaleDateString("pt-PT"),
+            validade: valor("validadeContratoDocumentoEquipamento") || valor("dataFimGarantiaEquipamento") || "Não aplicável",
+            estado: "Válido",
+            estadoFiltro: "valido",
+            ficheiro: nomeFicheiro("contratoDocumentoEquipamento")
         }
     ];
 
@@ -723,7 +775,8 @@ function guardarAssociacoesNovoEquipamento() {
         dataFim: valor("dataFimGarantiaEquipamento"),
         periodicidade: valor("periodicidadeManutencaoEquipamento"),
         estado: estadoContrato,
-        estadoFiltro: estadoContrato.toLowerCase().includes("expirada") ? "expirado" : "ativo",
+        estadoFiltro: estadoContrato.toLowerCase().includes("expirado") ? "expirado"
+            : estadoContrato.toLowerCase().includes("terminar") ? "pendente" : "ativo",
         valor: valor("valorContratoEquipamento"),
         ficheiro: nomeFicheiro("contratoDocumentoEquipamento")
     };
@@ -738,7 +791,7 @@ function removerBotoesNovoEditarDocumentosContratos() {
         return;
     }
 
-    document.querySelectorAll('a[href="novo.html"], a[href="editar.html"]').forEach(function (link) {
+    document.querySelectorAll('a[href="novo.php"], a[href="editar.php"]').forEach(function (link) {
         link.remove();
     });
 }
@@ -781,10 +834,10 @@ function inserirDocumentosAssociadosNaListagem() {
                 <td><span class="estado ativo">${documento.estado}</span></td>
                 <td>${documento.ficheiro}</td>
                 <td class="acoes-tabela">
-                    <a href="detalhes.html" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                    <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                         <i class="bi bi-eye"></i>
                     </a>
-                    <a href="remover.html" data-bs-toggle="tooltip" data-bs-title="Remover documento">
+                    <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover documento">
                         <i class="bi bi-trash"></i>
                     </a>
                 </td>
@@ -808,10 +861,10 @@ function inserirContratosAssociadosNaListagem() {
                 <td>${contrato.periodicidade}</td>
                 <td><span class="estado ativo">${contrato.estado}</span></td>
                 <td class="acoes-tabela">
-                    <a href="detalhes.html" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                    <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                         <i class="bi bi-eye"></i>
                     </a>
-                    <a href="remover.html" data-bs-toggle="tooltip" data-bs-title="Remover contrato">
+                    <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover contrato">
                         <i class="bi bi-trash"></i>
                     </a>
                 </td>
@@ -828,11 +881,29 @@ const validacoesEquipamentoNovo = {
         { id: "responsavelLocalizacaoEquipamento", regra: "letras", obrigatorio: true, msg: "O responsável da localização deve conter apenas letras." },
         { id: "contactoLocalizacaoEquipamento", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.contacto }
     ],
+
     fornecedor: [
         { id: "contactoFornecedorEquipamento", regra: "letras", obrigatorio: true, msg: "A pessoa de contacto deve conter apenas letras." },
         { id: "telefoneFornecedorEquipamento", regra: "telefone", obrigatorio: true, msg: mensagensValidacao.telefone },
+        { id: "telefoneContactoFornecedorEquipamento", regra: "telefone", obrigatorio: true, msg: mensagensValidacao.telefone },
         { id: "emailFornecedorEquipamento", regra: "email", obrigatorio: true, msg: mensagensValidacao.email },
-        { id: "nifFornecedorEquipamento", regra: "nif", obrigatorio: true, msg: mensagensValidacao.nif }
+        { id: "nifFornecedorEquipamento", regra: "nif", obrigatorio: true, msg: mensagensValidacao.nif },
+        { id: "websiteFornecedorEquipamento", regra: "website", obrigatorio: true, msg: mensagensValidacao.website },
+        { id: "moradaFornecedorEquipamento", obrigatorio: true, msgObrigatorio: "A morada do fornecedor é obrigatória." },
+
+        { id: "contactoFornecedorEquipamento2", regra: "letras", obrigatorio: false, msg: "A pessoa de contacto do fornecedor 2 deve conter apenas letras." },
+        { id: "telefoneFornecedorEquipamento2", regra: "telefone", obrigatorio: false, msg: mensagensValidacao.telefone },
+        { id: "telefoneContactoFornecedorEquipamento2", regra: "telefone", obrigatorio: false, msg: mensagensValidacao.telefone },
+        { id: "emailFornecedorEquipamento2", regra: "email", obrigatorio: false, msg: mensagensValidacao.email },
+        { id: "nifFornecedorEquipamento2", regra: "nif", obrigatorio: false, msg: mensagensValidacao.nif },
+        { id: "websiteFornecedorEquipamento2", regra: "website", obrigatorio: false, msg: mensagensValidacao.website },
+
+        { id: "contactoFornecedorEquipamento3", regra: "letras", obrigatorio: false, msg: "A pessoa de contacto do fornecedor 3 deve conter apenas letras." },
+        { id: "telefoneFornecedorEquipamento3", regra: "telefone", obrigatorio: false, msg: mensagensValidacao.telefone },
+        { id: "telefoneContactoFornecedorEquipamento3", regra: "telefone", obrigatorio: false, msg: mensagensValidacao.telefone },
+        { id: "emailFornecedorEquipamento3", regra: "email", obrigatorio: false, msg: mensagensValidacao.email },
+        { id: "nifFornecedorEquipamento3", regra: "nif", obrigatorio: false, msg: mensagensValidacao.nif },
+        { id: "websiteFornecedorEquipamento3", regra: "website", obrigatorio: false, msg: mensagensValidacao.website }
     ]
 };
 
@@ -840,10 +911,93 @@ aplicarFiltros([
     { id: "pisoEquipamento", tipo: "numeros" },
     { id: "responsavelLocalizacaoEquipamento", tipo: "letras" },
     { id: "contactoLocalizacaoEquipamento", tipo: "numeros" },
+
     { id: "contactoFornecedorEquipamento", tipo: "letras" },
     { id: "telefoneFornecedorEquipamento", tipo: "telefone" },
-    { id: "nifFornecedorEquipamento", tipo: "numeros" }
+    { id: "telefoneContactoFornecedorEquipamento", tipo: "telefone" },
+    { id: "nifFornecedorEquipamento", tipo: "numeros" },
+
+    { id: "contactoFornecedorEquipamento2", tipo: "letras" },
+    { id: "telefoneFornecedorEquipamento2", tipo: "telefone" },
+    { id: "telefoneContactoFornecedorEquipamento2", tipo: "telefone" },
+    { id: "nifFornecedorEquipamento2", tipo: "numeros" },
+
+    { id: "contactoFornecedorEquipamento3", tipo: "letras" },
+    { id: "telefoneFornecedorEquipamento3", tipo: "telefone" },
+    { id: "telefoneContactoFornecedorEquipamento3", tipo: "telefone" },
+    { id: "nifFornecedorEquipamento3", tipo: "numeros" }
 ]);
+
+const camposDocumentacaoNovo = [
+    "nomeManualUtilizadorEquipamento",
+    "dataManualUtilizadorEquipamento",
+    "fornecedorManualUtilizadorEquipamento",
+    "manualEquipamento",
+
+    "nomeManualServicoEquipamento",
+    "dataManualServicoEquipamento",
+    "fornecedorManualServicoEquipamento",
+    "manualServicoEquipamento",
+
+    "nomeCertificadoEquipamento",
+    "dataCertificadoEquipamento",
+    "fornecedorCertificadoEquipamento",
+    "certificadoEquipamento",
+
+    "nomeDeclaracaoConformidadeEquipamento",
+    "dataDeclaracaoConformidadeEquipamento",
+    "fornecedorDeclaracaoConformidadeEquipamento",
+    "declaracaoConformidadeEquipamento",
+
+    "nomeRelatorioTecnicoEquipamento",
+    "dataRelatorioTecnicoEquipamento",
+    "fornecedorRelatorioTecnicoEquipamento",
+    "relatorioTecnicoEquipamento",
+
+    "nomeFaturaAquisicaoEquipamento",
+    "dataFaturaAquisicaoEquipamento",
+    "fornecedorFaturaAquisicaoEquipamento",
+    "faturaAquisicaoEquipamento",
+
+    "nomeContratoDocumentoEquipamento",
+    "dataContratoDocumentoEquipamento",
+    "fornecedorContratoDocumentoEquipamento",
+    "contratoDocumentoEquipamento"
+];
+
+const camposDocumentacaoEditar = [
+    "nomeManualUtilizadorEquipamento",
+    "dataManualUtilizadorEquipamento",
+    "fornecedorManualUtilizadorEquipamento",
+
+    "nomeManualServicoEquipamento",
+    "dataManualServicoEquipamento",
+    "fornecedorManualServicoEquipamento",
+
+    "nomeCertificadoEquipamento",
+    "dataCertificadoEquipamento",
+    "fornecedorCertificadoEquipamento",
+
+    "nomeDeclaracaoConformidadeEquipamento",
+    "dataDeclaracaoConformidadeEquipamento",
+    "fornecedorDeclaracaoConformidadeEquipamento",
+
+    "nomeRelatorioTecnicoEquipamento",
+    "dataRelatorioTecnicoEquipamento",
+    "fornecedorRelatorioTecnicoEquipamento",
+
+    "nomeFaturaAquisicaoEquipamento",
+    "dataFaturaAquisicaoEquipamento",
+    "fornecedorFaturaAquisicaoEquipamento",
+
+    "nomeContratoDocumentoEquipamento",
+    "dataContratoDocumentoEquipamento",
+    "fornecedorContratoDocumentoEquipamento"
+];
+
+const camposDocumentacaoEquipamento = window.location.pathname.includes("/editar.php")
+    ? camposDocumentacaoEditar
+    : camposDocumentacaoNovo;
 
 const etapasNovoEquipamento = [
     {
@@ -864,17 +1018,27 @@ const etapasNovoEquipamento = [
     {
         tab: "fornecedor-tab",
         percentagem: 60,
-        texto: "Etapa 3 de 5: Fornecedor",
-        erro: "Preencha todos os campos obrigatórios do Fornecedor.",
-        campos: ["fornecedorEquipamento", "tipoFornecedorEquipamento", "contactoFornecedorEquipamento", "telefoneFornecedorEquipamento", "emailFornecedorEquipamento", "nifFornecedorEquipamento"],
+        texto: "Etapa 3 de 5: Fornecedores",
+        erro: "Preencha todos os campos obrigatórios do Fornecedor associado 1.",
+        campos: [
+            "fornecedorEquipamento",
+            "tipoFornecedorEquipamento",
+            "contactoFornecedorEquipamento",
+            "telefoneFornecedorEquipamento",
+            "telefoneContactoFornecedorEquipamento",
+            "emailFornecedorEquipamento",
+            "nifFornecedorEquipamento",
+            "websiteFornecedorEquipamento",
+            "moradaFornecedorEquipamento"
+        ],
         validacao: validacoesEquipamentoNovo.fornecedor
     },
     {
         tab: "documentacao-tab",
         percentagem: 80,
         texto: "Etapa 4 de 5: Documentação",
-        erro: "Associe todos os documentos obrigatórios em PDF.",
-        campos: ["manualEquipamento", "certificadoEquipamento", "relatorioTecnicoEquipamento", "contratoDocumentoEquipamento"]
+        erro: "Preencha os dados obrigatórios da Documentação e associe os PDFs obrigatórios.",
+        campos: camposDocumentacaoEquipamento
     },
     {
         tab: "garantia-tab",
@@ -914,6 +1078,41 @@ function erroNovoEquipamento(texto) {
     mostrarErro("mensagemEquipamento", texto);
 }
 
+function validarFornecedorOpcional(numero) {
+    const ids = [
+        "fornecedorEquipamento" + numero,
+        "tipoFornecedorEquipamento" + numero,
+        "contactoFornecedorEquipamento" + numero,
+        "telefoneFornecedorEquipamento" + numero,
+        "telefoneContactoFornecedorEquipamento" + numero,
+        "emailFornecedorEquipamento" + numero,
+        "nifFornecedorEquipamento" + numero,
+        "websiteFornecedorEquipamento" + numero,
+        "moradaFornecedorEquipamento" + numero
+    ];
+
+    const algumPreenchido = ids.some(campoPreenchido);
+
+    if (!algumPreenchido) {
+        return true;
+    }
+
+    if (!camposPreenchidos(ids)) {
+        mostrarErro(
+            "mensagemEquipamento",
+            "Preencha todos os campos do Fornecedor associado " + numero + " ou deixe esse bloco completamente vazio.",
+            "fornecedor-tab"
+        );
+        return false;
+    }
+
+    return true;
+}
+
+function validarFornecedoresOpcionais() {
+    return validarFornecedorOpcional("2") && validarFornecedorOpcional("3");
+}
+
 function etapaValida(etapa) {
     if (!camposPreenchidos(etapa.campos)) {
         erroNovoEquipamento(etapa.erro);
@@ -922,6 +1121,10 @@ function etapaValida(etapa) {
     }
 
     if (etapa.validacao && !validarCampos(etapa.validacao, "mensagemEquipamento", etapa.tab)) {
+        return false;
+    }
+
+    if (etapa.tab === "fornecedor-tab" && !validarFornecedoresOpcionais()) {
         return false;
     }
 
@@ -978,7 +1181,7 @@ if (formEquipamento) {
             if (validarNovoEquipamentoCompleto()) {
                 guardarAssociacoesNovoEquipamento();
                 abrirEtapa("garantia-tab");
-                mensagem("mensagemEquipamento", "Equipamento registado com sucesso. Documentos e contrato associados ao equipamento.", "green");
+                mensagem("mensagemEquipamento", window.location.pathname.includes("/editar.php") ? "Alterações guardadas com sucesso." : "Equipamento registado com sucesso. Documentos e contrato associados ao equipamento.", "green");
             }
         });
     }
@@ -992,20 +1195,35 @@ const validacoesEquipamentoEditar = {
         { id: "editContactoLocalizacaoEquipamento", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.contacto }
     ],
     fornecedor: [
-        { id: "editContactoFornecedorEquipamento", regra: "letras", obrigatorio: true, msg: "A pessoa de contacto deve conter apenas letras." },
-        { id: "editTelefoneFornecedorEquipamento", regra: "telefone", obrigatorio: true, msg: mensagensValidacao.telefone },
-        { id: "editEmailFornecedorEquipamento", regra: "email", obrigatorio: true, msg: mensagensValidacao.email },
-        { id: "editNifFornecedorEquipamento", regra: "nif", obrigatorio: true, msg: mensagensValidacao.nif }
-    ]
+    { id: "contactoFornecedorEquipamento", regra: "letras", obrigatorio: true, msg: "A pessoa de contacto deve conter apenas letras." },
+    { id: "telefoneFornecedorEquipamento", regra: "telefone", obrigatorio: true, msg: mensagensValidacao.telefone },
+    { id: "telefoneContactoFornecedorEquipamento", regra: "telefone", obrigatorio: true, msg: mensagensValidacao.telefone },
+    { id: "emailFornecedorEquipamento", regra: "email", obrigatorio: true, msg: mensagensValidacao.email },
+    { id: "nifFornecedorEquipamento", regra: "nif", obrigatorio: true, msg: mensagensValidacao.nif },
+    { id: "websiteFornecedorEquipamento", regra: "website", obrigatorio: true, msg: mensagensValidacao.website },
+    { id: "moradaFornecedorEquipamento", obrigatorio: true, msgObrigatorio: "A morada do fornecedor é obrigatória." }
+]
 };
 
 aplicarFiltros([
-    { id: "editPisoEquipamento", tipo: "numeros" },
-    { id: "editResponsavelLocalizacaoEquipamento", tipo: "letras" },
-    { id: "editContactoLocalizacaoEquipamento", tipo: "numeros" },
-    { id: "editContactoFornecedorEquipamento", tipo: "letras" },
-    { id: "editTelefoneFornecedorEquipamento", tipo: "telefone" },
-    { id: "editNifFornecedorEquipamento", tipo: "numeros" }
+    { id: "pisoEquipamento", tipo: "numeros" },
+    { id: "responsavelLocalizacaoEquipamento", tipo: "letras" },
+    { id: "contactoLocalizacaoEquipamento", tipo: "numeros" },
+
+    { id: "contactoFornecedorEquipamento", tipo: "letras" },
+    { id: "telefoneFornecedorEquipamento", tipo: "telefone" },
+    { id: "telefoneContactoFornecedorEquipamento", tipo: "telefone" },
+    { id: "nifFornecedorEquipamento", tipo: "numeros" },
+
+    { id: "contactoFornecedorEquipamento2", tipo: "letras" },
+    { id: "telefoneFornecedorEquipamento2", tipo: "telefone" },
+    { id: "telefoneContactoFornecedorEquipamento2", tipo: "telefone" },
+    { id: "nifFornecedorEquipamento2", tipo: "numeros" },
+
+    { id: "contactoFornecedorEquipamento3", tipo: "letras" },
+    { id: "telefoneFornecedorEquipamento3", tipo: "telefone" },
+    { id: "telefoneContactoFornecedorEquipamento3", tipo: "telefone" },
+    { id: "nifFornecedorEquipamento3", tipo: "numeros" }
 ]);
 
 const etapasEditarEquipamento = [

@@ -105,7 +105,7 @@ include '../includes/header.php';
                     </div>
 
                     <div>
-                        <label for="contactoFornecedorEquipamento">Contacto interno *</label>
+                        <label for="contactoInternoLocalizacao">Contacto interno *</label>
                         <input type="text" id="contactoInternoLocalizacao" placeholder="Ex: 2201" inputmode="numeric" pattern="[0-9]*" maxlength="6" required>
                     </div>
                 </div>
