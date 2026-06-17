@@ -402,7 +402,7 @@ include '../includes/header.php';
                                     <th>Validade</th>
                                     <th>Fornecedor associado</th>
                                     <th>Ficheiro</th>
-                                    <th>Estado</th>
+                                    
                                 </tr>
                             </thead>
 
@@ -414,7 +414,7 @@ include '../includes/header.php';
                                     <td>Não aplicável</td>
                                     <td>Philips Healthcare</td>
                                     <td>manual_monitor.pdf</td>
-                                    <td><span class="estado ativo">Válido</span></td>
+                                    
                                 </tr>
 
                                 <tr>
@@ -424,7 +424,7 @@ include '../includes/header.php';
                                     <td>Não aplicável</td>
                                     <td>Philips Healthcare</td>
                                     <td>manual_servico_monitor.pdf</td>
-                                    <td><span class="estado ativo">Válido</span></td>
+                                    
                                 </tr>
 
                                 <tr>
@@ -434,7 +434,7 @@ include '../includes/header.php';
                                     <td>15/01/2027</td>
                                     <td>MedTech Portugal</td>
                                     <td>certificado_monitor.pdf</td>
-                                    <td><span class="estado ativo">Válido</span></td>
+                                    
                                 </tr>
 
                                 <tr>
@@ -444,7 +444,7 @@ include '../includes/header.php';
                                     <td>Não aplicável</td>
                                     <td>Philips Healthcare</td>
                                     <td>declaracao_conformidade_monitor.pdf</td>
-                                    <td><span class="estado ativo">Válido</span></td>
+                                    
                                 </tr>
 
                                 <tr>
@@ -454,7 +454,7 @@ include '../includes/header.php';
                                     <td>Não aplicável</td>
                                     <td>MedTech Portugal</td>
                                     <td>relatorio_monitor.pdf</td>
-                                    <td><span class="estado ativo">Válido</span></td>
+                                    
                                 </tr>
 
                                 <tr>
@@ -464,7 +464,7 @@ include '../includes/header.php';
                                     <td>Não aplicável</td>
                                     <td>MedTech Portugal</td>
                                     <td>fatura_aquisicao_monitor.pdf</td>
-                                    <td><span class="estado ativo">Válido</span></td>
+                                    
                                 </tr>
 
                                 <tr>
@@ -474,7 +474,7 @@ include '../includes/header.php';
                                     <td>12/02/2027</td>
                                     <td>Philips Healthcare</td>
                                     <td>contrato_monitor.pdf</td>
-                                    <td><span class="estado ativo">Válido</span></td>
+                                    
                                 </tr>
                             </tbody>
                         </table>
@@ -532,10 +532,7 @@ include '../includes/header.php';
                                 <strong>1 200 €</strong>
                             </div>
 
-                            <div class="detalhe-linha">
-                                <span>Situação</span>
-                                <strong>Dentro do prazo</strong>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>

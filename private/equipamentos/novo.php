@@ -891,16 +891,7 @@ include '../includes/header.php';
                             </div>
                         </div>
 
-                        <div class="form-botoes mt-4">
-                            <button type="button" class="btn-backend" id="guardarEquipamento">
-                                <i class="bi bi-check-circle"></i>
-                                Guardar equipamento
-                            </button>
-
-                            <a href="index.php" class="btn-secundario">
-                                Cancelar
-                            </a>
-                        </div>
+                        
                     </div>
 
                 </div>

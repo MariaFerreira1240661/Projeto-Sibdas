@@ -46,7 +46,7 @@ include '../includes/header.php';
                     <p>Código interno: L001</p>
                 </div>
 
-                <a href="editar.php" class="btn-backend">
+                <a href="index.php" class="btn-backend">
                     <i class="bi bi-arrow-left-circle"></i>
                     Voltar à listagem
                 </a>

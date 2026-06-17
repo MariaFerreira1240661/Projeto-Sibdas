@@ -14,3 +14,12 @@ define('APP_COPYRIGHT', '© 2026 MedControl - Sistema de Inventário Hospitalar'
 // Exemplo: C:\laragon\www\medcontrol  →  /medcontrol
 
 define('BASE_URL', '/projeto-SIBDAS');
+// --------------------------------------------------------------------
+// CONFIGURAÇÕES DA BASE DE DADOS
+// --------------------------------------------------------------------
+
+define('MYSQL_HOST', 'localhost');
+define('MYSQL_DATABASE', 'medcontrol');
+define('MYSQL_USERNAME', 'medcontrol_user');
+define('MYSQL_PASSWORD', 'MedControl_2026!');
+define('MYSQL_AES_KEY', 'medcontrol_chave_local_2026');

@@ -46,7 +46,7 @@ include '../includes/header.php';
                     <p>Código interno: F001</p>
                 </div>
 
-                <a href="editar.php" class="btn-backend">
+                <a href="index.php" class="btn-backend">
                     <i class="bi bi-arrow-left-circle"></i>
                     Voltar à listagem
                 </a>
@@ -112,10 +112,7 @@ include '../includes/header.php';
                         <strong>+351 912 000 000</strong>
                     </div>
 
-                    <div class="detalhe-linha">
-                        <span>Email</span>
-                        <strong>ana.silva@philips-health.pt</strong>
-                    </div>
+                    
                 </div>
 
                 <div class="detalhe-card">

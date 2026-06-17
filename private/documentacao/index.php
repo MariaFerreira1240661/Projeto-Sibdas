@@ -93,13 +93,12 @@ include '../includes/header.php';
                         <thead>
                             <tr>
                                 <th>Código</th>
-                                <th>Documento</th>
-                                <th>Tipo</th>
+                                <th>Tipo de documento</th>
+                                <th>Nome do documento</th>
                                 <th>Equipamento</th>
-                                <th>Fornecedor</th>
-                                <th>Data</th>
+                                <th>Data do documento</th>
                                 <th>Validade</th>
-                                <th>Estado</th>
+                                <th>Fornecedor associado</th>
                                 <th>Ficheiro</th>
                                 <th>Ações</th>
                             </tr>
@@ -109,12 +108,11 @@ include '../includes/header.php';
                             <tr data-tipo="manual" data-estado="valido" data-equipamento="monitor">
                                 <td>D001</td>
                                 <td>Manual de Utilizador</td>
-                                <td>Manual</td>
+                                <td>Manual de utilizador Philips IntelliVue MP5</td>
                                 <td>Monitor Multiparamétrico</td>
-                                <td>Philips Healthcare</td>
                                 <td>12/02/2025</td>
                                 <td>Sem validade</td>
-                                <td><span class="estado ativo">Válido</span></td>
+                                <td>Philips Healthcare</td>
                                 <td>manual_monitor.pdf</td>
                                 <td class="acoes-tabela">
                                     <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
@@ -131,12 +129,11 @@ include '../includes/header.php';
                             <tr data-tipo="contrato" data-estado="pendente" data-equipamento="ventilador">
                                 <td>D002</td>
                                 <td>Contrato de Manutenção</td>
-                                <td>Contrato</td>
+                                <td>Contrato de garantia e manutençao</td>
                                 <td>Ventilador Pulmonar</td>
-                                <td>BioSupport Systems</td>
                                 <td>05/03/2025</td>
                                 <td>05/03/2026</td>
-                                <td><span class="estado pendente">Pendente</span></td>
+                                <td>BioSupport Systems</td>
                                 <td>contrato_ventilador.pdf</td>
                                 <td class="acoes-tabela">
                                         <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
@@ -154,12 +151,11 @@ include '../includes/header.php';
                             <tr data-tipo="certificado" data-estado="expirado" data-equipamento="bomba">
                                 <td>D003</td>
                                 <td>Certificado de Calibração</td>
-                                <td>Certificado</td>
+                                <td>Certificado de Calibração 2026</td>
                                 <td>Bomba de Infusão</td>
-                                <td>InfuCare Medical</td>
                                 <td>18/01/2024</td>
                                 <td>18/01/2025</td>
-                                <td><span class="estado expirado">Expirado</span></td>
+                                <td>InfuCare Medical</td>
                                 <td>calibracao_bomba.pdf</td>
                                 <td class="acoes-tabela">
                                     <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
@@ -177,12 +173,11 @@ include '../includes/header.php';
                             <tr data-tipo="relatorio" data-estado="valido" data-equipamento="desfibrilhador">
                                 <td>D004</td>
                                 <td>Relatório Técnico</td>
-                                <td>Relatório técnico</td>
+                                <td>Relatório técnico de instalação</td>
                                 <td>Desfibrilhador</td>
-                                <td>MedTech Portugal</td>
                                 <td>20/03/2025</td>
                                 <td>Sem validade</td>
-                                <td><span class="estado ativo">Válido</span></td>
+                                <td>MedTech Portugal</td>
                                 <td>relatorio_desfibrilhador.pdf</td>
                                 <td class="acoes-tabela">
                                     <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
@@ -200,12 +195,11 @@ include '../includes/header.php';
                             <tr data-tipo="fatura" data-estado="valido" data-equipamento="monitor">
                                 <td>D005</td>
                                 <td>Fatura de Aquisição</td>
-                                <td>Fatura</td>
+                                <td>Fatura de aquisição do equipamento</td>
                                 <td>Monitor Multiparamétrico</td>
-                                <td>MedTech Portugal</td>
                                 <td>12/02/2022</td>
                                 <td>Sem validade</td>
-                                <td><span class="estado ativo">Válido</span></td>
+                                <td>MedTech Portugal</td>
                                 <td>fatura_monitor.pdf</td>
                                 <td class="acoes-tabela">
                                     <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
