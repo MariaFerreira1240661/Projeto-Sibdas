@@ -1,5 +1,7 @@
 <?php
-session_start();
+require_once 'includes/funcoes.php';
+
+start_session();
 
 $pagina_atual = 'dashboard';
 

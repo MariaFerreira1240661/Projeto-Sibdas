@@ -1,8 +1,7 @@
 <?php
-session_start();
+require_once __DIR__ . '/../private/includes/funcoes.php';
 
-require_once __DIR__ . '/../config/config.php';
-
+start_session();
 // --------------------------------------------------------------------
 // MENSAGENS TEMPORÁRIAS DA SESSÃO
 // --------------------------------------------------------------------

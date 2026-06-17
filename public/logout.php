@@ -1,12 +1,4 @@
 <?php
-session_start();
+require_once __DIR__ . '/../private/includes/funcoes.php';
 
-// Remove todas as variáveis da sessão
-session_unset();
-
-// Destrói a sessão
-session_destroy();
-
-// Redireciona para o login
-header('Location: login.php');
-return;
+logout_and_redirect(BASE_URL . '/public/login.php');
