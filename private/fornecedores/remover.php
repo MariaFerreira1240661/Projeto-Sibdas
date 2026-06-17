@@ -7,76 +7,94 @@ include '../includes/header.php';
 
     <?php include '../includes/sidebar.php'; ?>
 
-<main class="backend-content">
+    <main class="backend-content">
 
-            <div class="backend-topbar">
-                <div>
-                    <h1>Remover Fornecedor</h1>
-                    <p>Confirmação da remoção ou arquivo de fornecedor.</p>
-                </div>
+        <div class="backend-topbar">
+            <div>
+                <h1>Remover Fornecedor</h1>
+                <p>Confirmação da remoção ou arquivo de fornecedor.</p>
+            </div>
 
-                <div class="backend-user">
+            <div class="dropdown">
+                <button class="backend-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle"></i>
                     <span>Administrador</span>
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/index.php">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                            Sair para o site público
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/logout.php">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Terminar sessão
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="backend-box text-center">
+
+            <div class="mb-4">
+                <i class="bi bi-exclamation-triangle text-warning" style="font-size: 60px;"></i>
+            </div>
+
+            <h2>Tem a certeza que pretende remover este fornecedor?</h2>
+
+            <p>
+                Está prestes a remover o fornecedor <strong>Philips Healthcare</strong>,
+                com o código interno <strong>F001</strong>.
+            </p>
+
+            <div class="detalhe-card mt-4 text-start">
+                <div class="detalhe-linha">
+                    <span>Código</span>
+                    <strong>F001</strong>
+                </div>
+
+                <div class="detalhe-linha">
+                    <span>Fornecedor</span>
+                    <strong>Philips Healthcare</strong>
+                </div>
+
+                <div class="detalhe-linha">
+                    <span>NIF</span>
+                    <strong>501234567</strong>
+                </div>
+
+                <div class="detalhe-linha">
+                    <span>Tipo</span>
+                    <strong>Fabricante</strong>
+                </div>
+
+                <div class="detalhe-linha">
+                    <span>Estado</span>
+                    <strong><span class="estado ativo">Ativo</span></strong>
                 </div>
             </div>
 
-            <section class="backend-box text-center">
+            <div class="form-botoes justify-content-center">
+                <button type="button" class="btn btn-danger fw-bold px-4 py-2 rounded-4" id="confirmarRemocaoFornecedor">
+                    <i class="bi bi-trash"></i>
+                    Confirmar remoção
+                </button>
 
-                <div class="mb-4">
-                    <i class="bi bi-exclamation-triangle text-warning" style="font-size: 60px;"></i>
-                </div>
+                <a href="index.php" class="btn-secundario">
+                    Cancelar
+                </a>
+            </div>
 
-                <h2>Tem a certeza que pretende remover este fornecedor?</h2>
+            <p id="mensagemRemocaoFornecedor" class="mensagem-login"></p>
 
-                <p>
-                    Está prestes a remover o fornecedor <strong>Philips Healthcare</strong>,
-                    com o código interno <strong>F001</strong>.
-                </p>
+        </section>
 
-                <div class="detalhe-card mt-4 text-start">
-                    <div class="detalhe-linha">
-                        <span>Código</span>
-                        <strong>F001</strong>
-                    </div>
-
-                    <div class="detalhe-linha">
-                        <span>Fornecedor</span>
-                        <strong>Philips Healthcare</strong>
-                    </div>
-
-                    <div class="detalhe-linha">
-                        <span>NIF</span>
-                        <strong>501234567</strong>
-                    </div>
-
-                    <div class="detalhe-linha">
-                        <span>Tipo</span>
-                        <strong>Fabricante</strong>
-                    </div>
-
-                    <div class="detalhe-linha">
-                        <span>Estado</span>
-                        <strong><span class="estado ativo">Ativo</span></strong>
-                    </div>
-                </div>
-
-                <div class="form-botoes justify-content-center">
-                    <button type="button" class="btn btn-danger fw-bold px-4 py-2 rounded-4" id="confirmarRemocaoFornecedor">
-                        <i class="bi bi-trash"></i>
-                        Confirmar remoção
-                    </button>
-
-                    <a href="index.php" class="btn-secundario">
-                        Cancelar
-                    </a>
-                </div>
-
-                <p id="mensagemRemocaoFornecedor" class="mensagem-login"></p>
-
-            </section>
-
-        </main>
+    </main>
 
 </div>
 

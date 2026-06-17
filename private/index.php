@@ -35,10 +35,14 @@ if (isset($_SESSION['utilizador'])) {
 
     if ($username == '') {
         $validation_errors[] = 'O email é obrigatório.';
+    } elseif (!filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        $validation_errors[] = 'O email não é válido.';
     }
 
     if ($password == '') {
         $validation_errors[] = 'A palavra-passe é obrigatória.';
+    } elseif (strlen($password) < 6) {
+        $validation_errors[] = 'A palavra-passe deve ter pelo menos 6 caracteres.';
     }
 
     if (!empty($validation_errors)) {

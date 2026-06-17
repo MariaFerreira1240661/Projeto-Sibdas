@@ -15,9 +15,27 @@ include '../includes/header.php';
                 <p>Confirmação da remoção ou arquivo de equipamento médico.</p>
             </div>
 
-            <div class="backend-user">
-                <i class="bi bi-person-circle"></i>
-                <span>Administrador</span>
+            <div class="dropdown">
+                <button class="backend-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Administrador</span>
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/index.php">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                            Sair para o site público
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/logout.php">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Terminar sessão
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
 

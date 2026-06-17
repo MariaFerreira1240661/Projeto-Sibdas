@@ -7,39 +7,57 @@ include '../includes/header.php';
 
     <?php include '../includes/sidebar.php'; ?>
 
-<main class="backend-content">
+    <main class="backend-content">
 
-            <div class="backend-topbar">
-                <div>
-                    <h1>Gestão de Conteúdos</h1>
-                    <p>Atualização dos textos e informações apresentados na área pública do site.</p>
-                </div>
-
-                <div class="backend-user">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Administrador</span>
-                </div>
+        <div class="backend-topbar">
+            <div>
+                <h1>Gestão de Conteúdos</h1>
+                <p>Atualização dos textos e informações apresentados na área pública do site.</p>
             </div>
 
-            <section class="backend-box">
-                <div class="backend-section-header">
-                    <div>
-                        <h2>Conteúdos da Área Pública</h2>
-                        <p>Edite os textos principais sem alterar diretamente o HTML do site público.</p>
-                    </div>
+            <div class="dropdown">
+                <button class="backend-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Administrador</span>
+                </button>
 
-                    <div class="d-flex gap-3 flex-wrap">
-                        <a href="<?php echo BASE_URL; ?>/private/index.php" class="btn-secundario">
-                            <i class="bi bi-arrow-left-circle"></i>
-                            Voltar à Dashboard
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/index.php">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                            Sair para o site público
                         </a>
-                    
-                        <a href="<?php echo BASE_URL; ?>/public/index.php" class="btn-backend">
-                            <i class="bi bi-eye"></i>
-                            Ver site público
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/logout.php">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Terminar sessão
                         </a>
-                    </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="backend-box">
+            <div class="backend-section-header">
+                <div>
+                    <h2>Conteúdos da Área Pública</h2>
+                    <p>Edite os textos principais sem alterar diretamente o HTML do site público.</p>
                 </div>
+
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="<?php echo BASE_URL; ?>/private/index.php" class="btn-secundario">
+                        <i class="bi bi-arrow-left-circle"></i>
+                        Voltar à Dashboard
+                    </a>
+
+                    <a href="<?php echo BASE_URL; ?>/public/index.php" class="btn-backend">
+                        <i class="bi bi-eye"></i>
+                        Ver site público
+                    </a>
+                </div>
+            </div>
 
             <form class="form-backend" id="formConteudosPublicos">
 
@@ -297,9 +315,9 @@ include '../includes/header.php';
                 </div>
 
             </form>
-            
 
-        </main>
+
+    </main>
 
 </div>
 

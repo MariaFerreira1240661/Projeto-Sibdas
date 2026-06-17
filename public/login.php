@@ -81,14 +81,14 @@ if (!empty($_SESSION['server_error'])) {
                 <?php if (!empty($validation_errors)) : ?>
                     <div class="mensagem-login">
                         <?php foreach ($validation_errors as $erro) : ?>
-                            <p><?php echo $erro; ?></p>
+                            <p><?php echo htmlspecialchars($erro); ?></p>
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
 
                 <?php if (!empty($server_error)) : ?>
                     <div class="mensagem-login">
-                        <p><?php echo $server_error; ?></p>
+                        <p><?php echo htmlspecialchars($server_error); ?></p>
                     </div>
                 <?php endif; ?>
 
