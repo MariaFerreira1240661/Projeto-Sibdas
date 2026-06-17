@@ -1,6 +1,70 @@
 <?php
 $pagina_atual = 'equipamentos';
 include '../includes/header.php';
+
+function classe_filtro($texto)
+{
+    $classes = [
+        'Ativo' => 'ativo',
+        'Em manutenção' => 'manutencao',
+        'Inativo' => 'inativo',
+        'Em calibração' => 'calibracao',
+
+        'Monitorização' => 'monitorizacao',
+        'Suporte de vida' => 'suporte',
+        'Terapia' => 'terapia',
+        'Diagnóstico' => 'diagnostico',
+
+        'Alta' => 'alta',
+        'Média' => 'media',
+        'Baixa' => 'baixa'
+    ];
+
+    return $classes[$texto] ?? '';
+}
+
+$erro = '';
+$resultados = [];
+
+$ligacao = ligar_bd();
+
+if (!$ligacao) {
+    $erro = 'Aconteceu um erro na ligação à base de dados.';
+} else {
+    try {
+        $sql = "
+            SELECT
+                e.id,
+                e.codigo,
+                e.designacao,
+                e.marca,
+                e.modelo,
+                e.numero_serie,
+                ce.nome AS categoria,
+                l.servico AS localizacao,
+                ee.nome AS estado,
+                c.nome AS criticidade
+            FROM equipamentos e
+            INNER JOIN categorias_equipamento ce
+                ON e.categoria_equipamento_id = ce.id
+            INNER JOIN localizacoes l
+                ON e.localizacao_id = l.id
+            INNER JOIN estados_equipamento ee
+                ON e.estado_equipamento_id = ee.id
+            INNER JOIN criticidades c
+                ON e.criticidade_id = c.id
+            WHERE e.ativo = 1
+            ORDER BY e.codigo
+        ";
+
+        $resultados = $ligacao->query($sql)->fetchAll();
+    } catch (PDOException $erroBD) {
+        $erro = 'Aconteceu um erro ao consultar os equipamentos.';
+        $resultados = [];
+    }
+}
+
+$ligacao = null;
 ?>
 
 <div class="backend-layout">
@@ -92,145 +156,81 @@ include '../includes/header.php';
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="tabela-backend" id="tabelaEquipamentos">
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Equipamento</th>
-                            <th>Marca / Modelo</th>
-                            <th>N.º Série</th>
-                            <th>Categoria</th>
-                            <th>Localização</th>
-                            <th>Estado</th>
-                            <th>Criticidade</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
+            <?php if (!empty($erro)) : ?>
+                <p class="sem-resultados" style="display: block;">
+                    <?= htmlspecialchars($erro) ?>
+                </p>
+            <?php elseif (count($resultados) == 0) : ?>
+                <p class="sem-resultados" style="display: block;">
+                    Não existem equipamentos registados.
+                </p>
+            <?php else : ?>
 
-                    <tbody>
-                        <tr data-estado="ativo" data-categoria="monitorizacao" data-criticidade="suporte">
-                            <td>EQ001</td>
-                            <td>Monitor Multiparamétrico</td>
-                            <td>Philips IntelliVue MP5</td>
-                            <td>MP5-2022-45873</td>
-                            <td>Monitorização</td>
-                            <td>UCI</td>
-                            <td><span class="estado ativo">Ativo</span></td>
-                            <td><span class="estado suporte">Suporte de vida</span></td>
-                            <td class="acoes-tabela">
-                                <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
-                                    <i class="bi bi-eye"></i>
-                                </a>
+                <div class="table-responsive">
+                    <table class="tabela-backend" id="tabelaEquipamentos">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Equipamento</th>
+                                <th>Marca / Modelo</th>
+                                <th>N.º Série</th>
+                                <th>Categoria</th>
+                                <th>Localização</th>
+                                <th>Estado</th>
+                                <th>Criticidade</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
 
-                                <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
+                        <tbody>
+                            <?php foreach ($resultados as $equipamento) : ?>
+                                <tr
+                                    data-estado="<?= classe_filtro($equipamento->estado) ?>"
+                                    data-categoria="<?= classe_filtro($equipamento->categoria) ?>"
+                                    data-criticidade="<?= classe_filtro($equipamento->criticidade) ?>">
+                                    <td><?= htmlspecialchars($equipamento->codigo) ?></td>
+                                    <td><?= htmlspecialchars($equipamento->designacao) ?></td>
+                                    <td>
+                                        <?= htmlspecialchars($equipamento->marca) ?>
+                                        <?= htmlspecialchars($equipamento->modelo) ?>
+                                    </td>
+                                    <td><?= htmlspecialchars($equipamento->numero_serie) ?></td>
+                                    <td><?= htmlspecialchars($equipamento->categoria) ?></td>
+                                    <td><?= htmlspecialchars($equipamento->localizacao) ?></td>
+                                    <td>
+                                        <span class="estado <?= classe_filtro($equipamento->estado) ?>">
+                                            <?= htmlspecialchars($equipamento->estado) ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="estado <?= classe_filtro($equipamento->criticidade) ?>">
+                                            <?= htmlspecialchars($equipamento->criticidade) ?>
+                                        </span>
+                                    </td>
+                                    <td class="acoes-tabela">
+                                        <a href="detalhes.php?id=<?= $equipamento->id ?>" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
 
-                                <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                                        <a href="editar.php?id=<?= $equipamento->id ?>" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
 
-                        <tr data-estado="manutencao" data-categoria="suporte" data-criticidade="suporte">
-                            <td>EQ002</td>
-                            <td>Ventilador Pulmonar</td>
-                            <td>Dräger Evita V500</td>
-                            <td>EV500-2021-9934</td>
-                            <td>Suporte de vida</td>
-                            <td>Bloco Operatório</td>
-                            <td><span class="estado manutencao">Em manutenção</span></td>
-                            <td><span class="estado suporte">Suporte de vida</span></td>
-                            <td class="acoes-tabela">
-                                <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
-                                    <i class="bi bi-eye"></i>
-                                </a>
+                                        <a href="remover.php?id=<?= $equipamento->id ?>" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
 
-                                <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-
-                                <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-                        <tr data-estado="ativo" data-categoria="terapia" data-criticidade="media">
-                            <td>EQ003</td>
-                            <td>Bomba de Infusão</td>
-                            <td>B. Braun Infusomat Space</td>
-                            <td>INF-2020-88321</td>
-                            <td>Terapia</td>
-                            <td>Medicina Interna</td>
-                            <td><span class="estado ativo">Ativo</span></td>
-                            <td><span class="estado media">Média</span></td>
-                            <td class="acoes-tabela">
-                                <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-
-                                <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-
-                                <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-                        <tr data-estado="ativo" data-categoria="suporte" data-criticidade="alta">
-                            <td>EQ004</td>
-                            <td>Desfibrilhador</td>
-                            <td>Zoll R Series</td>
-                            <td>ZR-2021-7712</td>
-                            <td>Suporte de vida</td>
-                            <td>Urgência</td>
-                            <td><span class="estado ativo">Ativo</span></td>
-                            <td><span class="estado alta">Alta</span></td>
-                            <td class="acoes-tabela">
-                                <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-
-                                <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-
-                                <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-                        <tr data-estado="calibracao" data-categoria="diagnostico" data-criticidade="alta">
-                            <td>EQ005</td>
-                            <td>Ecógrafo Portátil</td>
-                            <td>GE Vscan Air</td>
-                            <td>VSC-2023-55421</td>
-                            <td>Diagnóstico</td>
-                            <td>Imagiologia</td>
-                            <td><span class="estado calibracao">Em calibração</span></td>
-                            <td><span class="estado alta">Alta</span></td>
-                            <td class="acoes-tabela">
-                                <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-
-                                <a href="editar.php" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-
-                                <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <p class="mt-3">
+                Total de equipamentos:
+                <strong><?= count($resultados) ?></strong>
+            </p>
 
             <p id="semResultados" class="sem-resultados">
                 Não foram encontrados equipamentos com os filtros selecionados.
