@@ -115,6 +115,41 @@ $ligacao = null;
                     Novo equipamento
                 </a>
             </div>
+            <div class="filtros-backend">
+                <div>
+                    <label for="filtroEstado">Estado</label>
+                    <select id="filtroEstado">
+                        <option value="">Todos</option>
+                        <option value="Ativo">Ativo</option>
+                        <option value="Em manutenção">Em manutenção</option>
+                        <option value="Inativo">Inativo</option>
+                        <option value="Em calibração">Em calibração</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="filtroCategoria">Categoria</label>
+                    <select id="filtroCategoria">
+                        <option value="">Todas</option>
+                        <option value="Monitorização">Monitorização</option>
+                        <option value="Suporte de vida">Suporte de vida</option>
+                        <option value="Terapia">Terapia</option>
+                        <option value="Diagnóstico">Diagnóstico</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="filtroCriticidade">Criticidade</label>
+                    <select id="filtroCriticidade">
+                        <option value="">Todas</option>
+                        <option value="Baixa">Baixa</option>
+                        <option value="Média">Média</option>
+                        <option value="Alta">Alta</option>
+                        <option value="Suporte de vida">Suporte de vida</option>
+                    </select>
+                </div>
+                <div id="filtroDataTablesEquipamentos" class="filtro-datatables-backend"></div>
+            </div>
 
             <?php if (!empty($erro)) : ?>
                 <p class="sem-resultados" style="display: block;">
@@ -201,14 +236,14 @@ $ligacao = null;
 
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         const tabela = document.querySelector("#tabelaEquipamentos");
 
         if (!tabela || typeof DataTable === "undefined") {
             return;
         }
 
-        new DataTable(tabela, {
+        const tabelaEquipamentos = new DataTable(tabela, {
             pageLength: 5,
             pagingType: "full_numbers",
             language: {
@@ -234,6 +269,34 @@ $ligacao = null;
                 }
             }
         });
+
+        const filtroEstado = document.querySelector("#filtroEstado");
+        const filtroCategoria = document.querySelector("#filtroCategoria");
+        const filtroCriticidade = document.querySelector("#filtroCriticidade");
+        const filtroDataTables = document.querySelector("#filtroDataTablesEquipamentos");
+        const pesquisaDataTables = document.querySelector("#tabelaEquipamentos_wrapper .dt-search, #tabelaEquipamentos_wrapper .dataTables_filter");
+
+        if (filtroDataTables && pesquisaDataTables) {
+            filtroDataTables.appendChild(pesquisaDataTables);
+        }
+
+        function aplicarFiltrosEquipamentos() {
+            tabelaEquipamentos.column(6).search(filtroEstado.value);
+            tabelaEquipamentos.column(4).search(filtroCategoria.value);
+            tabelaEquipamentos.column(7).search(filtroCriticidade.value);
+            tabelaEquipamentos.draw();
+        }
+
+        function aplicarFiltrosEquipamentos() {
+            tabelaEquipamentos.column(6).search(filtroEstado.value);
+            tabelaEquipamentos.column(4).search(filtroCategoria.value);
+            tabelaEquipamentos.column(7).search(filtroCriticidade.value);
+            tabelaEquipamentos.draw();
+        }
+
+        filtroEstado.addEventListener("change", aplicarFiltrosEquipamentos);
+        filtroCategoria.addEventListener("change", aplicarFiltrosEquipamentos);
+        filtroCriticidade.addEventListener("change", aplicarFiltrosEquipamentos);
     });
 </script>
 

@@ -1,91 +1,177 @@
 <?php
 $pagina_atual = 'contratos';
 include '../includes/header.php';
+
+function h($valor)
+{
+    return htmlspecialchars((string) ($valor ?? ''), ENT_QUOTES, 'UTF-8');
+}
+
+function data_contrato_pt($data)
+{
+    if (empty($data)) {
+        return 'Não aplicável';
+    }
+
+    return date('d/m/Y', strtotime($data));
+}
+
+function classe_estado_contrato($texto)
+{
+    $classes = [
+        'Ativo' => 'ativo',
+        'Ativa' => 'ativo',
+        'A terminar' => 'pendente',
+        'Pendente' => 'pendente',
+        'Expirado' => 'expirado',
+        'Expirada' => 'expirado'
+    ];
+
+    return $classes[$texto] ?? '';
+}
+
+$erro = '';
+$resultados = [];
+
+$ligacao = ligar_bd();
+
+if (!$ligacao) {
+    $erro = 'Aconteceu um erro na ligação à base de dados.';
+} else {
+    try {
+        $sql = "
+            SELECT
+                c.id,
+                c.codigo,
+                c.data_inicio,
+                c.data_fim,
+                c.periodicidade,
+                e.designacao AS equipamento,
+                f.nome AS fornecedor,
+                tc.nome AS tipo_contrato,
+                ec.nome AS estado_contrato
+            FROM contratos c
+            INNER JOIN equipamentos e
+                ON c.equipamento_id = e.id
+            INNER JOIN fornecedores f
+                ON c.fornecedor_id = f.id
+            INNER JOIN tipos_contrato tc
+                ON c.tipo_contrato_id = tc.id
+            INNER JOIN estados_contrato ec
+                ON c.estado_contrato_id = ec.id
+            ORDER BY c.codigo
+        ";
+
+        $resultados = $ligacao->query($sql)->fetchAll();
+    } catch (PDOException $erroBD) {
+        $erro = 'Aconteceu um erro ao consultar os contratos.';
+        $resultados = [];
+    }
+}
+
+$ligacao = null;
+
+$tiposContrato = [];
+$estadosContrato = [];
+$equipamentosContrato = [];
+
+foreach ($resultados as $contrato) {
+    $tiposContrato[$contrato->tipo_contrato] = $contrato->tipo_contrato;
+    $estadosContrato[$contrato->estado_contrato] = $contrato->estado_contrato;
+    $equipamentosContrato[$contrato->equipamento] = $contrato->equipamento;
+}
+
+sort($tiposContrato);
+sort($estadosContrato);
+sort($equipamentosContrato);
 ?>
 
 <div class="backend-layout">
 
     <?php include '../includes/sidebar.php'; ?>
 
-<main class="backend-content">
+    <main class="backend-content">
 
-            <div class="backend-topbar">
-                <div>
-                    <h1>Contratos</h1>
-                    <p>Gestão de garantias e contratos associados aos equipamentos médicos.</p>
-                </div>
-
-                <div class="dropdown">
-                    <button class="backend-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle"></i>
-                        <span>Administrador</span>
-                    </button>
-                
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/index.php">
-                                <i class="bi bi-box-arrow-up-right"></i>
-                                Sair para o site público
-                            </a>
-                        </li>
-                
-                        <li>
-                            <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/logout.php">
-                                <i class="bi bi-box-arrow-right"></i>
-                                Terminar sessão
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+        <div class="backend-topbar">
+            <div>
+                <h1>Contratos</h1>
+                <p>Gestão de garantias e contratos associados aos equipamentos médicos.</p>
             </div>
 
-            <section class="backend-box">
-                <div class="backend-section-header">
-                    <div>
-                        <h2>Listagem de Contratos e Garantias</h2>
-                        <p>Consulta e gestão de garantias e contratos associados aos equipamentos médicos.</p>
-                    </div>
+            <div class="dropdown">
+                <button class="backend-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Administrador</span>
+                </button>
 
-                    
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/index.php">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                            Sair para o site público
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/logout.php">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Terminar sessão
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="backend-box">
+            <div class="backend-section-header">
+                <div>
+                    <h2>Listagem de Contratos e Garantias</h2>
+                    <p>Consulta e gestão de garantias e contratos associados aos equipamentos médicos.</p>
+                </div>
+            </div>
+            <div class="filtros-backend">
+                <div>
+                    <label for="filtroTipoContrato">Tipo de contrato</label>
+                    <select id="filtroTipoContrato">
+                        <option value="">Todos</option>
+                        <?php foreach ($tiposContrato as $tipo) : ?>
+                            <option value="<?= h($tipo) ?>"><?= h($tipo) ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
 
-                <div class="filtros-backend">
-                    <div>
-                        <label for="pesquisaContrato">Pesquisar</label>
-                        <input type="text" id="pesquisaContrato" placeholder="Equipamento, fornecedor ou contrato">
-                    </div>
-
-                    <div>
-                        <label for="filtroTipoContrato">Tipo</label>
-                        <select id="filtroTipoContrato">
-                            <option value="">Todos</option>
-                            <option value="garantia">Garantia</option>
-                            <option value="manutencao">Manutenção preventiva</option>
-                            <option value="assistencia">Assistência técnica</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="filtroEstadoContrato">Estado</label>
-                        <select id="filtroEstadoContrato">
-                            <option value="">Todos</option>
-                            <option value="ativo">Ativo</option>
-                            <option value="pendente">A terminar</option>
-                            <option value="expirado">Expirado</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="filtroEquipamentoContrato">Equipamento</label>
-                        <select id="filtroEquipamentoContrato">
-                            <option value="">Todos</option>
-                            <option value="monitor">Monitor Multiparamétrico</option>
-                            <option value="ventilador">Ventilador Pulmonar</option>
-                            <option value="bomba">Bomba de Infusão</option>
-                            <option value="desfibrilhador">Desfibrilhador</option>
-                        </select>
-                    </div>
+                <div>
+                    <label for="filtroEstadoContrato">Estado</label>
+                    <select id="filtroEstadoContrato">
+                        <option value="">Todos</option>
+                        <?php foreach ($estadosContrato as $estado) : ?>
+                            <option value="<?= h($estado) ?>"><?= h($estado) ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
+
+                <div>
+                    <label for="filtroEquipamentoContrato">Equipamento</label>
+                    <select id="filtroEquipamentoContrato">
+                        <option value="">Todos</option>
+                        <?php foreach ($equipamentosContrato as $equipamento) : ?>
+                            <option value="<?= h($equipamento) ?>"><?= h($equipamento) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div id="filtroDataTablesContratos" class="filtro-datatables-backend"></div>
+            </div>
+
+            <?php if (!empty($erro)) : ?>
+                <p class="sem-resultados" style="display: block;">
+                    <?= h($erro) ?>
+                </p>
+            <?php elseif (count($resultados) == 0) : ?>
+                <p class="sem-resultados" style="display: block;">
+                    Não existem contratos registados.
+                </p>
+            <?php else : ?>
 
                 <div class="table-responsive">
                     <table class="tabela-backend" id="tabelaContratos">
@@ -95,8 +181,8 @@ include '../includes/header.php';
                                 <th>Equipamento</th>
                                 <th>Fornecedor</th>
                                 <th>Tipo</th>
-                                <th>Data de Início</th>
-                                <th>Data de Fim</th>
+                                <th>Data de início</th>
+                                <th>Data de fim</th>
                                 <th>Periodicidade</th>
                                 <th>Estado</th>
                                 <th>Ações</th>
@@ -104,104 +190,104 @@ include '../includes/header.php';
                         </thead>
 
                         <tbody>
-                            <tr data-tipo="manutencao" data-estado="ativo" data-equipamento="monitor">
-                                <td>C001</td>
-                                <td>Monitor Multiparamétrico</td>
-                                <td>MedTech Portugal</td>
-                                <td>Manutenção preventiva</td>
-                                <td>01/01/2025</td>
-                                <td>31/12/2025</td>
-                                <td>Anual</td>
-                                <td><span class="estado ativo">Ativo</span></td>
-                                <td class="acoes-tabela">
-                                    <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                
-                                    
-                                
-                                    <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                            <?php foreach ($resultados as $contrato) : ?>
+                                <tr>
+                                    <td><?= h($contrato->codigo) ?></td>
+                                    <td><?= h($contrato->equipamento) ?></td>
+                                    <td><?= h($contrato->fornecedor) ?></td>
+                                    <td><?= h($contrato->tipo_contrato) ?></td>
+                                    <td><?= data_contrato_pt($contrato->data_inicio) ?></td>
+                                    <td><?= data_contrato_pt($contrato->data_fim) ?></td>
+                                    <td><?= !empty($contrato->periodicidade) ? h($contrato->periodicidade) : 'Não aplicável' ?></td>
+                                    <td>
+                                        <span class="estado <?= classe_estado_contrato($contrato->estado_contrato) ?>">
+                                            <?= h($contrato->estado_contrato) ?>
+                                        </span>
+                                    </td>
+                                    <td class="acoes-tabela">
+                                        <a href="detalhes.php?id=<?= $contrato->id ?>" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
 
-                            <tr data-tipo="assistencia" data-estado="pendente" data-equipamento="ventilador">
-                                <td>C002</td>
-                                <td>Ventilador Pulmonar</td>
-                                <td>BioSupport Systems</td>
-                                <td>Assistência técnica</td>
-                                <td>15/03/2024</td>
-                                <td>15/03/2025</td>
-                                <td>Semestral</td>
-                                <td><span class="estado pendente">A terminar</span></td>
-                            <td class="acoes-tabela">
-                                <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            
-                                
-                            
-                                <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                            </tr>
-
-                            <tr data-tipo="garantia" data-estado="expirado" data-equipamento="bomba">
-                                <td>C003</td>
-                                <td>Bomba de Infusão</td>
-                                <td>InfuCare Medical</td>
-                                <td>Garantia</td>
-                                <td>10/02/2023</td>
-                                <td>10/02/2025</td>
-                                <td>Não aplicável</td>
-                                <td><span class="estado expirado">Expirado</span></td>
-                            <td class="acoes-tabela">
-                                <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            
-                              
-                            
-                                <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                            </tr>
-
-                            <tr data-tipo="garantia" data-estado="ativo" data-equipamento="desfibrilhador">
-                                <td>C004</td>
-                                <td>Desfibrilhador</td>
-                                <td>MedTech Portugal</td>
-                                <td>Garantia</td>
-                                <td>20/03/2024</td>
-                                <td>20/03/2026</td>
-                                <td>Não aplicável</td>
-                                <td><span class="estado ativo">Ativo</span></td>
-                            <td class="acoes-tabela">
-                                <a href="detalhes.php" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            
-                               
-                            
-                                <a href="remover.php" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                            </tr>
+                                        <a href="remover.php?id=<?= $contrato->id ?>" data-bs-toggle="tooltip" data-bs-title="Remover contrato">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
 
-                <p id="semResultadosContratos" class="sem-resultados">
-                    Não foram encontrados contratos com os filtros selecionados.
-                </p>
-            </section>
+            <?php endif; ?>
 
-        </main>
+            <p class="mt-3">
+                Total de contratos:
+                <strong><?= count($resultados) ?></strong>
+            </p>
+        </section>
+
+    </main>
 
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tabela = document.querySelector("#tabelaContratos");
+
+        if (!tabela || typeof DataTable === "undefined") {
+            return;
+        }
+
+        const tabelaContratos = new DataTable(tabela, {
+            pageLength: 5,
+            pagingType: "full_numbers",
+            language: {
+                decimal: "",
+                emptyTable: "Sem dados disponíveis na tabela.",
+                info: "Mostrando _START_ até _END_ de _TOTAL_ registos",
+                infoEmpty: "Mostrando 0 até 0 de 0 registos",
+                infoFiltered: "(filtrado de _MAX_ registos no total)",
+                lengthMenu: "Mostrar _MENU_ registos por página",
+                loadingRecords: "A carregar...",
+                processing: "A processar...",
+                search: "Filtrar:",
+                zeroRecords: "Nenhum registo encontrado.",
+                paginate: {
+                    first: "Primeira",
+                    last: "Última",
+                    next: "Seguinte",
+                    previous: "Anterior"
+                },
+                aria: {
+                    sortAscending: ": ativar para ordenar a coluna de forma crescente",
+                    sortDescending: ": ativar para ordenar a coluna de forma decrescente"
+                }
+            }
+        });
+
+        const filtroTipo = document.querySelector("#filtroTipoContrato");
+        const filtroEstado = document.querySelector("#filtroEstadoContrato");
+        const filtroEquipamento = document.querySelector("#filtroEquipamentoContrato");
+
+        const filtroDataTables = document.querySelector("#filtroDataTablesContratos");
+        const pesquisaDataTables = document.querySelector("#tabelaContratos_wrapper .dt-search, #tabelaContratos_wrapper .dataTables_filter");
+
+        if (filtroDataTables && pesquisaDataTables) {
+            filtroDataTables.appendChild(pesquisaDataTables);
+        }
+
+        function aplicarFiltrosContratos() {
+            tabelaContratos.column(3).search(filtroTipo.value);
+            tabelaContratos.column(1).search(filtroEquipamento.value);
+            tabelaContratos.column(7).search(filtroEstado.value);
+            tabelaContratos.draw();
+        }
+
+        filtroTipo.addEventListener("change", aplicarFiltrosContratos);
+        filtroEquipamento.addEventListener("change", aplicarFiltrosContratos);
+        filtroEstado.addEventListener("change", aplicarFiltrosContratos);
+    });
+</script>
 
 <?php include '../includes/footer.php'; ?>
