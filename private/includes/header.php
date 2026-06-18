@@ -15,6 +15,15 @@ redirect_if_not_logged();
     <link href="<?php echo BASE_URL; ?>/assets/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/bootstrap/bootstrap-icons.min.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/1240661.css">
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/datatables/datatables.min.css">
+
+<!-- jQuery -->
+<script src="<?php echo BASE_URL; ?>/assets/jquery/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="<?php echo BASE_URL; ?>/assets/datatables/datatables.min.js"></script>
 </head>
 
 <body class="backend-body">

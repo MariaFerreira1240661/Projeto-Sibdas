@@ -116,46 +116,6 @@ $ligacao = null;
                 </a>
             </div>
 
-            <div class="filtros-backend">
-                <div>
-                    <label for="pesquisaEquipamento">Pesquisar</label>
-                    <input type="text" id="pesquisaEquipamento" placeholder="Código, nome, marca ou modelo">
-                </div>
-
-                <div>
-                    <label for="filtroEstado">Estado</label>
-                    <select id="filtroEstado">
-                        <option value="">Todos</option>
-                        <option value="ativo">Ativo</option>
-                        <option value="manutencao">Em manutenção</option>
-                        <option value="inativo">Inativo</option>
-                        <option value="calibracao">Em calibração</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="filtroCategoria">Categoria</label>
-                    <select id="filtroCategoria">
-                        <option value="">Todas</option>
-                        <option value="monitorizacao">Monitorização</option>
-                        <option value="suporte">Suporte de vida</option>
-                        <option value="terapia">Terapia</option>
-                        <option value="diagnostico">Diagnóstico</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="filtroCriticidade">Criticidade</label>
-                    <select id="filtroCriticidade">
-                        <option value="">Todas</option>
-                        <option value="baixa">Baixa</option>
-                        <option value="media">Média</option>
-                        <option value="alta">Alta</option>
-                        <option value="suporte">Suporte de vida</option>
-                    </select>
-                </div>
-            </div>
-
             <?php if (!empty($erro)) : ?>
                 <p class="sem-resultados" style="display: block;">
                     <?= htmlspecialchars($erro) ?>
@@ -240,5 +200,41 @@ $ligacao = null;
     </main>
 
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tabela = document.querySelector("#tabelaEquipamentos");
+
+        if (!tabela || typeof DataTable === "undefined") {
+            return;
+        }
+
+        new DataTable(tabela, {
+            pageLength: 5,
+            pagingType: "full_numbers",
+            language: {
+                decimal: "",
+                emptyTable: "Sem dados disponíveis na tabela.",
+                info: "Mostrando _START_ até _END_ de _TOTAL_ registos",
+                infoEmpty: "Mostrando 0 até 0 de 0 registos",
+                infoFiltered: "(filtrado de _MAX_ registos no total)",
+                lengthMenu: "Mostrar _MENU_ registos por página",
+                loadingRecords: "A carregar...",
+                processing: "A processar...",
+                search: "Filtrar:",
+                zeroRecords: "Nenhum registo encontrado.",
+                paginate: {
+                    first: "Primeira",
+                    last: "Última",
+                    next: "Seguinte",
+                    previous: "Anterior"
+                },
+                aria: {
+                    sortAscending: ": ativar para ordenar a coluna de forma crescente",
+                    sortDescending: ": ativar para ordenar a coluna de forma decrescente"
+                }
+            }
+        });
+    });
+</script>
 
 <?php include '../includes/footer.php'; ?>
