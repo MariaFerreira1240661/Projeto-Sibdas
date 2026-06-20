@@ -109,7 +109,8 @@ const mensagensValidacao = {
     website: "Insira um website válido, por exemplo www.empresa.pt.",
     letras: "Este campo deve conter apenas letras.",
     piso: "O piso deve conter apenas números.",
-    contacto: "O contacto interno deve conter apenas números."
+    contacto: "O contacto interno deve conter apenas números.",
+    numeroPisos: "O número de pisos deve conter apenas números."
     ,
     pdf: "O ficheiro/documento associado deve terminar em .pdf.",
     positivo: "O valor associado deve ser superior a 0."
@@ -414,7 +415,7 @@ const validacoesFormulario = {
             { id: "editNifFornecedor", regra: "nif", obrigatorio: true, msg: mensagensValidacao.nif },
             { id: "editTelefoneFornecedor", regra: "telefone", obrigatorio: true, msg: mensagensValidacao.telefone },
             { id: "editEmailFornecedor", regra: "email", obrigatorio: true, msg: mensagensValidacao.email },
-            { id: "editWebsiteFornecedor", regra: "website", obrigatorio: false, msg: mensagensValidacao.website },
+            { id: "editWebsiteFornecedor", regra: "website", obrigatorio: true, msg: mensagensValidacao.website },
             { id: "editPessoaContactoFornecedor", regra: "letras", obrigatorio: true, msg: "A pessoa de contacto deve conter apenas letras." },
             { id: "editTelefoneContactoFornecedor", regra: "telefone", obrigatorio: false, msg: "O telefone da pessoa de contacto deve conter apenas números, espaços ou o sinal +, e ter entre 9 e 15 números." }
         ]
@@ -435,12 +436,12 @@ const validacoesFormulario = {
 
     localizacaoEditar: {
     filtros: [
-        { id: "editPisoLocalizacao", tipo: "numeros" },
+        { id: "editNumeroPisosLocalizacao", tipo: "numeros" },
         { id: "editResponsavelLocalizacao", tipo: "letras" },
         { id: "editContactoInternoLocalizacao", tipo: "numeros" }
     ],
     campos: [
-        { id: "editPisoLocalizacao", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.piso },
+        { id: "editNumeroPisosLocalizacao", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.numeroPisos },
         { id: "editResponsavelLocalizacao", regra: "letras", obrigatorio: true, msg: "O responsável da localização deve conter apenas letras." },
         { id: "editContactoInternoLocalizacao", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.contacto }
     ]
@@ -550,30 +551,16 @@ function iniciarFormulario(config) {
 
 [
     {
-        form: "formFornecedor",
-        mensagem: "mensagemFornecedor",
-        obrigatorios: ["codigoFornecedor", "nomeFornecedor", "nifFornecedor", "tipoFornecedor", "telefoneFornecedor", "emailFornecedor",  "pessoaContactoFornecedor"],
-        sucesso: "Fornecedor registado com sucesso. ",
-        validacao: validacoesFormulario.fornecedorNovo
-    },
-    {
         form: "formEditarFornecedor",
         mensagem: "mensagemEditarFornecedor",
-        obrigatorios: ["editCodigoFornecedor", "editNomeFornecedor", "editNifFornecedor", "editTipoFornecedor", "editTelefoneFornecedor", "editEmailFornecedor",  "editPessoaContactoFornecedor"],
+        obrigatorios: ["editCodigoFornecedor", "editNomeFornecedor", "editNifFornecedor", "editTelefoneFornecedor", "editEmailFornecedor", "editWebsiteFornecedor"],
         sucesso: "Alterações guardadas com sucesso. ",
         validacao: validacoesFormulario.fornecedorEditar
     },
     {
-        form: "formLocalizacao",
-        mensagem: "mensagemLocalizacao",
-        obrigatorios: ["codigoLocalizacao", "edificioLocalizacao", "pisoLocalizacao", "servicoLocalizacao", "salaLocalizacao", "estadoLocalizacao", "responsavelLocalizacao","contactoInternoLocalizacao"],
-        sucesso: "Localização registada com sucesso. ",
-        validacao: validacoesFormulario.localizacaoNova
-    },
-    {
         form: "formEditarLocalizacao",
         mensagem: "mensagemEditarLocalizacao",
-        obrigatorios: ["editCodigoLocalizacao", "editEdificioLocalizacao", "editPisoLocalizacao", "editServicoLocalizacao", "editSalaLocalizacao", "editEstadoLocalizacao", "editResponsavelLocalizacao", "editContactoInternoLocalizacao"],
+        obrigatorios: ["editCodigoLocalizacao", "editEdificioLocalizacao", "editNumeroPisosLocalizacao", "editEstadoLocalizacao", "editResponsavelLocalizacao", "editContactoInternoLocalizacao"],
         sucesso: "Alterações guardadas com sucesso. ",
         validacao: validacoesFormulario.localizacaoEditar
     }
@@ -586,27 +573,12 @@ function iniciarFormulario(config) {
         validacao: validacoesFormulario.documentoNovo
     },
     {
-        form: "formEditarDocumento",
-        mensagem: "mensagemEditarDocumento",
-        obrigatorios: ["editCodigoDocumento", "editNomeDocumento", "editTipoDocumento", "editEquipamentoDocumento", "editDataDocumento", "editEstadoDocumento", "editFicheiroDocumento"],
-        sucesso: "Alterações guardadas com sucesso.",
-        validacao: validacoesFormulario.documentoEditar
-    },
-    {
         form: "formContrato",
         mensagem: "mensagemContrato",
         obrigatorios: ["codigoContrato", "equipamentoContrato", "fornecedorContrato", "tipoContrato", "dataInicioContrato", "dataFimContrato", "estadoContrato"],
         sucesso: "Contrato registado com sucesso.",
         validacao: validacoesFormulario.contratoNovo,
         datas: { inicio: "dataInicioContrato", fim: "dataFimContrato" }
-    },
-    {
-        form: "formEditarContrato",
-        mensagem: "mensagemEditarContrato",
-        obrigatorios: ["editCodigoContrato", "editEquipamentoContrato", "editFornecedorContrato", "editTipoContrato", "editDataInicioContrato", "editDataFimContrato", "editEstadoContrato"],
-        sucesso: "Alterações guardadas com sucesso.",
-        validacao: validacoesFormulario.contratoEditar,
-        datas: { inicio: "editDataInicioContrato", fim: "editDataFimContrato" }
     }
 ].forEach(iniciarFormulario);
 
@@ -645,38 +617,28 @@ function iniciarRemocao(config) {
 
 const validacoesEquipamentoEditar = {
     localizacao: [
-        { id: "editPisoEquipamento", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.piso },
-        { id: "editResponsavelLocalizacaoEquipamento", regra: "letras", obrigatorio: true, msg: "O responsável da localização deve conter apenas letras." },
-        { id: "editContactoLocalizacaoEquipamento", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.contacto }
+        { id: "editPisoEquipamento", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.piso }
     ],
     fornecedor: [
-    { id: "contactoFornecedorEquipamento", regra: "letras", obrigatorio: true, msg: "A pessoa de contacto deve conter apenas letras." },
-    { id: "telefoneFornecedorEquipamento", regra: "telefone", obrigatorio: true, msg: mensagensValidacao.telefone },
-    { id: "telefoneContactoFornecedorEquipamento", regra: "telefone", obrigatorio: true, msg: mensagensValidacao.telefone },
-    { id: "emailFornecedorEquipamento", regra: "email", obrigatorio: true, msg: mensagensValidacao.email },
-    { id: "nifFornecedorEquipamento", regra: "nif", obrigatorio: true, msg: mensagensValidacao.nif },
-    { id: "websiteFornecedorEquipamento", regra: "website", obrigatorio: true, msg: mensagensValidacao.website },
-    { id: "moradaFornecedorEquipamento", obrigatorio: true, msgObrigatorio: "A morada do fornecedor é obrigatória." }
-]
+        { id: "editContactoFornecedorEquipamento", regra: "letras", obrigatorio: true, msg: "A pessoa de contacto deve conter apenas letras." },
+        { id: "editTelefoneContactoFornecedorEquipamento", regra: "telefone", obrigatorio: true, msg: mensagensValidacao.telefone },
+        { id: "editEmailContactoFornecedorEquipamento", regra: "email", obrigatorio: true, msg: mensagensValidacao.email }
+    ]
 };
 
 aplicarFiltros([
+    { id: "editPisoEquipamento", tipo: "numeros" },
     { id: "pisoEquipamento", tipo: "numeros" },
-    { id: "responsavelLocalizacaoEquipamento", tipo: "letras" },
-    { id: "contactoLocalizacaoEquipamento", tipo: "numeros" },
+    { id: "editContactoFornecedorEquipamento", tipo: "letras" },
+    { id: "editTelefoneContactoFornecedorEquipamento", tipo: "telefone" },
 
     { id: "contactoFornecedorEquipamento", tipo: "letras" },
-    { id: "telefoneFornecedorEquipamento", tipo: "telefone" },
     { id: "telefoneContactoFornecedorEquipamento", tipo: "telefone" },
-    { id: "nifFornecedorEquipamento", tipo: "numeros" },
 
     { id: "contactoFornecedorEquipamento2", tipo: "letras" },
-    { id: "telefoneFornecedorEquipamento2", tipo: "telefone" },
     { id: "telefoneContactoFornecedorEquipamento2", tipo: "telefone" },
-    { id: "nifFornecedorEquipamento2", tipo: "numeros" },
 
     { id: "contactoFornecedorEquipamento3", tipo: "letras" },
-    { id: "telefoneFornecedorEquipamento3", tipo: "telefone" },
     { id: "telefoneContactoFornecedorEquipamento3", tipo: "telefone" },
     { id: "nifFornecedorEquipamento3", tipo: "numeros" }
 ]);
@@ -690,13 +652,13 @@ const etapasEditarEquipamento = [
     { 
         tab: "edit-localizacao-tab",
         erro: "Preencha todos os campos obrigatórios da Localização.",
-        campos: ["editLocalizacao", "editEdificioEquipamento", "editPisoEquipamento", "editSalaEquipamento", "editResponsavelLocalizacaoEquipamento", "editContactoLocalizacaoEquipamento", "editEstadoLocalizacaoEquipamento"],
+        campos: ["editLocalizacaoGeralEquipamento", "editPisoEquipamento", "editServicoEquipamento", "editSalaEquipamento"],
         validacao: validacoesEquipamentoEditar.localizacao
     },
     {
         tab: "edit-fornecedor-tab",
         erro: "Preencha todos os campos obrigatórios do Fornecedor.",
-        campos: ["editFornecedorEquipamento", "editTipoFornecedorEquipamento", "editContactoFornecedorEquipamento", "editTelefoneFornecedorEquipamento", "editEmailFornecedorEquipamento", "editNifFornecedorEquipamento"],
+        campos: ["editFornecedorEquipamento", "editTipoFornecedorEquipamento", "editContactoFornecedorEquipamento", "editTelefoneContactoFornecedorEquipamento", "editEmailContactoFornecedorEquipamento"],
         validacao: validacoesEquipamentoEditar.fornecedor
     },
     {

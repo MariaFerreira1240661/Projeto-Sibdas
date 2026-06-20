@@ -41,7 +41,16 @@ if (!$ligacao) {
                 e.modelo,
                 e.numero_serie,
                 ce.nome AS categoria,
-                l.servico AS localizacao,
+                CONCAT(
+                    l.codigo,
+                    ' - ',
+                    l.edificio,
+                    CASE
+                        WHEN e.localizacao_servico IS NOT NULL AND e.localizacao_servico <> ''
+                            THEN CONCAT(' / ', e.localizacao_servico)
+                        ELSE ''
+                    END
+                ) AS localizacao,
                 ee.nome AS estado,
                 c.nome AS criticidade
             FROM equipamentos e

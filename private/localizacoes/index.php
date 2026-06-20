@@ -2,6 +2,11 @@
 $pagina_atual = 'localizacoes';
 include '../includes/header.php';
 
+function h($valor)
+{
+    return htmlspecialchars((string) ($valor ?? ''), ENT_QUOTES, 'UTF-8');
+}
+
 function classe_estado_localizacao($texto)
 {
     $classes = [
@@ -28,9 +33,9 @@ if (!$ligacao) {
                 l.id,
                 l.codigo,
                 l.edificio,
-                l.piso,
-                l.servico,
-                l.sala,
+                COALESCE(l.numero_pisos, l.piso) AS numero_pisos,
+                l.responsavel,
+                l.contacto_interno,
                 el.nome AS estado,
                 COUNT(e.id) AS total_equipamentos
             FROM localizacoes l
@@ -43,16 +48,17 @@ if (!$ligacao) {
                 l.id,
                 l.codigo,
                 l.edificio,
+                l.numero_pisos,
                 l.piso,
-                l.servico,
-                l.sala,
+                l.responsavel,
+                l.contacto_interno,
                 el.nome
             ORDER BY l.codigo
         ";
 
         $resultados = $ligacao->query($sql)->fetchAll();
     } catch (PDOException $erroBD) {
-        $erro = 'Aconteceu um erro ao consultar as localizações.';
+        $erro = 'Aconteceu um erro ao consultar as localizações. Confirma se já executaste o SQL que adiciona a coluna numero_pisos.';
         $resultados = [];
     }
 }
@@ -69,7 +75,7 @@ $ligacao = null;
         <div class="backend-topbar">
             <div>
                 <h1>Localizações</h1>
-                <p>Gestão dos serviços, pisos e salas onde se encontram os equipamentos médicos.</p>
+                <p>Gestão das localizações gerais onde os equipamentos podem ser associados.</p>
             </div>
 
             <div class="dropdown">
@@ -99,8 +105,8 @@ $ligacao = null;
         <section class="backend-box">
             <div class="backend-section-header">
                 <div>
-                    <h2>Listagem de Localizações</h2>
-                    <p>Consulta e gestão das áreas hospitalares associadas aos equipamentos.</p>
+                    <h2>Listagem de Localizações Gerais</h2>
+                    <p>Consulta das localizações-base usadas depois no registo de equipamentos.</p>
                 </div>
 
                 <a href="novo.php" class="btn-backend">
@@ -108,26 +114,18 @@ $ligacao = null;
                     Nova localização
                 </a>
             </div>
+
             <div class="filtros-backend">
-                <div>
-                    <label for="filtroServicoLocalizacao">Serviço</label>
-                    <select id="filtroServicoLocalizacao">
-                        <option value="">Todos</option>
-                        <option value="UCI">UCI</option>
-                        <option value="Bloco Operatório">Bloco Operatório</option>
-                        <option value="Laboratório">Laboratório</option>
-                    </select>
-                </div>
                 <div>
                     <label for="filtroEdificioLocalizacao">Edifício</label>
                     <select id="filtroEdificioLocalizacao">
                         <option value="">Todos</option>
+                        <option value="Edifício Principal">Edifício Principal</option>
                         <option value="Edifício A">Edifício A</option>
                         <option value="Edifício B">Edifício B</option>
                         <option value="Edifício C">Edifício C</option>
                     </select>
                 </div>
-
 
                 <div>
                     <label for="filtroEstadoLocalizacao">Estado</label>
@@ -143,7 +141,7 @@ $ligacao = null;
 
             <?php if (!empty($erro)) : ?>
                 <p class="sem-resultados" style="display: block;">
-                    <?= htmlspecialchars($erro) ?>
+                    <?= h($erro) ?>
                 </p>
             <?php elseif (count($resultados) == 0) : ?>
                 <p class="sem-resultados" style="display: block;">
@@ -157,9 +155,9 @@ $ligacao = null;
                             <tr>
                                 <th>Código</th>
                                 <th>Edifício</th>
-                                <th>Piso</th>
-                                <th>Serviço</th>
-                                <th>Sala / Unidade</th>
+                                <th>N.º pisos</th>
+                                <th>Responsável</th>
+                                <th>Contacto</th>
                                 <th>Equipamentos</th>
                                 <th>Estado</th>
                                 <th>Ações</th>
@@ -169,15 +167,15 @@ $ligacao = null;
                         <tbody>
                             <?php foreach ($resultados as $localizacao) : ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($localizacao->codigo) ?></td>
-                                    <td><?= htmlspecialchars($localizacao->edificio) ?></td>
-                                    <td><?= htmlspecialchars($localizacao->piso) ?></td>
-                                    <td><?= htmlspecialchars($localizacao->servico) ?></td>
-                                    <td><?= htmlspecialchars($localizacao->sala) ?></td>
-                                    <td><?= htmlspecialchars($localizacao->total_equipamentos) ?></td>
+                                    <td><?= h($localizacao->codigo) ?></td>
+                                    <td><?= h($localizacao->edificio) ?></td>
+                                    <td><?= h($localizacao->numero_pisos) ?></td>
+                                    <td><?= h($localizacao->responsavel) ?></td>
+                                    <td><?= h($localizacao->contacto_interno) ?></td>
+                                    <td><?= h($localizacao->total_equipamentos) ?></td>
                                     <td>
                                         <span class="estado <?= classe_estado_localizacao($localizacao->estado) ?>">
-                                            <?= htmlspecialchars($localizacao->estado) ?>
+                                            <?= h($localizacao->estado) ?>
                                         </span>
                                     </td>
                                     <td class="acoes-tabela">
@@ -246,10 +244,8 @@ $ligacao = null;
             }
         });
 
-        const filtroServico = document.querySelector("#filtroServicoLocalizacao");
         const filtroEdificio = document.querySelector("#filtroEdificioLocalizacao");
         const filtroEstado = document.querySelector("#filtroEstadoLocalizacao");
-
 
         const filtroDataTables = document.querySelector("#filtroDataTablesLocalizacoes");
         const pesquisaDataTables = document.querySelector("#tabelaLocalizacoes_wrapper .dt-search, #tabelaLocalizacoes_wrapper .dataTables_filter");
@@ -259,13 +255,11 @@ $ligacao = null;
         }
 
         function aplicarFiltrosLocalizacoes() {
-            tabelaLocalizacoes.column(3).search(filtroServico.value);
             tabelaLocalizacoes.column(1).search(filtroEdificio.value);
             tabelaLocalizacoes.column(6).search(filtroEstado.value);
             tabelaLocalizacoes.draw();
         }
 
-        filtroServico.addEventListener("change", aplicarFiltrosLocalizacoes);
         filtroEdificio.addEventListener("change", aplicarFiltrosLocalizacoes);
         filtroEstado.addEventListener("change", aplicarFiltrosLocalizacoes);
     });

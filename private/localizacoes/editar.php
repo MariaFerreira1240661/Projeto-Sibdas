@@ -12,7 +12,7 @@ include '../includes/header.php';
         <div class="backend-topbar">
             <div>
                 <h1>Editar Localização</h1>
-                <p>Atualização dos dados de uma área hospitalar associada ao inventário.</p>
+                <p>Atualização dos dados gerais de uma localização.</p>
             </div>
 
             <div class="dropdown">
@@ -42,8 +42,8 @@ include '../includes/header.php';
         <section class="backend-box">
             <div class="backend-section-header">
                 <div>
-                    <h2>Dados da Localização</h2>
-                    <p>Altere os campos necessários e guarde as alterações.</p>
+                    <h2>Dados da Localização Geral</h2>
+                    <p>Altere os dados principais da localização.</p>
                 </div>
 
                 <a href="index.php" class="btn-backend">
@@ -57,7 +57,7 @@ include '../includes/header.php';
                 <div class="form-grid">
                     <div>
                         <label for="editCodigoLocalizacao">Código interno *</label>
-                        <input type="text" id="editCodigoLocalizacao" value="L001" required>
+                        <input type="text" id="editCodigoLocalizacao" value="LOC001" required>
                     </div>
 
                     <div>
@@ -66,25 +66,8 @@ include '../includes/header.php';
                     </div>
 
                     <div>
-                        <label for="editPisoLocalizacao">Piso *</label>
-                        <input type="text" id="editPisoLocalizacao" value="2" inputmode="numeric" pattern="[0-9]*" maxlength="3" required>
-                    </div>
-
-                    <div>
-                        <label for="editServicoLocalizacao">Serviço / Localização *</label>
-                        <select id="editServicoLocalizacao" required>
-                            <option selected>UCI</option>
-                            <option>Bloco Operatório</option>
-                            <option>Medicina Interna</option>
-                            <option>Urgência</option>
-                            <option>Imagiologia</option>
-                            <option>Laboratório</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="editSalaLocalizacao">Sala / Unidade *</label>
-                        <input type="text" id="editSalaLocalizacao" value="UCI Geral" required>
+                        <label for="editNumeroPisosLocalizacao">Número de pisos *</label>
+                        <input type="text" id="editNumeroPisosLocalizacao" value="5" inputmode="numeric" pattern="[0-9]*" maxlength="3" required>
                     </div>
 
                     <div>
@@ -97,10 +80,9 @@ include '../includes/header.php';
                         </select>
                     </div>
 
-
                     <div>
                         <label for="editResponsavelLocalizacao">Responsável da localização *</label>
-                        <input type="text" id="editResponsavelLocalizacao" value="Enfermeiro responsável" required>
+                        <input type="text" id="editResponsavelLocalizacao" value="Ana Silva" required>
                     </div>
 
                     <div>
@@ -111,7 +93,7 @@ include '../includes/header.php';
 
                 <div class="form-full">
                     <label for="editObservacoesLocalizacao">Observações</label>
-                    <textarea id="editObservacoesLocalizacao" rows="4">Localização associada a equipamentos de elevada criticidade clínica.</textarea>
+                    <textarea id="editObservacoesLocalizacao" rows="4">Localização geral do hospital.</textarea>
                 </div>
 
                 <p id="mensagemEditarLocalizacao" class="mensagem-login"></p>

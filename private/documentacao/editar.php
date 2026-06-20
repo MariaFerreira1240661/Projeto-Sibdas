@@ -12,7 +12,7 @@ include '../includes/header.php';
         <div class="backend-topbar">
             <div>
                 <h1>Editar Documento</h1>
-                <p>Atualização da documentação técnica ou administrativa associada ao inventário.</p>
+                <p>Atualização dos dados de um documento técnico ou administrativo.</p>
             </div>
 
             <div class="dropdown">
@@ -42,8 +42,8 @@ include '../includes/header.php';
         <section class="backend-box">
             <div class="backend-section-header">
                 <div>
-                    <h2>Dados do Documento</h2>
-                    <p>Altere os campos necessários e guarde as alterações.</p>
+                    <h2>Ficha do Documento</h2>
+                    <p>Edite os dados principais do documento associado ao equipamento.</p>
                 </div>
 
                 <a href="index.php" class="btn-backend">
@@ -52,57 +52,58 @@ include '../includes/header.php';
                 </a>
             </div>
 
-            <form class="form-backend" id="formEditarDocumento">
+            <form class="form-backend" id="formEditarDocumento" action="#" method="post" enctype="multipart/form-data" novalidate>
 
                 <div class="form-grid">
                     <div>
                         <label for="editCodigoDocumento">Código *</label>
-                        <input type="text" id="editCodigoDocumento" value="D001">
+                        <input type="text" id="editCodigoDocumento" placeholder="Ex: DOC006" value="DOC001">
                     </div>
 
                     <div>
                         <label for="editNomeDocumento">Nome do documento *</label>
-                        <input type="text" id="editNomeDocumento" value="Manual de Utilizador">
+                        <input type="text" id="editNomeDocumento" placeholder="Ex: Manual de utilizador" value="Manual de utilizador Philips IntelliVue MP5">
                     </div>
 
                     <div>
                         <label for="editTipoDocumento">Tipo de documento *</label>
                         <select id="editTipoDocumento">
-                            <option selected>Manual de Utilizador</option>
-                            <option>Manual de Serviço</option>
-                            <option>Certificado de Calibração</option>
-                            <option>Contrato / Garantia</option>
-                            <option>Fatura ou Guia de Aquisição</option>
-                            <option>Declaração de Conformidade</option>
-                            <option>Relatório Técnico</option>
+                            <option value="">Selecione o tipo</option>
+                            <option selected>Manual de utilizador</option>
+                            <option>Manual de serviço</option>
+                            <option>Certificado de calibração</option>
+                            <option>Declaração de conformidade</option>
+                            <option>Relatório técnico</option>
+                            <option>Fatura ou guia de aquisição</option>
+                            <option>Contrato / garantia</option>
                         </select>
                     </div>
 
                     <div>
                         <label for="editEquipamentoDocumento">Equipamento associado *</label>
                         <select id="editEquipamentoDocumento">
-                            <option selected>Monitor Multiparamétrico</option>
-                            <option>Ventilador Pulmonar</option>
-                            <option>Bomba de Infusão</option>
-                            <option>Desfibrilhador</option>
-                            <option>Ecógrafo Portátil</option>
+                            <option value="">Selecione o equipamento</option>
+                            <option selected>EQ001 - Monitor Multiparamétrico Philips IntelliVue MP5</option>
+                            <option>EQ002 - Ventilador Pulmonar Dräger Evita V500</option>
+                            <option>EQ003 - Bomba de Infusão B. Braun Infusomat Space</option>
+                            <option>EQ004 - Desfibrilhador Zoll R Series</option>
                         </select>
                     </div>
 
                     <div>
                         <label for="editFornecedorDocumento">Fornecedor associado</label>
                         <select id="editFornecedorDocumento">
+                            <option value="">Sem fornecedor associado</option>
                             <option selected>Philips Healthcare</option>
-                            <option>MedTech Portugal</option>
-                            <option>BioSupport Systems</option>
-                            <option>InfuCare Medical</option>
-                            <option>Sem fornecedor associado</option>
+                            <option>Dräger Portugal</option>
+                            <option>B. Braun Medical</option>
+                            <option>Zoll Medical</option>
                         </select>
                     </div>
 
                     <div>
                         <label for="editDataDocumento">Data do documento *</label>
-                        <input type="date" id="editDataDocumento" value="2025-02-12">
+                        <input type="date" id="editDataDocumento" value="2022-02-12">
                     </div>
 
                     <div>
@@ -113,41 +114,51 @@ include '../includes/header.php';
                     <div>
                         <label for="editEstadoDocumento">Estado *</label>
                         <select id="editEstadoDocumento">
+                            <option value="">Selecione o estado</option>
                             <option selected>Válido</option>
-                            <option>Pendente</option>
                             <option>Expirado</option>
+                            <option>Em revisão</option>
+                            <option>Substituído</option>
                         </select>
                     </div>
 
                     <div>
-                        <label for="editFicheiroDocumento">Nome/localização do ficheiro *</label>
-                        <input type="text" id="editFicheiroDocumento" value="manual_monitor.pdf">
+                        <label for="editFicheiroDocumento">Substituir ficheiro PDF</label>
+                        <input type="file" id="editFicheiroDocumento" accept=".pdf,application/pdf">
                     </div>
 
                     <div>
                         <label for="editResponsavelDocumento">Responsável pelo registo</label>
-                        <input type="text" id="editResponsavelDocumento" value="Administrador">
+                        <input type="text" id="editResponsavelDocumento" placeholder="Ex: Administrador" value="Administrador MedControl">
                     </div>
                 </div>
 
                 <div class="form-full">
-                    <label for="editObservacoesDocumento">Observações</label>
-                    <textarea id="editObservacoesDocumento" rows="4">Documento associado ao monitor multiparamétrico utilizado na Unidade de Cuidados Intensivos.</textarea>
+                    <label>Ficheiro atual</label>
+                    <p>
+                        <a href="#" target="_blank">
+                            manual_monitor.pdf
+                        </a>
+                    </p>
                 </div>
 
-                <p id="mensagemEditarDocumento" class="mensagem-login"></p>
+                <div class="form-full">
+                    <label for="editObservacoesDocumento">Observações</label>
+                    <textarea id="editObservacoesDocumento" rows="4" placeholder="Observações adicionais sobre o documento">Documento técnico associado ao equipamento.</textarea>
+                </div>
 
                 <div class="form-botoes">
-                    <button type="submit" class="btn-backend">
+                    <button type="button" class="btn-backend" id="guardarEdicaoDocumento">
                         <i class="bi bi-check-circle"></i>
                         Guardar alterações
                     </button>
 
-                    <a href="detalhes.php" class="btn-secundario">
+                    <a href="index.php" class="btn-secundario">
                         Cancelar
                     </a>
                 </div>
 
+                <p id="mensagemEditarDocumento" class="mensagem-login mt-4"></p>
             </form>
         </section>
 

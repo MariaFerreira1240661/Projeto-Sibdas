@@ -12,7 +12,7 @@ include '../includes/header.php';
         <div class="backend-topbar">
             <div>
                 <h1>Editar Contrato</h1>
-                <p>Atualização dos dados de garantia ou contrato associado ao inventário.</p>
+                <p>Atualização dos dados de garantia, manutenção ou assistência técnica.</p>
             </div>
 
             <div class="dropdown">
@@ -42,8 +42,8 @@ include '../includes/header.php';
         <section class="backend-box">
             <div class="backend-section-header">
                 <div>
-                    <h2>Dados do Contrato</h2>
-                    <p>Altere os campos necessários e guarde as alterações.</p>
+                    <h2>Ficha do Contrato</h2>
+                    <p>Edite os dados principais do contrato associado ao equipamento.</p>
                 </div>
 
                 <a href="index.php" class="btn-backend">
@@ -52,103 +52,113 @@ include '../includes/header.php';
                 </a>
             </div>
 
-            <form class="form-backend" id="formEditarContrato">
+            <form class="form-backend" id="formEditarContrato" action="#" method="post" novalidate>
 
                 <div class="form-grid">
                     <div>
                         <label for="editCodigoContrato">Código *</label>
-                        <input type="text" id="editCodigoContrato" value="C001">
+                        <input type="text" id="editCodigoContrato" placeholder="Ex: CON006" value="CON001">
                     </div>
 
                     <div>
                         <label for="editEquipamentoContrato">Equipamento associado *</label>
                         <select id="editEquipamentoContrato">
-                            <option selected>Monitor Multiparamétrico</option>
-                            <option>Ventilador Pulmonar</option>
-                            <option>Bomba de Infusão</option>
-                            <option>Desfibrilhador</option>
-                            <option>Ecógrafo Portátil</option>
+                            <option value="">Selecione o equipamento</option>
+                            <option selected>EQ001 - Monitor Multiparamétrico Philips IntelliVue MP5</option>
+                            <option>EQ002 - Ventilador Pulmonar Dräger Evita V500</option>
+                            <option>EQ003 - Bomba de Infusão B. Braun Infusomat Space</option>
+                            <option>EQ004 - Desfibrilhador Zoll R Series</option>
                         </select>
                     </div>
 
                     <div>
-                        <label for="editFornecedorContrato">Entidade responsável *</label>
+                        <label for="editFornecedorContrato">Fornecedor associado *</label>
                         <select id="editFornecedorContrato">
-                            <option>Philips Healthcare</option>
-                            <option selected>MedTech Portugal</option>
-                            <option>BioSupport Systems</option>
-                            <option>InfuCare Medical</option>
+                            <option value="">Selecione o fornecedor</option>
+                            <option selected>Philips Healthcare</option>
+                            <option>Dräger Portugal</option>
+                            <option>B. Braun Medical</option>
+                            <option>Zoll Medical</option>
                         </select>
                     </div>
 
                     <div>
-                        <label for="editTipoContrato">Tipo *</label>
+                        <label for="editTipoContrato">Tipo de contrato *</label>
                         <select id="editTipoContrato">
-                            <option>Garantia</option>
-                            <option selected>Manutenção preventiva</option>
+                            <option value="">Selecione o tipo</option>
+                            <option selected>Garantia</option>
+                            <option>Contrato de manutenção</option>
                             <option>Assistência técnica</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="editDataInicioContrato">Data de início *</label>
-                        <input type="date" id="editDataInicioContrato" value="2025-01-01">
-                    </div>
-
-                    <div>
-                        <label for="editDataFimContrato">Data de fim *</label>
-                        <input type="date" id="editDataFimContrato" value="2025-12-31">
-                    </div>
-
-                    <div>
-                        <label for="editPeriodicidadeContrato">Periodicidade</label>
-                        <select id="editPeriodicidadeContrato">
-                            <option>Não aplicável</option>
-                            <option>Mensal</option>
-                            <option>Trimestral</option>
-                            <option>Semestral</option>
-                            <option selected>Anual</option>
+                            <option>Aluguer</option>
                         </select>
                     </div>
 
                     <div>
                         <label for="editEstadoContrato">Estado *</label>
                         <select id="editEstadoContrato">
+                            <option value="">Selecione o estado</option>
                             <option selected>Ativo</option>
                             <option>A terminar</option>
                             <option>Expirado</option>
+                            <option>Cancelado</option>
                         </select>
                     </div>
 
                     <div>
-                        <label for="editValorContrato">Valor associado</label>
-                        <input type="number" id="editValorContrato" value="1200">
+                        <label for="editDataInicioContrato">Data de início *</label>
+                        <input type="date" id="editDataInicioContrato" value="2024-01-01">
+                    </div>
+
+                    <div>
+                        <label for="editDataFimContrato">Data de fim *</label>
+                        <input type="date" id="editDataFimContrato" value="2026-12-31">
+                    </div>
+
+                    <div>
+                        <label for="editPeriodicidadeContrato">Periodicidade de manutenção *</label>
+                        <select id="editPeriodicidadeContrato">
+                            <option value="">Selecione a periodicidade</option>
+                            <option>Não aplicável</option>
+                            <option>Mensal</option>
+                            <option>Trimestral</option>
+                            <option selected>Semestral</option>
+                            <option>Anual</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="editValorContrato">Valor associado *</label>
+                        <input type="number" id="editValorContrato" placeholder="Ex: 1200" value="1200">
                     </div>
 
                     <div>
                         <label for="editDocumentoContrato">Documento associado</label>
-                        <input type="text" id="editDocumentoContrato" value="contrato_monitor.pdf">
+                        <select id="editDocumentoContrato">
+                            <option value="">Sem documento associado</option>
+                            <option selected>DOC001 - Contrato / garantia</option>
+                            <option>DOC002 - Fatura ou guia de aquisição</option>
+                            <option>DOC003 - Relatório técnico</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="form-full">
                     <label for="editObservacoesContrato">Observações</label>
-                    <textarea id="editObservacoesContrato" rows="4">Contrato de manutenção preventiva associado ao monitor multiparamétrico. Deve ser revisto antes da data de fim.</textarea>
+                    <textarea id="editObservacoesContrato" rows="4" placeholder="Observações adicionais sobre o contrato">Contrato associado ao equipamento médico.</textarea>
                 </div>
 
-                <p id="mensagemEditarContrato" class="mensagem-login"></p>
-
                 <div class="form-botoes">
-                    <button type="submit" class="btn-backend">
+                    <button type="button" class="btn-backend" id="guardarEdicaoContrato">
                         <i class="bi bi-check-circle"></i>
                         Guardar alterações
                     </button>
 
-                    <a href="detalhes.php" class="btn-secundario">
+                    <a href="index.php" class="btn-secundario">
                         Cancelar
                     </a>
                 </div>
 
+                <p id="mensagemEditarContrato" class="mensagem-login mt-4"></p>
             </form>
         </section>
 

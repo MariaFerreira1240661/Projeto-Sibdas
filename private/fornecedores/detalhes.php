@@ -12,7 +12,7 @@ include '../includes/header.php';
         <div class="backend-topbar">
             <div>
                 <h1>Detalhes do Fornecedor</h1>
-                <p>Ficha detalhada da entidade associada aos equipamentos médicos.</p>
+                <p>Consulta visual da entidade fornecedora registada no sistema.</p>
             </div>
 
             <div class="dropdown">
@@ -42,29 +42,35 @@ include '../includes/header.php';
         <section class="backend-box">
             <div class="backend-section-header">
                 <div>
-                    <h2>Philips Healthcare</h2>
-                    <p>Código interno: F001</p>
+                    <h2>MedTech Portugal</h2>
+                    <p>Código interno: FOR001</p>
                 </div>
 
-                <a href="index.php" class="btn-backend">
-                    <i class="bi bi-arrow-left-circle"></i>
-                    Voltar à listagem
-                </a>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="editar.php" class="btn-backend">
+                        <i class="bi bi-pencil-square"></i>
+                        Editar fornecedor
+                    </a>
+
+                    <a href="index.php" class="btn-secundario">
+                        <i class="bi bi-arrow-left-circle"></i>
+                        Voltar à listagem
+                    </a>
+                </div>
             </div>
 
             <div class="detalhes-grid">
-
                 <div class="detalhe-card">
                     <h3>Identificação</h3>
 
                     <div class="detalhe-linha">
                         <span>Código interno</span>
-                        <strong>F001</strong>
+                        <strong>FOR001</strong>
                     </div>
 
                     <div class="detalhe-linha">
                         <span>Fornecedor</span>
-                        <strong>Philips Healthcare</strong>
+                        <strong>MedTech Portugal</strong>
                     </div>
 
                     <div class="detalhe-linha">
@@ -72,100 +78,44 @@ include '../includes/header.php';
                         <strong>501234567</strong>
                     </div>
 
-
+                    <div class="detalhe-linha">
+                        <span>Estado</span>
+                        <strong><span class="estado ativo">Ativo</span></strong>
+                    </div>
                 </div>
 
                 <div class="detalhe-card">
-                    <h3>Tipo e contactos</h3>
+                    <h3>Contactos gerais</h3>
 
                     <div class="detalhe-linha">
-                        <span>Tipo de fornecedor</span>
-                        <strong>Fabricante</strong>
+                        <span>Telefone do fornecedor</span>
+                        <strong>+351 912 345 678</strong>
                     </div>
 
                     <div class="detalhe-linha">
-                        <span>Email</span>
-                        <strong>geral@philips-health.pt</strong>
-                    </div>
-
-                    <div class="detalhe-linha">
-                        <span>Telefone</span>
-                        <strong>+351 222 100 100</strong>
+                        <span>Email do fornecedor</span>
+                        <strong>geral@medtech.pt</strong>
                     </div>
 
                     <div class="detalhe-linha">
                         <span>Website</span>
-                        <strong>www.philips.pt</strong>
+                        <strong>https://www.medtech.pt</strong>
                     </div>
-                </div>
-
-                <div class="detalhe-card">
-                    <h3>Pessoa de contacto</h3>
-
-                    <div class="detalhe-linha">
-                        <span>Nome</span>
-                        <strong>Ana Silva</strong>
-                    </div>
-
-                    <div class="detalhe-linha">
-                        <span>Telefone</span>
-                        <strong>+351 912 000 000</strong>
-                    </div>
-
-                    
                 </div>
 
                 <div class="detalhe-card">
                     <h3>Morada</h3>
-
-                    <p>
-                        Avenida da Saúde, nº 120<br>
-                        4100-000 Porto<br>
-                        Portugal
-                    </p>
+                    <p>Rua da Tecnologia, 100<br>1000-000 Lisboa</p>
                 </div>
 
+                <div class="detalhe-card">
+                    <h3>Observações</h3>
+                    <p>Fornecedor geral que pode ser associado a equipamentos com diferentes tipos de relação.</p>
+                </div>
             </div>
-        </section>
-
-        <section class="backend-box">
-            <h2>Equipamentos associados</h2>
-
-            <div class="table-responsive">
-                <table class="tabela-backend">
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Equipamento</th>
-                            <th>Marca / Modelo</th>
-                            <th>Localização</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr>
-                            <td>EQ001</td>
-                            <td>Monitor Multiparamétrico</td>
-                            <td>Philips IntelliVue MP5</td>
-                            <td>UCI</td>
-                            <td><span class="estado ativo">Ativo</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="backend-box">
-            <h2>Observações</h2>
-            <p>
-                Entidade registada como fabricante de equipamentos de monitorização.
-                Poderá estar associada a fornecedores comerciais ou entidades de assistência técnica.
-            </p>
         </section>
 
     </main>
-
 </div>
 
 <?php include '../includes/footer.php'; ?>

@@ -12,7 +12,7 @@ include '../includes/header.php';
         <div class="backend-topbar">
             <div>
                 <h1>Detalhes da Localização</h1>
-                <p>Ficha detalhada da área hospitalar associada ao inventário.</p>
+                <p>Consulta visual da localização geral registada no sistema.</p>
             </div>
 
             <div class="dropdown">
@@ -42,53 +42,45 @@ include '../includes/header.php';
         <section class="backend-box">
             <div class="backend-section-header">
                 <div>
-                    <h2>Unidade de Cuidados Intensivos</h2>
-                    <p>Código interno: L001</p>
+                    <h2>Edifício Central</h2>
+                    <p>Código interno: LOC001</p>
                 </div>
 
-                <a href="index.php" class="btn-backend">
-                    <i class="bi bi-arrow-left-circle"></i>
-                    Voltar à listagem
-                </a>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="editar.php" class="btn-backend">
+                        <i class="bi bi-pencil-square"></i>
+                        Editar localização
+                    </a>
+
+                    <a href="index.php" class="btn-secundario">
+                        <i class="bi bi-arrow-left-circle"></i>
+                        Voltar à listagem
+                    </a>
+                </div>
             </div>
 
             <div class="detalhes-grid">
-
                 <div class="detalhe-card">
                     <h3>Identificação</h3>
 
                     <div class="detalhe-linha">
                         <span>Código interno</span>
-                        <strong>L001</strong>
+                        <strong>LOC001</strong>
                     </div>
-
-                    <div class="detalhe-linha">
-                        <span>Serviço / Localização</span>
-                        <strong>UCI</strong>
-                    </div>
-
-                    <div class="detalhe-linha">
-                        <span>Estado da localização</span>
-                        <strong><span class="estado ativo">Ativo</span></strong>
-                    </div>
-                </div>
-
-                <div class="detalhe-card">
-                    <h3>Localização física</h3>
 
                     <div class="detalhe-linha">
                         <span>Edifício</span>
-                        <strong>Edifício Principal</strong>
+                        <strong>Edifício Central</strong>
                     </div>
 
                     <div class="detalhe-linha">
-                        <span>Piso</span>
-                        <strong>2</strong>
+                        <span>Número de pisos</span>
+                        <strong>8</strong>
                     </div>
 
                     <div class="detalhe-linha">
-                        <span>Sala / Unidade</span>
-                        <strong>UCI Geral</strong>
+                        <span>Estado</span>
+                        <strong><span class="estado ativo">Ativa</span></strong>
                     </div>
                 </div>
 
@@ -97,66 +89,23 @@ include '../includes/header.php';
 
                     <div class="detalhe-linha">
                         <span>Responsável interno</span>
-                        <strong>Enfermeiro responsável</strong>
+                        <strong>Maria Costa</strong>
                     </div>
 
                     <div class="detalhe-linha">
                         <span>Contacto interno</span>
-                        <strong>2201</strong>
+                        <strong>+351 910 000 000</strong>
                     </div>
                 </div>
 
-
-
+                <div class="detalhe-card">
+                    <h3>Observações</h3>
+                    <p>Localização geral usada para associar equipamentos a pisos, serviços e salas específicas.</p>
+                </div>
             </div>
-        </section>
-
-        <section class="backend-box">
-            <h2>Equipamentos nesta localização</h2>
-
-            <div class="table-responsive">
-                <table class="tabela-backend">
-                    <thead>
-                        <tr>
-                            <th>Código </th>
-                            <th>Equipamento</th>
-                            <th>Marca / Modelo</th>
-                            <th>Estado</th>
-                            <th>Criticidade</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr>
-                            <td>EQ001</td>
-                            <td>Monitor Multiparamétrico</td>
-                            <td>Philips IntelliVue MP5</td>
-                            <td><span class="estado ativo">Ativo</span></td>
-                            <td><span class="estado suporte">Suporte de vida</span></td>
-                        </tr>
-
-                        <tr>
-                            <td>EQ002</td>
-                            <td>Ventilador Pulmonar</td>
-                            <td>Dräger Evita V500</td>
-                            <td><span class="estado manutencao">Em manutenção</span></td>
-                            <td><span class="estado suporte">Suporte de vida</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="backend-box">
-            <h2>Observações</h2>
-            <p>
-                Localização associada a equipamentos de elevada criticidade clínica.
-                Deve manter registos atualizados para facilitar a rastreabilidade dos equipamentos.
-            </p>
         </section>
 
     </main>
-
 </div>
 
 <?php include '../includes/footer.php'; ?>

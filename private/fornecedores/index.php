@@ -2,14 +2,14 @@
 $pagina_atual = 'fornecedores';
 include '../includes/header.php';
 
+function h($valor)
+{
+    return htmlspecialchars((string) ($valor ?? ''), ENT_QUOTES, 'UTF-8');
+}
+
 function classe_estado_fornecedor($ativo)
 {
     return (int) $ativo === 1 ? 'ativo' : 'inativo';
-}
-
-function texto_estado_fornecedor($ativo)
-{
-    return (int) $ativo === 1 ? 'Ativo' : 'Inativo';
 }
 
 $erro = '';
@@ -27,14 +27,12 @@ if (!$ligacao) {
                 f.codigo,
                 f.nome,
                 f.nif,
-                f.email,
                 f.telefone,
+                f.email,
+                f.website,
                 f.ativo,
-                tf.nome AS tipo_fornecedor,
-                COUNT(DISTINCT ef.equipamento_id) AS total_equipamentos
+                COUNT(ef.equipamento_id) AS total_equipamentos
             FROM fornecedores f
-            INNER JOIN tipos_fornecedor tf
-                ON f.tipo_fornecedor_id = tf.id
             LEFT JOIN equipamento_fornecedores ef
                 ON ef.fornecedor_id = f.id
             GROUP BY
@@ -42,17 +40,16 @@ if (!$ligacao) {
                 f.codigo,
                 f.nome,
                 f.nif,
-                f.email,
                 f.telefone,
-                f.ativo,
-                tf.nome
+                f.email,
+                f.website,
+                f.ativo
             ORDER BY f.codigo
         ";
 
         $resultados = $ligacao->query($sql)->fetchAll();
     } catch (PDOException $erroBD) {
         $erro = 'Aconteceu um erro ao consultar os fornecedores.';
-        $resultados = [];
     }
 }
 
@@ -68,7 +65,7 @@ $ligacao = null;
         <div class="backend-topbar">
             <div>
                 <h1>Fornecedores</h1>
-                <p>Gestão das entidades associadas aos equipamentos médicos.</p>
+                <p>Gestão das entidades fornecedoras gerais associáveis aos equipamentos.</p>
             </div>
 
             <div class="dropdown">
@@ -98,8 +95,8 @@ $ligacao = null;
         <section class="backend-box">
             <div class="backend-section-header">
                 <div>
-                    <h2>Listagem de Fornecedores</h2>
-                    <p>Consulta e gestão das entidades associadas aos equipamentos médicos.</p>
+                    <h2>Listagem de Fornecedores Gerais</h2>
+                    <p>Consulta das entidades fornecedoras registadas no sistema.</p>
                 </div>
 
                 <a href="novo.php" class="btn-backend">
@@ -107,19 +104,8 @@ $ligacao = null;
                     Novo fornecedor
                 </a>
             </div>
-            <div class="filtros-backend">
-                <div>
-                    <label for="filtroTipoFornecedor">Tipo de fornecedor</label>
-                    <select id="filtroTipoFornecedor">
-                        <option value="">Todos</option>
-                        <option value="Fabricante">Fabricante</option>
-                        <option value="Distribuidor">Distribuidor</option>
-                        <option value="Manutenção">Manutenção</option>
-                        <option value="Assistência técnica">Assistência técnica</option>
-                        <option value="Consumíveis">Consumíveis</option>
-                    </select>
-                </div>
 
+            <div class="filtros-backend">
                 <div>
                     <label for="filtroEstadoFornecedor">Estado</label>
                     <select id="filtroEstadoFornecedor">
@@ -134,7 +120,7 @@ $ligacao = null;
 
             <?php if (!empty($erro)) : ?>
                 <p class="sem-resultados" style="display: block;">
-                    <?= htmlspecialchars($erro) ?>
+                    <?= h($erro) ?>
                 </p>
             <?php elseif (count($resultados) == 0) : ?>
                 <p class="sem-resultados" style="display: block;">
@@ -149,9 +135,8 @@ $ligacao = null;
                                 <th>Código</th>
                                 <th>Fornecedor</th>
                                 <th>NIF</th>
-                                <th>Tipo</th>
-                                <th>Email</th>
                                 <th>Telefone</th>
+                                <th>Email</th>
                                 <th>Equipamentos</th>
                                 <th>Estado</th>
                                 <th>Ações</th>
@@ -161,16 +146,15 @@ $ligacao = null;
                         <tbody>
                             <?php foreach ($resultados as $fornecedor) : ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($fornecedor->codigo) ?></td>
-                                    <td><?= htmlspecialchars($fornecedor->nome) ?></td>
-                                    <td><?= htmlspecialchars($fornecedor->nif) ?></td>
-                                    <td><?= htmlspecialchars($fornecedor->tipo_fornecedor) ?></td>
-                                    <td><?= htmlspecialchars($fornecedor->email) ?></td>
-                                    <td><?= htmlspecialchars($fornecedor->telefone) ?></td>
-                                    <td><?= htmlspecialchars($fornecedor->total_equipamentos) ?></td>
+                                    <td><?= h($fornecedor->codigo) ?></td>
+                                    <td><?= h($fornecedor->nome) ?></td>
+                                    <td><?= h($fornecedor->nif) ?></td>
+                                    <td><?= h($fornecedor->telefone) ?></td>
+                                    <td><?= h($fornecedor->email) ?></td>
+                                    <td><?= h($fornecedor->total_equipamentos) ?></td>
                                     <td>
                                         <span class="estado <?= classe_estado_fornecedor($fornecedor->ativo) ?>">
-                                            <?= texto_estado_fornecedor($fornecedor->ativo) ?>
+                                            <?= (int) $fornecedor->ativo === 1 ? 'Ativo' : 'Inativo' ?>
                                         </span>
                                     </td>
                                     <td class="acoes-tabela">
@@ -205,7 +189,7 @@ $ligacao = null;
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         const tabela = document.querySelector("#tabelaFornecedores");
 
         if (!tabela || typeof DataTable === "undefined") {
@@ -239,9 +223,7 @@ $ligacao = null;
             }
         });
 
-        const filtroTipo = document.querySelector("#filtroTipoFornecedor");
         const filtroEstado = document.querySelector("#filtroEstadoFornecedor");
-
         const filtroDataTables = document.querySelector("#filtroDataTablesFornecedores");
         const pesquisaDataTables = document.querySelector("#tabelaFornecedores_wrapper .dt-search, #tabelaFornecedores_wrapper .dataTables_filter");
 
@@ -249,14 +231,10 @@ $ligacao = null;
             filtroDataTables.appendChild(pesquisaDataTables);
         }
 
-        function aplicarFiltrosFornecedores() {
-            tabelaFornecedores.column(3).search(filtroTipo.value);
-            tabelaFornecedores.column(7).search(filtroEstado.value);
+        filtroEstado.addEventListener("change", function() {
+            tabelaFornecedores.column(6).search(filtroEstado.value);
             tabelaFornecedores.draw();
-        }
-
-        filtroTipo.addEventListener("change", aplicarFiltrosFornecedores);
-        filtroEstado.addEventListener("change", aplicarFiltrosFornecedores);
+        });
     });
 </script>
 

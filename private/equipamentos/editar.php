@@ -256,57 +256,51 @@ include '../includes/header.php';
 
                         <div class="form-grid">
                             <div>
-                                <label for="localizacao">Serviço / Localização *</label>
-                                <select id="localizacao">
+                                <label for="editLocalizacaoGeralEquipamento">Localização geral *</label>
+                                <select id="editLocalizacaoGeralEquipamento" required>
+                                    <option value="">Selecione uma localização geral</option>
+                                    <option selected>LOC001 - Edifício Principal (5 pisos)</option>
+                                    <option>LOC002 - Edifício A (3 pisos)</option>
+                                    <option>LOC003 - Edifício B (4 pisos)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="editPisoEquipamento">Piso do equipamento *</label>
+                                <input type="text" id="editPisoEquipamento" value="2" inputmode="numeric" pattern="[0-9]*" maxlength="3" required>
+                            </div>
+
+                            <div>
+                                <label for="editServicoEquipamento">Serviço *</label>
+                                <select id="editServicoEquipamento" required>
+                                    <option value="">Selecione o serviço</option>
                                     <option selected>UCI</option>
                                     <option>Bloco Operatório</option>
                                     <option>Medicina Interna</option>
                                     <option>Urgência</option>
                                     <option>Imagiologia</option>
                                     <option>Laboratório</option>
+                                    <option>Esterilização</option>
+                                    <option>Consulta Externa</option>
                                 </select>
                             </div>
 
                             <div>
-                                <label for="edificioEquipamento">Edifício *</label>
-                                <input type="text" id="edificioEquipamento" value="Edifício Principal">
-                            </div>
-
-                            <div>
-                                <label for="pisoEquipamento">Piso *</label>
-                                <input type="text" id="pisoEquipamento" value="2" inputmode="numeric" pattern="[0-9]*" maxlength="3">
-                            </div>
-
-                            <div>
-                                <label for="salaEquipamento">Sala / Unidade *</label>
-                                <input type="text" id="salaEquipamento" value="UCI Geral">
-                            </div>
-
-                            <div>
-                                <label for="responsavelLocalizacaoEquipamento">Responsável da localização *</label>
-                                <input type="text" id="responsavelLocalizacaoEquipamento" value="Enfermeiro responsável">
-                            </div>
-
-                            <div>
-                                <label for="contactoLocalizacaoEquipamento">Contacto interno *</label>
-                                <input type="text" id="contactoLocalizacaoEquipamento" value="2201" inputmode="numeric" pattern="[0-9]*" maxlength="6">
-                            </div>
-
-                            <div>
-                                <label for="estadoLocalizacaoEquipamento">Estado da localização *</label>
-                                <select id="estadoLocalizacaoEquipamento">
-                                    <option selected>Ativa</option>
-                                    <option>Em manutenção</option>
-                                    <option>Inativa</option>
-                                    <option>Temporariamente indisponível</option>
-                                </select>
+                                <label for="editSalaEquipamento">Sala / Unidade *</label>
+                                <input type="text" id="editSalaEquipamento" value="UCI Geral" required>
                             </div>
                         </div>
+
+                        <p class="mt-3">
+                            A localização geral contém o edifício, número de pisos, responsável, contacto e estado.
+                            Aqui fica apenas o local específico do equipamento dentro dessa localização.
+                        </p>
                     </div>
+
 
                     <div class="tab-pane fade" id="fornecedor-tab-pane" role="tabpanel" tabindex="0">
                         <h3>Fornecedores associados</h3>
-                        <p>Atualize os fornecedores associados ao equipamento.</p>
+                        <p>Atualize visualmente os fornecedores associados ao equipamento.</p>
 
                         <div class="form-full">
                             <h3>Fornecedor associado 1 *</h3>
@@ -314,54 +308,45 @@ include '../includes/header.php';
 
                         <div class="form-grid">
                             <div>
-                                <label for="fornecedorEquipamento">Fornecedor *</label>
-                                <input type="text" id="fornecedorEquipamento" value="Philips Healthcare" required>
-                            </div>
-
-                            <div>
-                                <label for="tipoFornecedorEquipamento">Tipo de relação *</label>
-                                <select id="tipoFornecedorEquipamento" required>
-                                    <option selected>Fabricante</option>
-                                    <option>Distribuidor</option>
-                                    <option>Assistência técnica</option>
-                                    <option>Consumíveis</option>
+                                <label for="editFornecedorEquipamento">Fornecedor *</label>
+                                <select id="editFornecedorEquipamento" required>
+                                    <option value="">Selecione um fornecedor já criado</option>
+                                    <option selected>FOR001 - Philips Healthcare</option>
+                                    <option>FOR002 - MedTech Portugal</option>
+                                    <option>FOR003 - B. Braun Medical</option>
                                 </select>
                             </div>
 
                             <div>
-                                <label for="contactoFornecedorEquipamento">Pessoa de contacto *</label>
-                                <input type="text" id="contactoFornecedorEquipamento" value="Ana Silva" required>
+                                <label for="editTipoFornecedorEquipamento">Tipo de fornecedor / relação *</label>
+                                <select id="editTipoFornecedorEquipamento" required>
+                                    <option value="">Selecione o tipo</option>
+                                    <option selected>Fabricante</option>
+                                    <option>Distribuidor</option>
+                                    <option>Manutenção</option>
+                                    <option>Fornecedor adicional</option>
+                                </select>
                             </div>
 
                             <div>
-                                <label for="telefoneFornecedorEquipamento">Telefone *</label>
-                                <input type="tel" id="telefoneFornecedorEquipamento" value="+351 222 100 100" inputmode="tel" required>
+                                <label for="editContactoFornecedorEquipamento">Pessoa de contacto *</label>
+                                <input type="text" id="editContactoFornecedorEquipamento" value="Ana Silva" required>
                             </div>
 
                             <div>
-                                <label for="telefoneContactoFornecedorEquipamento">Telefone da pessoa de contacto *</label>
-                                <input type="tel" id="telefoneContactoFornecedorEquipamento" value="+351 912 000 000" inputmode="tel" required>
+                                <label for="editTelefoneContactoFornecedorEquipamento">Telefone da pessoa de contacto *</label>
+                                <input type="tel" id="editTelefoneContactoFornecedorEquipamento" value="+351 912 000 000" inputmode="tel" required>
                             </div>
 
                             <div>
-                                <label for="emailFornecedorEquipamento">Email *</label>
-                                <input type="email" id="emailFornecedorEquipamento" value="geral@philips-health.pt" required>
-                            </div>
-
-                            <div>
-                                <label for="nifFornecedorEquipamento">NIF *</label>
-                                <input type="text" id="nifFornecedorEquipamento" value="501234567" inputmode="numeric" pattern="[0-9]{9}" maxlength="9" required>
-                            </div>
-
-                            <div>
-                                <label for="websiteFornecedorEquipamento">Website *</label>
-                                <input type="text" id="websiteFornecedorEquipamento" value="www.philips-health.pt" required>
+                                <label for="editEmailContactoFornecedorEquipamento">Email da pessoa de contacto *</label>
+                                <input type="email" id="editEmailContactoFornecedorEquipamento" value="ana.silva@empresa.pt" required>
                             </div>
                         </div>
 
                         <div class="form-full">
-                            <label for="moradaFornecedorEquipamento">Morada *</label>
-                            <textarea id="moradaFornecedorEquipamento" rows="3" required>Rua Dr. António Bernardino de Almeida, 431, 4200-072 Porto</textarea>
+                            <label for="editObservacoesFornecedorEquipamento">Observações da relação</label>
+                            <textarea id="editObservacoesFornecedorEquipamento" rows="3">Contacto preferencial para este equipamento.</textarea>
                         </div>
 
                         <hr>
@@ -373,54 +358,45 @@ include '../includes/header.php';
 
                         <div class="form-grid">
                             <div>
-                                <label for="fornecedorEquipamento2">Fornecedor</label>
-                                <input type="text" id="fornecedorEquipamento2" value="MedTech Portugal">
-                            </div>
-
-                            <div>
-                                <label for="tipoFornecedorEquipamento2">Tipo de relação</label>
-                                <select id="tipoFornecedorEquipamento2">
-                                    <option>Fabricante</option>
-                                    <option selected>Distribuidor</option>
-                                    <option>Assistência técnica</option>
-                                    <option>Consumíveis</option>
+                                <label for="editFornecedorEquipamento2">Fornecedor </label>
+                                <select id="editFornecedorEquipamento2" >
+                                    <option value="">Selecione um fornecedor já criado</option>
+                                    <option >FOR001 - Philips Healthcare</option>
+                                    <option>FOR002 - MedTech Portugal</option>
+                                    <option>FOR003 - B. Braun Medical</option>
                                 </select>
                             </div>
 
                             <div>
-                                <label for="contactoFornecedorEquipamento2">Pessoa de contacto</label>
-                                <input type="text" id="contactoFornecedorEquipamento2" value="João Martins">
+                                <label for="editTipoFornecedorEquipamento2">Tipo de fornecedor / relação </label>
+                                <select id="editTipoFornecedorEquipamento2" >
+                                    <option value="">Selecione o tipo</option>
+                                    <option >Fabricante</option>
+                                    <option>Distribuidor</option>
+                                    <option>Manutenção</option>
+                                    <option>Fornecedor adicional</option>
+                                </select>
                             </div>
 
                             <div>
-                                <label for="telefoneFornecedorEquipamento2">Telefone</label>
-                                <input type="tel" id="telefoneFornecedorEquipamento2" value="+351 222 111 111" inputmode="tel">
+                                <label for="editContactoFornecedorEquipamento2">Pessoa de contacto </label>
+                                <input type="text" id="editContactoFornecedorEquipamento2" value="Ana Silva" >
                             </div>
 
                             <div>
-                                <label for="telefoneContactoFornecedorEquipamento2">Telefone da pessoa de contacto</label>
-                                <input type="tel" id="telefoneContactoFornecedorEquipamento2" value="+351 913 000 000" inputmode="tel">
+                                <label for="editTelefoneContactoFornecedorEquipamento2">Telefone da pessoa de contacto </label>
+                                <input type="tel" id="editTelefoneContactoFornecedorEquipamento2" value="+351 912 000 000" inputmode="tel" >
                             </div>
 
                             <div>
-                                <label for="emailFornecedorEquipamento2">Email</label>
-                                <input type="email" id="emailFornecedorEquipamento2" value="apoio@medtech.pt">
-                            </div>
-
-                            <div>
-                                <label for="nifFornecedorEquipamento2">NIF</label>
-                                <input type="text" id="nifFornecedorEquipamento2" value="509876543" inputmode="numeric" pattern="[0-9]{9}" maxlength="9">
-                            </div>
-
-                            <div>
-                                <label for="websiteFornecedorEquipamento2">Website</label>
-                                <input type="text" id="websiteFornecedorEquipamento2" value="www.medtech.pt">
+                                <label for="editEmailContactoFornecedorEquipamento2">Email da pessoa de contacto </label>
+                                <input type="email" id="editEmailContactoFornecedorEquipamento2" value="ana.silva@empresa.pt" >
                             </div>
                         </div>
 
                         <div class="form-full">
-                            <label for="moradaFornecedorEquipamento2">Morada</label>
-                            <textarea id="moradaFornecedorEquipamento2" rows="3">Avenida da Boavista, 1200, 4100-130 Porto</textarea>
+                            <label for="editObservacoesFornecedorEquipamento2">Observações da relação</label>
+                            <textarea id="editObservacoesFornecedorEquipamento2" rows="3">Contacto preferencial para este equipamento.</textarea>
                         </div>
 
                         <hr>
@@ -432,70 +408,57 @@ include '../includes/header.php';
 
                         <div class="form-grid">
                             <div>
-                                <label for="fornecedorEquipamento3">Fornecedor</label>
-                                <input type="text" id="fornecedorEquipamento3" placeholder="Ex: BioSupport Systems">
-                            </div>
-
-                            <div>
-                                <label for="tipoFornecedorEquipamento3">Tipo de relação</label>
-                                <select id="tipoFornecedorEquipamento3">
-                                    <option value="">Selecione o tipo</option>
-                                    <option>Fabricante</option>
-                                    <option>Distribuidor</option>
-                                    <option>Assistência técnica</option>
-                                    <option>Consumíveis</option>
+                                <label for="editFornecedorEquipamento3">Fornecedor </label>
+                                <select id="editFornecedorEquipamento3" >
+                                    <option value="">Selecione um fornecedor já criado</option>
+                                    <option >FOR001 - Philips Healthcare</option>
+                                    <option>FOR002 - MedTech Portugal</option>
+                                    <option>FOR003 - B. Braun Medical</option>
                                 </select>
                             </div>
 
                             <div>
-                                <label for="contactoFornecedorEquipamento3">Pessoa de contacto</label>
-                                <input type="text" id="contactoFornecedorEquipamento3" placeholder="Ex: Carla Pereira">
+                                <label for="editTipoFornecedorEquipamento3">Tipo de fornecedor / relação </label>
+                                <select id="editTipoFornecedorEquipamento3" >
+                                    <option value="">Selecione o tipo</option>
+                                    <option >Fabricante</option>
+                                    <option>Distribuidor</option>
+                                    <option>Manutenção</option>
+                                    <option>Fornecedor adicional</option>
+                                </select>
                             </div>
 
                             <div>
-                                <label for="telefoneFornecedorEquipamento3">Telefone</label>
-                                <input type="tel" id="telefoneFornecedorEquipamento3" placeholder="Ex: +351 222 222 222" inputmode="tel">
+                                <label for="editContactoFornecedorEquipamento3">Pessoa de contacto </label>
+                                <input type="text" id="editContactoFornecedorEquipamento3" value="Ana Silva" >
                             </div>
 
                             <div>
-                                <label for="telefoneContactoFornecedorEquipamento3">Telefone da pessoa de contacto</label>
-                                <input type="tel" id="telefoneContactoFornecedorEquipamento3" placeholder="Ex: +351 914 000 000" inputmode="tel">
+                                <label for="editTelefoneContactoFornecedorEquipamento3">Telefone da pessoa de contacto </label>
+                                <input type="tel" id="editTelefoneContactoFornecedorEquipamento3" value="+351 912 000 000" inputmode="tel" >
                             </div>
 
                             <div>
-                                <label for="emailFornecedorEquipamento3">Email</label>
-                                <input type="email" id="emailFornecedorEquipamento3" placeholder="Ex: geral@fornecedor.pt">
-                            </div>
-
-                            <div>
-                                <label for="nifFornecedorEquipamento3">NIF</label>
-                                <input type="text" id="nifFornecedorEquipamento3" placeholder="Ex: 506789123" inputmode="numeric" pattern="[0-9]{9}" maxlength="9">
-                            </div>
-
-                            <div>
-                                <label for="websiteFornecedorEquipamento3">Website</label>
-                                <input type="text" id="websiteFornecedorEquipamento3" placeholder="Ex: www.fornecedor.pt">
+                                <label for="editEmailContactoFornecedorEquipamento3">Email da pessoa de contacto </label>
+                                <input type="email" id="editEmailContactoFornecedorEquipamento3" value="ana.silva@empresa.pt" >
                             </div>
                         </div>
 
                         <div class="form-full">
-                            <label for="moradaFornecedorEquipamento3">Morada</label>
-                            <textarea id="moradaFornecedorEquipamento3" rows="3" placeholder="Morada do fornecedor"></textarea>
+                            <label for="editObservacoesFornecedorEquipamento3">Observações da relação</label>
+                            <textarea id="editObservacoesFornecedorEquipamento3" rows="3">Contacto preferencial para este equipamento.</textarea>
                         </div>
+
                         <div class="detalhe-card mt-4">
                             <h3>Fornecedores adicionais</h3>
 
                             <p class="mb-3">
                                 Use este campo apenas se o equipamento tiver mais de três fornecedores associados.
-                                Indique o nome do fornecedor, tipo de relação, contacto, telefone, email e NIF, se aplicável.
                             </p>
 
                             <div class="form-full">
-                                <label for="fornecedoresAdicionaisEquipamento">Outros fornecedores associados</label>
-                                <textarea
-                                    id="fornecedoresAdicionaisEquipamento"
-                                    rows="5"
-                                    placeholder="Ex: Fornecedor 4 - Nome: ..., Tipo de relação: ..., Contacto: ..., Telefone: ..., Email: ..., NIF: ..."></textarea>
+                                <label for="editFornecedoresAdicionaisEquipamento">Outros fornecedores associados</label>
+                                <textarea id="editFornecedoresAdicionaisEquipamento" rows="5" placeholder="Ex: Fornecedor 4 - Nome: ..., Tipo: ..., Contacto: ..., Telefone: ..., Email: ..., Observações: ..."></textarea>
                             </div>
                         </div>
                     </div>

@@ -12,7 +12,7 @@ include '../includes/header.php';
         <div class="backend-topbar">
             <div>
                 <h1>Editar Fornecedor</h1>
-                <p>Atualização dos dados de uma entidade associada aos equipamentos médicos.</p>
+                <p>Atualização dos dados gerais da entidade fornecedora.</p>
             </div>
 
             <div class="dropdown">
@@ -42,8 +42,8 @@ include '../includes/header.php';
         <section class="backend-box">
             <div class="backend-section-header">
                 <div>
-                    <h2>Dados do Fornecedor</h2>
-                    <p>Altere os campos necessários e guarde as alterações.</p>
+                    <h2>Dados do Fornecedor Geral</h2>
+                    <p>Altere apenas os dados gerais da entidade fornecedora.</p>
                 </div>
 
                 <a href="index.php" class="btn-backend">
@@ -57,11 +57,11 @@ include '../includes/header.php';
                 <div class="form-grid">
                     <div>
                         <label for="editCodigoFornecedor">Código interno *</label>
-                        <input type="text" id="editCodigoFornecedor" value="F001" required>
+                        <input type="text" id="editCodigoFornecedor" value="FOR001" required>
                     </div>
 
                     <div>
-                        <label for="editNomeFornecedor">Nome da empresa *</label>
+                        <label for="editNomeFornecedor">Fornecedor *</label>
                         <input type="text" id="editNomeFornecedor" value="Philips Healthcare" required>
                     </div>
 
@@ -71,51 +71,29 @@ include '../includes/header.php';
                     </div>
 
                     <div>
-                        <label for="editTipoFornecedor">Tipo de fornecedor *</label>
-                        <select id="editTipoFornecedor" required>
-                            <option selected>Fabricante</option>
-                            <option>Distribuidor</option>
-                            <option>Assistência técnica</option>
-                            <option>Consumíveis</option>
-                        </select>
+                        <label for="editTelefoneFornecedor">Telefone do fornecedor *</label>
+                        <input type="tel" id="editTelefoneFornecedor" value="+351 222 000 000" required>
                     </div>
 
                     <div>
-                        <label for="editTelefoneFornecedor">Telefone *</label>
-                        <input type="tel" id="editTelefoneFornecedor" value="+351 222 000 000" inputmode="tel" required>
+                        <label for="editEmailFornecedor">Email do fornecedor *</label>
+                        <input type="email" id="editEmailFornecedor" value="geral@empresa.pt" required>
                     </div>
 
                     <div>
-                        <label for="editEmailFornecedor">Email *</label>
-                        <input type="email" id="editEmailFornecedor" value="geral@philips-health.pt" required>
-                    </div>
-
-                    <div>
-                        <label for="editWebsiteFornecedor">Website</label>
-                        <input type="text" id="editWebsiteFornecedor" value="www.philips.pt">
-                    </div>
-
-
-
-                    <div>
-                        <label for="editPessoaContactoFornecedor">Pessoa de contacto *</label>
-                        <input type="text" id="editPessoaContactoFornecedor" value="Ana Silva" placeholder="Ex: Ana Silva" required>
-                    </div>
-
-                    <div>
-                        <label for="editTelefoneContactoFornecedor">Telefone da pessoa de contacto</label>
-                        <input type="tel" id="editTelefoneContactoFornecedor" value="+351 912 000 000" inputmode="tel" required>
+                        <label for="editWebsiteFornecedor">Website *</label>
+                        <input type="text" id="editWebsiteFornecedor" value="www.empresa.pt" required>
                     </div>
                 </div>
 
                 <div class="form-full">
-                    <label for="editMoradaFornecedor">Morada</label>
-                    <textarea id="editMoradaFornecedor" rows="3">Avenida da Saúde, nº 120, 4100-000 Porto, Portugal</textarea>
+                    <label for="editMoradaFornecedor">Morada *</label>
+                    <textarea id="editMoradaFornecedor" rows="3" required>Rua Principal, 100, Porto</textarea>
                 </div>
 
                 <div class="form-full">
                     <label for="editObservacoesFornecedor">Observações</label>
-                    <textarea id="editObservacoesFornecedor" rows="4">Entidade registada como fabricante de equipamentos de monitorização.</textarea>
+                    <textarea id="editObservacoesFornecedor" rows="4">Fornecedor geral registado no sistema.</textarea>
                 </div>
 
                 <p id="mensagemEditarFornecedor" class="mensagem-login"></p>
@@ -138,4 +116,4 @@ include '../includes/header.php';
 
 </div>
 
-<?php include '../includes/footer.php';
+<?php include '../includes/footer.php'; ?>
