@@ -104,8 +104,7 @@ $ligacao = null;
                     Novo fornecedor
                 </a>
             </div>
-
-            <div class="filtros-backend">
+<div class="filtros-backend">
                 <div>
                     <label for="filtroEstadoFornecedor">Estado</label>
                     <select id="filtroEstadoFornecedor">
@@ -162,7 +161,7 @@ $ligacao = null;
                                             <i class="bi bi-eye"></i>
                                         </a>
 
-                                        <a href="editar.php?id=<?= $fornecedor->id ?>" data-bs-toggle="tooltip" data-bs-title="Editar fornecedor">
+                                        <a href="editar.php?id=<?= aes_encrypt($fornecedor->id) ?>" data-bs-toggle="tooltip" data-bs-title="Editar fornecedor">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
 

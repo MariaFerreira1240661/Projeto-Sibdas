@@ -73,3 +73,50 @@ function ligar_bd()
         return null;
     }
 }
+
+// --------------------------------------------------------------------
+// SEGURANÇA - Encriptação e desencriptação de IDs
+// --------------------------------------------------------------------
+
+function aes_encrypt($value)
+{
+    return bin2hex(openssl_encrypt(
+        (string) $value,
+        OPENSSL_METHOD,
+        OPENSSL_KEY,
+        OPENSSL_RAW_DATA,
+        OPENSSL_IV
+    ));
+}
+
+function aes_decrypt($value)
+{
+    if (!is_string($value) || $value === '' || strlen($value) % 2 !== 0) {
+        return false;
+    }
+
+    $binario = @hex2bin($value);
+
+    if ($binario === false) {
+        return false;
+    }
+
+    return openssl_decrypt(
+        $binario,
+        OPENSSL_METHOD,
+        OPENSSL_KEY,
+        OPENSSL_RAW_DATA,
+        OPENSSL_IV
+    );
+}
+
+function validar_id_encriptado($valor)
+{
+    $id = aes_decrypt($valor);
+
+    if (!$id || !ctype_digit((string) $id)) {
+        return false;
+    }
+
+    return (int) $id;
+}

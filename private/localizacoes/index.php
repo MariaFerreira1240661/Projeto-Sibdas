@@ -114,8 +114,7 @@ $ligacao = null;
                     Nova localização
                 </a>
             </div>
-
-            <div class="filtros-backend">
+<div class="filtros-backend">
                 <div>
                     <label for="filtroEdificioLocalizacao">Edifício</label>
                     <select id="filtroEdificioLocalizacao">
@@ -183,7 +182,7 @@ $ligacao = null;
                                             <i class="bi bi-eye"></i>
                                         </a>
 
-                                        <a href="editar.php?id=<?= $localizacao->id ?>" data-bs-toggle="tooltip" data-bs-title="Editar localização">
+                                        <a href="editar.php?id=<?= aes_encrypt($localizacao->id) ?>" data-bs-toggle="tooltip" data-bs-title="Editar localização">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
 

@@ -124,6 +124,14 @@ $ligacao = null;
                     Novo equipamento
                 </a>
             </div>
+
+            <?php if (!empty($_SESSION['mensagem_sucesso'])) : ?>
+                <div class="alert alert-success" role="alert">
+                    <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
+                </div>
+                <?php unset($_SESSION['mensagem_sucesso']); ?>
+            <?php endif; ?>
+
             <div class="filtros-backend">
                 <div>
                     <label for="filtroEstado">Estado</label>
@@ -216,7 +224,7 @@ $ligacao = null;
                                             <i class="bi bi-eye"></i>
                                         </a>
 
-                                        <a href="editar.php?id=<?= $equipamento->id ?>" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                        <a href="editar.php?id=<?= aes_encrypt($equipamento->id) ?>" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
 

@@ -329,8 +329,7 @@ function validar_documentacao()
         ['certificado', 'certificado de calibração'],
         ['declaracao_conformidade', 'declaração de conformidade'],
         ['relatorio_tecnico', 'relatório técnico'],
-        ['fatura_aquisicao', 'fatura ou guia de aquisição'],
-        ['contrato_documento', 'contrato/garantia']
+        ['fatura_aquisicao', 'fatura ou guia de aquisição']
     ];
 
     foreach ($documentos as $documento) {
@@ -396,6 +395,28 @@ function validar_contratos()
         $erros[] = 'O valor associado é obrigatório.';
     } elseif (!is_numeric($valor) || (float) $valor < 0) {
         $erros[] = 'O valor associado deve ser numérico e igual ou superior a zero.';
+    }
+
+    obrigatorio('nome_contrato_documento', 'O nome do documento contrato/garantia é obrigatório.');
+
+    $data_documento_contrato = valor_post('data_contrato_documento');
+
+    if ($data_documento_contrato === '') {
+        $erros[] = 'A data do documento contrato/garantia é obrigatória.';
+    } elseif (!data_valida($data_documento_contrato)) {
+        $erros[] = 'A data do documento contrato/garantia não é válida.';
+    }
+
+    $fornecedor_documento = valor_post('fornecedor_contrato_documento');
+
+    if ($fornecedor_documento === '') {
+        $erros[] = 'Escolha o fornecedor associado ao contrato/garantia, ou selecione Sem fornecedor associado.';
+    } elseif ($fornecedor_documento !== '0' && !fornecedor_associado_ao_equipamento((int) $fornecedor_documento)) {
+        $erros[] = 'O fornecedor associado ao contrato/garantia deve estar associado a este equipamento.';
+    }
+
+    if (!ficheiro_pdf_valido('ficheiro_contrato_documento')) {
+        $erros[] = 'O ficheiro do contrato/garantia é obrigatório e deve ser PDF.';
     }
 
     return empty($erros);
@@ -1204,15 +1225,6 @@ function configuracoes_documentos()
             'validade' => 'validade_fatura_aquisicao',
             'fornecedor' => 'fornecedor_fatura_aquisicao',
             'ficheiro' => 'ficheiro_fatura_aquisicao'
-        ],
-        [
-            'tipo' => 'Contrato / garantia',
-            'prefixo' => 'contrato_documento',
-            'nome' => 'nome_contrato_documento',
-            'data' => 'data_contrato_documento',
-            'validade' => 'validade_contrato_documento',
-            'fornecedor' => 'fornecedor_contrato_documento',
-            'ficheiro' => 'ficheiro_contrato_documento'
         ]
     ];
 }
@@ -1279,8 +1291,20 @@ function guardar_contrato_bd()
         return false;
     }
 
-    $documentos = $_SESSION['novo_documento_ids'] ?? [];
-    $documento_id = $documentos['contrato_documento'] ?? null;
+    $documento_id = guardar_documento_bd([
+        'tipo' => 'Contrato / garantia',
+        'prefixo' => 'contrato_documento',
+        'nome' => 'nome_contrato_documento',
+        'data' => 'data_contrato_documento',
+        'validade' => '',
+        'fornecedor' => 'fornecedor_contrato_documento',
+        'ficheiro' => 'ficheiro_contrato_documento'
+    ]);
+
+    if (!$documento_id || !empty($erros)) {
+        return false;
+    }
+
     $valor = str_replace(',', '.', valor_post('valor_contrato'));
 
     try {
@@ -2198,7 +2222,24 @@ include '../includes/header.php';
                             </div>
                         </div>
 
-                        <div class="detalhe-card mb-4">
+                        <div class="form-full">
+                            <label for="observacoes">Observações</label>
+                            <textarea id="observacoes" rows="4" placeholder="Observações adicionais sobre o equipamento"></textarea>
+                        </div>
+
+                        <div class="form-botoes mt-4">
+<button type="submit" class="btn-backend" name="acao_form" value="avancar_contratos" formnovalidate>
+                                Próximo: Contratos
+                                <i class="bi bi-arrow-right-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade <?= classe_pane('garantia', $etapa_atual) ?>" id="garantia-tab-pane" role="tabpanel" tabindex="0">
+                        <h3>Contratos</h3>
+                        <p>Associe a garantia ou contrato ao equipamento.</p>
+
+<div class="detalhe-card mb-4">
                             <h3>Contrato / garantia</h3>
 
                             <div class="form-grid">
@@ -2210,11 +2251,6 @@ include '../includes/header.php';
                                 <div>
                                     <label for="dataContratoDocumentoEquipamento">Data do documento *</label>
                                     <input type="date" id="dataContratoDocumentoEquipamento" required name="data_contrato_documento" value="<?= campo('data_contrato_documento') ?>">
-                                </div>
-
-                                <div>
-                                    <label for="validadeContratoDocumentoEquipamento">Data de validade</label>
-                                    <input type="date" id="validadeContratoDocumentoEquipamento" name="validade_contrato_documento" value="<?= campo('validade_contrato_documento') ?>">
                                 </div>
 
                                 <div>
@@ -2237,23 +2273,7 @@ include '../includes/header.php';
                             </div>
                         </div>
 
-                        <div class="form-full">
-                            <label for="observacoes">Observações</label>
-                            <textarea id="observacoes" rows="4" placeholder="Observações adicionais sobre o equipamento"></textarea>
-                        </div>
-
-                        <div class="form-botoes mt-4">
-<button type="submit" class="btn-backend" name="acao_form" value="avancar_contratos" formnovalidate>
-                                Próximo: Contratos
-                                <i class="bi bi-arrow-right-circle"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane fade <?= classe_pane('garantia', $etapa_atual) ?>" id="garantia-tab-pane" role="tabpanel" tabindex="0">
-                        <h3>Contratos</h3>
-                        <p>Associe a garantia ou contrato ao equipamento.</p>
-
+                        
                         <div class="form-grid">
                             <div>
                                 <label for="estadoGarantiaEquipamento">Estado do contrato / garantia *</label>
