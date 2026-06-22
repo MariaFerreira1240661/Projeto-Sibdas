@@ -2,6 +2,7 @@
 require_once __DIR__ . '/funcoes.php';
 
 redirect_if_not_logged();
+proteger_pagina_atual();
 ?>
 <!DOCTYPE html>
 <html lang="pt">

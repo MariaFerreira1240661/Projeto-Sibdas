@@ -792,3 +792,17 @@ document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {
         new bootstrap.Tooltip(el);
     }
 });
+
+/* Preenchimento automático do login para testes */
+document.querySelectorAll('[data-login-email][data-login-password]').forEach((botao) => {
+    botao.addEventListener('click', () => {
+        const formulario = document.forms['formulario'];
+
+        if (!formulario) {
+            return;
+        }
+
+        formulario['text_username'].value = botao.dataset.loginEmail;
+        formulario['text_password'].value = botao.dataset.loginPassword;
+    });
+});

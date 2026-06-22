@@ -2,9 +2,6 @@
 require_once __DIR__ . '/../private/includes/funcoes.php';
 
 start_session();
-// --------------------------------------------------------------------
-// MENSAGENS TEMPORÁRIAS DA SESSÃO
-// --------------------------------------------------------------------
 
 $validation_errors = [];
 $server_error = '';
@@ -53,7 +50,7 @@ if (!empty($_SESSION['server_error'])) {
             <h2>Área Reservada</h2>
             <p>Introduza os seus dados para aceder ao sistema.</p>
 
-            <form action="../private/index.php" method="post">
+            <form name="formulario" action="../private/processa_login.php" method="post">
                 <div class="mb-3">
                     <label for="text_username" class="form-label">Email</label>
                     <input
@@ -94,8 +91,6 @@ if (!empty($_SESSION['server_error'])) {
 
                 <p id="mensagem-login" class="mensagem-login"></p>
             </form>
-
-            <a href="index.php" class="voltar-site">Voltar ao site público</a>
 
         </div>
     </main>

@@ -112,12 +112,7 @@ include '../includes/header.php';
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                        <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/index.php">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                            Sair para o site público
-                        </a>
-                    </li>
+                   
 
                     <li>
                         <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/logout.php">

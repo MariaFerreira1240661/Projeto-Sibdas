@@ -7,48 +7,16 @@ start_session();
 $pagina_atual = 'dashboard';
 
 // --------------------------------------------------------------------
-// ACESSO AO DASHBOARD COM SESSÃO OU LOGIN POR POST
+// ACESSO AO DASHBOARD COM SESSÃO E PERFIL
 // --------------------------------------------------------------------
 
-if (isset($_SESSION['utilizador'])) {
-    $username = $_SESSION['utilizador'];
-} else {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        header('Location: ../public/login.php');
-        return;
-    }
+redirect_if_not_logged();
+redirect_if_no_permission('dashboard', 'ver');
 
-    $username = isset($_POST['text_username']) ? $_POST['text_username'] : '';
-    $password = isset($_POST['text_password']) ? $_POST['text_password'] : '';
-
-    $validation_errors = [];
-
-    if ($username == '') {
-        $validation_errors[] = 'O email é obrigatório.';
-    } elseif (!filter_var($username, FILTER_VALIDATE_EMAIL)) {
-        $validation_errors[] = 'O email não é válido.';
-    }
-
-    if ($password == '') {
-        $validation_errors[] = 'A palavra-passe é obrigatória.';
-    } elseif (strlen($password) < 6) {
-        $validation_errors[] = 'A palavra-passe deve ter pelo menos 6 caracteres.';
-    }
-
-    if (!empty($validation_errors)) {
-        $_SESSION['validation_errors'] = $validation_errors;
-        header('Location: ../public/login.php');
-        return;
-    }
-
-    if ($username != 'admin@medcontrol.pt' || $password != '123456') {
-        $_SESSION['server_error'] = 'Login inválido.';
-        header('Location: ../public/login.php');
-        return;
-    }
-
-    $_SESSION['utilizador'] = $username;
-}
+$username = $_SESSION['utilizador'] ?? '';
+$profile = $_SESSION['profile'] ?? '';
+$mensagem_sessao = $_SESSION['server_error'] ?? '';
+unset($_SESSION['server_error']);
 
 function h($valor)
 {
@@ -173,7 +141,7 @@ if (!$ligacao) {
     try {
         garantir_tabela_mensagens_contacto($ligacao);
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao_mensagem'] ?? '') !== '') {
+        if (perfil_tem_acesso('mensagens', 'editar') && $_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao_mensagem'] ?? '') !== '') {
             $id_mensagem = (int) ($_POST['id_mensagem'] ?? 0);
             $acao_mensagem = $_POST['acao_mensagem'] ?? '';
 
@@ -188,7 +156,7 @@ if (!$ligacao) {
 
         $id_mensagem_ver = (int) ($_GET['mensagem'] ?? 0);
 
-        if ($id_mensagem_ver > 0) {
+        if (perfil_tem_acesso('mensagens', 'ver') && $id_mensagem_ver > 0) {
             $mensagem_contacto_aberta = obter_mensagem_contacto($ligacao, $id_mensagem_ver);
 
             if ($mensagem_contacto_aberta && $mensagem_contacto_aberta->estado === 'Nova') {
@@ -459,17 +427,11 @@ include 'includes/header.php';
             <div class="dropdown">
                 <button class="backend-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle"></i>
-                    <span>Administrador</span>
+                    <span><?php echo htmlspecialchars(perfil_nome(), ENT_QUOTES, 'UTF-8'); ?></span>
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                        <a class="dropdown-item" href="../public/index.php">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                            Sair para o site público
-                        </a>
-                    </li>
-
+                    
                     <li>
                         <a class="dropdown-item" href="../public/logout.php">
                             <i class="bi bi-box-arrow-right"></i>
@@ -483,6 +445,12 @@ include 'includes/header.php';
         <?php if (!empty($erro_dashboard)) : ?>
             <div class="alert alert-danger" role="alert">
                 <?= h($erro_dashboard) ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($mensagem_sessao)) : ?>
+            <div class="alert alert-danger" role="alert">
+                <?= h($mensagem_sessao) ?>
             </div>
         <?php endif; ?>
 
@@ -538,15 +506,17 @@ include 'includes/header.php';
                 </div>
             </div>
 
-            <div class="kpi-card">
-                <div class="kpi-icon">
-                    <i class="bi bi-envelope"></i>
+            <?php if (perfil_tem_acesso('mensagens', 'ver')) : ?>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-envelope"></i>
+                    </div>
+                    <div>
+                        <h3><?= $mensagens_novas ?></h3>
+                        <p>Mensagens novas</p>
+                    </div>
                 </div>
-                <div>
-                    <h3><?= $mensagens_novas ?></h3>
-                    <p>Mensagens novas</p>
-                </div>
-            </div>
+            <?php endif; ?>
 
             <div class="kpi-card">
                 <div class="kpi-icon">
@@ -580,6 +550,7 @@ include 'includes/header.php';
 
         </section>
 
+        <?php if (perfil_tem_acesso('conteudos', 'editar')) : ?>
         <section class="backend-box mt-4">
             <div class="backend-section-header">
                 <div>
@@ -616,6 +587,7 @@ include 'includes/header.php';
                 </div>
             </div>
         </section>
+        <?php endif; ?>
 
         <section class="dashboard-graficos">
 
@@ -707,36 +679,47 @@ include 'includes/header.php';
                 <h2>Ações rápidas</h2>
 
                 <div class="acoes-rapidas">
+                    <?php if (perfil_tem_acesso('equipamentos', 'criar')) : ?>
                     <a href="equipamentos/novo.php">
                         <i class="bi bi-plus-circle"></i>
                         Registar equipamento
                     </a>
+                    <?php endif; ?>
 
+                    <?php if (perfil_tem_acesso('localizacoes', 'ver')) : ?>
                     <a href="localizacoes/index.php">
                         <i class="bi bi-geo-alt"></i>
                         Gerir localizações
                     </a>
+                    <?php endif; ?>
 
+                    <?php if (perfil_tem_acesso('fornecedores', 'ver')) : ?>
                     <a href="fornecedores/index.php">
                         <i class="bi bi-truck"></i>
                         Gerir fornecedores
                     </a>
+                    <?php endif; ?>
 
+                    <?php if (perfil_tem_acesso('documentacao', 'ver')) : ?>
                     <a href="documentacao/index.php">
                         <i class="bi bi-file-earmark-text"></i>
                         Ver documentação
                     </a>
+                    <?php endif; ?>
 
+                    <?php if (perfil_tem_acesso('contratos', 'ver')) : ?>
                     <a href="contratos/index.php">
                         <i class="bi bi-shield-check"></i>
                         Ver garantias e contratos
                     </a>
+                    <?php endif; ?>
                 </div>
             </div>
 
         </section>
 
 
+        <?php if (perfil_tem_acesso('mensagens', 'ver')) : ?>
         <section class="backend-box" id="mensagens-contacto">
             <div class="backend-section-header">
                 <div>
@@ -886,6 +869,8 @@ include 'includes/header.php';
                 </div>
             <?php endif; ?>
         </section>
+
+        <?php endif; ?>
 
         <section class="backend-box">
             <div class="backend-section-header">
