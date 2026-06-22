@@ -129,6 +129,13 @@ sort($equipamentosContrato);
                     <p>Consulta e gestão de garantias e contratos associados aos equipamentos médicos.</p>
                 </div>
             </div>
+            <?php if (!empty($_SESSION['mensagem_sucesso'])) : ?>
+                <div class="alert alert-success" role="alert">
+                    <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
+                </div>
+                <?php unset($_SESSION['mensagem_sucesso']); ?>
+            <?php endif; ?>
+
             <div class="filtros-backend">
                 <div>
                     <label for="filtroTipoContrato">Tipo de contrato</label>
@@ -205,12 +212,8 @@ sort($equipamentosContrato);
                                         </span>
                                     </td>
                                     <td class="acoes-tabela">
-                                        <a href="detalhes.php?id=<?= $contrato->id ?>" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                        <a href="detalhes.php?id=<?= aes_encrypt($contrato->id) ?>" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                             <i class="bi bi-eye"></i>
-                                        </a>
-
-                                        <a href="remover.php?id=<?= $contrato->id ?>" data-bs-toggle="tooltip" data-bs-title="Remover contrato">
-                                            <i class="bi bi-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -289,5 +292,4 @@ sort($equipamentosContrato);
         filtroEstado.addEventListener("change", aplicarFiltrosContratos);
     });
 </script>
-
 <?php include '../includes/footer.php'; ?>

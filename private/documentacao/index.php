@@ -128,6 +128,13 @@ sort($equipamentosDocumento);
                     <p>Consulta e gestão da documentação técnica e administrativa associada aos equipamentos.</p>
                 </div>
             </div>
+            <?php if (!empty($_SESSION['mensagem_sucesso'])) : ?>
+                <div class="alert alert-success" role="alert">
+                    <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
+                </div>
+                <?php unset($_SESSION['mensagem_sucesso']); ?>
+            <?php endif; ?>
+
             <div class="filtros-backend">
                 <div>
                     <label for="filtroTipoDocumento">Tipo de documento</label>
@@ -206,12 +213,8 @@ sort($equipamentosDocumento);
                                     </td>
                                     <td><?= h($documento->ficheiro) ?></td>
                                     <td class="acoes-tabela">
-                                        <a href="detalhes.php?id=<?= $documento->id ?>" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                        <a href="detalhes.php?id=<?= aes_encrypt($documento->id) ?>" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                             <i class="bi bi-eye"></i>
-                                        </a>
-
-                                        <a href="remover.php?id=<?= $documento->id ?>" data-bs-toggle="tooltip" data-bs-title="Remover documento">
-                                            <i class="bi bi-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -290,5 +293,4 @@ sort($equipamentosDocumento);
         filtroEstado.addEventListener("change", aplicarFiltrosDocumentos);
     });
 </script>
-
 <?php include '../includes/footer.php'; ?>

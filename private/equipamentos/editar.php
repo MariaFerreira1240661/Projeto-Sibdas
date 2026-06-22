@@ -147,7 +147,10 @@ function carregar_localizacoes_gerais_edicao()
             l.edificio,
             COALESCE(l.numero_pisos, l.piso) AS numero_pisos
         FROM localizacoes l
+        INNER JOIN estados_localizacao el
+            ON l.estado_localizacao_id = el.id
         WHERE l.codigo <> 'LOC-TMP'
+          AND el.nome NOT IN ('Inativa', 'Inativo')
         ORDER BY l.codigo
     ")->fetchAll();
 }
@@ -163,8 +166,11 @@ function obter_localizacao_geral_edicao($id)
             l.edificio,
             COALESCE(l.numero_pisos, l.piso) AS numero_pisos
         FROM localizacoes l
+        INNER JOIN estados_localizacao el
+            ON l.estado_localizacao_id = el.id
         WHERE l.id = :id
           AND l.codigo <> 'LOC-TMP'
+          AND el.nome NOT IN ('Inativa', 'Inativo')
         LIMIT 1
     ");
 
@@ -274,6 +280,7 @@ function carregar_fornecedores_associados_edicao($equipamento_id)
         INNER JOIN fornecedores f
             ON ef.fornecedor_id = f.id
         WHERE ef.equipamento_id = :equipamento_id
+          AND f.ativo = 1
         ORDER BY ef.principal DESC, f.codigo
         LIMIT 3
     ");
@@ -301,6 +308,7 @@ function carregar_documentos_equipamento_edicao($equipamento_id)
         LEFT JOIN estados_documento ed ON d.estado_documento_id = ed.id
         LEFT JOIN fornecedores f ON d.fornecedor_id = f.id
         WHERE d.equipamento_id = :equipamento_id
+          AND ed.nome NOT IN ('Expirado', 'Expirada', 'Inativo', 'Inativa')
           AND (
               d.id NOT IN (
                   SELECT c.documento_id
@@ -341,6 +349,7 @@ function carregar_contratos_equipamento_edicao($equipamento_id)
         LEFT JOIN fornecedores f ON c.fornecedor_id = f.id
         LEFT JOIN documentos d ON c.documento_id = d.id
         WHERE c.equipamento_id = :equipamento_id
+          AND ec.nome NOT IN ('Expirado', 'Expirada', 'Inativo', 'Inativa')
         ORDER BY c.id DESC
         LIMIT 1
     ");
@@ -396,6 +405,50 @@ function fornecedor_associado_documento_valido_edicao($fornecedor_id)
     return false;
 }
 
+function documento_tecnico_ativo_edicao($documento_id, $equipamento_id)
+{
+    global $ligacao;
+
+    $stmt = $ligacao->prepare("
+        SELECT COUNT(*)
+        FROM documentos d
+        INNER JOIN estados_documento ed
+            ON d.estado_documento_id = ed.id
+        WHERE d.id = :documento_id
+          AND d.equipamento_id = :equipamento_id
+          AND ed.nome NOT IN ('Expirado', 'Expirada', 'Inativo', 'Inativa')
+    ");
+
+    $stmt->execute([
+        ':documento_id' => (int) $documento_id,
+        ':equipamento_id' => (int) $equipamento_id
+    ]);
+
+    return (int) $stmt->fetchColumn() > 0;
+}
+
+function contrato_ativo_edicao($contrato_id, $equipamento_id)
+{
+    global $ligacao;
+
+    $stmt = $ligacao->prepare("
+        SELECT COUNT(*)
+        FROM contratos c
+        INNER JOIN estados_contrato ec
+            ON c.estado_contrato_id = ec.id
+        WHERE c.id = :contrato_id
+          AND c.equipamento_id = :equipamento_id
+          AND ec.nome NOT IN ('Expirado', 'Expirada', 'Inativo', 'Inativa')
+    ");
+
+    $stmt->execute([
+        ':contrato_id' => (int) $contrato_id,
+        ':equipamento_id' => (int) $equipamento_id
+    ]);
+
+    return (int) $stmt->fetchColumn() > 0;
+}
+
 function selecionado_array_post($grupo, $id, $campo, $valor, $valor_atual = '')
 {
     $atual = $_POST[$grupo][$id][$campo] ?? $valor_atual;
@@ -417,6 +470,12 @@ function atualizar_documentos_equipamento_edicao($equipamento_id)
         $documento_id = (int) $documento_id;
 
         if ($documento_id <= 0) {
+            continue;
+        }
+
+        if (!documento_tecnico_ativo_edicao($documento_id, $equipamento_id)) {
+            $aba_ativa = 'documentacao';
+            $erros[] = 'Documentação: não é possível alterar um documento removido/expirado.';
             continue;
         }
 
@@ -738,8 +797,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $equipamento) {
         $aba_ativa = $aba_post;
     }
 
-    $codigo = normalizar_codigo(valor_post('codigo'));
-    $_POST['codigo'] = $codigo;
+    if ($aba_ativa === 'documentacao') {
+        try {
+            $ligacao->beginTransaction();
+
+            atualizar_documentos_equipamento_edicao($id_equipamento);
+
+            if (empty($erros)) {
+                $ligacao->commit();
+
+                $documentos_equipamento = carregar_documentos_equipamento_edicao($id_equipamento);
+                $contratos_equipamento = carregar_contratos_equipamento_edicao($id_equipamento);
+                $sucesso = 'Documentação atualizada com sucesso.';
+            } else {
+                $ligacao->rollBack();
+            }
+        } catch (PDOException $erroBD) {
+            if ($ligacao->inTransaction()) {
+                $ligacao->rollBack();
+            }
+
+            $erros[] = 'Aconteceu um erro ao atualizar a documentação.';
+        }
+    } elseif ($aba_ativa === 'contratos') {
+        try {
+            $ligacao->beginTransaction();
+
+            atualizar_contratos_equipamento_edicao($id_equipamento);
+
+            if (empty($erros)) {
+                $ligacao->commit();
+
+                $documentos_equipamento = carregar_documentos_equipamento_edicao($id_equipamento);
+                $contratos_equipamento = carregar_contratos_equipamento_edicao($id_equipamento);
+                $sucesso = 'Contrato atualizado com sucesso.';
+            } else {
+                $ligacao->rollBack();
+            }
+        } catch (PDOException $erroBD) {
+            if ($ligacao->inTransaction()) {
+                $ligacao->rollBack();
+            }
+
+            $erros[] = 'Aconteceu um erro ao atualizar o contrato.';
+        }
+    } else {
+        $codigo = normalizar_codigo(valor_post('codigo'));
+        $_POST['codigo'] = $codigo;
 
     if ($codigo === '') {
         $erros[] = 'O código interno é obrigatório.';
@@ -837,7 +941,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $equipamento) {
     $localizacao = obter_localizacao_geral_edicao($localizacao_id);
 
     if (!$localizacao) {
-        $erros[] = 'Selecione uma localização geral válida.';
+        $erros[] = 'Selecione uma localização geral válida e ativa.';
     }
 
     $piso = valor_post('piso_equipamento');
@@ -981,21 +1085,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $equipamento) {
                 ]);
             }
 
-            atualizar_documentos_equipamento_edicao($id_equipamento);
-            atualizar_contratos_equipamento_edicao($id_equipamento);
+            $ligacao->commit();
 
-            if (!empty($erros)) {
-                $ligacao->rollBack();
-            } else {
-                $ligacao->commit();
-            }
-
-            if (empty($erros)) {
-                $fornecedores_associados = carregar_fornecedores_associados_edicao($id_equipamento);
-                $documentos_equipamento = carregar_documentos_equipamento_edicao($id_equipamento);
-                $contratos_equipamento = carregar_contratos_equipamento_edicao($id_equipamento);
-                $sucesso = 'Registo atualizado com sucesso.';
-            }
+            $fornecedores_associados = carregar_fornecedores_associados_edicao($id_equipamento);
+            $documentos_equipamento = carregar_documentos_equipamento_edicao($id_equipamento);
+            $contratos_equipamento = carregar_contratos_equipamento_edicao($id_equipamento);
+            $sucesso = 'Registo atualizado com sucesso.';
         } catch (PDOException $erroBD) {
             if ($ligacao->inTransaction()) {
                 $ligacao->rollBack();
@@ -1004,6 +1099,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $equipamento) {
             $erros[] = 'Aconteceu um erro ao atualizar o equipamento.';
         }
         
+    }
     }
 }
 

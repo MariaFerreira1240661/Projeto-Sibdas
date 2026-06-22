@@ -527,6 +527,7 @@ function carregar_localizacoes_gerais()
         INNER JOIN estados_localizacao el
             ON l.estado_localizacao_id = el.id
         WHERE l.codigo <> 'LOC-TMP'
+          AND el.nome NOT IN ('Inativa', 'Inativo')
         ORDER BY l.codigo
     ";
 
@@ -551,6 +552,7 @@ function obter_localizacao_geral($id)
             ON l.estado_localizacao_id = el.id
         WHERE l.id = :id
           AND l.codigo <> 'LOC-TMP'
+          AND el.nome NOT IN ('Inativa', 'Inativo')
         LIMIT 1
     ");
 

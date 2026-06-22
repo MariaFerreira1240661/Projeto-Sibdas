@@ -40,6 +40,7 @@ if (!$ligacao) {
                 e.marca,
                 e.modelo,
                 e.numero_serie,
+                e.ativo,
                 ce.nome AS categoria,
                 CONCAT(
                     l.codigo,
@@ -62,7 +63,6 @@ if (!$ligacao) {
                 ON e.estado_equipamento_id = ee.id
             INNER JOIN criticidades c
                 ON e.criticidade_id = c.id
-            WHERE e.ativo = 1
             ORDER BY e.codigo
         ";
 
@@ -220,17 +220,19 @@ $ligacao = null;
                                         </span>
                                     </td>
                                     <td class="acoes-tabela">
-                                        <a href="detalhes.php?id=<?= $equipamento->id ?>" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                        <a href="detalhes.php?id=<?= aes_encrypt($equipamento->id) ?>" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                             <i class="bi bi-eye"></i>
                                         </a>
 
-                                        <a href="editar.php?id=<?= aes_encrypt($equipamento->id) ?>" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
+                                        <?php if ((int) $equipamento->ativo === 1) : ?>
+                                            <a href="editar.php?id=<?= aes_encrypt($equipamento->id) ?>" data-bs-toggle="tooltip" data-bs-title="Editar equipamento">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
 
-                                        <a href="remover.php?id=<?= $equipamento->id ?>" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
+                                            <a href="remover.php?id=<?= aes_encrypt($equipamento->id) ?>" data-bs-toggle="tooltip" data-bs-title="Remover equipamento">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -316,5 +318,4 @@ $ligacao = null;
         filtroCriticidade.addEventListener("change", aplicarFiltrosEquipamentos);
     });
 </script>
-
 <?php include '../includes/footer.php'; ?>

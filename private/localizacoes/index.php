@@ -114,7 +114,14 @@ $ligacao = null;
                     Nova localização
                 </a>
             </div>
-<div class="filtros-backend">
+<?php if (!empty($_SESSION['mensagem_sucesso'])) : ?>
+                <div class="alert alert-success" role="alert">
+                    <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
+                </div>
+                <?php unset($_SESSION['mensagem_sucesso']); ?>
+            <?php endif; ?>
+
+            <div class="filtros-backend">
                 <div>
                     <label for="filtroEdificioLocalizacao">Edifício</label>
                     <select id="filtroEdificioLocalizacao">
@@ -178,17 +185,19 @@ $ligacao = null;
                                         </span>
                                     </td>
                                     <td class="acoes-tabela">
-                                        <a href="detalhes.php?id=<?= $localizacao->id ?>" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                        <a href="detalhes.php?id=<?= aes_encrypt($localizacao->id) ?>" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                             <i class="bi bi-eye"></i>
                                         </a>
 
-                                        <a href="editar.php?id=<?= aes_encrypt($localizacao->id) ?>" data-bs-toggle="tooltip" data-bs-title="Editar localização">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
+                                        <?php if (!in_array($localizacao->estado, ['Inativa', 'Inativo'], true)) : ?>
+                                            <a href="editar.php?id=<?= aes_encrypt($localizacao->id) ?>" data-bs-toggle="tooltip" data-bs-title="Editar localização">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
 
-                                        <a href="remover.php?id=<?= $localizacao->id ?>" data-bs-toggle="tooltip" data-bs-title="Remover localização">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
+                                            <a href="remover.php?id=<?= aes_encrypt($localizacao->id) ?>" data-bs-toggle="tooltip" data-bs-title="Remover localização">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -263,5 +272,4 @@ $ligacao = null;
         filtroEstado.addEventListener("change", aplicarFiltrosLocalizacoes);
     });
 </script>
-
 <?php include '../includes/footer.php'; ?>

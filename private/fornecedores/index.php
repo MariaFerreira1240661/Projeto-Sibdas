@@ -104,7 +104,14 @@ $ligacao = null;
                     Novo fornecedor
                 </a>
             </div>
-<div class="filtros-backend">
+<?php if (!empty($_SESSION['mensagem_sucesso'])) : ?>
+                <div class="alert alert-success" role="alert">
+                    <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
+                </div>
+                <?php unset($_SESSION['mensagem_sucesso']); ?>
+            <?php endif; ?>
+
+            <div class="filtros-backend">
                 <div>
                     <label for="filtroEstadoFornecedor">Estado</label>
                     <select id="filtroEstadoFornecedor">
@@ -157,17 +164,19 @@ $ligacao = null;
                                         </span>
                                     </td>
                                     <td class="acoes-tabela">
-                                        <a href="detalhes.php?id=<?= $fornecedor->id ?>" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
+                                        <a href="detalhes.php?id=<?= aes_encrypt($fornecedor->id) ?>" data-bs-toggle="tooltip" data-bs-title="Ver detalhes">
                                             <i class="bi bi-eye"></i>
                                         </a>
 
-                                        <a href="editar.php?id=<?= aes_encrypt($fornecedor->id) ?>" data-bs-toggle="tooltip" data-bs-title="Editar fornecedor">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
+                                        <?php if ((int) $fornecedor->ativo === 1) : ?>
+                                            <a href="editar.php?id=<?= aes_encrypt($fornecedor->id) ?>" data-bs-toggle="tooltip" data-bs-title="Editar fornecedor">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
 
-                                        <a href="remover.php?id=<?= $fornecedor->id ?>" data-bs-toggle="tooltip" data-bs-title="Remover fornecedor">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
+                                            <a href="remover.php?id=<?= aes_encrypt($fornecedor->id) ?>" data-bs-toggle="tooltip" data-bs-title="Remover fornecedor">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -236,5 +245,4 @@ $ligacao = null;
         });
     });
 </script>
-
 <?php include '../includes/footer.php'; ?>
