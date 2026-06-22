@@ -200,83 +200,134 @@ if (formLogin) {
 
 /* Gráficos */
 
-function criarGrafico(id, config) {
-    const canvas = $(id);
+function lerDadosGrafico(idCanvas) {
+    const canvas = document.getElementById(idCanvas);
 
-    if (canvas && typeof Chart !== "undefined") {
-        new Chart(canvas, config);
+    if (!canvas) {
+        return null;
     }
+
+    let labels = [];
+    let valores = [];
+
+    try {
+        labels = JSON.parse(canvas.getAttribute("data-labels") || "[]");
+        valores = JSON.parse(canvas.getAttribute("data-valores") || "[]");
+    } catch (erro) {
+        console.error("Erro ao ler dados do gráfico:", idCanvas, erro);
+        return null;
+    }
+
+    if (!Array.isArray(labels) || !Array.isArray(valores)) {
+        return null;
+    }
+
+    return {
+        canvas: canvas,
+        labels: labels,
+        valores: valores.map(Number)
+    };
 }
 
-criarGrafico("graficoEstados", {
-    type: "doughnut",
-    data: {
-        labels: ["Ativo", "Em manutenção", "Inativo", "Em calibração"],
-        datasets: [{
-            data: [4, 2, 1, 1],
-            backgroundColor: ["#7bbf8b", "#f5b55b", "#d65b5b", "#f28c8c"]
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: "bottom"
-            }
-        }
-    }
-});
+function criarGraficoDashboard(idCanvas) {
+    const dados = lerDadosGrafico(idCanvas);
 
-criarGrafico("graficoCategorias", {
-    type: "bar",
-    data: {
-        labels: ["Monitorização", "Suporte de vida", "Terapia", "Diagnóstico"],
-        datasets: [{
-            label: "N.º de equipamentos",
-            data: [2, 3, 2, 1],
-            backgroundColor: "#f28c8c"
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                display: false
+    if (!dados || typeof Chart === "undefined") {
+        return;
+    }
+
+    if (dados.labels.length === 0 || dados.valores.length === 0) {
+        return;
+    }
+
+    const configs = {
+        graficoEstados: {
+            type: "doughnut",
+            data: {
+                labels: dados.labels,
+                datasets: [{
+                    data: dados.valores
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: "bottom"
+                    }
+                }
             }
         },
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
 
-criarGrafico("graficoLocalizacoes", {
-    type: "bar",
-    data: {
-        labels: ["UCI", "Bloco Operatório", "Medicina Interna", "Urgência"],
-        datasets: [{
-            label: "N.º de equipamentos",
-            data: [3, 2, 2, 1],
-            backgroundColor: "#10233f"
-        }]
-    },
-    options: {
-        indexAxis: "y",
-        responsive: true,
-        plugins: {
-            legend: {
-                display: false
+        graficoCategorias: {
+            type: "bar",
+            data: {
+                labels: dados.labels,
+                datasets: [{
+                    label: "N.º de equipamentos",
+                    data: dados.valores
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
             }
         },
-        scales: {
-            x: {
-                beginAtZero: true
+
+        graficoLocalizacoes: {
+            type: "bar",
+            data: {
+                labels: dados.labels,
+                datasets: [{
+                    label: "N.º de equipamentos",
+                    data: dados.valores
+                }]
+            },
+            options: {
+                indexAxis: "y",
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
             }
         }
+    };
+
+    const config = configs[idCanvas];
+
+    if (!config) {
+        return;
     }
-});
+
+    new Chart(dados.canvas, config);
+}
+
+criarGraficoDashboard("graficoEstados");
+criarGraficoDashboard("graficoCategorias");
+criarGraficoDashboard("graficoLocalizacoes");
+
 /* Filtros das tabelas */
 
 function iniciarFiltroTabela(config) {
@@ -730,157 +781,6 @@ function ligarCampoCondicional(config) {
     });
 });
 
-/* Gestão dos conteúdos públicos */
-
-const camposConteudoPublico = [
-    "conteudoLogoTexto",
-    "conteudoNavInicio",
-    "conteudoNavSobre",
-    "conteudoNavServicos",
-    "conteudoNavContactos",
-    "conteudoNavAreaReservada",
-    "conteudoTituloInicio",
-    "conteudoTextoInicio",
-    "conteudoBotaoInicio",
-    "conteudoSobreSubtitulo",
-    "conteudoSobreTitulo",
-    "conteudoSobreNos",
-    "conteudoSobreTexto2",
-    "conteudoSobreListaTitulo",
-    "conteudoSobreListaItem1",
-    "conteudoSobreListaItem2",
-    "conteudoSobreListaItem3",
-    "conteudoSobreListaItem4",
-    "conteudoServicosTitulo",
-    "conteudoServicos",
-    "conteudoServicoEquipamentosTitulo",
-    "conteudoServicoEquipamentosTexto",
-    "conteudoServicoLocalizacaoTitulo",
-    "conteudoServicoLocalizacaoTexto",
-    "conteudoServicoFornecedoresTitulo",
-    "conteudoServicoFornecedoresTexto",
-    "conteudoServicoDocumentacaoTitulo",
-    "conteudoServicoDocumentacaoTexto",
-    "conteudoServicoContratosTitulo",
-    "conteudoServicoContratosTexto",
-    "conteudoServicoPesquisaTitulo",
-    "conteudoServicoPesquisaTexto",
-    "conteudoContactosTitulo",
-    "conteudoContactosIntro",
-    "conteudoContactosInfoTitulo",
-    "conteudoEmail",
-    "conteudoTelefone",
-    "conteudoLocalizacao",
-    "conteudoLabelNome",
-    "conteudoLabelEmail",
-    "conteudoLabelMensagem",
-    "conteudoBotaoContacto",
-    "conteudoFooterTexto1",
-    "conteudoFooterTexto2"
-];
-
-const ligacoesConteudoPublico = [
-    ["logoTextoPublico", "conteudoLogoTexto"],
-    ["navInicioPublico", "conteudoNavInicio"],
-    ["navSobrePublico", "conteudoNavSobre"],
-    ["navServicosPublico", "conteudoNavServicos"],
-    ["navContactosPublico", "conteudoNavContactos"],
-    ["navAreaReservadaPublico", "conteudoNavAreaReservada"],
-    ["tituloInicioPublico", "conteudoTituloInicio"],
-    ["textoInicioPublico", "conteudoTextoInicio"],
-    ["botaoInicioPublico", "conteudoBotaoInicio"],
-    ["sobreSubtituloPublico", "conteudoSobreSubtitulo"],
-    ["sobreTituloPublico", "conteudoSobreTitulo"],
-    ["sobreNosPublico", "conteudoSobreNos"],
-    ["sobreTexto2Publico", "conteudoSobreTexto2"],
-    ["sobreListaTituloPublico", "conteudoSobreListaTitulo"],
-    ["sobreListaItem1Publico", "conteudoSobreListaItem1"],
-    ["sobreListaItem2Publico", "conteudoSobreListaItem2"],
-    ["sobreListaItem3Publico", "conteudoSobreListaItem3"],
-    ["sobreListaItem4Publico", "conteudoSobreListaItem4"],
-    ["servicosTituloPublico", "conteudoServicosTitulo"],
-    ["servicosPublico", "conteudoServicos"],
-    ["servicoEquipamentosTituloPublico", "conteudoServicoEquipamentosTitulo"],
-    ["servicoEquipamentosTextoPublico", "conteudoServicoEquipamentosTexto"],
-    ["servicoLocalizacaoTituloPublico", "conteudoServicoLocalizacaoTitulo"],
-    ["servicoLocalizacaoTextoPublico", "conteudoServicoLocalizacaoTexto"],
-    ["servicoFornecedoresTituloPublico", "conteudoServicoFornecedoresTitulo"],
-    ["servicoFornecedoresTextoPublico", "conteudoServicoFornecedoresTexto"],
-    ["servicoDocumentacaoTituloPublico", "conteudoServicoDocumentacaoTitulo"],
-    ["servicoDocumentacaoTextoPublico", "conteudoServicoDocumentacaoTexto"],
-    ["servicoContratosTituloPublico", "conteudoServicoContratosTitulo"],
-    ["servicoContratosTextoPublico", "conteudoServicoContratosTexto"],
-    ["servicoPesquisaTituloPublico", "conteudoServicoPesquisaTitulo"],
-    ["servicoPesquisaTextoPublico", "conteudoServicoPesquisaTexto"],
-    ["contactosTituloPublico", "conteudoContactosTitulo"],
-    ["contactosIntroPublico", "conteudoContactosIntro"],
-    ["contactosInfoTituloPublico", "conteudoContactosInfoTitulo"],
-    ["emailPublico", "conteudoEmail"],
-    ["telefonePublico", "conteudoTelefone"],
-    ["localizacaoPublico", "conteudoLocalizacao"],
-    ["labelNomePublico", "conteudoLabelNome"],
-    ["labelEmailPublico", "conteudoLabelEmail"],
-    ["labelMensagemPublico", "conteudoLabelMensagem"],
-    ["botaoContactoPublico", "conteudoBotaoContacto"],
-    ["footerTexto1Publico", "conteudoFooterTexto1"],
-    ["footerTexto2Publico", "conteudoFooterTexto2"]
-];
-
-function carregarConteudosNoFormulario() {
-    camposConteudoPublico.forEach(function (id) {
-        const campo = $(id);
-        const guardado = localStorage.getItem(id);
-
-        if (campo && guardado) {
-            campo.value = guardado;
-        }
-    });
-}
-
-function aplicarConteudosNoSitePublico() {
-    ligacoesConteudoPublico.forEach(function (ligacao) {
-        const elemento = $(ligacao[0]);
-        const guardado = localStorage.getItem(ligacao[1]);
-
-        if (elemento && guardado) {
-            elemento.textContent = guardado;
-        }
-    });
-}
-
-const formConteudosPublicos = $("formConteudosPublicos");
-const botaoReporConteudos = $("reporConteudosPublicos");
-
-if (formConteudosPublicos) {
-    carregarConteudosNoFormulario();
-
-    formConteudosPublicos.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        if (!camposPreenchidos(camposConteudoPublico)) {
-            mensagem("mensagemConteudosPublicos", "Preencha todos os campos antes de guardar.", "#10233f");
-            return;
-        }
-
-        camposConteudoPublico.forEach(function (id) {
-            localStorage.setItem(id, valor(id));
-        });
-
-        mensagem("mensagemConteudosPublicos", "Conteúdos guardados com sucesso. Abra o site público para visualizar as alterações.", "green");
-    });
-}
-
-if (botaoReporConteudos) {
-    botaoReporConteudos.addEventListener("click", function () {
-        camposConteudoPublico.forEach(function (id) {
-            localStorage.removeItem(id);
-        });
-
-        window.location.reload();
-    });
-}
-
-aplicarConteudosNoSitePublico();
 removerBotoesNovoEditarDocumentosContratos();
 inserirDocumentosAssociadosNaListagem();
 inserirContratosAssociadosNaListagem();

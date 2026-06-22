@@ -1576,4 +1576,31 @@ footer {
     margin-bottom: 1.5rem !important;
 }
 
+/* Mensagens de contacto na dashboard */
+.btn-acao-tabela {
+    border: none;
+    background: #fff4f4;
+    color: #10233f;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+}
 
+.btn-acao-tabela:hover {
+    background: #f28c8c;
+    color: #10233f;
+}
+
+.mensagem-contacto-texto {
+    white-space: normal;
+    line-height: 1.7;
+    margin-top: 1rem;
+}
+
+.mensagens-kpis {
+    margin-top: 1.5rem;
+}
