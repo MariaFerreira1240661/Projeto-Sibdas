@@ -18,11 +18,12 @@ define('BASE_URL', '/sibdas/1240661/medcontrol');
 // CONFIGURAÇÕES DA BASE DE DADOS
 // --------------------------------------------------------------------
 
-define('MYSQL_HOST', 'localhost');
-define('MYSQL_DATABASE', 'medcontrol');
-define('MYSQL_USERNAME', 'medcontrol_user');
-define('MYSQL_PASSWORD', 'MedControl_2026!');
-define('MYSQL_AES_KEY', 'medcontrol_chave_local_2026');
+define('MYSQL_HOST', 'vsgate-s1.dei.isep.ipp.pt');
+define('MYSQL_PORT', '10464');
+define('MYSQL_DATABASE','db1240661' );
+define('MYSQL_USERNAME', '1240661');
+define('MYSQL_PASSWORD', 'ferreira_661');
+
 
 // --------------------------------------------------------------------
 // SEGURANÇA - Encriptação de IDs nas páginas de edição

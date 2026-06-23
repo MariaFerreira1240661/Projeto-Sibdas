@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/funcoes.php';
 require_once __DIR__ . '/../includes/validacoes.php';
+require_once __DIR__ . '/../includes/logs_eventos.php';
 
 redirect_if_not_logged();
 redirect_if_no_permission('equipamentos', 'editar');
@@ -872,6 +873,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $equipamento) {
 
             if (empty($erros)) {
                 $ligacao->commit();
+                registar_evento(
+                    'dados_alterados',
+                    'documentos',
+                    $id_equipamento,
+                    'Documentação do equipamento atualizada.'
+                );
 
                 $documentos_equipamento = carregar_documentos_equipamento_edicao($id_equipamento);
                 $contratos_equipamento = carregar_contratos_equipamento_edicao($id_equipamento);
@@ -894,6 +901,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $equipamento) {
 
             if (empty($erros)) {
                 $ligacao->commit();
+                registar_evento(
+                    'dados_alterados',
+                    'contratos',
+                    $id_equipamento,
+                    'Contrato do equipamento atualizado.'
+                );
 
                 $documentos_equipamento = carregar_documentos_equipamento_edicao($id_equipamento);
                 $contratos_equipamento = carregar_contratos_equipamento_edicao($id_equipamento);
@@ -1155,6 +1168,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $equipamento) {
             }
 
             $ligacao->commit();
+                registar_evento(
+                    'dados_alterados',
+                    'equipamentos',
+                    $id_equipamento,
+                    'Equipamento editado: ' . valor_post('designacao')
+                );
 
             $fornecedores_associados = carregar_fornecedores_associados_edicao($id_equipamento);
             $documentos_equipamento = carregar_documentos_equipamento_edicao($id_equipamento);

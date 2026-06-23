@@ -1,13 +1,17 @@
 <?php
 require_once __DIR__ . '/../includes/funcoes.php';
+require_once __DIR__ . '/../includes/logs_eventos.php';
 
 redirect_if_not_logged();
+redirect_if_no_permission('contratos', 'remover');
 
 $id_encriptado = $_GET['id'] ?? null;
 $id_registo = validar_id_encriptado($id_encriptado);
 
 if (!$id_registo) {
-    header('Location: index.php');
+    registar_evento('remocao_logica', 'contratos', $id ?? null, 'Registo removido/desativado no módulo contratos.');
+
+header('Location: index.php');
     exit;
 }
 

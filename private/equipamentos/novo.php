@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/funcoes.php';
+require_once __DIR__ . '/../includes/logs_eventos.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -1573,6 +1574,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $erros[] = 'Valide primeiro a Documentação.';
             $etapa_atual = 'documentacao';
         } elseif (validar_contratos() && guardar_contrato_bd()) {
+
+            $equipamento_id_log = equipamento_id_atual();
+
+            registar_evento(
+                'dados_alterados',
+                'equipamentos',
+                $equipamento_id_log,
+                'Equipamento registado com sucesso no inventário.'
+            );
             marcar_etapa_ok('garantia');
             $etapa_atual = 'garantia';
             $sucesso_validacao = 'Equipamento registado com sucesso na base de dados.';

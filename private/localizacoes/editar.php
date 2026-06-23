@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/funcoes.php';
 require_once __DIR__ . '/../includes/validacoes.php';
+require_once __DIR__ . '/../includes/logs_eventos.php';
 
 redirect_if_not_logged();
 
@@ -210,6 +211,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $localizacao) {
                 ':observacoes' => valor_post('observacoes') !== '' ? valor_post('observacoes') : null,
                 ':id' => $id_localizacao
             ]);
+            registar_evento(
+                'dados_alterados',
+                'localizacoes',
+                $id_localizacao,
+                'Localização editada: ' . $codigo . ' - ' . valor_post('edificio')
+            );
 
             $sucesso = 'Registo atualizado com sucesso.';
         } catch (PDOException $erroBD) {

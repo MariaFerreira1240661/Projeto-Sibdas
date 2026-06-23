@@ -119,10 +119,20 @@ $ligacao = null;
 
 
                 
-                <a href="exportar.php" class="btn-secundario">
-                    <i class="bi bi-file-earmark-spreadsheet"></i>
-                    Exportar Excel
-                </a>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="exportar.php?formato=csv" class="btn-secundario">
+                        <i class="bi bi-file-earmark-spreadsheet"></i>
+                        Exportar CSV
+                    </a>
+                    <a href="exportar.php?formato=json" class="btn-secundario">
+                        <i class="bi bi-filetype-json"></i>
+                        Exportar JSON
+                    </a>
+                    <a href="exportar.php?formato=pdf" class="btn-secundario">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        Exportar PDF
+                    </a>
+                </div>
 <a href="novo.php" class="btn-backend">
                     <i class="bi bi-plus-circle"></i>
                     Novo equipamento

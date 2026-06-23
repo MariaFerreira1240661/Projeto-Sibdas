@@ -122,10 +122,20 @@ sort($equipamentosContrato);
                 <div>
                     <h2>Listagem de Contratos e Garantias</h2>
 
-                <a href="exportar.php" class="btn-secundario">
-                    <i class="bi bi-file-earmark-spreadsheet"></i>
-                    Exportar Excel
-                </a>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="exportar.php?formato=csv" class="btn-secundario">
+                        <i class="bi bi-file-earmark-spreadsheet"></i>
+                        Exportar CSV
+                    </a>
+                    <a href="exportar.php?formato=json" class="btn-secundario">
+                        <i class="bi bi-filetype-json"></i>
+                        Exportar JSON
+                    </a>
+                    <a href="exportar.php?formato=pdf" class="btn-secundario">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        Exportar PDF
+                    </a>
+                </div>
 
                     <p>Consulta e gestão de garantias e contratos associados aos equipamentos médicos.</p>
                 </div>

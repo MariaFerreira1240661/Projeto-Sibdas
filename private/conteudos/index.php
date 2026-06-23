@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/conteudos_publicos.php';
+require_once __DIR__ . '/../includes/logs_eventos.php';
 
 start_session();
 redirect_if_not_logged();
@@ -30,6 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($erros)) {
         if (guardar_conteudos_publicos($dados)) {
             $mensagem_sucesso = 'Conteúdos guardados com sucesso.';
+            registar_evento(
+                'dados_alterados',
+                'conteudos_publicos',
+                null,
+                'Conteúdos da área pública atualizados.'
+            );
             $conteudos = obter_conteudos_publicos();
         } else {
             $erros[] = 'Não foi possível guardar os conteúdos na base de dados.';

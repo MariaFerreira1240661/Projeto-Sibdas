@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/utilizadores.php';
+require_once __DIR__ . '/includes/logs_eventos.php';
 
 start_session();
 
@@ -32,14 +33,18 @@ if (!empty($validation_errors)) {
 $utilizador = validar_login_utilizador($username, $password);
 
 if (!$utilizador) {
+    registar_evento('login_falhado', 'utilizadores', null, 'Tentativa de login falhada para o email: ' . $username);
     $_SESSION['server_error'] = 'Login inválido.';
     header('Location: ../public/login.php');
     exit;
 }
 
+$_SESSION['utilizador_id'] = (int) $utilizador->id;
 $_SESSION['utilizador'] = $utilizador->email;
 $_SESSION['nome_utilizador'] = !empty($utilizador->nome) ? $utilizador->nome : $utilizador->email;
 $_SESSION['profile'] = $utilizador->perfil;
+
+registar_evento('login_sucesso', 'utilizadores', (int) $utilizador->id, 'Login efetuado com sucesso.');
 
 header('Location: index.php');
 exit;

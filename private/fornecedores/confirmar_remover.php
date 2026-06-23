@@ -1,13 +1,17 @@
 <?php
 require_once __DIR__ . '/../includes/funcoes.php';
+require_once __DIR__ . '/../includes/logs_eventos.php';
 
 redirect_if_not_logged();
+redirect_if_no_permission('fornecedores', 'remover');
 
 $id_encriptado = $_GET['id'] ?? null;
 $id_registo = validar_id_encriptado($id_encriptado);
 
 if (!$id_registo) {
-    header('Location: index.php');
+    registar_evento('remocao_logica', 'fornecedores', $id ?? null, 'Registo removido/desativado no módulo fornecedores.');
+
+header('Location: index.php');
     exit;
 }
 

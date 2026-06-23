@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/funcoes.php';
+require_once __DIR__ . '/../includes/logs_eventos.php';
 
 redirect_if_not_logged();
 
@@ -179,6 +180,14 @@ function guardar_localizacao()
             ':contacto_interno' => valor_post('contacto_interno'),
             ':observacoes' => valor_post('observacoes') !== '' ? valor_post('observacoes') : null
         ]);
+        $localizacao_id = (int) $ligacao->lastInsertId();
+
+        registar_evento(
+            'dados_alterados',
+            'localizacoes',
+            $localizacao_id,
+            'Localização registada: ' . $codigo . ' - ' . valor_post('edificio')
+        );
 
         return true;
     } catch (PDOException $erroBD) {

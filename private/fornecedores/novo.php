@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/funcoes.php';
+require_once __DIR__ . '/../includes/logs_eventos.php';
 
 redirect_if_not_logged();
 
@@ -167,6 +168,14 @@ function guardar_fornecedor()
             ':morada' => valor_post('morada'),
             ':observacoes' => valor_post('observacoes') !== '' ? valor_post('observacoes') : null
         ]);
+        $fornecedor_id = (int) $ligacao->lastInsertId();
+
+        registar_evento(
+            'dados_alterados',
+            'fornecedores',
+            $fornecedor_id,
+            'Fornecedor registado: ' . $codigo . ' - ' . valor_post('nome')
+        );
 
         return true;
     } catch (PDOException $erroBD) {

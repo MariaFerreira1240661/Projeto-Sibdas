@@ -1,57 +1,55 @@
 <?php
 require_once __DIR__ . '/../includes/funcoes.php';
+require_once __DIR__ . '/../includes/logs_eventos.php';
+require_once __DIR__ . '/../includes/exportacoes.php';
+
 redirect_if_not_logged();
 
-function exportar_csv($nome_ficheiro, $cabecalhos, $linhas)
-{
-    header('Content-Type: text/csv; charset=UTF-8');
-    header('Content-Disposition: attachment; filename="' . $nome_ficheiro . '"');
-    header('Pragma: no-cache');
-    header('Expires: 0');
-
-    $saida = fopen('php://output', 'w');
-    fwrite($saida, "\xEF\xBB\xBF");
-    fputcsv($saida, $cabecalhos, ';');
-
-    foreach ($linhas as $linha) {
-        $dados = [];
-        foreach ($cabecalhos as $campo) {
-            $chave = strtolower($campo);
-            $chave = str_replace(
-                [' ', 'ç', 'ã', 'á', 'à', 'â', 'é', 'ê', 'í', 'ó', 'ô', 'õ', 'ú', 'º', '.', '/'],
-                ['_', 'c', 'a', 'a', 'a', 'a', 'e', 'e', 'i', 'o', 'o', 'o', 'u', '', '', '_'],
-                $chave
-            );
-            $dados[] = $linha[$chave] ?? '';
-        }
-        fputcsv($saida, $dados, ';');
-    }
-
-    fclose($saida);
-    exit;
-}
+$formato = $_GET['formato'] ?? 'csv';
 
 try {
     $ligacao = ligar_bd();
-    $stmt = $ligacao->prepare("
-        SELECT l.codigo, l.edificio, l.numero_pisos, l.responsavel,
-               l.contacto_interno AS contacto, COUNT(e.id) AS equipamentos, el.nome AS estado
-        FROM localizacoes l
-        LEFT JOIN estados_localizacao el ON el.id = l.estado_localizacao_id
-        LEFT JOIN equipamentos e ON e.localizacao_id = l.id
-             AND (e.observacoes IS NULL OR e.observacoes <> 'RASCUNHO_REGISTO')
-        WHERE l.codigo <> 'LOC-TMP'
-          AND l.edificio <> 'Por definir'
-        GROUP BY l.id, l.codigo, l.edificio, l.numero_pisos, l.responsavel, l.contacto_interno, el.nome
-        ORDER BY l.codigo
-    ");
+
+    if (!$ligacao) {
+        throw new PDOException('Sem ligação à base de dados.');
+    }
+
+    $sql = <<<SQL
+SELECT l.codigo, l.edificio, l.numero_pisos, l.responsavel,
+       l.contacto_interno AS contacto, COUNT(e.id) AS equipamentos, el.nome AS estado
+FROM localizacoes l
+LEFT JOIN estados_localizacao el ON el.id = l.estado_localizacao_id
+LEFT JOIN equipamentos e ON e.localizacao_id = l.id
+     AND (e.observacoes IS NULL OR e.observacoes <> 'RASCUNHO_REGISTO')
+WHERE l.codigo <> 'LOC-TMP'
+  AND l.edificio <> 'Por definir'
+GROUP BY l.id, l.codigo, l.edificio, l.numero_pisos, l.responsavel, l.contacto_interno, el.nome
+ORDER BY l.codigo
+SQL;
+
+    $stmt = $ligacao->prepare($sql);
     $stmt->execute();
-    exportar_csv('localizacoes_medcontrol.csv',
-        ['Codigo','Edificio','Numero Pisos','Responsavel','Contacto','Equipamentos','Estado'],
-        $stmt->fetchAll(PDO::FETCH_ASSOC)
+
+    $linhas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    registar_evento(
+        'exportacao_dados',
+        'localizacoes',
+        null,
+        'Exportação de dados do módulo localizacoes em formato ' . strtoupper($formato) . '.'
+    );
+
+    $colunas = ['codigo' => 'Código', 'edificio' => 'Edifício', 'numero_pisos' => 'Número de pisos', 'responsavel' => 'Responsável', 'contacto' => 'Contacto', 'equipamentos' => 'Equipamentos', 'estado' => 'Estado'];
+
+    exportar_dados(
+        $formato,
+        'localizacoes_medcontrol',
+        'Localizações MedControl',
+        $colunas,
+        $linhas
     );
 } catch (PDOException $erro) {
-    $_SESSION['server_error'] = 'Erro ao exportar localizações.';
+    $_SESSION['server_error'] = 'Erro ao exportar localizacoes.';
     header('Location: index.php');
     exit;
 }

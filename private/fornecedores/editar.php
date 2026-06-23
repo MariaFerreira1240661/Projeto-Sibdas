@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/funcoes.php';
 require_once __DIR__ . '/../includes/validacoes.php';
+require_once __DIR__ . '/../includes/logs_eventos.php';
 
 redirect_if_not_logged();
 
@@ -235,6 +236,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $fornecedor) {
                 ':ativo' => (int) valor_post('ativo'),
                 ':id' => $id_fornecedor
             ]);
+            registar_evento(
+                'dados_alterados',
+                'fornecedores',
+                $id_fornecedor,
+                'Fornecedor editado: ' . $codigo . ' - ' . valor_post('nome')
+            );
 
             $sucesso = 'Registo atualizado com sucesso.';
         } catch (PDOException $erroBD) {
