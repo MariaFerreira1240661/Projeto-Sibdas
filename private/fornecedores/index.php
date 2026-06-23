@@ -71,7 +71,7 @@ $ligacao = null;
             <div class="dropdown">
                 <button class="backend-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle"></i>
-                    <span>Administrador</span>
+                    <span><?php echo htmlspecialchars(nome_utilizador(), ENT_QUOTES, 'UTF-8'); ?></span>
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -94,10 +94,21 @@ $ligacao = null;
                     <p>Consulta das entidades fornecedoras registadas no sistema.</p>
                 </div>
 
-                <a href="novo.php" class="btn-backend">
+                <?php if (perfil_tem_acesso('fornecedores', 'criar')) : ?>
+
+
+                
+                <a href="exportar.php" class="btn-secundario">
+                    <i class="bi bi-file-earmark-spreadsheet"></i>
+                    Exportar Excel
+                </a>
+<a href="novo.php" class="btn-backend">
                     <i class="bi bi-plus-circle"></i>
                     Novo fornecedor
                 </a>
+
+
+                <?php endif; ?>
             </div>
 <?php if (!empty($_SESSION['mensagem_sucesso'])) : ?>
                 <div class="alert alert-success" role="alert">
@@ -163,14 +174,18 @@ $ligacao = null;
                                             <i class="bi bi-eye"></i>
                                         </a>
 
-                                        <?php if ((int) $fornecedor->ativo === 1) : ?>
-                                            <a href="editar.php?id=<?= aes_encrypt($fornecedor->id) ?>" data-bs-toggle="tooltip" data-bs-title="Editar fornecedor">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
+                                        <?php if ((int) $fornecedor->ativo === 1 && (perfil_tem_acesso('fornecedores', 'editar') || perfil_tem_acesso('fornecedores', 'remover'))) : ?>
+                                            <?php if (perfil_tem_acesso('fornecedores', 'editar')) : ?>
+                                                <a href="editar.php?id=<?= aes_encrypt($fornecedor->id) ?>" data-bs-toggle="tooltip" data-bs-title="Editar fornecedor">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+                                            <?php endif; ?>
 
-                                            <a href="remover.php?id=<?= aes_encrypt($fornecedor->id) ?>" data-bs-toggle="tooltip" data-bs-title="Remover fornecedor">
-                                                <i class="bi bi-trash"></i>
-                                            </a>
+                                            <?php if (perfil_tem_acesso('fornecedores', 'remover')) : ?>
+                                                <a href="remover.php?id=<?= aes_encrypt($fornecedor->id) ?>" data-bs-toggle="tooltip" data-bs-title="Remover fornecedor">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            <?php endif; ?>
                                         <?php endif; ?>
                                     </td>
                                 </tr>

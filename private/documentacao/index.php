@@ -100,11 +100,12 @@ sort($equipamentosDocumento);
             <div class="dropdown">
                 <button class="backend-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle"></i>
-                    <span>Administrador</span>
+                    <span><?php echo htmlspecialchars(nome_utilizador(), ENT_QUOTES, 'UTF-8'); ?></span>
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-end">
-                   
+                    
+
                     <li>
                         <a class="dropdown-item" href="<?php echo BASE_URL; ?>/public/logout.php">
                             <i class="bi bi-box-arrow-right"></i>
@@ -119,6 +120,12 @@ sort($equipamentosDocumento);
             <div class="backend-section-header">
                 <div>
                     <h2>Listagem de Documentos</h2>
+
+                <a href="exportar.php" class="btn-secundario">
+                    <i class="bi bi-file-earmark-spreadsheet"></i>
+                    Exportar Excel
+                </a>
+
                     <p>Consulta e gestão da documentação técnica e administrativa associada aos equipamentos.</p>
                 </div>
             </div>

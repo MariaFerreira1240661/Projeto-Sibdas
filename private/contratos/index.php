@@ -101,7 +101,7 @@ sort($equipamentosContrato);
             <div class="dropdown">
                 <button class="backend-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle"></i>
-                    <span>Administrador</span>
+                    <span><?php echo htmlspecialchars(nome_utilizador(), ENT_QUOTES, 'UTF-8'); ?></span>
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -121,6 +121,12 @@ sort($equipamentosContrato);
             <div class="backend-section-header">
                 <div>
                     <h2>Listagem de Contratos e Garantias</h2>
+
+                <a href="exportar.php" class="btn-secundario">
+                    <i class="bi bi-file-earmark-spreadsheet"></i>
+                    Exportar Excel
+                </a>
+
                     <p>Consulta e gestão de garantias e contratos associados aos equipamentos médicos.</p>
                 </div>
             </div>

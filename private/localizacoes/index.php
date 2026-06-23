@@ -81,7 +81,7 @@ $ligacao = null;
             <div class="dropdown">
                 <button class="backend-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle"></i>
-                    <span>Administrador</span>
+                    <span><?php echo htmlspecialchars(nome_utilizador(), ENT_QUOTES, 'UTF-8'); ?></span>
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -104,10 +104,21 @@ $ligacao = null;
                     <p>Consulta das localizações-base usadas depois no registo de equipamentos.</p>
                 </div>
 
-                <a href="novo.php" class="btn-backend">
+                <?php if (perfil_tem_acesso('localizacoes', 'criar')) : ?>
+
+
+                
+                <a href="exportar.php" class="btn-secundario">
+                    <i class="bi bi-file-earmark-spreadsheet"></i>
+                    Exportar Excel
+                </a>
+<a href="novo.php" class="btn-backend">
                     <i class="bi bi-plus-circle"></i>
                     Nova localização
                 </a>
+
+
+                <?php endif; ?>
             </div>
 <?php if (!empty($_SESSION['mensagem_sucesso'])) : ?>
                 <div class="alert alert-success" role="alert">
@@ -121,7 +132,6 @@ $ligacao = null;
                     <label for="filtroEdificioLocalizacao">Edifício</label>
                     <select id="filtroEdificioLocalizacao">
                         <option value="">Todos</option>
-                        <option value="Edifício Principal">Edifício Principal</option>
                         <option value="Edifício A">Edifício A</option>
                         <option value="Edifício B">Edifício B</option>
                         <option value="Edifício C">Edifício C</option>
@@ -184,14 +194,18 @@ $ligacao = null;
                                             <i class="bi bi-eye"></i>
                                         </a>
 
-                                        <?php if (!in_array($localizacao->estado, ['Inativa', 'Inativo'], true)) : ?>
-                                            <a href="editar.php?id=<?= aes_encrypt($localizacao->id) ?>" data-bs-toggle="tooltip" data-bs-title="Editar localização">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
+                                        <?php if (!in_array($localizacao->estado, ['Inativa', 'Inativo'], true) && (perfil_tem_acesso('localizacoes', 'editar') || perfil_tem_acesso('localizacoes', 'remover'))) : ?>
+                                            <?php if (perfil_tem_acesso('localizacoes', 'editar')) : ?>
+                                                <a href="editar.php?id=<?= aes_encrypt($localizacao->id) ?>" data-bs-toggle="tooltip" data-bs-title="Editar localização">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+                                            <?php endif; ?>
 
-                                            <a href="remover.php?id=<?= aes_encrypt($localizacao->id) ?>" data-bs-toggle="tooltip" data-bs-title="Remover localização">
-                                                <i class="bi bi-trash"></i>
-                                            </a>
+                                            <?php if (perfil_tem_acesso('localizacoes', 'remover')) : ?>
+                                                <a href="remover.php?id=<?= aes_encrypt($localizacao->id) ?>" data-bs-toggle="tooltip" data-bs-title="Remover localização">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            <?php endif; ?>
                                         <?php endif; ?>
                                     </td>
                                 </tr>

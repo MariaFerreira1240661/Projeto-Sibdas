@@ -1,6 +1,12 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
 
+// --------------------------------------------------------------------
+// FUNÇÕES DE SESSÃO
+// --------------------------------------------------------------------
+// Este ficheiro centraliza a gestão das sessões,
+// como indicado na Ficha 10.
+// --------------------------------------------------------------------
 
 // Inicia a sessão se ainda não estiver iniciada
 function start_session()
@@ -298,3 +304,14 @@ function proteger_pagina_atual()
     }
 }
 
+
+
+function exigir_perfil($modulo, $acao = 'ver')
+{
+    redirect_if_not_logged();
+
+    if (!perfil_tem_acesso($modulo, $acao)) {
+        header('Location: ' . BASE_URL . '/private/index.php');
+        exit;
+    }
+}

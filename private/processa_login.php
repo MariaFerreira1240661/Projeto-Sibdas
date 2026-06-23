@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/includes/agentes.php';
+require_once __DIR__ . '/includes/utilizadores.php';
 
 start_session();
 
@@ -29,17 +29,17 @@ if (!empty($validation_errors)) {
     exit;
 }
 
-$agente = validar_login_agent($username, $password);
+$utilizador = validar_login_utilizador($username, $password);
 
-if (!$agente) {
+if (!$utilizador) {
     $_SESSION['server_error'] = 'Login inválido.';
     header('Location: ../public/login.php');
     exit;
 }
 
-$_SESSION['utilizador'] = $agente->email;
-$_SESSION['nome_utilizador'] = !empty($agente->nome) ? $agente->nome : $agente->email;
-$_SESSION['profile'] = $agente->profile;
+$_SESSION['utilizador'] = $utilizador->email;
+$_SESSION['nome_utilizador'] = !empty($utilizador->nome) ? $utilizador->nome : $utilizador->email;
+$_SESSION['profile'] = $utilizador->perfil;
 
 header('Location: index.php');
 exit;

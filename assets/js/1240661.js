@@ -785,6 +785,8 @@ removerBotoesNovoEditarDocumentosContratos();
 inserirDocumentosAssociadosNaListagem();
 inserirContratosAssociadosNaListagem();
 
+
+
 /* Tooltips Bootstrap */
 
 document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {

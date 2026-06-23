@@ -3,6 +3,7 @@ require_once __DIR__ . '/../includes/funcoes.php';
 require_once __DIR__ . '/../includes/validacoes.php';
 
 redirect_if_not_logged();
+redirect_if_no_permission('equipamentos', 'editar');
 
 if (!in_array($_SERVER['REQUEST_METHOD'], ['GET', 'POST'])) {
     header('Location: ' . BASE_URL . '/public/login.php');
@@ -78,10 +79,7 @@ function mapear_valor_bd_edicao($tipo, $valor)
             'Laboratório' => 'Outro',
             'Esterilização' => 'Outro'
         ],
-        'estado_equipamento' => [
-            'Em quarentena' => 'Inativo',
-            'Abatido' => 'Inativo'
-        ],
+        'estado_equipamento' => [],
         'criticidade' => [
             'Suporte de vida' => 'Alta'
         ],
@@ -125,9 +123,41 @@ function obter_id_por_nome_edicao($tabela, $nome)
 
 function obter_id_obrigatorio_edicao($tabela, $nome, $mensagem)
 {
-    global $erros;
+    global $ligacao, $erros;
 
-    $id = obter_id_por_nome_edicao($tabela, $nome);
+    if ($nome === '' || $nome === null) {
+        $erros[] = $mensagem;
+        return 0;
+    }
+
+    $tabelas_permitidas = [
+        'categorias_equipamento',
+        'estados_equipamento',
+        'criticidades',
+        'prioridades_manutencao',
+        'tipos_entrada',
+        'estados_localizacao',
+        'tipos_fornecedor',
+        'tipos_relacao_fornecedor',
+        'tipos_documento',
+        'estados_documento',
+        'tipos_contrato',
+        'estados_contrato'
+    ];
+
+    if (!in_array($tabela, $tabelas_permitidas, true)) {
+        $erros[] = $mensagem;
+        return 0;
+    }
+
+    if (ctype_digit((string) $nome) && (int) $nome > 0) {
+        $stmt = $ligacao->prepare("SELECT id FROM " . $tabela . " WHERE id = :id LIMIT 1");
+        $stmt->execute([':id' => (int) $nome]);
+
+        $id = (int) $stmt->fetchColumn();
+    } else {
+        $id = obter_id_por_nome_edicao($tabela, $nome);
+    }
 
     if ($id <= 0) {
         $erros[] = $mensagem;
@@ -282,7 +312,6 @@ function carregar_fornecedores_associados_edicao($equipamento_id)
         WHERE ef.equipamento_id = :equipamento_id
           AND f.ativo = 1
         ORDER BY ef.principal DESC, f.codigo
-        LIMIT 3
     ");
 
     $stmt->execute([
@@ -692,6 +721,20 @@ function validar_fornecedor_bloco_edicao($indice, $obrigatorio)
     }
 }
 
+function total_fornecedores_edicao()
+{
+    global $fornecedores_associados;
+
+    $total = max(5, count($fornecedores_associados));
+
+    if ($total > 10) {
+        $total = 10;
+    }
+
+    return $total;
+}
+
+
 function valores_fornecedor_bloco($indice)
 {
     $sufixo = $indice === 1 ? '' : (string) $indice;
@@ -716,6 +759,30 @@ if (!$id_equipamento) {
 
 $ligacao = ligar_bd();
 
+
+
+$tipos_entrada = [];
+
+if ($ligacao) {
+    $stmt_tipos_entrada = $ligacao->query("
+        SELECT id, nome
+        FROM tipos_entrada
+        ORDER BY nome
+    ");
+
+    $tipos_entrada = $stmt_tipos_entrada->fetchAll();
+}
+$prioridades_manutencao = [];
+
+if ($ligacao) {
+    $stmt_prioridades_manutencao = $ligacao->query("
+        SELECT id, nome
+        FROM prioridades_manutencao
+        ORDER BY nome
+    ");
+
+    $prioridades_manutencao = $stmt_prioridades_manutencao->fetchAll();
+}
 if (!$ligacao) {
     $erros[] = 'Aconteceu um erro na ligação à base de dados.';
     $equipamento = null;
@@ -962,13 +1029,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $equipamento) {
         $erros[] = 'A sala/unidade é obrigatória.';
     }
 
-    validar_fornecedor_bloco_edicao(1, true);
-    validar_fornecedor_bloco_edicao(2, false);
-    validar_fornecedor_bloco_edicao(3, false);
+    $total_fornecedores_edicao = total_fornecedores_edicao();
+
+    for ($indice = 1; $indice <= $total_fornecedores_edicao; $indice++) {
+        validar_fornecedor_bloco_edicao($indice, $indice === 1);
+    }
 
     $fornecedores_escolhidos = [];
 
-    foreach ([1, 2, 3] as $indice) {
+    for ($indice = 1; $indice <= $total_fornecedores_edicao; $indice++) {
         $valores = valores_fornecedor_bloco($indice);
 
         if ($valores['fornecedor_id'] !== '') {
@@ -1066,7 +1135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $equipamento) {
                     (:equipamento_id, :fornecedor_id, :tipo_relacao_fornecedor_id, :pessoa_contacto, :telefone_contacto, :email_contacto, :principal, :observacoes)
             ");
 
-            foreach ([1, 2, 3] as $indice) {
+            for ($indice = 1; $indice <= total_fornecedores_edicao(); $indice++) {
                 $valores = valores_fornecedor_bloco($indice);
 
                 if ($valores['fornecedor_id'] === '') {
@@ -1103,6 +1172,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $equipamento) {
     }
 }
 
+
+$equipamentos_principais = [];
+
+if ($ligacao && !empty($equipamento->id)) {
+    $stmt_equipamentos_principais = $ligacao->prepare("
+        SELECT id, designacao, marca, modelo
+        FROM equipamentos
+        WHERE ativo = 1
+          AND (observacoes IS NULL OR observacoes <> 'RASCUNHO_REGISTO')
+          AND id <> :id_atual
+        ORDER BY designacao, marca, modelo
+    ");
+
+    $stmt_equipamentos_principais->execute([
+        ':id_atual' => $equipamento->id
+    ]);
+
+    $equipamentos_principais = $stmt_equipamentos_principais->fetchAll();
+}
+
 include '../includes/header.php';
 ?>
 
@@ -1121,7 +1210,7 @@ include '../includes/header.php';
             <div class="dropdown">
                 <button class="backend-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle"></i>
-                    <span>Administrador</span>
+                    <span><?php echo htmlspecialchars(nome_utilizador(), ENT_QUOTES, 'UTF-8'); ?></span>
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -1261,7 +1350,7 @@ include '../includes/header.php';
                                     <label for="estado">Estado atual *</label>
                                     <select id="estado" name="estado_equipamento_id" required>
                                         <option value="">Selecione o estado</option>
-                                        <?php foreach (['Ativo', 'Em manutenção', 'Inativo', 'Em calibração', 'Em quarentena', 'Abatido'] as $opcao) : ?>
+                                        <?php foreach (['Ativo', 'Em manutenção', 'Em calibração', 'Em quarentena'] as $opcao) : ?>
                                             <option value="<?= h($opcao) ?>" <?= selecionado_valor('estado_equipamento_id', $opcao, 'estado_nome') ?>><?= h($opcao) ?></option>
                                         <?php endforeach; ?>
                                     </select>
@@ -1280,11 +1369,14 @@ include '../includes/header.php';
                                 <div>
                                     <label for="prioridadeManutencao">Prioridade de manutenção *</label>
                                     <select id="prioridadeManutencao" name="prioridade_manutencao_id" required>
-                                        <option value="">Selecione a prioridade</option>
-                                        <?php foreach (['Baixa', 'Moderada', 'Elevada', 'Urgente'] as $opcao) : ?>
-                                            <option value="<?= h($opcao) ?>" <?= selecionado_valor('prioridade_manutencao_id', $opcao, 'prioridade_nome') ?>><?= h($opcao) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <option value="">Selecione a prioridade</option>
+                                    <?php foreach ($prioridades_manutencao as $opcao) : ?>
+                                        <?php $selecionado = ((string) ($dados['prioridade_manutencao_id'] ?? ($equipamento->prioridade_manutencao_id ?? '')) === (string) $opcao->id) ? 'selected' : ''; ?>
+                                        <option value="<?= $opcao->id ?>" <?= $selecionado ?>>
+                                            <?= htmlspecialchars($opcao->nome, ENT_QUOTES, 'UTF-8') ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
                                 </div>
 
                                 <div>
@@ -1300,11 +1392,14 @@ include '../includes/header.php';
                                 <div>
                                     <label for="tipoEntrada">Tipo de entrada *</label>
                                     <select id="tipoEntrada" name="tipo_entrada_id" required>
-                                        <option value="">Selecione o tipo de entrada</option>
-                                        <?php foreach (['Compra', 'Doação', 'Aluguer', 'Empréstimo'] as $opcao) : ?>
-                                            <option value="<?= h($opcao) ?>" <?= selecionado_valor('tipo_entrada_id', $opcao, 'tipo_entrada_nome') ?>><?= h($opcao) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <option value="">Selecione o tipo de entrada</option>
+                                    <?php foreach ($tipos_entrada as $opcao) : ?>
+                                        <?php $selecionado = ((string) ($dados['tipo_entrada_id'] ?? ($equipamento->tipo_entrada_id ?? '')) === (string) $opcao->id) ? 'selected' : ''; ?>
+                                        <option value="<?= $opcao->id ?>" <?= $selecionado ?>>
+                                            <?= htmlspecialchars($opcao->nome, ENT_QUOTES, 'UTF-8') ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
                                 </div>
 
                                 <div>
@@ -1319,13 +1414,22 @@ include '../includes/header.php';
                                 <div>
                                     <label for="equipamentoPrincipal">Equipamento principal</label>
                                     <select id="equipamentoPrincipal" name="equipamento_principal_id">
-                                        <option value="">Não aplicável</option>
-                                        <?php foreach ($equipamentos_principais as $principal) : ?>
-                                            <option value="<?= h($principal->id) ?>" <?= selecionado_valor('equipamento_principal_id', $principal->id) ?>>
-                                                <?= h($principal->codigo) ?> - <?= h($principal->designacao) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <option value="">Selecione o equipamento principal</option>
+                                    <?php foreach ($equipamentos_principais as $equipamento_principal) : ?>
+                                        <?php
+                                            $nome_equipamento_principal = trim(
+                                                ($equipamento_principal->designacao ?? '') . ' ' .
+                                                ($equipamento_principal->marca ?? '') . ' ' .
+                                                ($equipamento_principal->modelo ?? '')
+                                            );
+
+                                            $selecionado_principal = ((string) ($dados['equipamento_principal_id'] ?? ($equipamento->equipamento_principal_id ?? '')) === (string) $equipamento_principal->id) ? 'selected' : '';
+                                        ?>
+                                        <option value="<?= $equipamento_principal->id ?>" <?= $selecionado_principal ?>>
+                                            <?= htmlspecialchars($nome_equipamento_principal, ENT_QUOTES, 'UTF-8') ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
                                 </div>
 
                                 <div>
@@ -1384,62 +1488,74 @@ include '../includes/header.php';
                         </div>
 
                         <div class="tab-pane fade <?= classe_aba_edicao('fornecedor', 'painel') ?>" id="edit-fornecedor-tab-pane" role="tabpanel" tabindex="0">
-                            <p>O primeiro fornecedor é obrigatório. O segundo e terceiro só são validados se forem preenchidos.</p>
+                            <p>O primeiro fornecedor é obrigatório. Pode adicionar mais fornecedores se o equipamento tiver mais entidades associadas.</p>
 
-                            <?php for ($i = 1; $i <= 3; $i++) : ?>
-                                <?php $sufixo = $i === 1 ? '' : (string) $i; ?>
+                            <?php $total_fornecedores_edicao = total_fornecedores_edicao(); ?>
 
-                                <div class="backend-box-secundaria mb-3">
-                                    <h4>Fornecedor associado <?= $i ?><?= $i === 1 ? ' *' : '' ?></h4>
+                            <div id="fornecedoresAssociadosContainer">
+                                <?php for ($i = 1; $i <= $total_fornecedores_edicao; $i++) : ?>
+                                    <?php
+                                        $sufixo = $i === 1 ? '' : (string) $i;
+?>
 
-                                    <div class="form-grid">
-                                        <div>
-                                            <label for="fornecedorEquipamento<?= h($sufixo) ?>">Fornecedor<?= $i === 1 ? ' *' : '' ?></label>
-                                            <select id="fornecedorEquipamento<?= h($sufixo) ?>" name="fornecedor_id_equipamento<?= h($sufixo) ?>" <?= $i === 1 ? 'required' : '' ?>>
-                                                <option value="">Selecione um fornecedor já criado</option>
-                                                <?php foreach ($fornecedores_gerais as $fornecedor_geral) : ?>
-                                                    <option value="<?= h($fornecedor_geral->id) ?>" <?= fornecedor_selecionado($i, 'fornecedor_id', $fornecedor_geral->id, 'fornecedor_id_equipamento' . $sufixo) ?>>
-                                                        <?= h($fornecedor_geral->codigo) ?> - <?= h($fornecedor_geral->nome) ?>
-                                                    </option>
-                                                <?php endforeach; ?>
-                                            </select>
+                                    <div class="backend-box-secundaria mb-3 fornecedor-bloco" data-fornecedor-bloco="<?= h($i) ?>">
+                                        <h4>Fornecedor associado <?= $i ?><?= $i === 1 ? ' *' : '' ?></h4>
+
+                                        <?php if ($i > 1) : ?>
+                                            <p>Opcional. Preencha apenas se existir outro fornecedor associado ao equipamento.</p>
+                                        <?php endif; ?>
+
+                                        <div class="form-grid">
+                                            <div>
+                                                <label for="fornecedorEquipamento<?= h($sufixo) ?>">Fornecedor<?= $i === 1 ? ' *' : '' ?></label>
+                                                <select id="fornecedorEquipamento<?= h($sufixo) ?>" name="fornecedor_id_equipamento<?= h($sufixo) ?>" <?= $i === 1 ? 'required' : '' ?>>
+                                                    <option value="">Selecione um fornecedor já criado</option>
+                                                    <?php foreach ($fornecedores_gerais as $fornecedor_geral) : ?>
+                                                        <option value="<?= h($fornecedor_geral->id) ?>" <?= fornecedor_selecionado($i, 'fornecedor_id', $fornecedor_geral->id, 'fornecedor_id_equipamento' . $sufixo) ?>>
+                                                            <?= h($fornecedor_geral->codigo) ?> - <?= h($fornecedor_geral->nome) ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label for="tipoFornecedorEquipamento<?= h($sufixo) ?>">Tipo de fornecedor/relação<?= $i === 1 ? ' *' : '' ?></label>
+                                                <select id="tipoFornecedorEquipamento<?= h($sufixo) ?>" name="tipo_relacao_fornecedor_id_equipamento<?= h($sufixo) ?>" <?= $i === 1 ? 'required' : '' ?>>
+                                                    <option value="">Selecione o tipo</option>
+                                                    <?php foreach ($tipos_relacao_fornecedor as $tipo_relacao) : ?>
+                                                        <option value="<?= h($tipo_relacao->id) ?>" <?= fornecedor_selecionado($i, 'tipo_relacao_fornecedor_id', $tipo_relacao->id, 'tipo_relacao_fornecedor_id_equipamento' . $sufixo) ?>>
+                                                            <?= h($tipo_relacao->nome) ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label for="contactoFornecedorEquipamento<?= h($sufixo) ?>">Pessoa de contacto<?= $i === 1 ? ' *' : '' ?></label>
+                                                <input type="text" id="contactoFornecedorEquipamento<?= h($sufixo) ?>" name="contacto_fornecedor_equipamento<?= h($sufixo) ?>" value="<?= fornecedor_campo($i, 'pessoa_contacto', 'contacto_fornecedor_equipamento' . $sufixo) ?>" <?= $i === 1 ? 'required' : '' ?>>
+                                            </div>
+
+                                            <div>
+                                                <label for="telefoneContactoFornecedorEquipamento<?= h($sufixo) ?>">Telefone contacto<?= $i === 1 ? ' *' : '' ?></label>
+                                                <input type="tel" id="telefoneContactoFornecedorEquipamento<?= h($sufixo) ?>" name="telefone_contacto_fornecedor_equipamento<?= h($sufixo) ?>" value="<?= fornecedor_campo($i, 'telefone_contacto', 'telefone_contacto_fornecedor_equipamento' . $sufixo) ?>" <?= $i === 1 ? 'required' : '' ?>>
+                                            </div>
+
+                                            <div>
+                                                <label for="emailContactoFornecedorEquipamento<?= h($sufixo) ?>">Email contacto<?= $i === 1 ? ' *' : '' ?></label>
+                                                <input type="email" id="emailContactoFornecedorEquipamento<?= h($sufixo) ?>" name="email_contacto_fornecedor_equipamento<?= h($sufixo) ?>" value="<?= fornecedor_campo($i, 'email_contacto', 'email_contacto_fornecedor_equipamento' . $sufixo) ?>" <?= $i === 1 ? 'required' : '' ?>>
+                                            </div>
                                         </div>
 
-                                        <div>
-                                            <label for="tipoFornecedorEquipamento<?= h($sufixo) ?>">Tipo de fornecedor/relação<?= $i === 1 ? ' *' : '' ?></label>
-                                            <select id="tipoFornecedorEquipamento<?= h($sufixo) ?>" name="tipo_relacao_fornecedor_id_equipamento<?= h($sufixo) ?>" <?= $i === 1 ? 'required' : '' ?>>
-                                                <option value="">Selecione o tipo</option>
-                                                <?php foreach ($tipos_relacao_fornecedor as $tipo_relacao) : ?>
-                                                    <option value="<?= h($tipo_relacao->id) ?>" <?= fornecedor_selecionado($i, 'tipo_relacao_fornecedor_id', $tipo_relacao->id, 'tipo_relacao_fornecedor_id_equipamento' . $sufixo) ?>>
-                                                        <?= h($tipo_relacao->nome) ?>
-                                                    </option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-
-                                        <div>
-                                            <label for="contactoFornecedorEquipamento<?= h($sufixo) ?>">Pessoa de contacto<?= $i === 1 ? ' *' : '' ?></label>
-                                            <input type="text" id="contactoFornecedorEquipamento<?= h($sufixo) ?>" name="contacto_fornecedor_equipamento<?= h($sufixo) ?>" value="<?= fornecedor_campo($i, 'pessoa_contacto', 'contacto_fornecedor_equipamento' . $sufixo) ?>" <?= $i === 1 ? 'required' : '' ?>>
-                                        </div>
-
-                                        <div>
-                                            <label for="telefoneContactoFornecedorEquipamento<?= h($sufixo) ?>">Telefone contacto<?= $i === 1 ? ' *' : '' ?></label>
-                                            <input type="tel" id="telefoneContactoFornecedorEquipamento<?= h($sufixo) ?>" name="telefone_contacto_fornecedor_equipamento<?= h($sufixo) ?>" value="<?= fornecedor_campo($i, 'telefone_contacto', 'telefone_contacto_fornecedor_equipamento' . $sufixo) ?>" <?= $i === 1 ? 'required' : '' ?>>
-                                        </div>
-
-                                        <div>
-                                            <label for="emailContactoFornecedorEquipamento<?= h($sufixo) ?>">Email contacto<?= $i === 1 ? ' *' : '' ?></label>
-                                            <input type="email" id="emailContactoFornecedorEquipamento<?= h($sufixo) ?>" name="email_contacto_fornecedor_equipamento<?= h($sufixo) ?>" value="<?= fornecedor_campo($i, 'email_contacto', 'email_contacto_fornecedor_equipamento' . $sufixo) ?>" <?= $i === 1 ? 'required' : '' ?>>
+                                        <div class="form-full">
+                                            <label for="observacoesFornecedorEquipamento<?= h($sufixo) ?>">Observações da relação</label>
+                                            <textarea id="observacoesFornecedorEquipamento<?= h($sufixo) ?>" name="observacoes_fornecedor_equipamento<?= h($sufixo) ?>" rows="3"><?= fornecedor_campo($i, 'observacoes', 'observacoes_fornecedor_equipamento' . $sufixo) ?></textarea>
                                         </div>
                                     </div>
-
-                                    <div class="form-full">
-                                        <label for="observacoesFornecedorEquipamento<?= h($sufixo) ?>">Observações da relação</label>
-                                        <textarea id="observacoesFornecedorEquipamento<?= h($sufixo) ?>" name="observacoes_fornecedor_equipamento<?= h($sufixo) ?>" rows="3"><?= fornecedor_campo($i, 'observacoes', 'observacoes_fornecedor_equipamento' . $sufixo) ?></textarea>
-                                    </div>
-                                </div>
-                            <?php endfor; ?>
+                                <?php endfor; ?>
+                            </div>
                         </div>
+
+
 
                         <div class="tab-pane fade <?= classe_aba_edicao('documentacao', 'painel') ?>" id="edit-documentacao-tab-pane" role="tabpanel" tabindex="0">
                             <h3>Documentação do equipamento</h3>

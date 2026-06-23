@@ -13,7 +13,7 @@ define('APP_COPYRIGHT', '© 2026 MedControl - Sistema de Inventário Hospitalar'
 // Este valor deve corresponder ao nome da pasta do projeto dentro do Laragon.
 // Exemplo: C:\laragon\www\medcontrol  →  /medcontrol
 
-define('BASE_URL', '/projeto-SIBDAS');
+define('BASE_URL', '/sibdas/1240661/medcontrol');
 // --------------------------------------------------------------------
 // CONFIGURAÇÕES DA BASE DE DADOS
 // --------------------------------------------------------------------

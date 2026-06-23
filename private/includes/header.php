@@ -26,7 +26,7 @@ proteger_pagina_atual();
     <!-- DataTables JS -->
     <script src="<?php echo BASE_URL; ?>/assets/datatables/datatables.min.js"></script>
 
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/1240661.css?v=2">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/1240661.css?v=8">
     
 </head>
 
