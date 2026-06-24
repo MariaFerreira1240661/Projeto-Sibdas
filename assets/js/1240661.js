@@ -1,6 +1,7 @@
+/* Funções auxiliares para obter elementos HTML e valores dos campos de formulário */
 const $ = id => document.getElementById(id);
 const valor = id => ($(id)?.value || "").trim();
-
+/* Apresenta mensagens de erro ou sucesso nos formulários */
 function mensagem(id, texto, cor = "#10233f") {
     const el = $(id);
 
@@ -13,7 +14,7 @@ function mensagem(id, texto, cor = "#10233f") {
     el.style.fontWeight = "700";
     el.style.display = texto ? "block" : "none";
 }
-
+/* Verifica se um campo obrigatório se encontra preenchido, incluindo campos do tipo ficheiro */
 function campoPreenchido(id) {
     const el = $(id);
 
@@ -27,11 +28,11 @@ function campoPreenchido(id) {
 
     return el.value.trim() !== "";
 }
-
+/* Verifica se todos os campos obrigatórios de uma etapa ou formulário estão preenchidos */
 function camposPreenchidos(ids) {
     return ids.every(campoPreenchido);
 }
-
+/* Obtém o nome do ficheiro selecionado num campo de upload */
 function nomeFicheiro(id) {
     const el = $(id);
 
@@ -42,14 +43,14 @@ function nomeFicheiro(id) {
     return "";
 }
 
-/* Filtros de escrita */
+/* Filtros de escrita aplicados aos campos para limitar os caracteres introduzidos */
 
 const filtros = {
     numeros: valor => valor.replace(/[^0-9]/g, ""),
     letras: valor => valor.replace(/[^A-Za-zÀ-ÿ\s]/g, ""),
     telefone: valor => valor.replace(/[^0-9+\s]/g, "")
 };
-
+/* Aplica um filtro a um campo específico durante a escrita */
 function filtrarInput(id, tipo) {
     const el = $(id);
 
@@ -61,14 +62,14 @@ function filtrarInput(id, tipo) {
         el.value = filtros[tipo](el.value);
     });
 }
-
+/* Aplica vários filtros de escrita a diferentes campos do formulário */
 function aplicarFiltros(configs) {
     configs.forEach(function (config) {
         filtrarInput(config.id, config.tipo);
     });
 }
 
-/* Regras de validação */
+/* Regras de validação utilizadas nos formulários da aplicação */
 
 const regras = {
     numeros: valor => /^[0-9]+$/.test(valor.trim()),
@@ -100,7 +101,7 @@ const regras = {
 
     positivo: valor => Number(valor) > 0
 };
-
+/* Mensagens apresentadas ao utilizador quando os dados introduzidos não são válidos */
 const mensagensValidacao = {
     obrigatorio: "Preencha todos os campos obrigatórios assinalados com *.",
     nif: "O NIF deve conter exatamente 9 números.",
@@ -115,7 +116,7 @@ const mensagensValidacao = {
     pdf: "O ficheiro/documento associado deve terminar em .pdf.",
     positivo: "O valor associado deve ser superior a 0."
 };
-
+/* Abre automaticamente o separador onde existe um erro de validação */
 function abrirTab(id) {
     if (!id) {
         return;
@@ -128,7 +129,7 @@ function abrirTab(id) {
         new bootstrap.Tab(tab).show();
     }
 }
-
+/* Mostra uma mensagem de erro e encaminha o utilizador para a zona do formulário onde ocorreu o problema */
 function mostrarErro(idMensagem, texto, tabId) {
     mensagem(idMensagem, texto, "#9b1c1c");
     abrirTab(tabId);
@@ -142,7 +143,7 @@ function mostrarErro(idMensagem, texto, tabId) {
         });
     }
 }
-
+/* Valida campos obrigatórios e regras específicas, como email, telefone, NIF, PDF e valores numéricos */
 function validarCampos(campos, idMensagem, tabId) {
     for (const campo of campos) {
         const el = $(campo.id);
@@ -198,7 +199,7 @@ if (formLogin) {
     });
 }
 
-/* Gráficos */
+/* Criação dos gráficos do dashboard com recurso à biblioteca Chart.js */
 
 function lerDadosGrafico(idCanvas) {
     const canvas = document.getElementById(idCanvas);
@@ -228,7 +229,7 @@ function lerDadosGrafico(idCanvas) {
         valores: valores.map(Number)
     };
 }
-
+/* Cria o gráfico correspondente ao indicador do dashboard indicado pelo ID do canvas */
 function criarGraficoDashboard(idCanvas) {
     const dados = lerDadosGrafico(idCanvas);
 
@@ -323,13 +324,13 @@ function criarGraficoDashboard(idCanvas) {
 
     new Chart(dados.canvas, config);
 }
-
+/* Inicialização dos gráficos existentes no dashboard */
 criarGraficoDashboard("graficoEstados");
 criarGraficoDashboard("graficoCategorias");
 criarGraficoDashboard("graficoLocalizacoes");
 
 /* Filtros das tabelas */
-
+/* Configura a pesquisa textual e os filtros por categoria, estado ou outro atributo da tabela */
 function iniciarFiltroTabela(config) {
     const tabela = $(config.tabela);
     const pesquisa = $(config.pesquisa);
@@ -383,7 +384,7 @@ function iniciarFiltroTabela(config) {
         }
     });
 }
-
+/* Configuração dos filtros aplicados às tabelas de equipamentos, fornecedores, localizações, documentos e contratos */
 [
     {
         tabela: "tabelaEquipamentos",
@@ -436,7 +437,7 @@ function iniciarFiltroTabela(config) {
 ].forEach(iniciarFiltroTabela);
 
 /* Formulários simples */
-
+/* Configuração dos campos, filtros e regras de validação de cada formulário */
 const validacoesFormulario = {
     fornecedorNovo: {
         filtros: [
@@ -572,6 +573,7 @@ function validarIntervaloDatas(inicioId, fimId, idMensagem) {
 
     return true;
 }
+/* Inicializa a validação de um formulário e apresenta mensagens de sucesso ou erro */
 function iniciarFormulario(config) {
     const form = $(config.form);
 
@@ -599,7 +601,7 @@ function iniciarFormulario(config) {
         mensagem(config.mensagem, config.sucesso, "green");
     });
 }
-
+/* Ativação da validação nos formulários existentes na aplicação */
 [
     {
         form: "formEditarFornecedor",
@@ -634,7 +636,7 @@ function iniciarFormulario(config) {
 ].forEach(iniciarFormulario);
 
 /* Remoções */
-
+/* Apresenta feedback ao utilizador após confirmar a remoção/arquivamento de um registo */
 function iniciarRemocao(config) {
     const botao = $(config.botao);
 
@@ -650,7 +652,7 @@ function iniciarRemocao(config) {
         }, 1200);
     });
 }
-
+/* Configuração das mensagens de remoção para equipamentos, fornecedores, localizações, documentos e contratos */
 [
     ["confirmarRemocao", "mensagemRemocao", "Equipamento removido/arquivado com sucesso. "],
     ["confirmarRemocaoFornecedor", "mensagemRemocaoFornecedor", "Fornecedor removido/arquivado com sucesso. "],
@@ -665,7 +667,7 @@ function iniciarRemocao(config) {
     });
 });
 /* Editar equipamento */
-
+/* Regras específicas para a edição da localização e fornecedor associado ao equipamento */
 const validacoesEquipamentoEditar = {
     localizacao: [
         { id: "editPisoEquipamento", regra: "numeros", obrigatorio: true, msg: mensagensValidacao.piso }
@@ -676,7 +678,7 @@ const validacoesEquipamentoEditar = {
         { id: "editEmailContactoFornecedorEquipamento", regra: "email", obrigatorio: true, msg: mensagensValidacao.email }
     ]
 };
-
+/* Aplicação de filtros de escrita nos campos da ficha de equipamento */
 aplicarFiltros([
     { id: "editPisoEquipamento", tipo: "numeros" },
     { id: "pisoEquipamento", tipo: "numeros" },
@@ -693,7 +695,7 @@ aplicarFiltros([
     { id: "telefoneContactoFornecedorEquipamento3", tipo: "telefone" },
     { id: "nifFornecedorEquipamento3", tipo: "numeros" }
 ]);
-
+/* Definição das etapas obrigatórias da ficha de edição do equipamento */
 const etapasEditarEquipamento = [
     {
         tab: "edit-info-tab",
@@ -723,7 +725,7 @@ const etapasEditarEquipamento = [
         campos: ["editEstadoGarantiaEquipamento", "editDataInicioGarantiaEquipamento", "editDataFimGarantiaEquipamento", "editTipoContratoEquipamento", "editPeriodicidadeManutencaoEquipamento", "editValorContratoEquipamento"]
     }
 ];
-
+/* Validação final da ficha de equipamento antes de guardar alterações */
 const formEditarEquipamento = $("formEditarEquipamento");
 
 if (formEditarEquipamento) {
@@ -746,7 +748,7 @@ if (formEditarEquipamento) {
 }
 
 /* Relações e consumíveis */
-
+/* Ativa ou desativa campos dependentes de uma escolha do utilizador */
 function ligarCampoCondicional(config) {
     const seletor = $(config.seletor);
     const campo = $(config.campo);
@@ -767,7 +769,7 @@ function ligarCampoCondicional(config) {
     seletor.addEventListener("change", atualizar);
     atualizar();
 }
-
+/* Campos que só ficam disponíveis quando o utilizador seleciona a opção "Sim" */
 [
     ["componenteOutroEquipamento", "equipamentoPrincipal"],
     ["temConsumiveis", "consumiveisEquipamento"],

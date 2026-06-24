@@ -1,11 +1,16 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/../includes/funcoes.php';
 require_once __DIR__ . '/../includes/logs_eventos.php';
 
+// Proteção da página: impede acesso sem autenticação.
 redirect_if_not_logged();
 
+// Identificação da página atual para destacar o item correspondente no menu lateral.
 $pagina_atual = 'localizacoes';
 
+// Array utilizado para acumular mensagens de erro de validação.
 $erros = [];
 $sucesso = '';
 
@@ -44,7 +49,8 @@ function obter_estado_localizacao_id($nome)
 
     $nome_bd = $nome;
 
-    $stmt = $ligacao->prepare("SELECT id FROM estados_localizacao WHERE nome = :nome LIMIT 1");
+    // Preparação da consulta SQL com parâmetros, melhorando segurança e organização.
+$stmt = $ligacao->prepare("SELECT id FROM estados_localizacao WHERE nome = :nome LIMIT 1");
     $stmt->execute([
         ':nome' => $nome_bd
     ]);
@@ -137,7 +143,8 @@ function guardar_localizacao()
 {
     global $erros, $ligacao;
 
-    if (!$ligacao) {
+    // Verifica se a ligação à base de dados foi estabelecida corretamente.
+if (!$ligacao) {
         $erros[] = 'Aconteceu um erro na ligação à base de dados.';
         return false;
     }
@@ -157,7 +164,8 @@ function guardar_localizacao()
         return false;
     }
 
-    try {
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
         /*
          * A localização passa a ser geral.
          * piso, servico e sala ficam apenas com valores neutros por compatibilidade
@@ -182,7 +190,8 @@ function guardar_localizacao()
         ]);
         $localizacao_id = (int) $ligacao->lastInsertId();
 
-        registar_evento(
+        // Registo de evento relevante para auditoria e acompanhamento do sistema.
+registar_evento(
             'dados_alterados',
             'localizacoes',
             $localizacao_id,
@@ -196,8 +205,10 @@ function guardar_localizacao()
     }
 }
 
+// Estabelece a ligação à base de dados através da função centralizada.
 $ligacao = ligar_bd();
 
+// Processamento do formulário após submissão pelo método POST.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (validar_localizacao() && guardar_localizacao()) {
         $sucesso = 'Localização geral registada com sucesso na base de dados.';
@@ -206,15 +217,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 include '../includes/header.php';
+// Início da estrutura HTML da área privada.
 ?>
 
 <div class="backend-layout">
 
-    <?php include '../includes/sidebar.php'; ?>
+    <!-- Inclusão do menu lateral comum da área privada -->
+<?php include '../includes/sidebar.php'; ?>
 
-    <main class="backend-content">
+    <!-- Conteúdo principal da página privada -->
+<main class="backend-content">
 
-        <div class="backend-topbar">
+        <!-- Topbar com título da página e área do utilizador autenticado -->
+<div class="backend-topbar">
             <div>
                 <h1>Nova Localização</h1>
                 <p>Registo de uma localização geral do hospital.</p>
@@ -239,7 +254,8 @@ include '../includes/header.php';
             </div>
         </div>
 
-        <section class="backend-box">
+        <!-- Caixa principal do módulo, onde são apresentados formulários, tabelas ou detalhes -->
+<section class="backend-box">
             <div class="backend-section-header">
                 <div>
                     <h2>Dados da Localização Geral</h2>
@@ -269,7 +285,8 @@ include '../includes/header.php';
                 </div>
             <?php endif; ?>
 
-            <form class="form-backend" id="formLocalizacao" action="" method="post" novalidate>
+            <!-- Formulário utilizado para recolher, validar e submeter dados -->
+<form class="form-backend" id="formLocalizacao" action="" method="post" novalidate>
 
                 <div class="form-grid">
                     <div>

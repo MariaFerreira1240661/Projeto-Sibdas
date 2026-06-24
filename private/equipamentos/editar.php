@@ -1,17 +1,24 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/../includes/funcoes.php';
 require_once __DIR__ . '/../includes/validacoes.php';
 require_once __DIR__ . '/../includes/logs_eventos.php';
 
+// Proteção da página: impede acesso sem autenticação.
 redirect_if_not_logged();
+// Controlo de permissões: verifica se o perfil autenticado pode aceder a esta funcionalidade.
 redirect_if_no_permission('equipamentos', 'editar');
 
 if (!in_array($_SERVER['REQUEST_METHOD'], ['GET', 'POST'])) {
-    header('Location: ' . BASE_URL . '/public/login.php');
+    // Redirecionamento do utilizador após a operação ou validação.
+header('Location: ' . BASE_URL . '/public/login.php');
     exit;
 }
 
+// Identificação da página atual para destacar o item correspondente no menu lateral.
 $pagina_atual = 'equipamentos';
+// Array utilizado para acumular mensagens de erro de validação.
 $erros = [];
 $sucesso = '';
 $aba_ativa = 'info';
@@ -114,7 +121,8 @@ function obter_id_por_nome_edicao($tabela, $nome)
         return 0;
     }
 
-    $stmt = $ligacao->prepare("SELECT id FROM {$tabela} WHERE nome = :nome LIMIT 1");
+    // Preparação da consulta SQL com parâmetros, melhorando segurança e organização.
+$stmt = $ligacao->prepare("SELECT id FROM {$tabela} WHERE nome = :nome LIMIT 1");
     $stmt->execute([
         ':nome' => $nome
     ]);
@@ -758,6 +766,7 @@ if (!$id_equipamento) {
     exit;
 }
 
+// Estabelece a ligação à base de dados através da função centralizada.
 $ligacao = ligar_bd();
 
 
@@ -784,6 +793,7 @@ if ($ligacao) {
 
     $prioridades_manutencao = $stmt_prioridades_manutencao->fetchAll();
 }
+// Verifica se a ligação à base de dados foi estabelecida corretamente.
 if (!$ligacao) {
     $erros[] = 'Aconteceu um erro na ligação à base de dados.';
     $equipamento = null;
@@ -799,7 +809,8 @@ if (!$ligacao) {
     $tipos_contrato = [];
     $estados_contrato = [];
 } else {
-    try {
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
         $localizacoes_gerais = carregar_localizacoes_gerais_edicao();
         $fornecedores_gerais = carregar_fornecedores_gerais_edicao();
         $tipos_relacao_fornecedor = carregar_tipos_relacao_fornecedor_edicao();
@@ -867,13 +878,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $equipamento) {
 
     if ($aba_ativa === 'documentacao') {
         try {
-            $ligacao->beginTransaction();
+            // Início de transação para garantir consistência quando existem várias operações relacionadas.
+$ligacao->beginTransaction();
 
             atualizar_documentos_equipamento_edicao($id_equipamento);
 
             if (empty($erros)) {
-                $ligacao->commit();
-                registar_evento(
+                // Confirmação da transação após todas as operações serem executadas com sucesso.
+$ligacao->commit();
+                // Registo de evento relevante para auditoria e acompanhamento do sistema.
+registar_evento(
                     'dados_alterados',
                     'documentos',
                     $id_equipamento,
@@ -884,7 +898,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $equipamento) {
                 $contratos_equipamento = carregar_contratos_equipamento_edicao($id_equipamento);
                 $sucesso = 'Documentação atualizada com sucesso.';
             } else {
-                $ligacao->rollBack();
+                // Anulação da transação em caso de erro, evitando dados incompletos.
+$ligacao->rollBack();
             }
         } catch (PDOException $erroBD) {
             if ($ligacao->inTransaction()) {
@@ -1212,15 +1227,19 @@ if ($ligacao && !empty($equipamento->id)) {
 }
 
 include '../includes/header.php';
+// Início da estrutura HTML da área privada.
 ?>
 
 <div class="backend-layout">
 
-    <?php include '../includes/sidebar.php'; ?>
+    <!-- Inclusão do menu lateral comum da área privada -->
+<?php include '../includes/sidebar.php'; ?>
 
-    <main class="backend-content">
+    <!-- Conteúdo principal da página privada -->
+<main class="backend-content">
 
-        <div class="backend-topbar">
+        <!-- Topbar com título da página e área do utilizador autenticado -->
+<div class="backend-topbar">
             <div>
                 <h1>Editar Equipamento</h1>
                 <p>Atualização dos dados principais, localização e fornecedores associados.</p>
@@ -1245,11 +1264,12 @@ include '../includes/header.php';
             </div>
         </div>
 
-        <section class="backend-box">
+        <!-- Caixa principal do módulo, onde são apresentados formulários, tabelas ou detalhes -->
+<section class="backend-box">
             <div class="backend-section-header">
                 <div>
                     <h2>Ficha de Edição do Equipamento</h2>
-                    <p>O ID vem encriptado por GET, os dados são carregados da BD e guardados por POST com UPDATE.</p>
+                    
                 </div>
 
                 <a href="index.php" class="btn-backend">
@@ -1276,7 +1296,8 @@ include '../includes/header.php';
             <?php endif; ?>
 
             <?php if ($equipamento) : ?>
-                <form class="form-backend" action="editar.php?id=<?= h($id_encriptado) ?>" method="post" enctype="multipart/form-data" novalidate>
+                <!-- Formulário utilizado para recolher, validar e submeter dados -->
+<form class="form-backend" action="editar.php?id=<?= h($id_encriptado) ?>" method="post" enctype="multipart/form-data" novalidate>
                     <input type="hidden" id="abaAtivaEditarEquipamento" name="aba_ativa" value="<?= h($aba_ativa) ?>">
 
                     <ul class="nav nav-tabs mb-4 tabs-equipamento" id="tabsEditarEquipamento" role="tablist">
@@ -1578,7 +1599,7 @@ include '../includes/header.php';
 
                         <div class="tab-pane fade <?= classe_aba_edicao('documentacao', 'painel') ?>" id="edit-documentacao-tab-pane" role="tabpanel" tabindex="0">
                             <h3>Documentação do equipamento</h3>
-                            <p>Edite apenas os documentos técnicos do equipamento. O contrato/garantia fica na aba Contratos.</p>
+                            
 
                             <?php if (empty($documentos_equipamento)) : ?>
                                 <div class="alert alert-info" role="alert">

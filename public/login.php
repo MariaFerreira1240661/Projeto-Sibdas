@@ -1,16 +1,20 @@
 <?php
 require_once __DIR__ . '/../private/includes/funcoes.php';
 
+// Inicia a sessão para permitir apresentar mensagens vindas do processamento do login.
 start_session();
 
+// Variáveis usadas para guardar erros de validação e mensagens do servidor.
 $validation_errors = [];
 $server_error = '';
 
+// Recupera erros guardados na sessão e remove-os para não serem repetidos.
 if (!empty($_SESSION['validation_errors'])) {
     $validation_errors = $_SESSION['validation_errors'];
     unset($_SESSION['validation_errors']);
 }
 
+// Recupera erros de autenticação ou servidor e limpa a sessão após a leitura.
 if (!empty($_SESSION['server_error'])) {
     $server_error = $_SESSION['server_error'];
     unset($_SESSION['server_error']);
@@ -39,9 +43,12 @@ if (!empty($_SESSION['server_error'])) {
 
 <body class="login-body">
 
+    <!-- Página de autenticação da área reservada da aplicação -->
+
     <main class="login-wrapper">
         <div class="login-card">
 
+            <!-- Identificação visual da aplicação -->
             <div class="login-logo">
                 <img src="../assets/img/medcontrol-logo1.png" alt="Logótipo da MedControl">
                 <h1><?php echo APP_NAME; ?></h1>
@@ -50,6 +57,7 @@ if (!empty($_SESSION['server_error'])) {
             <h2>Área Reservada</h2>
             <p>Introduza os seus dados para aceder ao sistema.</p>
 
+            <!-- Formulário que envia as credenciais para o processamento do login -->
             <form name="formulario" action="../private/processa_login.php" method="post">
                 <div class="mb-3">
                     <label for="text_username" class="form-label">Email</label>
@@ -75,6 +83,7 @@ if (!empty($_SESSION['server_error'])) {
 
                 <button type="submit" class="btn-login">Entrar</button>
 
+                <!-- Apresenta erros de validação associados aos campos do formulário -->
                 <?php if (!empty($validation_errors)) : ?>
                     <div class="mensagem-login">
                         <?php foreach ($validation_errors as $erro) : ?>
@@ -83,12 +92,14 @@ if (!empty($_SESSION['server_error'])) {
                     </div>
                 <?php endif; ?>
 
+                <!-- Apresenta erro geral quando as credenciais não são válidas ou ocorre falha no servidor -->
                 <?php if (!empty($server_error)) : ?>
                     <div class="mensagem-login">
                         <p><?php echo htmlspecialchars($server_error); ?></p>
                     </div>
                 <?php endif; ?>
 
+                <!-- Espaço reservado para mensagens geradas por JavaScript -->
                 <p id="mensagem-login" class="mensagem-login"></p>
             </form>
 

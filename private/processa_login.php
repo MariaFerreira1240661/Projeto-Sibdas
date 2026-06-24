@@ -1,11 +1,16 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/includes/utilizadores.php';
 require_once __DIR__ . '/includes/logs_eventos.php';
 
+// Início/garantia da sessão para permitir autenticação e utilização das variáveis de sessão.
 start_session();
 
+// Bloqueia acessos diretos quando a ação deve ser executada apenas por formulário POST.
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../public/login.php');
+    // Redirecionamento do utilizador após a operação ou validação.
+header('Location: ../public/login.php');
     exit;
 }
 
@@ -33,7 +38,8 @@ if (!empty($validation_errors)) {
 $utilizador = validar_login_utilizador($username, $password);
 
 if (!$utilizador) {
-    registar_evento('login_falhado', 'utilizadores', null, 'Tentativa de login falhada para o email: ' . $username);
+    // Registo de evento relevante para auditoria e acompanhamento do sistema.
+registar_evento('login_falhado', 'utilizadores', null, 'Tentativa de login falhada para o email: ' . $username);
     $_SESSION['server_error'] = 'Login inválido.';
     header('Location: ../public/login.php');
     exit;

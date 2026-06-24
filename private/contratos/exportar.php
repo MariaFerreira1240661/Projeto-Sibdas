@@ -1,16 +1,23 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/../includes/funcoes.php';
 require_once __DIR__ . '/../includes/logs_eventos.php';
 require_once __DIR__ . '/../includes/exportacoes.php';
 
+// Proteção da página: impede acesso sem autenticação.
 redirect_if_not_logged();
 
+// Formato de exportação solicitado pelo utilizador.
 $formato = $_GET['formato'] ?? 'csv';
 
+// Execução protegida por try/catch para tratar erros de base de dados ou processamento.
 try {
-    $ligacao = ligar_bd();
+    // Estabelece a ligação à base de dados através da função centralizada.
+$ligacao = ligar_bd();
 
-    if (!$ligacao) {
+    // Verifica se a ligação à base de dados foi estabelecida corretamente.
+if (!$ligacao) {
         throw new PDOException('Sem ligação à base de dados.');
     }
 
@@ -26,12 +33,14 @@ LEFT JOIN documentos d ON d.id = c.documento_id
 ORDER BY c.codigo
 SQL;
 
-    $stmt = $ligacao->prepare($sql);
+    // Preparação da consulta SQL com parâmetros, melhorando segurança e organização.
+$stmt = $ligacao->prepare($sql);
     $stmt->execute();
 
     $linhas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    registar_evento(
+    // Registo de evento relevante para auditoria e acompanhamento do sistema.
+registar_evento(
         'exportacao_dados',
         'contratos',
         null,
@@ -40,7 +49,8 @@ SQL;
 
     $colunas = ['codigo' => 'Código', 'equipamento' => 'Equipamento', 'designacao' => 'Designação', 'tipo_contrato' => 'Tipo de contrato', 'estado' => 'Estado', 'data_inicio' => 'Data início', 'data_fim' => 'Data fim', 'periodicidade' => 'Periodicidade', 'valor' => 'Valor', 'documento' => 'Documento'];
 
-    exportar_dados(
+    // Chamada da função de exportação para gerar o ficheiro no formato escolhido.
+exportar_dados(
         $formato,
         'contratos_medcontrol',
         'Contratos MedControl',
@@ -49,6 +59,7 @@ SQL;
     );
 } catch (PDOException $erro) {
     $_SESSION['server_error'] = 'Erro ao exportar contratos.';
-    header('Location: index.php');
+    // Redirecionamento do utilizador após a operação ou validação.
+header('Location: index.php');
     exit;
 }

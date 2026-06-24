@@ -1,16 +1,22 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/../includes/funcoes.php';
 require_once __DIR__ . '/../includes/validacoes.php';
 require_once __DIR__ . '/../includes/logs_eventos.php';
 
+// Proteção da página: impede acesso sem autenticação.
 redirect_if_not_logged();
 
 if (!in_array($_SERVER['REQUEST_METHOD'], ['GET', 'POST'])) {
-    header('Location: ' . BASE_URL . '/public/login.php');
+    // Redirecionamento do utilizador após a operação ou validação.
+header('Location: ' . BASE_URL . '/public/login.php');
     exit;
 }
 
+// Identificação da página atual para destacar o item correspondente no menu lateral.
 $pagina_atual = 'fornecedores';
+// Array utilizado para acumular mensagens de erro de validação.
 $erros = [];
 $sucesso = '';
 
@@ -63,7 +69,8 @@ function codigo_fornecedor_existe_edicao($codigo, $id_atual)
 {
     global $ligacao;
 
-    $stmt = $ligacao->prepare("
+    // Preparação da consulta SQL com parâmetros, melhorando segurança e organização.
+$stmt = $ligacao->prepare("
         SELECT COUNT(*)
         FROM fornecedores
         WHERE codigo = :codigo
@@ -105,13 +112,16 @@ if (!$id_fornecedor) {
     exit;
 }
 
+// Estabelece a ligação à base de dados através da função centralizada.
 $ligacao = ligar_bd();
 
+// Verifica se a ligação à base de dados foi estabelecida corretamente.
 if (!$ligacao) {
     $erros[] = 'Aconteceu um erro na ligação à base de dados.';
     $fornecedor = null;
 } else {
-    try {
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
         $stmt = $ligacao->prepare("
             SELECT
                 id,
@@ -236,7 +246,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $fornecedor) {
                 ':ativo' => (int) valor_post('ativo'),
                 ':id' => $id_fornecedor
             ]);
-            registar_evento(
+            // Registo de evento relevante para auditoria e acompanhamento do sistema.
+registar_evento(
                 'dados_alterados',
                 'fornecedores',
                 $id_fornecedor,
@@ -251,15 +262,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ligacao && $fornecedor) {
 }
 
 include '../includes/header.php';
+// Início da estrutura HTML da área privada.
 ?>
 
 <div class="backend-layout">
 
-    <?php include '../includes/sidebar.php'; ?>
+    <!-- Inclusão do menu lateral comum da área privada -->
+<?php include '../includes/sidebar.php'; ?>
 
-    <main class="backend-content">
+    <!-- Conteúdo principal da página privada -->
+<main class="backend-content">
 
-        <div class="backend-topbar">
+        <!-- Topbar com título da página e área do utilizador autenticado -->
+<div class="backend-topbar">
             <div>
                 <h1>Editar Fornecedor</h1>
                 <p>Atualização dos dados gerais de uma entidade fornecedora existente.</p>
@@ -284,7 +299,8 @@ include '../includes/header.php';
             </div>
         </div>
 
-        <section class="backend-box">
+        <!-- Caixa principal do módulo, onde são apresentados formulários, tabelas ou detalhes -->
+<section class="backend-box">
             <div class="backend-section-header">
                 <div>
                     <h2>Dados do Fornecedor Geral</h2>
@@ -315,7 +331,8 @@ include '../includes/header.php';
             <?php endif; ?>
 
             <?php if ($fornecedor) : ?>
-                <form class="form-backend" action="editar.php?id=<?= h($id_encriptado) ?>" method="post" novalidate>
+                <!-- Formulário utilizado para recolher, validar e submeter dados -->
+<form class="form-backend" action="editar.php?id=<?= h($id_encriptado) ?>" method="post" novalidate>
 
                     <div class="form-grid">
                         <div>

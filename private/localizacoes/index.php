@@ -1,5 +1,8 @@
 <?php
+
+// Identificação da página atual para destacar o item correspondente no menu lateral.
 $pagina_atual = 'localizacoes';
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 include '../includes/header.php';
 
 function h($valor)
@@ -19,16 +22,22 @@ function classe_estado_localizacao($texto)
     return $classes[$texto] ?? '';
 }
 
+// Variável utilizada para guardar mensagens de erro a apresentar ao utilizador.
 $erro = '';
+// Array onde são guardados os resultados obtidos a partir da base de dados.
 $resultados = [];
 
+// Estabelece a ligação à base de dados através da função centralizada.
 $ligacao = ligar_bd();
 
+// Verifica se a ligação à base de dados foi estabelecida corretamente.
 if (!$ligacao) {
     $erro = 'Aconteceu um erro na ligação à base de dados.';
 } else {
-    try {
-        $sql = "
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
+        // Consulta SQL utilizada para obter ou manipular dados deste módulo.
+$sql = "
             SELECT
                 l.id,
                 l.codigo,
@@ -63,16 +72,21 @@ if (!$ligacao) {
     }
 }
 
+// Fecha/liberta a ligação à base de dados no final do processamento.
 $ligacao = null;
+// Início da estrutura HTML da área privada.
 ?>
 
 <div class="backend-layout">
 
-    <?php include '../includes/sidebar.php'; ?>
+    <!-- Inclusão do menu lateral comum da área privada -->
+<?php include '../includes/sidebar.php'; ?>
 
-    <main class="backend-content">
+    <!-- Conteúdo principal da página privada -->
+<main class="backend-content">
 
-        <div class="backend-topbar">
+        <!-- Topbar com título da página e área do utilizador autenticado -->
+<div class="backend-topbar">
             <div>
                 <h1>Localizações</h1>
                 <p>Gestão das localizações gerais onde os equipamentos podem ser associados.</p>
@@ -97,7 +111,8 @@ $ligacao = null;
             </div>
         </div>
 
-        <section class="backend-box">
+        <!-- Caixa principal do módulo, onde são apresentados formulários, tabelas ou detalhes -->
+<section class="backend-box">
             <div class="backend-section-header">
                 <div>
                     <h2>Listagem de Localizações Gerais</h2>
@@ -171,7 +186,8 @@ $ligacao = null;
             <?php else : ?>
 
                 <div class="table-responsive">
-                    <table class="tabela-backend" id="tabelaLocalizacoes">
+                    <!-- Tabela de listagem/consulta dos registos deste módulo -->
+<table class="tabela-backend" id="tabelaLocalizacoes">
                         <thead>
                             <tr>
                                 <th>Código</th>

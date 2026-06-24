@@ -1,5 +1,7 @@
 <?php
 
+
+// Gera um ficheiro CSV a partir dos dados recebidos.
 function exportar_csv_generico($nome_ficheiro, $colunas, $linhas)
 {
     header('Content-Type: text/csv; charset=UTF-8');
@@ -25,6 +27,7 @@ function exportar_csv_generico($nome_ficheiro, $colunas, $linhas)
     exit;
 }
 
+// Gera um ficheiro JSON a partir dos dados recebidos.
 function exportar_json_generico($nome_ficheiro, $titulo, $linhas)
 {
     header('Content-Type: application/json; charset=UTF-8');
@@ -107,6 +110,7 @@ function construir_pdf_simples($paginas)
     return $pdf;
 }
 
+// Gera uma versão simples em PDF/HTML dos dados exportados.
 function exportar_pdf_generico($nome_ficheiro, $titulo, $colunas, $linhas)
 {
     $linhas_pdf = [];

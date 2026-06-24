@@ -1,9 +1,14 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/../includes/funcoes.php';
 
+// Proteção da página: impede acesso sem autenticação.
 redirect_if_not_logged();
 
+// Identificação da página atual para destacar o item correspondente no menu lateral.
 $pagina_atual = 'contratos';
+// Variável utilizada para guardar mensagens de erro a apresentar ao utilizador.
 $erro = '';
 
 function h($valor)
@@ -43,19 +48,24 @@ $id_encriptado = $_GET['id'] ?? null;
 $id_contrato = validar_id_encriptado($id_encriptado);
 
 if (!$id_contrato) {
-    header('Location: index.php');
+    // Redirecionamento do utilizador após a operação ou validação.
+header('Location: index.php');
     exit;
 }
 
 $contrato = null;
 
+// Estabelece a ligação à base de dados através da função centralizada.
 $ligacao = ligar_bd();
 
+// Verifica se a ligação à base de dados foi estabelecida corretamente.
 if (!$ligacao) {
     $erro = 'Aconteceu um erro na ligação à base de dados.';
 } else {
-    try {
-        $stmt = $ligacao->prepare("
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
+        // Preparação da consulta SQL com parâmetros, melhorando segurança e organização.
+$stmt = $ligacao->prepare("
             SELECT
                 c.*,
                 e.codigo AS equipamento_codigo,
@@ -90,15 +100,19 @@ if (!$ligacao) {
 }
 
 include '../includes/header.php';
+// Início da estrutura HTML da área privada.
 ?>
 
 <div class="backend-layout">
 
-    <?php include '../includes/sidebar.php'; ?>
+    <!-- Inclusão do menu lateral comum da área privada -->
+<?php include '../includes/sidebar.php'; ?>
 
-    <main class="backend-content">
+    <!-- Conteúdo principal da página privada -->
+<main class="backend-content">
 
-        <div class="backend-topbar">
+        <!-- Topbar com título da página e área do utilizador autenticado -->
+<div class="backend-topbar">
             <div>
                 <h1>Detalhes do Contrato</h1>
                 <p>Consulta dos dados reais do contrato ou garantia selecionada.</p>
@@ -117,7 +131,8 @@ include '../includes/header.php';
             </div>
         </div>
 
-        <section class="backend-box">
+        <!-- Caixa principal do módulo, onde são apresentados formulários, tabelas ou detalhes -->
+<section class="backend-box">
             <?php if ($erro) : ?>
                 <div class="alert alert-danger"><?= h($erro) ?></div>
             <?php elseif ($contrato) : ?>

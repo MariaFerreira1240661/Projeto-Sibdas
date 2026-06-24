@@ -1,9 +1,14 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/../includes/funcoes.php';
 
+// Proteção da página: impede acesso sem autenticação.
 redirect_if_not_logged();
 
+// Identificação da página atual para destacar o item correspondente no menu lateral.
 $pagina_atual = 'localizacoes';
+// Variável utilizada para guardar mensagens de erro a apresentar ao utilizador.
 $erro = '';
 $removido_com_sucesso = (($_GET['removido'] ?? '') === '1');
 
@@ -44,23 +49,29 @@ function classe_estado_remover($texto)
     return $classes[$texto] ?? '';
 }
 
+// Receção e validação do identificador encriptado antes de executar a remoção lógica.
 $id_encriptado = $_GET['id'] ?? null;
 $id_registo = validar_id_encriptado($id_encriptado);
 
 if (!$id_registo) {
-    header('Location: index.php');
+    // Redirecionamento do utilizador após a operação ou validação.
+header('Location: index.php');
     exit;
 }
 
 $registo = null;
 
+// Estabelece a ligação à base de dados através da função centralizada.
 $ligacao = ligar_bd();
 
+// Verifica se a ligação à base de dados foi estabelecida corretamente.
 if (!$ligacao) {
     $erro = 'Aconteceu um erro na ligação à base de dados.';
 } else {
-    try {
-        $stmt = $ligacao->prepare("SELECT
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
+        // Preparação da consulta SQL com parâmetros, melhorando segurança e organização.
+$stmt = $ligacao->prepare("SELECT
                 l.id,
                 l.codigo,
                 l.edificio,
@@ -91,15 +102,19 @@ if (!$ligacao) {
 }
 
 include '../includes/header.php';
+// Início da estrutura HTML da área privada.
 ?>
 
 <div class="backend-layout">
 
-    <?php include '../includes/sidebar.php'; ?>
+    <!-- Inclusão do menu lateral comum da área privada -->
+<?php include '../includes/sidebar.php'; ?>
 
-    <main class="backend-content">
+    <!-- Conteúdo principal da página privada -->
+<main class="backend-content">
 
-        <div class="backend-topbar">
+        <!-- Topbar com título da página e área do utilizador autenticado -->
+<div class="backend-topbar">
             <div>
                 <h1>Remover Localização</h1>
                 <p>Confirmação da desativação da localização geral.</p>

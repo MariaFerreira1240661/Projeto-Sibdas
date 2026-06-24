@@ -1,4 +1,6 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/funcoes.php';
 
 function obter_utilizador_id_atual()
@@ -11,14 +13,18 @@ function obter_utilizador_id_atual()
         return null;
     }
 
-    try {
-        $ligacao = ligar_bd();
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
+        // Estabelece a ligação à base de dados através da função centralizada.
+$ligacao = ligar_bd();
 
-        if (!$ligacao) {
+        // Verifica se a ligação à base de dados foi estabelecida corretamente.
+if (!$ligacao) {
             return null;
         }
 
-        $stmt = $ligacao->prepare("SELECT id FROM utilizadores WHERE email = :email LIMIT 1");
+        // Preparação da consulta SQL com parâmetros, melhorando segurança e organização.
+$stmt = $ligacao->prepare("SELECT id FROM utilizadores WHERE email = :email LIMIT 1");
         $stmt->execute([':email' => $_SESSION['utilizador']]);
         $id = $stmt->fetchColumn();
 
@@ -98,7 +104,8 @@ function normalizar_tipo_evento($tipo_evento)
     return $mapa[$tipo] ?? $tipo;
 }
 
-function registar_evento($tipo_evento, $entidade = null, $entidade_id = null, $descricao = null, $utilizador_id = null)
+function // Registo de evento relevante para auditoria e acompanhamento do sistema.
+registar_evento($tipo_evento, $entidade = null, $entidade_id = null, $descricao = null, $utilizador_id = null)
 {
     try {
         $ligacao = ligar_bd();

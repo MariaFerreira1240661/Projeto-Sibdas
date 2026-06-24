@@ -1,4 +1,6 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/funcoes.php';
 
 function h_conteudo($valor)
@@ -74,7 +76,8 @@ function garantir_tabela_conteudos_publicos($ligacao)
 
     $defaults = conteudos_publicos_default();
 
-    $stmt = $ligacao->prepare("
+    // Preparação da consulta SQL com parâmetros, melhorando segurança e organização.
+$stmt = $ligacao->prepare("
         INSERT IGNORE INTO conteudos_publicos (chave, valor)
         VALUES (:chave, :valor)
     ");
@@ -87,16 +90,20 @@ function garantir_tabela_conteudos_publicos($ligacao)
     }
 }
 
+// Obtém da base de dados os conteúdos dinâmicos da área pública.
 function obter_conteudos_publicos()
 {
     $defaults = conteudos_publicos_default();
-    $ligacao = ligar_bd();
+    // Estabelece a ligação à base de dados através da função centralizada.
+$ligacao = ligar_bd();
 
-    if (!$ligacao) {
+    // Verifica se a ligação à base de dados foi estabelecida corretamente.
+if (!$ligacao) {
         return $defaults;
     }
 
-    try {
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
         garantir_tabela_conteudos_publicos($ligacao);
 
         $stmt = $ligacao->query("SELECT chave, valor FROM conteudos_publicos");

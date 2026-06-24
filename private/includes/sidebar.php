@@ -12,7 +12,8 @@
 
     <nav class="sidebar-menu">
         <?php if (perfil_tem_acesso('dashboard')) : ?>
-            <a href="<?php echo BASE_URL; ?>/private/index.php" class="<?php echo ($pagina_atual == 'dashboard') ? 'ativo' : ''; ?>">
+            <a href="<?php echo BASE_URL; ?>/private/index.php" class="<?php echo (// Identificação da página atual para destacar o item correspondente no menu lateral.
+$pagina_atual == 'dashboard') ? 'ativo' : ''; ?>">
                 <i class="bi bi-speedometer2"></i>
                 <span>Dashboard</span>
             </a>

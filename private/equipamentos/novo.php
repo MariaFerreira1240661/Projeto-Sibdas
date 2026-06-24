@@ -1,4 +1,6 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/../includes/funcoes.php';
 require_once __DIR__ . '/../includes/logs_eventos.php';
 
@@ -6,17 +8,22 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Proteção da página: impede acesso sem autenticação.
 redirect_if_not_logged();
+// Controlo de permissões: verifica se o perfil autenticado pode aceder a esta funcionalidade.
 redirect_if_no_permission('equipamentos', 'criar');
 
+// Identificação da página atual para destacar o item correspondente no menu lateral.
 $pagina_atual = 'equipamentos';
 
 
 
+// Array utilizado para acumular mensagens de erro de validação.
 $erros = [];
 $sucesso_validacao = '';
 
 
+// Estabelece a ligação à base de dados através da função centralizada.
 $ligacao = ligar_bd();
 
 
@@ -57,6 +64,7 @@ if ($ligacao) {
 
     $equipamentos_principais = $stmt_equipamentos_principais->fetchAll();
 }
+// Define a ordem das etapas da ficha do equipamento.
 $ordem_etapas = ['info', 'localizacao', 'fornecedor', 'documentacao', 'garantia'];
 
 $dados_etapas = [
@@ -82,12 +90,14 @@ $dados_etapas = [
     ]
 ];
 
+// Bloqueia acessos diretos quando a ação deve ser executada apenas por formulário POST.
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     limpar_rascunho_equipamento();
     limpar_sessao_novo_equipamento();
 
     if (isset($_GET['cancelar'])) {
-        header('Location: index.php');
+        // Redirecionamento do utilizador após a operação ou validação.
+header('Location: index.php');
         exit;
     }
 }
@@ -110,11 +120,13 @@ if (!function_exists('h')) {
 }
 
 
+// Função auxiliar para remover rascunhos de equipamento quando o registo é cancelado.
 function limpar_rascunho_equipamento($equipamento_id = null)
 {
     global $ligacao;
 
-    if (!$ligacao) {
+    // Verifica se a ligação à base de dados foi estabelecida corretamente.
+if (!$ligacao) {
         return;
     }
 
@@ -126,8 +138,10 @@ function limpar_rascunho_equipamento($equipamento_id = null)
         return;
     }
 
-    try {
-        $stmt = $ligacao->prepare("
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
+        // Preparação da consulta SQL com parâmetros, melhorando segurança e organização.
+$stmt = $ligacao->prepare("
             SELECT id
             FROM equipamentos
             WHERE id = :id
@@ -144,7 +158,8 @@ function limpar_rascunho_equipamento($equipamento_id = null)
             return;
         }
 
-        $ligacao->beginTransaction();
+        // Início de transação para garantir consistência quando existem várias operações relacionadas.
+$ligacao->beginTransaction();
 
         $stmt = $ligacao->prepare("
             DELETE FROM contratos
@@ -172,10 +187,12 @@ function limpar_rascunho_equipamento($equipamento_id = null)
         ");
         $stmt->execute([':id' => $equipamento_id]);
 
-        $ligacao->commit();
+        // Confirmação da transação após todas as operações serem executadas com sucesso.
+$ligacao->commit();
     } catch (PDOException $erroBD) {
         if ($ligacao->inTransaction()) {
-            $ligacao->rollBack();
+            // Anulação da transação em caso de erro, evitando dados incompletos.
+$ligacao->rollBack();
         }
     }
 }
@@ -676,7 +693,8 @@ function carregar_localizacoes_gerais()
         return [];
     }
 
-    $sql = "
+    // Consulta SQL utilizada para obter ou manipular dados deste módulo.
+$sql = "
         SELECT
             l.id,
             l.codigo,
@@ -1529,6 +1547,7 @@ function limpar_erros()
     $GLOBALS['erros'] = [];
 }
 
+// Processamento do formulário após submissão pelo método POST.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao_form'] ?? '';
 
@@ -1577,7 +1596,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $equipamento_id_log = equipamento_id_atual();
 
-            registar_evento(
+            // Registo de evento relevante para auditoria e acompanhamento do sistema.
+registar_evento(
                 'dados_alterados',
                 'equipamentos',
                 $equipamento_id_log,
@@ -1619,11 +1639,14 @@ include '../includes/header.php';
 ?>
 <div class="backend-layout">
 
-    <?php include '../includes/sidebar.php'; ?>
+    <!-- Inclusão do menu lateral comum da área privada -->
+<?php include '../includes/sidebar.php'; ?>
 
-    <main class="backend-content">
+    <!-- Conteúdo principal da página privada -->
+<main class="backend-content">
 
-        <div class="backend-topbar">
+        <!-- Topbar com título da página e área do utilizador autenticado -->
+<div class="backend-topbar">
             <div>
                 <h1>Novo Equipamento</h1>
                 <p>Registo completo de um novo equipamento médico no inventário hospitalar.</p>
@@ -1648,7 +1671,8 @@ include '../includes/header.php';
             </div>
         </div>
 
-        <section class="backend-box">
+        <!-- Caixa principal do módulo, onde são apresentados formulários, tabelas ou detalhes -->
+<section class="backend-box">
             <div class="backend-section-header">
                 <div>
                     <h2>Ficha do Equipamento</h2>
@@ -1677,7 +1701,8 @@ include '../includes/header.php';
                 </div>
             <?php endif; ?>
 
-            <form class="form-backend" id="formEquipamento" action="" method="post" enctype="multipart/form-data" novalidate>
+            <!-- Formulário utilizado para recolher, validar e submeter dados -->
+<form class="form-backend" id="formEquipamento" action="" method="post" enctype="multipart/form-data" novalidate>
                 <input type="hidden" name="etapa_atual" value="<?= h($etapa_atual) ?>">
 
                 <ul class="nav nav-tabs mb-4 tabs-equipamento" id="tabsNovoEquipamento" role="tablist">
@@ -1961,10 +1986,7 @@ include '../includes/header.php';
                             </div>
                         </div>
 
-                        <p class="mt-3">
-                            A localização geral traz do módulo Localizações os dados do edifício, número de pisos, responsável, contacto e estado.
-                            Aqui defines apenas onde o equipamento fica dentro dessa localização.
-                        </p>
+                        
 
                         <div class="form-botoes mt-4">
                             <button type="submit" class="btn-backend" name="acao_form" value="avancar_fornecedor" formnovalidate>

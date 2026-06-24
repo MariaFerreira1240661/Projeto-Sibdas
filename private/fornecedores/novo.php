@@ -1,11 +1,16 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/../includes/funcoes.php';
 require_once __DIR__ . '/../includes/logs_eventos.php';
 
+// Proteção da página: impede acesso sem autenticação.
 redirect_if_not_logged();
 
+// Identificação da página atual para destacar o item correspondente no menu lateral.
 $pagina_atual = 'fornecedores';
 
+// Array utilizado para acumular mensagens de erro de validação.
 $erros = [];
 $sucesso = '';
 
@@ -47,7 +52,8 @@ function codigo_fornecedor_existe($codigo)
 {
     global $ligacao;
 
-    $stmt = $ligacao->prepare("SELECT COUNT(*) FROM fornecedores WHERE codigo = :codigo");
+    // Preparação da consulta SQL com parâmetros, melhorando segurança e organização.
+$stmt = $ligacao->prepare("SELECT COUNT(*) FROM fornecedores WHERE codigo = :codigo");
     $stmt->execute([
         ':codigo' => $codigo
     ]);
@@ -127,7 +133,8 @@ function guardar_fornecedor()
 {
     global $erros, $ligacao;
 
-    if (!$ligacao) {
+    // Verifica se a ligação à base de dados foi estabelecida corretamente.
+if (!$ligacao) {
         $erros[] = 'Aconteceu um erro na ligação à base de dados.';
         return false;
     }
@@ -145,7 +152,8 @@ function guardar_fornecedor()
         return false;
     }
 
-    try {
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
         /*
          * O fornecedor passa a ser uma entidade geral.
          * O tipo de fornecedor e os dados da pessoa de contacto passam
@@ -170,7 +178,8 @@ function guardar_fornecedor()
         ]);
         $fornecedor_id = (int) $ligacao->lastInsertId();
 
-        registar_evento(
+        // Registo de evento relevante para auditoria e acompanhamento do sistema.
+registar_evento(
             'dados_alterados',
             'fornecedores',
             $fornecedor_id,
@@ -184,8 +193,10 @@ function guardar_fornecedor()
     }
 }
 
+// Estabelece a ligação à base de dados através da função centralizada.
 $ligacao = ligar_bd();
 
+// Processamento do formulário após submissão pelo método POST.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (validar_fornecedor() && guardar_fornecedor()) {
         $sucesso = 'Fornecedor geral registado com sucesso na base de dados.';
@@ -194,15 +205,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 include '../includes/header.php';
+// Início da estrutura HTML da área privada.
 ?>
 
 <div class="backend-layout">
 
-    <?php include '../includes/sidebar.php'; ?>
+    <!-- Inclusão do menu lateral comum da área privada -->
+<?php include '../includes/sidebar.php'; ?>
 
-    <main class="backend-content">
+    <!-- Conteúdo principal da página privada -->
+<main class="backend-content">
 
-        <div class="backend-topbar">
+        <!-- Topbar com título da página e área do utilizador autenticado -->
+<div class="backend-topbar">
             <div>
                 <h1>Novo Fornecedor</h1>
                 <p>Registo de uma entidade fornecedora geral.</p>
@@ -227,7 +242,8 @@ include '../includes/header.php';
             </div>
         </div>
 
-        <section class="backend-box">
+        <!-- Caixa principal do módulo, onde são apresentados formulários, tabelas ou detalhes -->
+<section class="backend-box">
             <div class="backend-section-header">
                 <div>
                     <h2>Dados do Fornecedor Geral</h2>
@@ -257,7 +273,8 @@ include '../includes/header.php';
                 </div>
             <?php endif; ?>
 
-            <form class="form-backend" id="formFornecedor" action="" method="post" novalidate>
+            <!-- Formulário utilizado para recolher, validar e submeter dados -->
+<form class="form-backend" id="formFornecedor" action="" method="post" novalidate>
 
                 <div class="form-grid">
                     <div>

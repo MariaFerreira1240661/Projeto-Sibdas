@@ -1,12 +1,5 @@
 <?php
 
-// --------------------------------------------------------------------
-// VALIDAÇÕES REUTILIZÁVEIS - Ficha 13
-// --------------------------------------------------------------------
-// Este ficheiro centraliza validações usadas nos formulários de edição.
-// A validação principal continua a ser feita em PHP, antes do UPDATE.
-// --------------------------------------------------------------------
-
 function normalizar_codigo(string $codigo): string
 {
     return strtoupper(preg_replace('/\s+/', '', trim($codigo)));
@@ -14,7 +7,8 @@ function normalizar_codigo(string $codigo): string
 
 function validar_campo_obrigatorio($valor, string $nome_campo): array
 {
-    $erros = [];
+    // Array utilizado para acumular mensagens de erro de validação.
+$erros = [];
 
     if (trim((string) $valor) === '') {
         $erros[] = 'O campo ' . $nome_campo . ' é obrigatório.';

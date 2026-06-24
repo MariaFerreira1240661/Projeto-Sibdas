@@ -1,17 +1,24 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/../includes/conteudos_publicos.php';
 require_once __DIR__ . '/../includes/logs_eventos.php';
 
+// Início/garantia da sessão para permitir autenticação e utilização das variáveis de sessão.
 start_session();
+// Proteção da página: impede acesso sem autenticação.
 redirect_if_not_logged();
 
+// Identificação da página atual para destacar o item correspondente no menu lateral.
 $pagina_atual = 'conteudos';
 
 $mensagem_sucesso = '';
+// Array utilizado para acumular mensagens de erro de validação.
 $erros = [];
 
 $conteudos = obter_conteudos_publicos();
 
+// Processamento do formulário após submissão pelo método POST.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dados = [];
 
@@ -31,7 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($erros)) {
         if (guardar_conteudos_publicos($dados)) {
             $mensagem_sucesso = 'Conteúdos guardados com sucesso.';
-            registar_evento(
+            // Registo de evento relevante para auditoria e acompanhamento do sistema.
+registar_evento(
                 'dados_alterados',
                 'conteudos_publicos',
                 null,
@@ -48,15 +56,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 include '../includes/header.php';
+// Início da estrutura HTML da área privada.
 ?>
 
 <div class="backend-layout">
 
-    <?php include '../includes/sidebar.php'; ?>
+    <!-- Inclusão do menu lateral comum da área privada -->
+<?php include '../includes/sidebar.php'; ?>
 
-    <main class="backend-content">
+    <!-- Conteúdo principal da página privada -->
+<main class="backend-content">
 
-        <div class="backend-topbar">
+        <!-- Topbar com título da página e área do utilizador autenticado -->
+<div class="backend-topbar">
             <div>
                 <h1>Gestão de Conteúdos</h1>
                 <p>Atualização dos textos e informações apresentados na área pública do site.</p>
@@ -80,7 +92,8 @@ include '../includes/header.php';
             </div>
         </div>
 
-        <section class="backend-box">
+        <!-- Caixa principal do módulo, onde são apresentados formulários, tabelas ou detalhes -->
+<section class="backend-box">
             <div class="backend-section-header">
                 <div>
                     <h2>Conteúdos da Área Pública</h2>
@@ -114,7 +127,8 @@ include '../includes/header.php';
                 </div>
             <?php endif; ?>
 
-            <form class="form-backend" method="post" action="index.php">
+            <!-- Formulário utilizado para recolher, validar e submeter dados -->
+<form class="form-backend" method="post" action="index.php">
 
                 <h3>Menu e cabeçalho</h3>
                 <div class="form-grid">

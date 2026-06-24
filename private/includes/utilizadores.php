@@ -1,9 +1,12 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/funcoes.php';
 
 function coluna_existe_utilizadores($ligacao, $nome_coluna)
 {
-    $stmt = $ligacao->prepare("
+    // Preparação da consulta SQL com parâmetros, melhorando segurança e organização.
+$stmt = $ligacao->prepare("
         SELECT COUNT(*)
         FROM information_schema.COLUMNS
         WHERE TABLE_SCHEMA = DATABASE()
@@ -121,15 +124,19 @@ function inserir_utilizador_default($ligacao, $nome, $email, $password_hash, $pe
     ]);
 }
 
+// Valida as credenciais introduzidas no login e devolve o utilizador correspondente.
 function validar_login_utilizador($email, $password)
 {
-    $ligacao = ligar_bd();
+    // Estabelece a ligação à base de dados através da função centralizada.
+$ligacao = ligar_bd();
 
-    if (!$ligacao) {
+    // Verifica se a ligação à base de dados foi estabelecida corretamente.
+if (!$ligacao) {
         return null;
     }
 
-    try {
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
         garantir_tabela_utilizadores($ligacao);
 
         $stmt = $ligacao->prepare("

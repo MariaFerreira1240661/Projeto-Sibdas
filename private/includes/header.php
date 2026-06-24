@@ -1,6 +1,9 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/funcoes.php';
 
+// Proteção da página: impede acesso sem autenticação.
 redirect_if_not_logged();
 proteger_pagina_atual();
 ?>

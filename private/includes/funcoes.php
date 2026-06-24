@@ -1,12 +1,8 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/../../config/config.php';
 
-// --------------------------------------------------------------------
-// FUNÇÕES DE SESSÃO
-// --------------------------------------------------------------------
-// Este ficheiro centraliza a gestão das sessões,
-// como indicado na Ficha 10.
-// --------------------------------------------------------------------
 
 // Inicia a sessão se ainda não estiver iniciada
 function start_session()
@@ -25,14 +21,16 @@ function check_session()
 // Redireciona para o login se não houver sessão ativa
 function redirect_if_not_logged($redirect_to = '')
 {
-    start_session();
+    // Início/garantia da sessão para permitir autenticação e utilização das variáveis de sessão.
+start_session();
 
     if (!check_session()) {
         if ($redirect_to == '') {
             $redirect_to = BASE_URL . '/public/login.php';
         }
 
-        header('Location: ' . $redirect_to);
+        // Redirecionamento do utilizador após a operação ou validação.
+header('Location: ' . $redirect_to);
         exit;
     }
 }
@@ -58,7 +56,8 @@ function logout_and_redirect($redirect_to = '')
 
 function ligar_bd()
 {
-    try {
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
         $ligacao = new PDO(
             "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8mb4",
             MYSQL_USERNAME,
@@ -223,6 +222,7 @@ function permissoes_medcontrol()
 }
 
 if (!function_exists('perfil_tem_acesso')) {
+// Verifica se o perfil do utilizador tem permissão para executar uma ação num módulo.
 function perfil_tem_acesso($modulo, $acao = 'ver')
 {
     $perfil = perfil_atual();
@@ -241,7 +241,8 @@ function perfil_tem_acesso($modulo, $acao = 'ver')
 }
 
 
-function redirect_if_no_permission($modulo, $acao = 'ver')
+function // Controlo de permissões: verifica se o perfil autenticado pode aceder a esta funcionalidade.
+redirect_if_no_permission($modulo, $acao = 'ver')
 {
     start_session();
 
@@ -307,7 +308,8 @@ function proteger_pagina_atual()
 
 function exigir_perfil($modulo, $acao = 'ver')
 {
-    redirect_if_not_logged();
+    // Proteção da página: impede acesso sem autenticação.
+redirect_if_not_logged();
 
     if (!perfil_tem_acesso($modulo, $acao)) {
         header('Location: ' . BASE_URL . '/private/index.php');

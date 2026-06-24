@@ -1,0 +1,250 @@
+Table utilizadores {
+  id int [pk, increment]
+  nome varchar(150) [not null]
+  email varchar(150) [not null, unique]
+  password_hash varchar(255) [not null]
+  perfil varchar(60) [not null]
+  ativo tinyint [not null, default: 1]
+  ultimo_login datetime
+  criado_em datetime
+  atualizado_em datetime
+}
+
+Table categorias_equipamento {
+  id int [pk, increment]
+  nome varchar(100) [not null, unique]
+  descricao text
+}
+
+Table estados_equipamento {
+  id int [pk, increment]
+  nome varchar(100) [not null, unique]
+  descricao text
+}
+
+Table criticidades {
+  id int [pk, increment]
+  nome varchar(100) [not null, unique]
+  descricao text
+}
+
+Table prioridades_manutencao {
+  id int [pk, increment]
+  nome varchar(100) [not null, unique]
+  descricao text
+}
+
+Table tipos_entrada {
+  id int [pk, increment]
+  nome varchar(100) [not null, unique]
+  descricao text
+}
+
+Table estados_localizacao {
+  id int [pk, increment]
+  nome varchar(100) [not null, unique]
+  descricao text
+}
+
+Table tipos_fornecedor {
+  id int [pk, increment]
+  nome varchar(100) [not null, unique]
+  descricao text
+}
+
+Table tipos_relacao_fornecedor {
+  id int [pk, increment]
+  nome varchar(100) [not null, unique]
+  descricao text
+}
+
+Table tipos_documento {
+  id int [pk, increment]
+  nome varchar(100) [not null, unique]
+  descricao text
+}
+
+Table estados_documento {
+  id int [pk, increment]
+  nome varchar(100) [not null, unique]
+  descricao text
+}
+
+Table tipos_contrato {
+  id int [pk, increment]
+  nome varchar(100) [not null, unique]
+  descricao text
+}
+
+Table estados_contrato {
+  id int [pk, increment]
+  nome varchar(100) [not null, unique]
+  descricao text
+}
+
+Table localizacoes {
+  id int [pk, increment]
+  codigo varchar(20) [not null, unique]
+  edificio varchar(150) [not null]
+  numero_pisos int
+  piso varchar(50)
+  servico varchar(150)
+  sala varchar(150)
+  estado_localizacao_id int [not null]
+  responsavel varchar(150)
+  contacto_interno varchar(50)
+  observacoes text
+}
+
+Table fornecedores {
+  id int [pk, increment]
+  codigo varchar(20) [not null, unique]
+  nome varchar(150) [not null]
+  nif varchar(20) [not null, unique]
+  tipo_fornecedor_id int
+  telefone varchar(50)
+  email varchar(150)
+  website varchar(150)
+  pessoa_contacto varchar(150)
+  telefone_contacto varchar(50)
+  morada text
+  observacoes text
+  ativo tinyint [not null, default: 1]
+  criado_em datetime
+  atualizado_em datetime
+}
+
+Table equipamentos {
+  id int [pk, increment]
+  codigo varchar(20) [not null, unique]
+  designacao varchar(150) [not null]
+  categoria_equipamento_id int [not null]
+  marca varchar(100) [not null]
+  modelo varchar(100) [not null]
+  numero_serie varchar(100) [not null]
+  fabricante varchar(150)
+  ano_fabrico int
+  estado_equipamento_id int [not null]
+  criticidade_id int [not null]
+  prioridade_manutencao_id int
+  utilizacao_clinica varchar(150)
+  data_aquisicao date
+  custo decimal(10,2)
+  tipo_entrada_id int
+  componente_outro_equipamento tinyint [default: 0]
+  equipamento_principal_id int
+  tem_consumiveis tinyint [default: 0]
+  consumiveis text
+  localizacao_id int [not null]
+  localizacao_piso varchar(50)
+  localizacao_servico varchar(150)
+  localizacao_sala varchar(150)
+  observacoes text
+  ativo tinyint [not null, default: 1]
+  criado_em datetime
+  atualizado_em datetime
+}
+
+Table equipamento_fornecedores {
+  id int [pk, increment]
+  equipamento_id int [not null]
+  fornecedor_id int [not null]
+  tipo_relacao_fornecedor_id int [not null]
+  pessoa_contacto varchar(150)
+  telefone_contacto varchar(50)
+  email_contacto varchar(150)
+  principal tinyint [default: 0]
+  observacoes text
+}
+
+Table documentos {
+  id int [pk, increment]
+  codigo varchar(20) [not null, unique]
+  equipamento_id int [not null]
+  fornecedor_id int
+  tipo_documento_id int [not null]
+  nome varchar(150) [not null]
+  data_documento date
+  data_validade date
+  estado_documento_id int [not null]
+  ficheiro varchar(255)
+  responsavel_registo varchar(150)
+  observacoes text
+  criado_em datetime
+  atualizado_em datetime
+}
+
+Table contratos {
+  id int [pk, increment]
+  codigo varchar(20) [not null, unique]
+  equipamento_id int [not null]
+  fornecedor_id int
+  tipo_contrato_id int [not null]
+  data_inicio date
+  data_fim date
+  periodicidade varchar(100)
+  estado_contrato_id int [not null]
+  valor decimal(10,2)
+  documento_id int
+  observacoes text
+  criado_em datetime
+  atualizado_em datetime
+}
+
+Table mensagens_contacto {
+  id int [pk, increment]
+  nome varchar(150) [not null]
+  email varchar(150) [not null]
+  mensagem text [not null]
+  estado varchar(30) [not null, default: 'Nova']
+  data_envio datetime
+  lida_em datetime
+  arquivada tinyint [not null, default: 0]
+}
+
+Table conteudos_publicos {
+  id int [pk, increment]
+  chave varchar(100) [not null, unique]
+  valor text [not null]
+  atualizado_em datetime
+}
+
+Table logs_eventos {
+  id int [pk, increment]
+  utilizador_id int
+  tipo_evento varchar(80) [not null]
+  entidade varchar(80)
+  entidade_id int
+  descricao text [not null]
+  ip varchar(45)
+  criado_em datetime
+}
+
+Ref: localizacoes.estado_localizacao_id > estados_localizacao.id
+
+Ref: fornecedores.tipo_fornecedor_id > tipos_fornecedor.id
+
+Ref: equipamentos.categoria_equipamento_id > categorias_equipamento.id
+Ref: equipamentos.estado_equipamento_id > estados_equipamento.id
+Ref: equipamentos.criticidade_id > criticidades.id
+Ref: equipamentos.prioridade_manutencao_id > prioridades_manutencao.id
+Ref: equipamentos.tipo_entrada_id > tipos_entrada.id
+Ref: equipamentos.localizacao_id > localizacoes.id
+Ref: equipamentos.equipamento_principal_id > equipamentos.id
+
+Ref: equipamento_fornecedores.equipamento_id > equipamentos.id
+Ref: equipamento_fornecedores.fornecedor_id > fornecedores.id
+Ref: equipamento_fornecedores.tipo_relacao_fornecedor_id > tipos_relacao_fornecedor.id
+
+Ref: documentos.equipamento_id > equipamentos.id
+Ref: documentos.fornecedor_id > fornecedores.id
+Ref: documentos.tipo_documento_id > tipos_documento.id
+Ref: documentos.estado_documento_id > estados_documento.id
+
+Ref: contratos.equipamento_id > equipamentos.id
+Ref: contratos.fornecedor_id > fornecedores.id
+Ref: contratos.tipo_contrato_id > tipos_contrato.id
+Ref: contratos.estado_contrato_id > estados_contrato.id
+Ref: contratos.documento_id > documentos.id
+
+Ref: logs_eventos.utilizador_id > utilizadores.id

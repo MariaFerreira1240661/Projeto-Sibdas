@@ -1,4 +1,6 @@
 <?php
+
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/funcoes.php';
 
 function garantir_tabela_mensagens_contacto($ligacao)
@@ -17,18 +19,23 @@ function garantir_tabela_mensagens_contacto($ligacao)
     ");
 }
 
+// Guarda na base de dados uma mensagem enviada pela área pública.
 function guardar_mensagem_contacto($nome, $email, $mensagem)
 {
-    $ligacao = ligar_bd();
+    // Estabelece a ligação à base de dados através da função centralizada.
+$ligacao = ligar_bd();
 
-    if (!$ligacao) {
+    // Verifica se a ligação à base de dados foi estabelecida corretamente.
+if (!$ligacao) {
         return false;
     }
 
-    try {
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
         garantir_tabela_mensagens_contacto($ligacao);
 
-        $stmt = $ligacao->prepare("
+        // Preparação da consulta SQL com parâmetros, melhorando segurança e organização.
+$stmt = $ligacao->prepare("
             INSERT INTO mensagens_contacto (nome, email, mensagem, estado, data_envio, arquivada)
             VALUES (:nome, :email, :mensagem, 'Nova', NOW(), 0)
         ");

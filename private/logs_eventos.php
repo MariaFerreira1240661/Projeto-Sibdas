@@ -1,10 +1,15 @@
 <?php
+
+// Identificação da página atual para destacar o item correspondente no menu lateral.
 $pagina_atual = 'logs_eventos';
 
+// Importação de ficheiros necessários para reutilizar configurações, funções e componentes comuns.
 require_once __DIR__ . '/includes/funcoes.php';
 require_once __DIR__ . '/includes/logs_eventos.php';
 
+// Proteção da página: impede acesso sem autenticação.
 redirect_if_not_logged();
+// Controlo de permissões: verifica se o perfil autenticado pode aceder a esta funcionalidade.
 redirect_if_no_permission('logs_eventos', 'ver');
 
 function h($valor)
@@ -12,14 +17,18 @@ function h($valor)
     return htmlspecialchars((string) ($valor ?? ''), ENT_QUOTES, 'UTF-8');
 }
 
+// Estabelece a ligação à base de dados através da função centralizada.
 $ligacao = ligar_bd();
 $logs = [];
+// Variável utilizada para guardar mensagens de erro a apresentar ao utilizador.
 $erro = '';
 
+// Verifica se a ligação à base de dados foi estabelecida corretamente.
 if (!$ligacao) {
     $erro = 'Aconteceu um erro na ligação à base de dados.';
 } else {
-    try {
+    // Execução protegida por try/catch para tratar erros de base de dados ou processamento.
+try {
         garantir_tabela_logs($ligacao);
 
         $stmt = $ligacao->query("
@@ -62,7 +71,8 @@ include __DIR__ . '/includes/header.php';
     <?php endif; ?>
 
     <div class="tabela-wrapper">
-        <table class="tabela-backend tabela-dados">
+        <!-- Tabela de listagem/consulta dos registos deste módulo -->
+<table class="tabela-backend tabela-dados">
             <thead>
                 <tr>
                     <th>ID</th>

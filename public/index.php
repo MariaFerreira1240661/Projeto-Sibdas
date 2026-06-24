@@ -3,17 +3,20 @@ require_once __DIR__ . '/../private/includes/conteudos_publicos.php';
 require_once __DIR__ . '/../private/includes/mensagens_contacto.php';
 
 $conteudos = obter_conteudos_publicos();
+// Variáveis utilizadas para apresentar feedback e manter os dados do formulário de contacto.
 $mensagem_contacto_sucesso = '';
 $mensagem_contacto_erro = '';
 $nome_contacto = '';
 $email_contacto = '';
 $texto_contacto = '';
 
+// Processa o formulário de contacto quando este é submetido pelo utilizador.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formulario_contacto'] ?? '') === '1') {
     $nome_contacto = trim((string) ($_POST['nome'] ?? ''));
     $email_contacto = trim((string) ($_POST['email'] ?? ''));
     $texto_contacto = trim((string) ($_POST['mensagem'] ?? ''));
 
+    // Valida os campos obrigatórios e o formato do email antes de guardar a mensagem.
     if ($nome_contacto === '' || $email_contacto === '' || $texto_contacto === '') {
         $mensagem_contacto_erro = 'Preencha todos os campos do formulário.';
     } elseif (!filter_var($email_contacto, FILTER_VALIDATE_EMAIL)) {
@@ -50,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formulario_contacto'] ?? '
             <h1><?= conteudo_publico($conteudos, 'logo_texto') ?></h1>
         </div>
 
+        <!-- Menu com ligações para as secções da página e para a área reservada -->
         <nav>
             <a href="#inicio"><?= conteudo_publico($conteudos, 'nav_inicio') ?></a>
             <a href="#sobre-nos"><?= conteudo_publico($conteudos, 'nav_sobre') ?></a>
@@ -61,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formulario_contacto'] ?? '
 
     <main>
 
+    <!-- Secção inicial de apresentação da aplicação MedControl -->
     <section id="inicio">
         <div class="inicio-conteudo">
             <h2><?= conteudo_publico($conteudos, 'inicio_titulo') ?></h2>
@@ -69,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formulario_contacto'] ?? '
         </div>
     </section>
 
+    <!-- Secção Sobre Nós com enquadramento e vantagens da solução -->
     <section id="sobre-nos">
         <div class="sobre-layout">
 
@@ -94,6 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formulario_contacto'] ?? '
         </div>
     </section>
 
+    <!-- Secção de serviços com os principais módulos funcionais da aplicação -->
     <section id="servicos">
         <h2><?= conteudo_publico($conteudos, 'servicos_titulo') ?></h2>
         <p class="servicos-intro"><?= conteudo_publico($conteudos, 'servicos_texto') ?></p>
@@ -139,6 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formulario_contacto'] ?? '
         </div>
     </section>
 
+    <!-- Secção de contactos com dados institucionais e formulário de mensagem -->
     <section id="contactos">
         <h2><?= conteudo_publico($conteudos, 'contactos_titulo') ?></h2>
         <p class="contactos-intro"><?= conteudo_publico($conteudos, 'contactos_intro') ?></p>
@@ -153,15 +161,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formulario_contacto'] ?? '
                 <p><i class="bi bi-geo-alt"></i> <span><?= conteudo_publico($conteudos, 'contactos_localizacao') ?></span></p>
             </div>
 
+            <!-- Formulário público para envio de mensagens para o backoffice -->
             <form class="contactos-formulario" method="post" action="#contactos">
                 <input type="hidden" name="formulario_contacto" value="1">
 
+                <!-- Mensagem de confirmação apresentada após envio correto do formulário -->
                 <?php if (!empty($mensagem_contacto_sucesso)) : ?>
                     <div class="alert alert-success" role="alert">
                         <?= h_conteudo($mensagem_contacto_sucesso) ?>
                     </div>
                 <?php endif; ?>
 
+                <!-- Mensagem de erro apresentada quando a validação ou gravação falha -->
                 <?php if (!empty($mensagem_contacto_erro)) : ?>
                     <div class="alert alert-danger" role="alert">
                         <?= h_conteudo($mensagem_contacto_erro) ?>
@@ -185,11 +196,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formulario_contacto'] ?? '
 
     </main>
 
+    <!-- Rodapé com textos configuráveis da área pública -->
     <footer>
         <p><?= conteudo_publico($conteudos, 'footer_texto_1') ?></p>
         <p><?= conteudo_publico($conteudos, 'footer_texto_2') ?></p>
     </footer>
 
+    <!-- Scripts necessários para os componentes Bootstrap e comportamentos personalizados -->
     <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/1240661.js"></script>
 
